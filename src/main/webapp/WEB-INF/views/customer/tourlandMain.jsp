@@ -198,7 +198,7 @@
 			
 					<div id="main">
 						<div id="reward">
-							<a href="#"><img src="../../../../images/reward.png"></a>
+							<a href="#"><img src="images/reward.png"></a>
 						</div>
 						<div id="logo">
 							<h1>투어 랜드</h1>
@@ -223,18 +223,16 @@
 					</div>
 			</header>
 			<div id="mainBox">
-				
-				
 				<section id="section1">
 					<div id="imgBox">
 						<div class="box1">
-							<img src="../../../images/cancun.jpg">
+							<img src="images/cancun.jpg">
 						</div>
 						<div class="box2 marg">
-							<img src="../../../resources/images/hotel.jpg">
+							<img src="images/hotel.jpg">
 						</div>
 						<div class="box2">
-							<img src="<spring:url value='/images/jeju.jpg'/>"/>
+							<img src="images/jeju.jpg">
 						</div>
 					</div>
 				</section>
