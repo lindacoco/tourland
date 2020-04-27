@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  -->
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
+
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
@@ -39,13 +47,22 @@
   </head>
       <!-- jQuery 2.1.4 -->
     <script src="${pageContext.request.contextPath }/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
- <!--  <script>
+<script>
   	$(function(){
-  		$(".treeview").click(function(){
-  			$(this).find(".treeview-menu").css("display", "block");
+  		$(".dropdown").click(
+  			function(){
+  				$(".dropdown-menu").css("display", "none");
+  				$(this).find(".dropdown-menu").css("display", "block");  
   		})
+  		$(".dropdown-menu").mouseover(function(){
+  			$(this).css("display", "block");    
+  		})  
+  		$(".dropdown-menu").mouseout(function(){
+  			$(this).css("display", "none"); 
+  		})     
+
   	})
-  </script> -->
+</script>
   <body class="skin-blue sidebar-mini">
     <div class="wrapper">
       
@@ -331,7 +348,7 @@
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
-              <a href="#">
+              <a href="${pageContext.request.contextPath }/empMngList">
                 <i class="fa fa-dashboard"></i> <span>직원 관리</span><!--  <i class="fa fa-angle-left pull-right"></i> -->
               </a>
               <%-- <ul class="treeview-menu">
@@ -340,7 +357,7 @@
               </ul> --%>
             </li>
             <li class="treeview">
-              <a href="#">
+              <a href="${pageContext.request.contextPath }/custMngList">
                 <i class="fa fa-files-o"></i>
                 <span>고객 관리</span>
                <!--  <span class="label label-primary pull-right">4</span>    --> <!-- new인 갯수 뜨는거 -->

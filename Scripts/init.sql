@@ -13,7 +13,7 @@ CREATE TABLE tour.employee (
 	empaddr    VARCHAR(255) NULL     COMMENT '주소', -- 주소
 	empauth    tinyint(1)   NULL     COMMENT '권한', -- 권한
 	empid      varchar(12)  NULL     COMMENT '아이디', -- 아이디
-	emppass    varchar(12)  NULL     COMMENT '비밀번호', -- 비밀번호
+	emppass    varchar(41)  NULL     COMMENT '비밀번호', -- 비밀번호
 	empretired tinyint(1)   NULL     COMMENT '퇴사여부' -- 퇴사여부
 )
 COMMENT '직원';
@@ -33,9 +33,9 @@ CREATE TABLE tour.user (
 	usertel      char(13)     NULL     COMMENT '전화번호', -- 전화번호
 	useraddr     VARCHAR(255) NULL     COMMENT '주소', -- 주소
 	userpassport char(9)      NULL     COMMENT '여권번호', -- 여권번호
-	no           INT          NULL     COMMENT '쿠폰번호', -- 쿠폰번호
+	cno          INT          NULL     COMMENT '쿠폰번호', -- 쿠폰번호
 	userid       varchar(12)  NULL     COMMENT '유저아이디', -- 유저아이디
-	userpass     varchar(12)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
+	userpass     varchar(41)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
 	usersecess   TINYINT(1)   NULL     COMMENT '탈퇴여부' -- 탈퇴여부
 )
 COMMENT '회원';
@@ -227,6 +227,8 @@ CREATE TABLE tour.airplane (
 	ano       CHAR(5)     NULL     COMMENT '항공기번호', -- 항공기번호
 	dlocation varchar(30) NULL     COMMENT '출발지역', -- 출발지역
 	rlocation VARCHAR(30) NULL     COMMENT '도착지역', -- 도착지역
+	ddate     TIMESTAMP   NULL     COMMENT '출발시간', -- 출발시간
+	rdate     TIMESTAMP   NULL     COMMENT '도착시간', -- 도착시간
 	ldiv      char(1)     NULL     COMMENT '장소구분', -- 장소구분
 	adiv      char(1)     NULL     COMMENT '항공구분', -- 항공구분
 	capacity  INT         NULL     COMMENT '인원', -- 인원
@@ -311,6 +313,7 @@ CREATE TABLE tour.reservation (
 	no      INT        NOT NULL COMMENT '예약번호', -- 예약번호
 	userno  INT        NULL     COMMENT '유저번호', -- 유저번호
 	pno     INT        NULL     COMMENT '상품번호', -- 상품번호
+	rdate   TIMESTAMP  NULL     DEFAULT now() COMMENT '예약날짜', -- 예약날짜
 	comfirm TINYINT(1) NULL     COMMENT '확정여부' -- 확정여부
 )
 COMMENT '예약';
@@ -324,7 +327,7 @@ ALTER TABLE tour.reservation
 
 -- 쿠폰
 CREATE TABLE tour.coupon (
-	no       INT          NOT NULL COMMENT '쿠폰번호', -- 쿠폰번호
+	cno      INT          NOT NULL COMMENT '쿠폰번호', -- 쿠폰번호
 	cname    varchar(100) NULL     COMMENT '쿠폰이름', -- 쿠폰이름
 	pdate    DATE         NULL     COMMENT '발행일자', -- 발행일자
 	edate    DATE         NULL     COMMENT '만료일자', -- 만료일자
@@ -337,7 +340,7 @@ COMMENT '쿠폰';
 ALTER TABLE tour.coupon
 	ADD CONSTRAINT PK_coupon -- 쿠폰 기본키
 		PRIMARY KEY (
-			no -- 쿠폰번호
+			cno -- 쿠폰번호
 		);
 
 -- 장바구니
@@ -354,10 +357,10 @@ COMMENT '장바구니';
 ALTER TABLE tour.user
 	ADD CONSTRAINT FK_coupon_TO_user -- 쿠폰 -> 회원
 		FOREIGN KEY (
-			no -- 쿠폰번호
+			cno -- 쿠폰번호
 		)
 		REFERENCES tour.coupon ( -- 쿠폰
-			no -- 쿠폰번호
+			cno -- 쿠폰번호
 		);
 
 -- 상품
