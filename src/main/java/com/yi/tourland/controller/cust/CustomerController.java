@@ -1,4 +1,4 @@
-package com.yi.tourland.controller;
+package com.yi.tourland.controller.cust;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

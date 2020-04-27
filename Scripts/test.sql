@@ -6,6 +6,10 @@ select user(),database();
 -- 사원
 desc employee;
 select * from employee e ;
+select * from user;
+
+-- 유저
+desc user;
 
 
 
