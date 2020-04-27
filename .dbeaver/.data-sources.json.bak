@@ -1,12 +1,11 @@
 {
 	"folders": {},
 	"connections": {
-		"mysql5-171aa16c816-3b482b50c978df1e": {
+		"mysql5-171bb78757e-5b6ebaa62c04fd4e": {
 			"provider": "mysql",
 			"driver": "mysql5",
 			"name": "MySQL - localhost",
 			"save-password": true,
-			"show-system-objects": true,
 			"read-only": false,
 			"configuration": {
 				"host": "localhost",
@@ -14,7 +13,6 @@
 				"url": "jdbc:mysql://localhost:3306/",
 				"home": "C:\\Program Files\\MySQL\\MySQL Server 5.7",
 				"type": "dev",
-				"auth-model": "native",
 				"handlers": {}
 			}
 		}
