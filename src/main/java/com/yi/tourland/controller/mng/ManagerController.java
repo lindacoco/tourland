@@ -22,12 +22,12 @@ public class ManagerController {
 		//직원관리리스트
 		@RequestMapping(value="empMngList", method=RequestMethod.GET)
 		public String empMngList() { 
-			return "/manager/emp/empMngList"; 
+			return "/manager/employee/empMngList"; 
 		}
 		//고객관리리스트
-		@RequestMapping(value="custMngList", method=RequestMethod.GET)
+		@RequestMapping(value="userMngList", method=RequestMethod.GET)
 		public String custMngList() { 
-			return "/manager/cust/custMngList"; 
+			return "/manager/user/custMngList"; 
 		}
 		
 		//예약관리
