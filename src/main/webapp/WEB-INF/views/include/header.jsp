@@ -357,7 +357,7 @@
               </ul> --%>
             </li>
             <li class="treeview">
-              <a href="${pageContext.request.contextPath }/custMngList">
+              <a href="${pageContext.request.contextPath }/userMngList">
                 <i class="fa fa-files-o"></i>
                 <span>고객 관리</span>
                <!--  <span class="label label-primary pull-right">4</span>    --> <!-- new인 갯수 뜨는거 -->
