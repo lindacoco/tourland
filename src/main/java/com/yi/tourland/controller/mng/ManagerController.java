@@ -57,7 +57,7 @@ public class ManagerController {
 			return "/manager/couponMngList"; 
 		}
 		
-		//결제관리
+		//장바구니
 		
 		
 }
