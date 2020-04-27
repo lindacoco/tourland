@@ -43,13 +43,19 @@ public class ManagerController {
 		
 		
 		//디자인관리
-		
+		  
 		
 		//공지사항 관리
-		
+		@RequestMapping(value="noticeMngList", method=RequestMethod.GET)
+		public String noticeMngList() { 
+			return "/manager/noticeMngList"; 
+		}
 		
 		//쿠폰관리
-		
+		@RequestMapping(value="couponMngList", method=RequestMethod.GET)
+		public String couponMngList() { 
+			return "/manager/couponMngList"; 
+		}
 		
 		//결제관리
 		
