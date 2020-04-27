@@ -51,6 +51,7 @@
   	$(function(){
   		$(".dropdown").click(
   			function(){
+  				$(".dropdown-menu").css("display", "none");
   				$(this).find(".dropdown-menu").css("display", "block");  
   		})
   		$(".dropdown-menu").mouseover(function(){
