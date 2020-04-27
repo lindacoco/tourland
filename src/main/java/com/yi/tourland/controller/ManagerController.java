@@ -18,4 +18,40 @@ public class ManagerController {
 		public String addFlightForm() { 
 			return "/manager/addFlightForm"; 
 		}
+		
+		//직원관리리스트
+		@RequestMapping(value="empMngList", method=RequestMethod.GET)
+		public String empMngList() { 
+			return "/manager/emp/empMngList"; 
+		}
+		//고객관리리스트
+		@RequestMapping(value="custMngList", method=RequestMethod.GET)
+		public String custMngList() { 
+			return "/manager/cust/custMngList"; 
+		}
+		
+		//예약관리
+		
+		
+		//상품관리
+		
+		
+		//이벤트관리
+		
+		
+		//게시판관리
+		
+		
+		//디자인관리
+		
+		
+		//공지사항 관리
+		
+		
+		//쿠폰관리
+		
+		
+		//결제관리
+		
+		
 }
