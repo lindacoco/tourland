@@ -1,4 +1,4 @@
-package com.yi.tourland.controller;
+package com.yi.tourland.controller.mng;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,10 +46,16 @@ public class ManagerController {
 		
 		
 		//공지사항 관리
-		
+		@RequestMapping(value="noticeMngList", method=RequestMethod.GET)
+		public String noticeMngList() { 
+			return "/manager/noticeMngList"; 
+		}
 		
 		//쿠폰관리
-		
+		@RequestMapping(value="couponMngList", method=RequestMethod.GET)
+		public String couponMngList() { 
+			return "/manager/couponMngList"; 
+		}
 		
 		//결제관리
 		

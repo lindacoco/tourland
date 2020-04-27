@@ -5,7 +5,7 @@ select user(),database();
 -- 현서 --------------------------------------------------------------------------------------------
 -- 사원
 desc employee;
-select * from employee e ;
+select * from employee;
 
 
 

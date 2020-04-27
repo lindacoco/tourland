@@ -460,7 +460,7 @@
               </a>
             </li> -->
             <li class="treeview">
-              <a href="#">
+              <a href="${pageContext.request.contextPath }/noticeMngList">
                 <i class="fa fa-folder"></i> <span>공지사항 관리</span>
               <!--   <i class="fa fa-angle-left pull-right"></i> -->
               </a>
@@ -475,7 +475,7 @@
               </ul> -->
             </li>
             <li class="treeview">
-              <a href="#">  
+              <a href="${pageContext.request.contextPath }/couponMngList">  
                 <i class="fa fa-share"></i> <span>쿠폰 관리</span>
                <!--  <i class="fa fa-angle-left pull-right"></i> -->
               </a>   
