@@ -13,7 +13,7 @@ CREATE TABLE tour.employee (
 	empaddr    VARCHAR(255) NULL     COMMENT '주소', -- 주소
 	empauth    tinyint(1)   NULL     COMMENT '권한', -- 권한
 	empid      varchar(12)  NULL     COMMENT '아이디', -- 아이디
-	emppass    varchar(12)  NULL     COMMENT '비밀번호', -- 비밀번호
+	emppass    varchar(100)  NULL     COMMENT '비밀번호', -- 비밀번호
 	empretired tinyint(1)   NULL     COMMENT '퇴사여부' -- 퇴사여부
 )
 COMMENT '직원';
@@ -35,7 +35,7 @@ CREATE TABLE tour.user (
 	userpassport char(9)      NULL     COMMENT '여권번호', -- 여권번호
 	no           INT          NULL     COMMENT '쿠폰번호', -- 쿠폰번호
 	userid       varchar(12)  NULL     COMMENT '유저아이디', -- 유저아이디
-	userpass     varchar(12)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
+	userpass     varchar(100)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
 	usersecess   TINYINT(1)   NULL     COMMENT '탈퇴여부' -- 탈퇴여부
 )
 COMMENT '회원';
