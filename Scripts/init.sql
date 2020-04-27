@@ -35,11 +35,7 @@ CREATE TABLE tour.user (
 	userpassport char(9)      NULL     COMMENT '여권번호', -- 여권번호
 	cno          INT          NULL     COMMENT '쿠폰번호', -- 쿠폰번호
 	userid       varchar(12)  NULL     COMMENT '유저아이디', -- 유저아이디
-<<<<<<< HEAD
 	userpass     varchar(41)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
-=======
-	userpass     varchar(100)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
->>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
 	usersecess   TINYINT(1)   NULL     COMMENT '탈퇴여부' -- 탈퇴여부
 )
 COMMENT '회원';
