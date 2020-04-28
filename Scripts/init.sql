@@ -230,7 +230,6 @@ CREATE TABLE tour.airplane (
 	ddate     TIMESTAMP   NULL     COMMENT '출발시간', -- 출발시간
 	rdate     TIMESTAMP   NULL     COMMENT '도착시간', -- 도착시간
 	ldiv      char(1)     NULL     COMMENT '장소구분', -- 장소구분
-	adiv      char(1)     NULL     COMMENT '항공구분', -- 항공구분
 	capacity  INT         NULL     COMMENT '인원', -- 인원
 	seat      char(1)     NULL     COMMENT '좌석', -- 좌석
 	price     INT         NULL     COMMENT '가격' -- 가격
