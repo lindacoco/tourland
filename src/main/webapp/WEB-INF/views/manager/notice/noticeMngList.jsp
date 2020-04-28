@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../include/header.jsp"%>
+<%@ include file="../../include/header.jsp"%>
 <style>
 	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
 </style>
@@ -61,4 +61,4 @@
 	})
 </script>
 
-<%@ include file="../include/footer.jsp"%>
+<%@ include file="../../include/footer.jsp"%>
