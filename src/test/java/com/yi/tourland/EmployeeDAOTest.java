@@ -30,7 +30,7 @@ public class EmployeeDAOTest {
 		vo.setEmpno(6);
 		vo.setEmpname("장장장");
 
-		dao.insert(vo);		
+		dao.insertEmployee(vo);		
 	}
     
 }

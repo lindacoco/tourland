@@ -17,7 +17,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public void insert(EmployeeVO vo) throws Exception {
+	public void insertEmployee(EmployeeVO vo) throws Exception {
 		sqlSession.insert(namespace+"insert",vo);
 
 	}

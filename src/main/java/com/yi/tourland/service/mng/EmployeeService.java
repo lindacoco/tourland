@@ -13,7 +13,7 @@ public class EmployeeService {
 	EmployeeDAO dao;
 
 	public void insert(EmployeeVO vo) throws Exception {
-		dao.insert(vo);
+		dao.insertEmployee(vo);
 	} 
 	
 	

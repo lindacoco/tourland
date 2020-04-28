@@ -7,7 +7,7 @@ import com.yi.tourland.domain.mng.EmployeeVO;
 
 public interface EmployeeDAO {
 	 
-	public void insert(EmployeeVO vo) throws Exception;
+	public void insertEmployee(EmployeeVO vo) throws Exception;
 	public void update(EmployeeVO vo)throws Exception;
 	public EmployeeVO readByNo(int empno)throws Exception;
 	public void delete(int empno)throws Exception;
