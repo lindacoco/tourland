@@ -27,7 +27,7 @@ public class EmployeeDAOTest {
 	@Test
 	public void test1insert() throws Exception {
 		EmployeeVO vo = new EmployeeVO();
-		vo.setEmpno(6);
+		vo.setEmpno(7);
 		vo.setEmpname("장장장");
 
 		dao.insertEmployee(vo);		
