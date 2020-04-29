@@ -72,7 +72,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Zerock</b> PROJECT</span>
+          <span class="logo-lg"><b>TourLand</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -385,7 +385,7 @@
                 <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
                 <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
                 <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
-                 <li><a href="../charts/inline.html"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
+                 <li><a href="${pageContext.request.contextPath }/addProductForm"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
               </ul>
             </li>  
             <li class="treeview">   

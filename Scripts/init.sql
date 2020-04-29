@@ -273,6 +273,9 @@ CREATE TABLE tour.tour (
 	startdate DATE         NULL     COMMENT '시작날짜', -- 시작날짜
 	enddate   DATE         NULL     COMMENT '종료날짜', -- 종료날짜
 	taddr     VARCHAR(255) NULL     COMMENT '주소', -- 주소
+	etime     TIME         NULL     COMMENT '소요시간', -- 소요시간
+	capacity  INT          NULL     COMMENT '인원', -- 인원
+	tprice    INT          NULL     COMMENT '가격', -- 가격
 	ldiv      char(1)      NULL     COMMENT '장소구분' -- 장소구분
 )
 COMMENT '투어';
