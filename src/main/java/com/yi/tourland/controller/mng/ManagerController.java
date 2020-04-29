@@ -31,7 +31,10 @@ public class ManagerController {
 		}
 		
 		//예약관리
-		
+		@RequestMapping(value="reservationMgnList", method=RequestMethod.GET)
+		public String reservationMgnList() { 
+			return "/manager/reservation/reservationMngList"; 
+		}
 		
 		//상품관리
 		@RequestMapping(value="addProductForm", method=RequestMethod.GET)
@@ -43,6 +46,14 @@ public class ManagerController {
 		
 		
 		//게시판관리
+		
+		//FAQ 관리
+		@RequestMapping(value="FAQMngList", method=RequestMethod.GET)
+		public String FAQMngList() { 
+			return "/manager/board/FAQMngList"; 
+		}
+		
+		
 		
 		
 		//디자인관리
