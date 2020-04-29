@@ -10,13 +10,13 @@ public class ManagerController {
 		//예약관리
 		@RequestMapping(value="reservMngList", method=RequestMethod.GET)
 		public String reservMngList() { 
-			return "/manager/reservationMngList"; 
+			return "/manager/reservation/reservationMngList"; 
 		}
 		
 		//항공 추가 폼
 		@RequestMapping(value="addFlightForm", method=RequestMethod.GET)
 		public String addFlightForm() { 
-			return "/manager/addFlightForm"; 
+			return "/manager/flight/addFlightForm"; 
 		}
 		
 		//직원관리리스트
@@ -34,7 +34,10 @@ public class ManagerController {
 		
 		
 		//상품관리
-		
+		@RequestMapping(value="addProductForm", method=RequestMethod.GET)
+		public String addProductForm() { 
+			return "/manager/product/addProductForm"; 
+		}
 		
 		//이벤트관리
 		
@@ -48,13 +51,13 @@ public class ManagerController {
 		//공지사항 관리
 		@RequestMapping(value="noticeMngList", method=RequestMethod.GET)
 		public String noticeMngList() { 
-			return "/manager/noticeMngList"; 
+			return "/manager/notice/noticeMngList"; 
 		}
 		
 		//쿠폰관리
 		@RequestMapping(value="couponMngList", method=RequestMethod.GET)
 		public String couponMngList() { 
-			return "/manager/couponMngList"; 
+			return "/manager/coupon/couponMngList"; 
 		}
 		
 		//장바구니
