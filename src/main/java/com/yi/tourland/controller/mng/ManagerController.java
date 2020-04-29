@@ -1,11 +1,24 @@
 package com.yi.tourland.controller.mng;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.yi.tourland.domain.PageMaker;
+import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.service.mng.EmployeeService;
+
 @Controller
 public class ManagerController {
+	
+	@Autowired
+	EmployeeService employeeService;
+	
 	
 		//예약관리
 		@RequestMapping(value="reservMngList", method=RequestMethod.GET)
@@ -21,7 +34,18 @@ public class ManagerController {
 		
 		//직원관리리스트
 		@RequestMapping(value="empMngList", method=RequestMethod.GET)
-		public String empMngList() { 
+		public String empMngList(SearchCriteria cri, Model model) throws Exception { 
+			List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
+			
+
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(employeeService.totalSearchCountEmployee(cri,0));
+			
+			model.addAttribute("cri", cri);
+			model.addAttribute("list",empList);
+			model.addAttribute("pageMaker", pageMaker);
+			
 			return "/manager/employee/empMngList"; 
 		}
 		//고객관리리스트

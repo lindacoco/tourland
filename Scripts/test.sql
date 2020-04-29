@@ -6,7 +6,7 @@ select user(),database();
 -- 사원
 desc employee;
 select * from employee;
-
+select * from employee where empretired=0 order by empno desc  limit 1, 3;
 
 
 -- 인선 --------------------------------------------------------------------------------------------

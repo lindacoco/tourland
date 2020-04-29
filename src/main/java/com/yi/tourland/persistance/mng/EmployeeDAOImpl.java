@@ -1,17 +1,20 @@
 package com.yi.tourland.persistance.mng;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.EmployeeVO;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 	
-	private static final String namespace ="mappers.mgnMappers.EmployeeMapper.";
+	private static final String namespace ="mappers.mngMappers.EmployeeMapper.";
 	
 	@Autowired
 	private SqlSession sqlSession;
@@ -38,15 +41,41 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		sqlSession.delete(namespace+"deleteEmployee",empno);
 
 	}
+	
+	@Override
+	public List<EmployeeVO> listCriteriaEmployee(Criteria cri,int empretired) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cri",cri);
+		map.put("empretired",empretired);
+		return sqlSession.selectOne(namespace+"listCriteriaEmployee", map);
+	}
+
 
 	@Override
-	public List<EmployeeDAO> listSearchCriteriaEmployee(SearchCriteria cri) throws Exception {
-		return sqlSession.selectList(namespace+"listSearchCriteriaEmployee",cri);
+	public int totalCountEmployee(int empretired) throws Exception {
+		return sqlSession.delete(namespace+"totalCountEmployee", empretired);
+	}
+	
+
+	@Override
+	public List<EmployeeVO> listSearchCriteriaEmployee(SearchCriteria cri, int empretired) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cri",cri);
+		map.put("empretired",empretired);
+		
+		return sqlSession.selectList(namespace+"listSearchCriteriaEmployee",map);
 	}
 
 	@Override
-	public int totalSearchCountEmployee(SearchCriteria cri) throws Exception {
-		return sqlSession.selectOne(namespace+"totalSearchCountEmployee",cri);
+	public int totalSearchCountEmployee(SearchCriteria cri, int empretired) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cri",cri);
+		map.put("empretired",empretired);
+		return sqlSession.selectOne(namespace+"totalSearchCountEmployee",map);
 	}
+
+	
+	
+	
 
 }

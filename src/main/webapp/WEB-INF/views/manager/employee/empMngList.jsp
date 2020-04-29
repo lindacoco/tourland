@@ -20,9 +20,9 @@
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType" style="width:200px;">
-						<option value="n">-----</option>
-						<option value="t">사원번호</option>
-						<option value="c">사원명</option>
+						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
+						<option value="empN" ${cri.searchType =='empN'?'selected':''}>사원번호</option>
+						<option value="empName" ${cri.searchType =='empN'?'selected':''}>사원명</option>
 
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
@@ -34,17 +34,42 @@
 				<div class="box-body">
 					<table class="table table-bordered">
 						<tr>
-							<th style="width:100px;">번호</th>
-							<th>사번</th>
+							<th style="width:100px;">사원 번호</th>
 							<th>사원명</th>
 							<th>생년월일</th>
 							<th>전화번호</th>
 							<th>권한</th>
 						</tr>     
-							
+						<!-- 반복 돌면서 list가져오기 -->
+						<c:forEach var="empList" items="${list}">
+						    <tr data-click="${empList.empno }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
+						     <td>${empList.empno }</td>
+						    <td>${empList.empname }</td>
+						    <td><fmt:formatDate value="${empList.empbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
+						    <td>${empList.emptel }</td>
+						    <td>${empList.empauth==1?"관리자":"사원" }</td>
+						    </tr>
+						</c:forEach>	
 					</table>      
 				</div>
-		
+		        <div class="box-footer">
+	             <%--   --%>
+	              <!--  부트 스트랩으로 사용  -->
+	              <div class='text-center'>
+	                   <ul class="pagination">
+	                      <c:if test="${pageMaker.prev == true }">
+	                          <li><a href="listPage?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                       </c:if>
+	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="listPage?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                       </c:forEach>
+	                       <!--  언제나 나오는 게 아니니까  -->
+	                       <c:if test="${pageMaker.next == true }">
+	                          <li><a href="listPage?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                       </c:if>
+	                   </ul>
+	               </div>
+	           </div>
 			</div>         
 		</div>
 	</div>
