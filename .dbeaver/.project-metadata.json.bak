@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"resources":{"Scripts/data.sql":{"sql-editor-data-source-id":"mysql5-171bb78757e-5b6ebaa62c04fd4e"}}}
-=======
-{"resources":{"Scripts/init.sql":{"sql-editor-data-source-id":"mysql5-171bb79a832-6b39a9507b46462e"}}}
->>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
+{"resources":{"Scripts/data.sql":{"sql-editor-data-source-id":"mysql5-171bb79a832-6b39a9507b46462e"},"Scripts/test.sql":{"sql-editor-data-source-id":"mysql5-171bb79a832-6b39a9507b46462e"}}}

@@ -39,10 +39,35 @@
 							<th>만료일자</th>
 							<th>쿠폰내용</th>
 							<th>할인율</th>
-						</tr>     
+						</tr>    
+					<c:forEach items="${couponList }" var="c">
+						<tr>
+							<td>${c.cno }</td>
+							<td><a href="#">${c.cname }</a></td>
+							<td><fmt:formatDate value="${c.pdate }" pattern="yyyy-MM-dd"/></td>
+							<td><fmt:formatDate value="${c.edate }" pattern="yyyy-MM-dd"/></td>
+							<td>${c.ccontent }</td>
+							<td>${c.mrate }</td>
+						</tr>
+					</c:forEach> 
 					</table>      
 				</div>
-		
+				<div class="box-footer">
+					<div class="text-center">
+						<ul class="pagination">
+							<c:if test="${pageMaker.prev == true }">
+								<li><a href="#">&laquo;</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+								<li class="${pageMaker.cri.page == idx ?'active':''}"><a href="#">${idx }</a></li>
+								<!-- 주소의 시작이 /로 시작하지 않고 localhost:8080..으로 시작하면 맨 마지막 것만 바꿔주면됨 -->
+							</c:forEach>
+							<c:if test="${pageMaker.next == true }">
+								<li><a href="#">&raquo;</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div> 
 			</div>         
 		</div>
 	</div>
