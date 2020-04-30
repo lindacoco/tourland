@@ -63,7 +63,18 @@
 
   	})
 </script>
-  <body class="skin-blue sidebar-mini">
+<style>   
+	#goToCustomer { height: 50px; }
+	#goToCustomer a { width: 75px; height: 20px; 
+						   border: none; background: maroon;       
+						   margin-top:15px; 
+						   color: #fff; 
+						   font-size: 12px;            
+						   border-radius: 3px;
+						   padding:0;
+						   text-align: center; }             
+</style>             
+  <body class="skin-blue sidebar-mini">      
     <div class="wrapper">
       
       <header class="main-header">
@@ -86,12 +97,13 @@
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
+              <li id="goToCustomer"><a href="${pageContext.request.contextPath }/tourlandMain">고객 페이지</a></li>     
               <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-envelope-o"></i>
                   <span class="label label-success">4</span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu">    
                   <li class="header">You have 4 messages</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
@@ -521,5 +533,4 @@
             <li class="active">General Elements</li>
           </ol>
         </section>
-	
 	
