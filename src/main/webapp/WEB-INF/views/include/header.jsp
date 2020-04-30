@@ -422,7 +422,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>FAQ 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/FAQMngList"><i class="fa fa-circle-o"></i>FAQ 관리</a></li>
                 <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>고객의 소리 관리</a></li>
                 <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i>상품 문의사항 관리</a></li>
               </ul>
