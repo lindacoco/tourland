@@ -36,7 +36,7 @@ public class FaqService {
 	public void deleteFAQ(FaqVO vo) throws SQLException {
 		dao.deleteFAQ(vo);
 	}
-	public int totalCount() throws SQLException {
-		return dao.totalCount();
+	public int totalCount(SearchCriteria cri) throws SQLException {
+		return dao.totalCount(cri);
 	}
 }

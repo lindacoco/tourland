@@ -13,5 +13,5 @@ public interface FaqDao {
 	public void insertFAQ(FaqVO vo) throws SQLException;
 	public void updateFAQ(FaqVO vo) throws SQLException;
 	public void deleteFAQ(FaqVO vo) throws SQLException;
-	public int totalCount() throws SQLException;
+	public int totalCount(SearchCriteria cri) throws SQLException;
 }

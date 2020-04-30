@@ -39,7 +39,7 @@
 						<option value="U">회원혜택안내</option>
 					</select>
 					<select name="searchType2" id="searchType2">
-						<option value="N">전체</option>
+						<option value="N">-----------</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
@@ -77,7 +77,7 @@
 	var curPage = ${page};
 	var makePage = function(curPage) {
 		var endPage = ${pageMaker.endPage};
-		for(var i=1;i<endPage;i++) {
+		for(var i=1;i<=endPage;i++) {
 			var li = $("<li>").html(i).css("float","left").css("list-style","none").css("padding","8px").css("border","1px solid grey").css("margin-right","5px");
 			$(".pagination").append(li);
 		}
@@ -92,45 +92,73 @@
 			}
 		})
 	};
+	var fixSearchTypeAndKeyword = function() {
+		var searchType = "${searchType}";
+		var searchType2 = "${searchType2}";
+		var keyword = "${keyword}";
+		$("#searchType option").each(function(i,obj) {
+			var value = $(obj).val();
+			if(searchType==value) {
+				$(obj).prop("selected",true);
+			}
+		})
+		$("#searchType2 option").each(function(i,obj) {
+			var value = $(obj).val();
+			if(searchType2==value) {
+				$(obj).prop("selected",true);
+			}
+		})
+		$("#keywordInput").val(keyword);
+	};
+	$("#searchType").change(function() {
+		$("#searchType2").empty();
+		switch($("#searchType option:selected").val()) {
+		case "D":
+			var option = $("<option value='J'>").html("제주여행");
+			$("#searchType2").append(option);
+			break;
+		case "I":
+			var option = $("<option value='N'>").html("전체");
+			var option1 = $("<option value='P'>").html("여행상품");
+			var option2 = $("<option value='V'>").html("여권 및 비자");
+			var option3 = $("<option value='T'>").html("환율");
+			var option4 = $("<option value='E'>").html("기타");
+			$("#searchType2").append(option).append(option1).append(option2).append(option3).append(option4);
+			break;
+		case "R":
+			var option = $("<option value='N'>").html("전체");
+			var option1 = $("<option value='B'>").html("예약 및 취소");
+			var option2 = $("<option value='R'>").html("결제 및 환불");
+			$("#searchType2").append(option).append(option1).append(option2);
+			break;
+		case "U":
+			var option = $("<option value='C'>").html("쿠폰,이벤트");
+			$("#searchType2").append(option);
+			break;
+		default :
+			var option = $("<option>").html("-----------");
+			$("#searchType2").append(option);
+		}
+	})
 	$("#btnSearch").click(function(){
-		var searchType = $("#searchType").val();
-		var searchType2 = $("#searchType2").val();
+		var searchType = $("#searchType option:selected").val();
+		var searchType2 = $("#searchType2 option:selected").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-		//searchBoardController의 listPage GET 으로 받음 
-		
+		location.href = "FAQMngList?searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+		//searchBoardController의 listPage GET 으로 받음 	
 	})
 	$("#btnRegister").click(function(){
 		location.href = "register";
 	})
 	makePage(curPage);
-	$(".pagination li").click(function() {
-		curPage = $(this).text();
-		location.href = "${pageContext.request.contextPath}/FAQMngList?page="+curPage;
-	})
 	pageActive(curPage);
-	$("#searchType").change(function() {
-		switch($("#searchType option:selected").val()) {
-		case "국내패키지상품":
-			var option = $("<option>").html("제주여행");
-			$("#searchType2").append(option);
-			break;
-		case "해외패키지상품":
-			var option1 = $("<option>").html("여행상품");
-			var option2 = $("<option>").html("여권 및 비자");
-			var option3 = $("<option>").html("환율");
-			$("#searchType2").append(option1).append(option2).append(option3);
-			break;
-		case "상품 예약 및 결제":
-			var option1 = $("<option>").html("예약 및 취소");
-			var option2 = $("<option>").html("결제 및 환불");
-			$("#searchType2").append(option1).append(option2);
-			break;
-		case "회원혜택안내":
-			break;
-		default :
-			break;
-		}
+	fixSearchTypeAndKeyword();
+	$(document).on("click",".pagination li",function() {
+		curPage = $(this).text();
+		var searchType = $("#searchType option:selected").val();
+		var searchType2 = $("#searchType2 option:selected").val();
+		var keyword = $("#keywordInput").val();
+		location.href = "FAQMngList?page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 	})
 </script>
 

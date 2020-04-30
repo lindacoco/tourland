@@ -68,7 +68,7 @@ public class ManagerController {
 			List<FaqVO> list = faqService.listPage(cri);
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(faqService.totalCount());
+			pageMaker.setTotalCount(faqService.totalCount(cri)<10?10:faqService.totalCount(cri));
 			model.addAttribute("list",list);
 			model.addAttribute("pageMaker",pageMaker);
 			model.addAttribute("page",cri.getPage());

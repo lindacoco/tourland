@@ -44,7 +44,7 @@ public class FaqDaoImpl implements FaqDao {
 		sqlSession.delete(namespace + "deleteFAQ",vo);
 	}
 	@Override
-	public int totalCount() throws SQLException {
-		return sqlSession.selectOne(namespace + "totalCount");
+	public int totalCount(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCount",cri);
 	}
 }

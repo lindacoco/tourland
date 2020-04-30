@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.mngMappers.FaqMapper">
+	<sql id="search">
+		<if test="searchType!=null">
+			<if test='searchType=="N"'>
+				<if test='searchType2=="N"'>
+					where title like CONCAT('%','${keyword}','%')
+				</if>
+			</if>
+			<if test='searchType!="N"'>
+				<if test='searchType2=="N"'>
+					where lcate = #{searchType} and title like CONCAT('%','${keyword}','%')
+				</if>
+				<if test='searchType2!="N"'>
+					where lcate = #{searchType} and mcate = #{searchType2} and title like CONCAT('%','${keyword}','%')
+				</if>
+			</if>
+		</if>
+	</sql>
 	<select id="list" resultType="FaqVO">
 		select * from faq order by no desc
 	</select>
 	<select id="listPage" resultType="FaqVO">
-		select * from faq order by no desc limit #{pageStart},#{perPageNum}
+		select * from faq
+		<include refid="search"/>
+		order by no desc limit #{pageStart},#{perPageNum}
 	</select>
 	<select id="selectFAQByNo" resultType="FaqVO">
 		select * from faq where no = #{no}
@@ -20,7 +39,8 @@
 	<delete id="deleteFAQ" parameterType="FaqVO">
 		delete from faq where no = #{no}
 	</delete>
-	<select id="totalCount" resultType="int">
+	<select id="totalCount" resultType="int" parameterType="SearchCriteria">
 		select count(no) from faq
+		<include refid="search"/>
 	</select>
 </mapper>
