@@ -79,8 +79,44 @@ public class ManagerController {
 		pageMaker.setTotalCount(faqService.totalCount(cri) < 10 ? 10 : faqService.totalCount(cri));
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri",cri);
 		model.addAttribute("page", cri.getPage());
 		return "/manager/board/FAQMngList";
+	}
+	@RequestMapping(value = "FAQRegister", method = RequestMethod.GET)
+	public String FAQResgiterGet() throws SQLException {
+		return "/manager/board/FAQRegister";
+	}
+	@RequestMapping(value = "FAQRegister", method = RequestMethod.POST)
+	public String FAQResgiterPost(FaqVO vo) throws SQLException {
+		faqService.insertFAQ(vo);
+		return "redirect:FAQMngList";
+	}
+	@RequestMapping(value = "FAQDetail", method = RequestMethod.GET)
+	public String FAQDetail(FaqVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo = faqService.selectFAQByNo(vo);
+		model.addAttribute("faq",vo);
+		model.addAttribute("cri",cri);
+		return "/manager/board/FAQDetail";
+	}
+	@RequestMapping(value = "FAQModify", method = RequestMethod.GET)
+	public String FAQModifyGet(FaqVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo = faqService.selectFAQByNo(vo);
+		model.addAttribute("faq",vo);
+		model.addAttribute("cri",cri);
+		return "/manager/board/FAQModify";
+	}
+	@RequestMapping(value = "FAQModify", method = RequestMethod.POST)
+	public String FAQModifyPost(FaqVO vo,SearchCriteria cri,Model model) throws SQLException {
+		faqService.updateFAQ(vo);
+		model.addAttribute("cri",cri);
+		return "redirect:FAQMngList";
+	}
+	@RequestMapping(value = "FAQDelete", method = RequestMethod.GET)
+	public String FAQDelete(FaqVO vo,SearchCriteria cri,Model model) throws SQLException {
+		faqService.deleteFAQ(vo);
+		model.addAttribute("cri",cri);
+		return "redirect:FAQMngList";
 	}
 	// 디자인관리
 

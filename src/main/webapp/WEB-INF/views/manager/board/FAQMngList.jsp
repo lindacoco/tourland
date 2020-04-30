@@ -15,6 +15,10 @@
 		background-color : lightblue;
 		color : white;  
 	}
+	.faqList:hover {
+		cursor : pointer;
+		background-color : lightgrey;
+	}
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
@@ -45,7 +49,7 @@
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button>추가</button>
+					<button id="btnRegister">추가</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -56,7 +60,7 @@
 							<th>분류</th>
 						</tr>
 						<c:forEach var="faq" items="${list}">
-						<tr>
+						<tr class="faqList" data-no="${faq.no}">
 							<td>${faq.no}</td>
 							<td>${faq.title}</td>
 							<td>${faq.lcate eq 'D'?'국내패키지상품':faq.lcate eq 'I'?'해외패키지상품':faq.lcate eq 'R'?'상품 예약 및 결제':'회원혜택안내'}</td>
@@ -77,10 +81,14 @@
 	var curPage = ${page};
 	var makePage = function(curPage) {
 		var endPage = ${pageMaker.endPage};
+		var prev = "${pageMaker.prev}"=="true"?true:false;
+		var next = "${pageMaker.next}"=="true"?true:false;
+		if(prev) $(".paination").append("<li id='prev'>&laquo;</li>")
 		for(var i=1;i<=endPage;i++) {
 			var li = $("<li>").html(i).css("float","left").css("list-style","none").css("padding","8px").css("border","1px solid grey").css("margin-right","5px");
 			$(".pagination").append(li);
 		}
+		if(prev) $(".paination").append("<li id='next'>&raquo;</li>")
 	};
 	var pageActive = function(curPage) {
 		$(".pagination li").each(function(i, obj) {
@@ -92,17 +100,8 @@
 			}
 		})
 	};
-	var fixSearchTypeAndKeyword = function() {
-		var searchType = "${cri.searchType}";
-		var searchType2 = "${cri.searchType2}";
-		var keyword = "{cri.keyword}";
+	var makeOption = function(searchType) {
 		switch(searchType) {
-		
-		}
-	}
-	$("#searchType").change(function() {
-		$("#searchType2").empty();
-		switch($("#searchType option:selected").val()) {
 		case "D":
 			var option = $("<option value='J'>").html("제주여행");
 			$("#searchType2").append(option);
@@ -126,9 +125,43 @@
 			$("#searchType2").append(option);
 			break;
 		default :
-			var option = $("<option>").html("-----------");
+			var option = $("<option value='N'>").html("-----------");
 			$("#searchType2").append(option);
 		}
+	}
+	var fixSearchTypeAndKeyword = function() {
+		var searchType = "${cri.searchType}";
+		var searchType2 = "${cri.searchType2}";
+		var keyword = "${cri.keyword}";
+		$("#searchType2").empty();
+		makeOption(searchType);
+		$("#searchType option").each(function(i, obj) {
+			var value = $(this).val();
+			if(value==searchType) {
+				$(this).prop("selected",true);
+				return;
+			}
+		})
+		$("#searchType2 option").each(function(i, obj) {
+			var value = $(this).val();
+			if(value==searchType) {
+				$(this).prop("selected",true);
+				return;
+			}
+		})
+		$("#keywordInput").val(keyword);
+	};
+	$(".faqList").click(function() {
+		var no = $(this).attr("data-no");
+		var searchType = "${cri.searchType}";
+		var searchType2 = "${cri.searchType2}";
+		var keyword = "${cri.keyword}";
+		location.href = "FAQDetail?no="+no+"&page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+	})
+	$("#searchType").change(function() {
+		$("#searchType2").empty();
+		makeOption($("#searchType option:selected").val());
+		$("#keywordInput").val("");
 	})
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType option:selected").val();
@@ -138,13 +171,27 @@
 		//searchBoardController의 listPage GET 으로 받음 	
 	})
 	$("#btnRegister").click(function(){
-		location.href = "register";
+		location.href = "FAQRegister";
 	})
 	makePage(curPage);
 	pageActive(curPage);
 	fixSearchTypeAndKeyword();
 	$(document).on("click",".pagination li",function() {
 		curPage = $(this).text();
+		var searchType = $("#searchType option:selected").val();
+		var searchType2 = $("#searchType2 option:selected").val();
+		var keyword = $("#keywordInput").val();
+		location.href = "FAQMngList?page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+	})
+	$(document).on("click","#prev",function(){
+		curPage = ${startPage-1};
+		var searchType = $("#searchType option:selected").val();
+		var searchType2 = $("#searchType2 option:selected").val();
+		var keyword = $("#keywordInput").val();
+		location.href = "FAQMngList?page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+	})
+	$(document).on("click","#next",function(){
+		curPage = ${endPage+1};
 		var searchType = $("#searchType option:selected").val();
 		var searchType2 = $("#searchType2 option:selected").val();
 		var keyword = $("#keywordInput").val();

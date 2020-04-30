@@ -18,7 +18,6 @@ insert into user values
 -- 인선 ---------------------------------------------------------------------------------------------------
 LOAD DATA LOCAL INFILE 'D:/workspace_spring/tourland/file/CSV/faq.csv'  
 INTO TABLE faq
-CHARACTER SET 'utf8'
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
