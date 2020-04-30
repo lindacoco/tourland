@@ -16,10 +16,13 @@ insert into user values
 (5,'지민서','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),0);
 
 -- 인선 ---------------------------------------------------------------------------------------------------
-
-
-
-
+LOAD DATA LOCAL INFILE 'D:/workspace_spring/tourland/file/CSV/faq.csv'  
+INTO TABLE faq
+CHARACTER SET 'utf8'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
 -- 태원 ---------------------------------------------------------------------------------------------------
 
 

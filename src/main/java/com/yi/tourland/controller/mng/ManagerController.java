@@ -1,12 +1,27 @@
 package com.yi.tourland.controller.mng;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.yi.tourland.domain.Criteria;
+import com.yi.tourland.domain.PageMaker;
+import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.FaqVO;
+import com.yi.tourland.service.mng.FaqService;
 
 @Controller
 public class ManagerController {
-	
+		@Autowired
+		private FaqService faqService;
 		//예약관리
 		@RequestMapping(value="reservMngList", method=RequestMethod.GET)
 		public String reservMngList() { 
@@ -49,13 +64,16 @@ public class ManagerController {
 		
 		//FAQ 관리
 		@RequestMapping(value="FAQMngList", method=RequestMethod.GET)
-		public String FAQMngList() { 
+		public String FAQMngList(SearchCriteria cri, Model model) throws SQLException {
+			List<FaqVO> list = faqService.listPage(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(faqService.totalCount());
+			model.addAttribute("list",list);
+			model.addAttribute("pageMaker",pageMaker);
+			model.addAttribute("page",cri.getPage());
 			return "/manager/board/FAQMngList"; 
 		}
-		
-		
-		
-		
 		//디자인관리
 		
 		

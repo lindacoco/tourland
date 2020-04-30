@@ -14,7 +14,6 @@ public class PageMaker {
 		//현재 페이지의 끝 번호를 구한다. 사용자가 15번을 선택함  제일 마지막 번호가 20이 되어야함.. 
 		//15/10 = 1.5 올림이라서 2가 됨 *10 = 마지막 번호가 20으로 구해지게 됨 
 		endPage = (int)(Math.ceil(cri.getPage()/(double)displayPageNum))*displayPageNum;
-		
 		//현재 페이지의 시작번호 
 		//끝번호 20 빼기 10 하고 나서 15번 이나오려면 11번부터 나와야하니깐 +1 
 		startPage = (endPage - displayPageNum) +1;
