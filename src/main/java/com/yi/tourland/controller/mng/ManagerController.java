@@ -1,11 +1,28 @@
 package com.yi.tourland.controller.mng;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.yi.tourland.domain.PageMaker;
+import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.CouponVO;
+import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.service.mng.CouponService;
+import com.yi.tourland.service.mng.NoticeService;
+
 @Controller
 public class ManagerController {
+	
+	@Autowired
+	NoticeService noticeService;
+	
+	@Autowired
+	CouponService couponService;
 	
 		//예약관리
 		@RequestMapping(value="reservMngList", method=RequestMethod.GET)
@@ -61,13 +78,27 @@ public class ManagerController {
 		
 		//공지사항 관리
 		@RequestMapping(value="noticeMngList", method=RequestMethod.GET)
-		public String noticeMngList() { 
+		public String noticeMngList(SearchCriteria cri, Model model) throws Exception { 
+			List<NoticeVO> noticeList = noticeService.noticeList(cri);
+			PageMaker pageMaker = new PageMaker();     
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(noticeService.totalCountNotice(cri));
+			model.addAttribute("noticeList", noticeList);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("cri", cri);
 			return "/manager/notice/noticeMngList"; 
 		}
 		
 		//쿠폰관리
 		@RequestMapping(value="couponMngList", method=RequestMethod.GET)
-		public String couponMngList() { 
+		public String couponMngList(SearchCriteria cri, Model model) throws Exception {
+			List<CouponVO> couponList = couponService.couponList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(couponService.totalCountNotice(cri));
+			model.addAttribute("couponList", couponList);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("cri", cri);
 			return "/manager/coupon/couponMngList"; 
 		}
 		
