@@ -26,6 +26,14 @@ IGNORE 1 lines;
 -- 태원 ---------------------------------------------------------------------------------------------------
 
 
+desc hotel;
+load data local infile 'D:/workspace/workspace_spring/tourland/file/Hotel_Sample.csv'
+into table tour.hotel
+character set 'utf8'
+fields terminated by ','
+ignore 1 lines;
+
+
 
 
 -- 하나 ---------------------------------------------------------------------------------------------------
