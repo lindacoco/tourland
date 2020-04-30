@@ -93,23 +93,13 @@
 		})
 	};
 	var fixSearchTypeAndKeyword = function() {
-		var searchType = "${searchType}";
-		var searchType2 = "${searchType2}";
-		var keyword = "${keyword}";
-		$("#searchType option").each(function(i,obj) {
-			var value = $(obj).val();
-			if(searchType==value) {
-				$(obj).prop("selected",true);
-			}
-		})
-		$("#searchType2 option").each(function(i,obj) {
-			var value = $(obj).val();
-			if(searchType2==value) {
-				$(obj).prop("selected",true);
-			}
-		})
-		$("#keywordInput").val(keyword);
-	};
+		var searchType = "${cri.searchType}";
+		var searchType2 = "${cri.searchType2}";
+		var keyword = "{cri.keyword}";
+		switch(searchType) {
+		
+		}
+	}
 	$("#searchType").change(function() {
 		$("#searchType2").empty();
 		switch($("#searchType option:selected").val()) {

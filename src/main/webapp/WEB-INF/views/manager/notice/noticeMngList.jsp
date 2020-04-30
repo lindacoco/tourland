@@ -36,12 +36,34 @@
 							<th>번호</th>
 							<th>제목</th>
 							<th>작성자</th>
-							<th>내용</th>
 							<th>작성일자</th>
-						</tr>     
+						</tr>  
+						<c:forEach items="${noticeList}" var="n">   
+							<tr>
+								<td>${n.no }</td>
+								<td><a href="#">${n.title }</a></td>
+								<td>${n.writer }</td>
+								<td><fmt:formatDate value="${n.regdate }" pattern ="yyyy-MM-dd"/></td>
+							</tr>
+						</c:forEach>   
 					</table>      
-				</div>
-		
+				</div>  
+			<div class="box-footer">
+					<div class="text-center">
+						<ul class="pagination">
+							<c:if test="${pageMaker.prev == true }">
+								<li><a href="#">&laquo;</a></li>
+							</c:if>
+							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
+								<li class="${pageMaker.cri.page == idx ?'active':''}"><a href="#">${idx }</a></li>
+								<!-- 주소의 시작이 /로 시작하지 않고 localhost:8080..으로 시작하면 맨 마지막 것만 바꿔주면됨 -->
+							</c:forEach>
+							<c:if test="${pageMaker.next == true }">
+								<li><a href="#">&raquo;</a></li>
+							</c:if>
+						</ul>
+					</div>
+				</div> 
 			</div>         
 		</div>
 	</div>

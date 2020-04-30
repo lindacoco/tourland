@@ -10,7 +10,7 @@
 		<div class="col-sm-12">    
 			<div class="box box-primary">      
 				<div class="box-header">
-					<h2 class="box-title">예약 관리</h2>
+					<h2 class="box-title">직원 관리</h2>
 				</div>
 				<div class="box-body">
 				<!-- 검색 작업에서 유지될 데이터 

@@ -20,3 +20,8 @@ FROM hotel;
 
 
 -- 하나 --------------------------------------------------------------------------------------------
+
+SELECT * FROM notice;
+select count(*) from notice; 
+select * from coupon;
+

@@ -5,7 +5,7 @@ import java.util.Date;
 public class NoticeVO {
 	private int no;
 	private String title;
-	private String wrtier;
+	private String writer;
 	private String content;
 	private Date regdate;
 	public int getNo() {
@@ -20,11 +20,12 @@ public class NoticeVO {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getWrtier() {
-		return wrtier;
+	
+	public String getWriter() {
+		return writer;
 	}
-	public void setWrtier(String wrtier) {
-		this.wrtier = wrtier;
+	public void setWriter(String writer) {
+		this.writer = writer;
 	}
 	public String getContent() {
 		return content;
@@ -38,12 +39,13 @@ public class NoticeVO {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
-	
 	@Override
 	public String toString() {
-		return "NoticeVO [no=" + no + ", title=" + title + ", wrtier=" + wrtier + ", content=" + content + ", regdate="
+		return "NoticeVO [no=" + no + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regdate="
 				+ regdate + "]";
 	}
+	
+	
 	
 	
 }

@@ -25,9 +25,14 @@ public class CustomerController {
 		return "/user/tourlandLoginForm"; 
 	}   
 	
-	//로그인 폼
-	@RequestMapping(value="tourlandMyPage", method=RequestMethod.GET)
-	public String tourlandMyPage() { 
-		return "/user/tourlandMyPage"; 
-	} 	
+	//마이 페이지 - 내 정보 수정
+	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
+	public String tourlandMyInfoEdit() { 
+		return "/user/tourlandMyInfoEdit"; 
+	}
+	//마이 페이지 - 내 예약 현황
+	@RequestMapping(value="tourlandMyReserv", method=RequestMethod.GET)
+	public String tourlandMyReserv() { 
+		return "/user/tourlandMyReserv"; 
+	}
 }
