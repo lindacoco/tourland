@@ -71,7 +71,11 @@ public class ManagerController {
 		}
 		
 		
-		
+		//호텔관리
+		@RequestMapping(value="hotelManager", method=RequestMethod.GET)
+		public String hotelManager() { 
+			return "/manager/hotel/hotelMngList"; 
+		}
 		
 		//디자인관리
 		

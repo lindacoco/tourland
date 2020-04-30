@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.hotelMapper">
+	<insert id="insertHotel">
+		insert into hotel (no, hname, haddr, checkin, checkout, capacity, price, roomcapacity, roomtype, ldiv, bookedup) value
+		(#{no}, #{hname}, #{haddr}, #{checkin}, #{checkout}, #{capacity}, #{price}, #{roomcapacity}, #{roomtype}, #{ldiv}, #{bookedup})
+	</insert>
+	<update id="updateHotel" parameterType="HotelVO">
+		update hotel set hname=#{hname}, haddr=#{haddr}, checkin=#{checkin}, checkout=#{checkout}, capacity=#{capacity}, price=#{price}, roomcapacity=#{roomcapacity}, roomtype=#{roomtype}, ldiv=#{ldiv}, bookedup=#{bookedup}
+		where no=#{no}
+	</update>
+	<delete id="deleteHotel" parameterType="HotelVO">
+		delete from hotel where no=#{no}
+	</delete>
+	<select id="readHotel" resultType="HotelVO">
+		select * from hotel where no= #{no}
+	</select>
+</mapper>

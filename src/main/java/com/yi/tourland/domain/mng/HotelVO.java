@@ -13,6 +13,8 @@ public class HotelVO {
 	private int roomcapacity; // 허용객실의숫자
 	private String roomtype; // 객실타입
 	private String ldiv; // 장소구분
+	private int bookedup; // 객실체크여부
+	
 	
 	
 	
@@ -20,9 +22,9 @@ public class HotelVO {
 		//기본생성자
 	}
 
-	public HotelVO(int no, String hname, String haddr, Date checkin, Date checkout, int capacity, int price,
-			int roomcapacity, String roomtype, String ldiv) {
-		//다 받는 생성자
+	
+		public HotelVO(int no, String hname, String haddr, Date checkin, Date checkout, int capacity, int price,
+			int roomcapacity, String roomtype, String ldiv, int bookedup) {
 		super();
 		this.no = no;
 		this.hname = hname;
@@ -34,7 +36,10 @@ public class HotelVO {
 		this.roomcapacity = roomcapacity;
 		this.roomtype = roomtype;
 		this.ldiv = ldiv;
+		this.bookedup = bookedup;
 	}
+
+
 		//밑으로 get, set, toString
 	public int getNo() {
 		return no;
@@ -116,11 +121,21 @@ public class HotelVO {
 		this.ldiv = ldiv;
 	}
 
+	public int getBookedup() {
+		return bookedup;
+	}
+
+
+	public void setBookedup(int bookedup) {
+		this.bookedup = bookedup;
+	}
+
+
 	@Override
 	public String toString() {
 		return "HotelVO [no=" + no + ", hname=" + hname + ", haddr=" + haddr + ", checkin=" + checkin + ", checkout="
 				+ checkout + ", capacity=" + capacity + ", price=" + price + ", roomcapacity=" + roomcapacity
-				+ ", roomtype=" + roomtype + ", ldiv=" + ldiv + "]";
+				+ ", roomtype=" + roomtype + ", ldiv=" + ldiv + ", bookedup=" + bookedup + "]";
 	}
 
 }
