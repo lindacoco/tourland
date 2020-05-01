@@ -19,7 +19,9 @@ select * from faq order by no desc;
 -- 태원 --------------------------------------------------------------------------------------------
 
 SELECT *
-FROM hotel;
+FROM hotel; 
+select count(no) from hotel;
+select * from hotel order by no desc limit 10, 3;
 
 
 -- 하나 --------------------------------------------------------------------------------------------

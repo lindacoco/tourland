@@ -10,16 +10,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
+import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.EmployeeService;
 import com.yi.tourland.service.mng.FaqService;
+import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
 import com.yi.tourland.service.mng.UserService;
 
@@ -39,6 +42,9 @@ public class ManagerController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	HotelService hotelService;
 
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
@@ -178,8 +184,19 @@ public class ManagerController {
 
 	
 	//호텔관리
-	@RequestMapping(value="hotelManager", method=RequestMethod.GET)
-	public String hotelManager() { 
+	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)
+	public String hotelListPage(SearchCriteria cri, Model model) throws Exception { 
+		List<HotelVO> list = hotelService.listCriteriaHotel(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(hotelService.totalCountHotel());
+		
+		model.addAttribute("cri",cri);
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("searchType", cri.getSearchType());
+		model.addAttribute("keyword", cri.getKeyword());
+
 		return "/manager/hotel/hotelMngList"; 
 	}
 

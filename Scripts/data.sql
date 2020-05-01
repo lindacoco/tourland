@@ -23,7 +23,7 @@ character set 'utf8'
 fields terminated by ',';
 
 -- 인선 ---------------------------------------------------------------------------------------------------
-LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/faq.csv'  
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/FAQ.csv'  
 INTO TABLE faq
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -33,7 +33,7 @@ IGNORE 1 lines;
 
 
 desc hotel;
-load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/Hotel_Sample.csv'
+load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/hotel.csv'
 into table tour.hotel
 character set 'utf8'
 fields terminated by ',';

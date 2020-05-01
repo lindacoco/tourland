@@ -15,15 +15,10 @@ public class HotelVO {
 	private String ldiv; // 장소구분
 	private int bookedup; // 객실체크여부
 	
-	
-	
-	
 	public HotelVO() {
 		//기본생성자
 	}
-
-	
-		public HotelVO(int no, String hname, String haddr, Date checkin, Date checkout, int capacity, int price,
+	public HotelVO(int no, String hname, String haddr, Date checkin, Date checkout, int capacity, int price,
 			int roomcapacity, String roomtype, String ldiv, int bookedup) {
 		super();
 		this.no = no;
@@ -38,8 +33,6 @@ public class HotelVO {
 		this.ldiv = ldiv;
 		this.bookedup = bookedup;
 	}
-
-
 		//밑으로 get, set, toString
 	public int getNo() {
 		return no;
