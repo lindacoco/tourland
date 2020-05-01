@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.CouponVO;
+import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.CouponService;
+import com.yi.tourland.service.mng.EmployeeService;
 import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.UserService;
 
 @Controller
 public class ManagerController {
@@ -29,6 +33,12 @@ public class ManagerController {
 
 	@Autowired
 	CouponService couponService;
+	
+	@Autowired
+	EmployeeService employeeService;
+	
+	@Autowired
+	UserService userService;
 
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
@@ -44,14 +54,34 @@ public class ManagerController {
 
 	// 직원관리리스트
 	@RequestMapping(value = "empMngList", method = RequestMethod.GET)
-	public String empMngList() {
-		return "/manager/employee/empMngList";
+	public String empMngList(SearchCriteria cri, Model model) throws Exception {
+		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
+		
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(employeeService.totalSearchCountEmployee(cri,0));
+		
+		model.addAttribute("cri", cri);
+		model.addAttribute("list",empList);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/manager/employee/empMngList"; 
 	}
 
 	// 고객관리리스트
 	@RequestMapping(value = "userMngList", method = RequestMethod.GET)
-	public String custMngList() {
-		return "/manager/user/custMngList";
+	public String custMngList(SearchCriteria cri, Model model) throws Exception {
+		List<UserVO> userList = userService.listSearchCriteriaUser(cri, 0);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(userService.totalSearchCountUser(cri, 0));
+		
+		model.addAttribute("cri", cri);
+		model.addAttribute("list",userList);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/manager/user/userMngList"; 
 	}
 
 	// 예약관리
@@ -145,13 +175,7 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		return "/manager/coupon/couponMngList";
 	}
-	
-	//FAQ 관리
-	@RequestMapping(value="FAQMngList", method=RequestMethod.GET)
-	public String FAQMngList() { 
-		return "/manager/board/FAQMngList"; 
-	}
-	
+
 	
 	//호텔관리
 	@RequestMapping(value="hotelManager", method=RequestMethod.GET)
