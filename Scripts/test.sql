@@ -7,6 +7,8 @@ select user(),database();
 desc employee;
 select * from employee;
 select * from employee where empretired=0 order by empno desc  limit 1, 3;
+desc user;
+select * from `user` u ;
 
 
 -- 인선 --------------------------------------------------------------------------------------------

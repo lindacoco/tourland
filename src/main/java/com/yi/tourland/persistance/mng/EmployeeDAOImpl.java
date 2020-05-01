@@ -47,13 +47,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cri",cri);
 		map.put("empretired",empretired);
-		return sqlSession.selectOne(namespace+"listCriteriaEmployee", map);
+		return sqlSession.selectList(namespace+"listCriteriaEmployee", map);
 	}
 
 
 	@Override
 	public int totalCountEmployee(int empretired) throws Exception {
-		return sqlSession.delete(namespace+"totalCountEmployee", empretired);
+		return sqlSession.selectOne(namespace+"totalCountEmployee", empretired);
 	}
 	
 
