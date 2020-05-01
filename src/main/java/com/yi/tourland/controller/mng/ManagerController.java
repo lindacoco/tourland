@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.BannerVO;
 import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.UserVO;
+import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.EmployeeService;
 import com.yi.tourland.service.mng.FaqService;
@@ -39,6 +41,9 @@ public class ManagerController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	BannerService bannerService;
 
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
@@ -149,6 +154,25 @@ public class ManagerController {
 		return "redirect:FAQMngList";
 	}
 	// 디자인관리
+	//팝업 
+	
+	//배너
+	@RequestMapping(value = "bannerMngList", method = RequestMethod.GET)
+	public String bannerMngList(SearchCriteria cri, Model model) throws Exception {
+		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
+		
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(bannerService.totalSearchCountBanner(cri));
+		
+		model.addAttribute("cri", cri);
+		model.addAttribute("list",bannerList);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/manager/design/bannerMngList"; 
+	}
+	
 
 	// 공지사항 관리
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)
