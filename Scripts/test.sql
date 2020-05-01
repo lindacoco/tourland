@@ -33,4 +33,5 @@ select * from hotel order by no desc limit 10, 3;
 SELECT * FROM notice;
 select count(*) from notice; 
 select * from coupon;
+select * from airplane;
 

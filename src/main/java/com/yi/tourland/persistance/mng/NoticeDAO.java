@@ -10,5 +10,10 @@ public interface NoticeDAO {
 	public List<NoticeVO> noticeList(SearchCriteria cri) throws Exception;
 	//공지사항 갯수
 	public int totalCountNotice(SearchCriteria cri) throws Exception;
-	
+	//공지사항 추가
+	public void addNotice(NoticeVO notice) throws Exception; 
+	//번호로 공지사항 찾기
+	public NoticeVO readNoticeByNo(int no) throws Exception;
+	//공지사항 삭제
+	public void removeNotice (int no) throws Exception;
 }
