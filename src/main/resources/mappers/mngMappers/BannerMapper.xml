@@ -33,7 +33,7 @@
 
 <!-- 배너 전체 리스트 페이지 -->
     <select id="listCriteriaBanner" resultType="BannerVO">
-      select * from banner order by no desc limit #{cri.pageStart}, #{cri.perPageNum}
+      select * from banner order by no desc limit #{pageStart}, #{perPageNum}
     </select>
   
     <!-- 리스트 위해 필요한 데이터 수  -->
@@ -55,7 +55,7 @@
     <select id="listSearchCriteriaBanner" resultType="BannerVO">
       select * from banner 
       <include refid="search"></include>
-      order by no desc  limit #{cri.pageStart}, #{cri.perPageNum}
+      order by no desc  limit #{pageStart}, #{perPageNum}
     </select>
 	<!-- 검색한 결과 수  -->
 	    <select id="totalSearchCountBanner" resultType="int">

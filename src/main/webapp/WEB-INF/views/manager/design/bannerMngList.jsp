@@ -33,7 +33,7 @@
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button>추가</button>
+					<button id="btnRegister">추가</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -45,6 +45,7 @@
 						<!-- 반복 돌면서 list가져오기 -->
 						<c:forEach var="bannerList" items="${list}">
 						    <tr data-click="${bannerList.no }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
+						    <td>${bannerList.no }</td>
 						    <td>${bannerList.pic }</td>
 						    <td>${bannerList.title }</td>
 						    </tr>
@@ -78,13 +79,13 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
+		location.href = "bannerMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})
 	
 	$("#btnRegister").click(function(){
-		location.href = "register";
+		location.href = "bannerRegister";
 	})
 </script>
 
