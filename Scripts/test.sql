@@ -6,7 +6,11 @@ select user(),database();
 -- 사원
 desc employee;
 select * from employee;
-
+select * from employee where empretired=0 order by empno desc  limit 1, 3;
+desc user;
+select * from `user` u ;
+select * from rentcar r ;
+select count(no) from rentcar r ;
 
 
 -- 인선 --------------------------------------------------------------------------------------------

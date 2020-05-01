@@ -382,7 +382,7 @@
               </ul> -->
             </li>
             <li>
-              <a href="${pageContext.request.contextPath }/reservMngList">
+              <a href="${pageContext.request.contextPath }/reservationMgnList">
                 <i class="fa fa-th"></i> <span>예약 관리</span> <!-- <small class="label pull-right bg-green">new</small> --> <!-- new 글자뜨는거 -->
               </a>
             </li>
