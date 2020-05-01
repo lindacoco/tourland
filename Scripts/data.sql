@@ -37,6 +37,12 @@ fields terminated by ',';
 
 -- 하나 ---------------------------------------------------------------------------------------------------
 
+-- 항공
+load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/flightDataCsv_v3.csv'
+into table tour.airplane
+character set 'utf8'
+fields terminated by ',';
+
 
 -- 공지사항
 insert into notice values

@@ -7,4 +7,15 @@
 	<select id="totalCountNotice" resultType="int">
 		select count(*) from notice 
 	</select>
-</mapper>
+	<insert id="addNotice">
+		insert into notice values(#{no}, #{title}, #{writer}, #{content}, now())
+	</insert>
+	<!-- 번호로 공지사항 검색 -->
+	<select id="readNoticeByNo" resultType="NoticeVO">
+		select * from notice where no = #{no}
+	</select>
+	<!-- 번호로 공지사항 삭제  -->
+	<delete id="removeNotice">
+		delete from notice where no = #{no}
+	</delete>
+</mapper>                

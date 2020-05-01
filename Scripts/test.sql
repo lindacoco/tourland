@@ -25,4 +25,5 @@ FROM hotel;
 SELECT * FROM notice;
 select count(*) from notice; 
 select * from coupon;
+select * from airplane;
 

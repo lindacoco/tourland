@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.AirplaneVO;
 import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
@@ -20,6 +21,7 @@ import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.EmployeeService;
 import com.yi.tourland.service.mng.FaqService;
+import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.NoticeService;
 import com.yi.tourland.service.mng.UserService;
 
@@ -39,18 +41,39 @@ public class ManagerController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	FlightService flightService;
 
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
-	public String reservMngList() {
+	public String reservMngList(SearchCriteria cri, Model model) {
 		return "/manager/reservation/reservationMngList";
 	}
-
+	
+	//항공 관리
+	@RequestMapping(value = "flightMngList", method = RequestMethod.GET)
+	public String flightMngList(SearchCriteria cri, Model model) throws Exception {
+		List<AirplaneVO> flightList = flightService.airplaneList(cri);   
+		PageMaker pageMaker = new PageMaker();  
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
+		model.addAttribute("flightList", flightList);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri", cri);    
+		return "/manager/flight/flightMngList";
+	}
+	    
 	// 항공 추가 폼
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.GET)
 	public String addFlightForm() {
 		return "/manager/flight/addFlightForm";
 	}
+	// 항공 추가 폼       
+	@RequestMapping(value = "addFlightForm", method = RequestMethod.POST)
+	public String addFlightResult() {
+		return "flightMngList";
+	}      
 
 	// 직원관리리스트
 	@RequestMapping(value = "empMngList", method = RequestMethod.GET)
@@ -161,6 +184,39 @@ public class ManagerController {
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("cri", cri);
 		return "/manager/notice/noticeMngList";
+	}
+	//공지사항 추가
+	@RequestMapping(value="addNoticeForm", method=RequestMethod.GET)
+	public String addNoticeForm(Model model) throws Exception{
+		SearchCriteria cri = new SearchCriteria();
+		int total = noticeService.totalCountNotice(cri);
+		int totalCnt = total+1;
+		model.addAttribute("totalCnt", totalCnt);
+		return "/manager/notice/addNoticeForm";
+	}
+	//공지사항 상세페이지
+	@RequestMapping(value="noticeDetail", method=RequestMethod.GET)
+	public String noticeDetail(int no,SearchCriteria cri, Model model) throws Exception{
+		NoticeVO notice = noticeService.readNoticeByNo(no);
+		model.addAttribute("notice", notice);
+		model.addAttribute("cri", cri);
+		return "/manager/notice/noticeDetail";
+	}
+	
+	//공지사항 삭제
+		@RequestMapping(value = "removeNotice", method = RequestMethod.GET)
+		public String removeNotice(int no, SearchCriteria cri, Model model) throws Exception {
+			noticeService.removeNotice(no);
+			model.addAttribute("cri",cri);
+			return "redirect:/noticeMngList";
+		}
+	
+	
+	@RequestMapping(value="addNoticeForm", method=RequestMethod.POST)
+	public String addNoticeResult(NoticeVO notice, Model model) throws Exception{
+		System.out.println(notice);
+		noticeService.addNotice(notice);
+		return "redirect:/noticeMngList";
 	}
 
 	// 쿠폰관리
