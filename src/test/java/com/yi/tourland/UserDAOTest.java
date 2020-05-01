@@ -9,16 +9,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yi.tourland.domain.Criteria;
-import com.yi.tourland.domain.mng.EmployeeVO;
-import com.yi.tourland.persistance.mng.EmployeeDAO;
+import com.yi.tourland.domain.mng.UserVO;
+import com.yi.tourland.persistance.mng.UserDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EmployeeDAOTest {
-	
+public class UserDAOTest {
+   
 	@Autowired
-	private EmployeeDAO dao;
+	private UserDAO dao;
 	
 	@Test
 	public void testDAO() {
@@ -27,29 +27,30 @@ public class EmployeeDAOTest {
 	
 	@Test
 	public void test1insert() throws Exception {
-		EmployeeVO vo = new EmployeeVO();
-		vo.setEmpno(9);
-		vo.setEmpname("다시한번");
+		UserVO vo = new UserVO();
+		vo.setUserno(9);
+		vo.setUsername("다시한번");
 
-		dao.insertEmployee(vo);		
+		dao.insertUser(vo);
+		System.out.println(vo);
 	}
 	
 	@Test
 	public void test2ReadByNo() throws Exception{
-		EmployeeVO vo = dao.readByNoEmployee(6);
+		UserVO vo = dao.readByNoUser(9);
 		System.out.println(vo);
 	}
     
 	@Test
 	public void test3Update() throws Exception {
-		EmployeeVO vo = dao.readByNoEmployee(6);
-		vo.setEmpname("코코넛");	
-		dao.updateEmployee(vo);
+		UserVO vo = dao.readByNoUser(9);
+		vo.setUsername("코코넛");	
+		dao.updateUser(vo);
 		System.out.println(vo);
 	}
 	@Test
 	public void test4delete() throws Exception {
-		dao.deleteEmployee(9);
+		dao.deleteUser(9);
 	}
 	
 	@Test
@@ -57,9 +58,7 @@ public class EmployeeDAOTest {
 		Criteria cri = new Criteria();
 		cri.setPage(1);
 		cri.setPerPageNum(3); //다섯개만 
-		dao.listCriteriaEmployee(cri,0);
+		dao.listCriteriaUser(cri,0);
 	}
-	
-	
 	
 }

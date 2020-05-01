@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
+
 <style>
 	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
-	
 	table .table table-bordered th,td,th{
        text-align: center;
     }
@@ -14,7 +14,7 @@
 		<div class="col-sm-12">    
 			<div class="box box-primary">      
 				<div class="box-header">
-					<h2 class="box-title">직원 관리</h2>
+					<h2 class="box-title">고객 관리</h2>
 				</div>
 				<div class="box-body">
 				<!-- 검색 작업에서 유지될 데이터 
@@ -25,8 +25,8 @@
 				 -->
 					<select name="searchType" id="searchType" style="width:200px;">
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
-						<option value="empN" ${cri.searchType =='empN'?'selected':''}>사원번호</option>
-						<option value="empName" ${cri.searchType =='empN'?'selected':''}>사원명</option>
+						<option value="유저아이디" ${cri.searchType =='userId'?'selected':''}>유저아이디</option>
+						<option value="유저명" ${cri.searchType =='userName'?'selected':''}>유저명</option>
 
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
@@ -38,22 +38,22 @@
 				<div class="box-body">
 					<table class="table table-bordered">
 						<tr>
-							<th style="width:100px;">사원 번호</th>
-							<th>사원명</th>
+							<th style="width:100px;">유저번호</th>
+							<th>유저명</th>
 							<th>생년월일</th>
-							<th>전화번호</th>
-							<th>권한</th>
+							<th>여권등록여부</th>
+							<th>유저아이디</th>
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
-						<c:forEach var="empList" items="${list}">
-						    <tr data-click="${empList.empno }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
-						     <td>${empList.empno }</td>
-						    <td>${empList.empname }</td>
-						    <td><fmt:formatDate value="${empList.empbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
-						    <td>${empList.emptel }</td>
-						    <td>${empList.empauth==1?"관리자":"사원" }</td>
+						<c:forEach var="userList" items="${list}">
+						    <tr data-click="${userList.userno }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
+						    <td>${userList.userno }</td>
+						    <td>${userList.username }</td>
+						    <td><fmt:formatDate value="${userList.userbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
+						    <td>${userList.userpassport == null?'등록필요':'등록완료' }</td>
+						    <td>${userList.userid }</td>
 						    </tr>
-						</c:forEach>	
+						</c:forEach>		
 					</table>      
 				</div>
 		        <div class="box-footer">

@@ -2,7 +2,7 @@ package com.yi.tourland.domain;
 
 public class Criteria {
 	// 시작번호
-	private int page; // 현제 페이지 번호
+	private int page; // 현재 페이지 번호
 	private int perPageNum; // 한페이지 display될 게시글의 게수
 
 	public int getPage() {
