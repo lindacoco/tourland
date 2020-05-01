@@ -462,7 +462,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>팝업 관리</a></li>
-                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>배너 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/bannerMngList"><i class="fa fa-circle-o"></i>배너 관리</a></li>
               </ul>
             </li> 
             <!-- <li>
