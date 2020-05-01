@@ -10,7 +10,7 @@
 		<div class="col-sm-12">    
 			<div class="box box-primary">      
 				<div class="box-header">
-					<h2 class="box-title">예약 관리</h2>
+					<h2 class="box-title">공지사항 관리</h2>
 				</div>
 				<div class="box-body">
 				<!-- 검색 작업에서 유지될 데이터 
@@ -21,12 +21,8 @@
 				 -->
 					<select name="searchType" id="searchType">
 						<option value="n">-----</option>
-						<option value="t">Title</option>
-						<option value="c">Content</option>
-						<option value="w">Writer</option>
-						<option value="tc">Title or Content</option>
-						<option value="cw">Content or Writer</option>
-						<option value="tcw">Title or Content or Writer</option>
+						<option value="t">번호</option>
+						<option value="c">제목</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
@@ -43,8 +39,8 @@
 							<th>항공편</th>
 							<th>출발날짜</th>
 							<th>도착날짜</th>
-						</tr>     
-							<tr>
+						</tr>  
+						<tr>
 								<td>1</td>
 								<td><a href="#">테스트 고객</a></td>
 								<td>상품1</td>
@@ -77,8 +73,7 @@
 								<td>2020/04/26</td>
 							</tr>
 					</table>      
-				</div>
-		
+				</div>  
 			</div>         
 		</div>
 	</div>
@@ -98,3 +93,4 @@
 	})
 </script>
 
+<%@ include file="../../include/footer.jsp"%>
