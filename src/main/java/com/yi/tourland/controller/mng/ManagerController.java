@@ -123,7 +123,7 @@ public class ManagerController {
 		
 		return "/manager/employee/empMngList"; 
 	}
-
+  
 	// 고객관리리스트
 	@RequestMapping(value = "userMngList", method = RequestMethod.GET)
 	public String custMngList(SearchCriteria cri, Model model) throws Exception {
