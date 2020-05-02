@@ -8,7 +8,6 @@
 #n, #s, #d{
 	font-weight: bold;
 }
-
 </style>
 <div class="content">
 	<div class="row">
@@ -23,7 +22,6 @@
 						<option>호텔이름</option>
 						<option>호텔주소</option>
 						<option>체크인날짜</option>
-						<option>체크아웃날짜</option>
 						<option>장소구분</option>
 						<option>객실체크여부</option>
 					</select>
@@ -45,7 +43,7 @@
 							<th>객실 수</th>
 							<th>객실타입</th>
 							<th>장소구분</th>
-							<th>객실 체크 여부</th>
+							<th>예약 가능 여부</th>
 						</tr>	
 							<c:forEach var="hotel" items="${list}">
 								<tr>
@@ -63,14 +61,14 @@
 											<td style="color:#5D5D5D;" id="n">노말</td>
 										</c:when>
 										<c:when test="${hotel.roomtype == 'D'}">
-											<td style="color:#D941C5;" id="d">디럭스</td>
+											<td style="color:#F29661;" id="d">디럭스</td>
 										</c:when>
 										<c:otherwise>
-											<td style="color:#F29661;" id="s">스위트</td>
+											<td style="color:#D941C5;" id="s">스위트</td>
 										</c:otherwise>
 									</c:choose>
 									
-									<c:if test="${hotel.ldiv == 1}">
+									<c:if test="${hotel.ldiv==1}">
 										<td>해외</td>
 									</c:if>
 									<c:if test="${hotel.ldiv == 0}">
@@ -103,4 +101,13 @@
 		</div>
 	</div>
 </div>
+
+<script>
+$(function(){
+		$("#btnRegister").click(function(){
+			location.href = "hotelRegister";
+		})	
+	})
+</script>
+
 <%@ include file="../../include/footer.jsp"%>

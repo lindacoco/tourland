@@ -391,7 +391,6 @@
                 <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li>
                 <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
                 <li><a href="${pageContext.request.contextPath }/flightMngList"><i class="fa fa-circle-o"></i>항공 관리</a></li>
-                <li><a href="${pageContext.request.contextPath }/hotelManager"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
                 <li><a href="${pageContext.request.contextPath }/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
                 <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
                  <li><a href="${pageContext.request.contextPath }/addProductForm"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
