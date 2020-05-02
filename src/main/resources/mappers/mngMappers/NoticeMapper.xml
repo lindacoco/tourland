@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.NoticeMapper">
+	<select id="noticeList" resultType="NoticeVO">
+		select * from notice
+	</select>
+	<select id="totalCountNotice" resultType="int">
+		select count(*) from notice 
+	</select>
+	<insert id="addNotice">
+		insert into notice values(#{no}, #{title}, #{writer}, #{content}, now())
+	</insert>
+	<!-- 번호로 공지사항 검색 -->
+	<select id="readNoticeByNo" resultType="NoticeVO">
+		select * from notice where no = #{no}
+	</select>
+	<!-- 번호로 공지사항 삭제  -->
+	<delete id="removeNotice">
+		delete from notice where no = #{no}
+	</delete>
+</mapper>                

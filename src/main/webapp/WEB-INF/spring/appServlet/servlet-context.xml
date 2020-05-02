@@ -18,7 +18,7 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/css/**" location="/resources/css/" />
 	<resources mapping="/images/**" location="/resources/images/" />
-	<resources mapping="/js/**" location="/resources/js/" />
+	<resources mapping="/plugins/**" location="/resources/plugins/" />
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
@@ -29,9 +29,10 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan
-		base-package="com.yi.tourland.controller" />
+	<context:component-scan base-package="com.yi.tourland.controller" />
 
-
+    <beans:bean id="uploadPath" class="java.lang.String">
+	     <beans:constructor-arg value="c:/tourland/upload/"></beans:constructor-arg>
+	</beans:bean>
 
 </beans:beans>

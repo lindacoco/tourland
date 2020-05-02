@@ -1,27 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
-
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>  -->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script> -->
-
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
   <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
+
+
+
     <meta charset="UTF-8">
     <title>AdminLTE 2 | Dashboard</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
@@ -63,7 +58,18 @@
 
   	})
 </script>
-  <body class="skin-blue sidebar-mini">
+<style>   
+	#goToCustomer { height: 50px; }
+	#goToCustomer a { width: 75px; height: 20px; 
+						   border: none; background: maroon;       
+						   margin-top:15px; 
+						   color: #fff; 
+						   font-size: 12px;            
+						   border-radius: 3px;
+						   padding:0;
+						   text-align: center; }             
+</style>             
+  <body class="skin-blue sidebar-mini">      
     <div class="wrapper">
       
       <header class="main-header">
@@ -72,7 +78,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>Zerock</b> PROJECT</span>
+          <span class="logo-lg"><b>TourLand</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -86,12 +92,13 @@
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
               <!-- Messages: style can be found in dropdown.less-->
+              <li id="goToCustomer"><a href="${pageContext.request.contextPath }/tourlandMain">고객 페이지</a></li>     
               <li class="dropdown messages-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   <i class="fa fa-envelope-o"></i>
                   <span class="label label-success">4</span>
                 </a>
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu">    
                   <li class="header">You have 4 messages</li>
                   <li>
                     <!-- inner menu: contains the actual data -->
@@ -370,7 +377,7 @@
               </ul> -->
             </li>
             <li>
-              <a href="${pageContext.request.contextPath }/reservMngList">
+              <a href="${pageContext.request.contextPath }/reservationMgnList">
                 <i class="fa fa-th"></i> <span>예약 관리</span> <!-- <small class="label pull-right bg-green">new</small> --> <!-- new 글자뜨는거 -->
               </a>
             </li>
@@ -381,11 +388,12 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>항공 관리</a></li>
-                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
-                <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/flightMngList"><i class="fa fa-circle-o"></i>항공 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
                 <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
-                 <li><a href="../charts/inline.html"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
+                 <li><a href="${pageContext.request.contextPath }/addProductForm"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
               </ul>
             </li>  
             <li class="treeview">   
@@ -410,7 +418,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>FAQ 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/FAQMngList"><i class="fa fa-circle-o"></i>FAQ 관리</a></li>
                 <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>고객의 소리 관리</a></li>
                 <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i>상품 문의사항 관리</a></li>
               </ul>
@@ -450,7 +458,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>팝업 관리</a></li>
-                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>배너 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/bannerMngList"><i class="fa fa-circle-o"></i>배너 관리</a></li>
               </ul>
             </li> 
             <!-- <li>
@@ -521,5 +529,4 @@
             <li class="active">General Elements</li>
           </ol>
         </section>
-	
 	

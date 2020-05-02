@@ -176,8 +176,7 @@ CREATE TABLE tour.package (
 	ano      INT          NULL     COMMENT '항공번호', -- 항공번호
 	hno      INT          NULL     COMMENT '호텔번호', -- 호텔번호
 	tno      INT          NULL     COMMENT '투어번호', -- 투어번호
-	rno      INT          NULL     COMMENT '렌트카번호', -- 렌트카번호
-	pic      varchar(255) NULL     COMMENT '상품사진' -- 상품사진
+	rno      INT          NULL     COMMENT '렌트카번호' -- 렌트카번호
 )
 COMMENT '상품';
 
@@ -229,8 +228,7 @@ CREATE TABLE tour.airplane (
 	rlocation VARCHAR(30) NULL     COMMENT '도착지역', -- 도착지역
 	ddate     TIMESTAMP   NULL     COMMENT '출발시간', -- 출발시간
 	rdate     TIMESTAMP   NULL     COMMENT '도착시간', -- 도착시간
-	ldiv      char(1)     NULL     COMMENT '장소구분', -- 장소구분
-	adiv      char(1)     NULL     COMMENT '항공구분', -- 항공구분
+	ldiv      TINYINT(1)  NULL     COMMENT '장소구분', -- 장소구분
 	capacity  INT         NULL     COMMENT '인원', -- 인원
 	seat      char(1)     NULL     COMMENT '좌석', -- 좌석
 	price     INT         NULL     COMMENT '가격' -- 가격
@@ -255,7 +253,8 @@ CREATE TABLE tour.hotel (
 	price        INT          NULL     COMMENT '가격', -- 가격
 	roomcapacity INT          NULL     COMMENT '객실수', -- 객실수
 	roomtype     CHAR(1)      NULL     COMMENT '객실타입', -- 객실타입
-	ldiv         char(1)      NULL     COMMENT '장소구분' -- 장소구분
+	ldiv         TINYINT(1)   NULL     COMMENT '장소구분', -- 장소구분
+	bookedup     TINYINT(1)   NULL     COMMENT '객실허용여부' -- 객실허용여부
 )
 COMMENT '호텔';
 
@@ -274,7 +273,10 @@ CREATE TABLE tour.tour (
 	startdate DATE         NULL     COMMENT '시작날짜', -- 시작날짜
 	enddate   DATE         NULL     COMMENT '종료날짜', -- 종료날짜
 	taddr     VARCHAR(255) NULL     COMMENT '주소', -- 주소
-	ldiv      char(1)      NULL     COMMENT '장소구분' -- 장소구분
+	etime     TIME         NULL     COMMENT '소요시간', -- 소요시간
+	capacity  INT          NULL     COMMENT '인원', -- 인원
+	tprice    INT          NULL     COMMENT '가격', -- 가격
+	ldiv      TINYINT(1)   NULL     COMMENT '장소구분' -- 장소구분
 )
 COMMENT '투어';
 
@@ -297,7 +299,7 @@ CREATE TABLE tour.rentcar (
 	price      INT          NULL     COMMENT '가격', -- 가격
 	capacity   INT          NULL     COMMENT '인원', -- 인원
 	insurance  TINYINT(1)   NULL     COMMENT '보험여부', -- 보험여부
-	ldiv       char(1)      NULL     COMMENT '장소구분' -- 장소구분
+	ldiv       TINYINT(1)   NULL     COMMENT '장소구분' -- 장소구분
 )
 COMMENT '렌트카';
 

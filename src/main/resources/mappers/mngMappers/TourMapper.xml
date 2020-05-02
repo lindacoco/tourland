@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.TourMapper">
+<sql id="search">
+	<if test='searchType=="name"'>
+		where tname like CONCAT('%',#{keyword},'%')
+	</if>
+	<if test='searchType=="location"'>
+		where tlocation like CONCAT('%',#{keyword},'%')
+	</if>
+	<if test='searchType=="date"'>
+		where startDate = #{keyword}
+	</if>
+	<if test='searchType=="addr"'>
+		where taddr like CONCAT('%',#{keyword},'%')
+	</if>
+	<if test='searchType=="div"'>
+		<if test='keyword=="해외"'>
+			where ldiv = 1
+		</if>
+		<if test='keyword=="국내"'>
+			where ldiv = 0
+		</if>
+	</if>
+</sql>
+<select id="listPage" resultType="TourVO">
+	select * from tour <include refid="search"/> order by no desc limit #{pageStart},#{perPageNum}
+</select>
+<select id="selectTourByNo" resultType="TourVO">
+	select * from tour where no = #{no}
+</select>
+<insert id="insertTour" parameterType="TourVO">
+	insert into tour values
+	(#{no},#{tname},#{tlocation},#{startDate},#{endDate},#{taddr},#{etime},#{capacity},#{tprice},#{ldiv})
+</insert>
+<update id="updateTour" parameterType="TourVO">
+	update tour set tname = #{tname}, tlocation = #{tlocation}, startdate = #{startDate}, enddate = #{endDate},
+	taddr = #{taddr}, etime = #{etime}, capacity = #{capacity}, tprice = #{tprice}, ldiv = #{ldiv} where no = #{no}
+</update>
+<delete id="deleteTour" parameterType="TourVO">
+	delete from tour where no = #{no}
+</delete>
+<select id="totalCount" resultType="int">
+	select count(no) from tour
+</select>
+<select id="totalCountBySearchCriteria" resultType="int">
+	select count(no) from tour
+	<include refid="search"/>
+</select>
+</mapper>
