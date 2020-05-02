@@ -28,8 +28,14 @@ public class EmployeeDAOTest {
 	@Test
 	public void test1insert() throws Exception {
 		EmployeeVO vo = new EmployeeVO();
-		vo.setEmpno(9);
-		vo.setEmpname("다시한번");
+		vo.setEmpno(6);
+		vo.setEmpname("이건..");
+		vo.setEmpbirth("2020-01-13");
+		vo.setEmptel("010-4334-4321");
+		vo.setEmpaddr("서울어딘가");
+		vo.setEmpid("apple");
+		vo.setEmppass("apple");
+		
 
 		dao.insertEmployee(vo);		
 	}

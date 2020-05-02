@@ -48,4 +48,8 @@ public class EmployeeService {
 	public int totalSearchCountEmployee(SearchCriteria cri, int empretired) throws Exception {
 		return dao.totalSearchCountEmployee(cri, empretired);
 	}
+	
+	public EmployeeVO readByIdEmployee(String empid) throws Exception {
+		return dao.readByIdEmployee(empid);
+	}
 }

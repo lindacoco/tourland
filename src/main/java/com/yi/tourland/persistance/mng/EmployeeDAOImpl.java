@@ -74,6 +74,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return sqlSession.selectOne(namespace+"totalSearchCountEmployee",map);
 	}
 
+	//아이디 중복 체크 위함 
+	@Override
+	public EmployeeVO readByIdEmployee(String empid) throws Exception {
+		return sqlSession.selectOne(namespace+"readByIdEmployee",empid);
+	}
+
 	
 	
 	

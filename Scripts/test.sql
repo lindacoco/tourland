@@ -7,6 +7,8 @@ select user(),database();
 desc employee;
 select * from employee;
 select * from employee where empretired=0 order by empno desc  limit 1, 3;
+select * from employee where empno like concat('%','1','%') and empretired =0;
+delete from employee where empid = 'apple';
 desc user;
 select * from `user` u ;
 select * from rentcar r ;

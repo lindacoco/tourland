@@ -18,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -114,9 +116,9 @@ public class ManagerController {
 	// 직원관리리스트
 	@RequestMapping(value = "empMngList", method = RequestMethod.GET)
 	public String empMngList(SearchCriteria cri, Model model) throws Exception {
+	//	System.out.println(cri.toString());  검색 수정 필요 200502
 		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
-		
-
+    //  System.out.println(empList);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(employeeService.totalSearchCountEmployee(cri,0));
@@ -127,6 +129,43 @@ public class ManagerController {
 		
 		return "/manager/employee/empMngList"; 
 	}
+	
+	// 사원 추가
+	@RequestMapping(value = "employeeRegister", method = RequestMethod.GET)
+	public String employeeRegisterGet(SearchCriteria cri, Model model) throws Exception {
+		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
+		int lastNo = empList.get(0).getEmpno();
+		model.addAttribute("autoNo",lastNo+1);
+		return "/manager/employee/empRegisterForm";
+	}
+	@RequestMapping(value = "employeeRegister", method = RequestMethod.POST)
+	public String employeeRegisterPost(EmployeeVO vo) throws Exception {
+		//System.out.println(vo);
+		employeeService.insertEmployee(vo);
+		return "redirect:empMngList";
+	}
+	//아이디 존재유무 체크
+	@ResponseBody
+	@RequestMapping(value = "empIdCheck/{empid}",method = RequestMethod.GET)
+	public ResponseEntity<String> checkEmpId(@PathVariable("empid") String empid){
+
+		ResponseEntity<String> entity = null;
+		
+		try {
+			EmployeeVO voForIdCheck = employeeService.readByIdEmployee(empid);
+			UserVO voForIdCheck2 = userService.readByIdUser(empid); //유저 테이블에서 아이디로 검색
+			if(voForIdCheck != null || voForIdCheck2 !=null ) {
+			entity = new ResponseEntity<String>("exist",HttpStatus.OK);
+			   }
+		}catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST); //400에러
+					
+		}
+		return entity;
+		
+	}
+	
   
 	// 고객관리리스트
 	@RequestMapping(value = "userMngList", method = RequestMethod.GET)
@@ -281,7 +320,7 @@ public class ManagerController {
 		
 		return "/manager/design/bannerRegister"; 
 	}
-	//이미지 한개
+	//배너 이미지 한개 업로드
 	@RequestMapping(value = "bannerUpload", method = RequestMethod.POST)
 	public String outUpResult(String content, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
 

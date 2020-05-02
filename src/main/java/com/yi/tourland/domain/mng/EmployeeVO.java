@@ -1,10 +1,15 @@
 package com.yi.tourland.domain.mng;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class EmployeeVO {
 	private int empno;
 	private String empname;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date empbirth;
 	private String emptel;
 	private String empaddr;
@@ -27,8 +32,8 @@ public class EmployeeVO {
 	public Date getEmpbirth() {
 		return empbirth;
 	}
-	public void setEmpbirth(Date empbirth) {
-		this.empbirth = empbirth;
+	public void setEmpbirth(String empbirth) throws ParseException {
+		this.empbirth = new SimpleDateFormat("yyyy-MM-dd").parse(empbirth);
 	}
 	public String getEmptel() {
 		return emptel;
@@ -66,12 +71,15 @@ public class EmployeeVO {
 	public void setEmpretired(int empretired) {
 		this.empretired = empretired;
 	}
+
+
 	@Override
 	public String toString() {
 		return "EmployeeVO [empno=" + empno + ", empname=" + empname + ", empbirth=" + empbirth + ", emptel=" + emptel
 				+ ", empaddr=" + empaddr + ", empauth=" + empauth + ", empid=" + empid + ", emppass=" + emppass
 				+ ", empretired=" + empretired + "]";
 	}
+
 	
 
 
