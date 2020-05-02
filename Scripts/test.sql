@@ -20,10 +20,14 @@ select  count(no) from banner ;
 -- 인선 --------------------------------------------------------------------------------------------
 select count(no) from faq where title like concat('%','쿠폰','%');
 select * from faq order by no desc;
+desc tour;
+select * from tour order by no desc;
+delete from tour;
 -- 태원 --------------------------------------------------------------------------------------------
-
 SELECT *
-FROM hotel;
+FROM hotel; 
+select count(no) from hotel;
+select * from hotel order by no desc limit 10, 3;
 
 
 -- 하나 --------------------------------------------------------------------------------------------
@@ -31,4 +35,5 @@ FROM hotel;
 SELECT * FROM notice;
 select count(*) from notice; 
 select * from coupon;
+select * from airplane;
 
