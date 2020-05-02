@@ -29,6 +29,14 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 lines;
+
+load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/tour.csv'
+INTO table tour
+character set 'utf8'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
 -- 태원 ---------------------------------------------------------------------------------------------------
 
 
