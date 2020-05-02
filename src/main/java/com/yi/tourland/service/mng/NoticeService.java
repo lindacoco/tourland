@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.NoticeVO;
-import com.yi.tourland.persistance.mng.NoticeDAO;
+import com.yi.tourland.persistance.mng.dao.NoticeDAO;
 
 @Service
 public class NoticeService {

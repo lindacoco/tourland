@@ -114,28 +114,52 @@ public class ManagerController {
 	}      
 
 	// 직원관리리스트
-	@RequestMapping(value = "empMngList", method = RequestMethod.GET)
-	public String empMngList(SearchCriteria cri, Model model) throws Exception {
+	@RequestMapping(value = "empMngList/{empretired}", method = RequestMethod.GET)
+	public String empMngList(SearchCriteria cri, Model model, @PathVariable("empretired") int empretired) throws Exception {
 	//	System.out.println(cri.toString());  검색 수정 필요 200502
-		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
+	//	System.out.println(empretired);
+		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, empretired);
     //  System.out.println(empList);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(employeeService.totalSearchCountEmployee(cri,0));
+		pageMaker.setTotalCount(employeeService.totalSearchCountEmployee(cri,empretired));
 		
 		model.addAttribute("cri", cri);
 		model.addAttribute("list",empList);
 		model.addAttribute("pageMaker", pageMaker);
+		
+		//같은 페이지를 공유하기에 버튼이름 변경을 위한 model값 선언
+		if(empretired == 1) {
+			model.addAttribute("btnName","근무사원 리스트");
+		}else {
+			model.addAttribute("btnName","퇴사사원 조회");
+		}
 		
 		return "/manager/employee/empMngList"; 
 	}
 	
 	// 사원 추가
 	@RequestMapping(value = "employeeRegister", method = RequestMethod.GET)
-	public String employeeRegisterGet(SearchCriteria cri, Model model) throws Exception {
-		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
-		int lastNo = empList.get(0).getEmpno();
-		model.addAttribute("autoNo",lastNo+1);
+	public String employeeRegisterGet(SearchCriteria cri, Model model) {
+		int lastNo =0;
+		int lastNo2 =0;
+		
+		try{
+			List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, 0);
+		    List<EmployeeVO> retiredEmpList = employeeService.listSearchCriteriaEmployee(cri, 1);
+		    
+		    lastNo = empList.get(0).getEmpno();
+			lastNo2 = retiredEmpList.get(0).getEmpno();
+			if(lastNo> lastNo2) {
+				model.addAttribute("autoNo",lastNo+1);
+			}else {
+				model.addAttribute("autoNo",lastNo2+1);
+			}
+			
+		}catch (Exception e) {
+		    e.printStackTrace();
+		}
+		
 		return "/manager/employee/empRegisterForm";
 	}
 	@RequestMapping(value = "employeeRegister", method = RequestMethod.POST)
@@ -168,16 +192,24 @@ public class ManagerController {
 	
   
 	// 고객관리리스트
-	@RequestMapping(value = "userMngList", method = RequestMethod.GET)
-	public String custMngList(SearchCriteria cri, Model model) throws Exception {
-		List<UserVO> userList = userService.listSearchCriteriaUser(cri, 0);
+	@RequestMapping(value = "userMngList/{usersecess}", method = RequestMethod.GET)
+	public String custMngList(SearchCriteria cri, Model model,@PathVariable("usersecess")int usersecess) throws Exception {
+		List<UserVO> userList = userService.listSearchCriteriaUser(cri, usersecess);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(userService.totalSearchCountUser(cri, 0));
+		pageMaker.setTotalCount(userService.totalSearchCountUser(cri,usersecess));
 		
 		model.addAttribute("cri", cri);
 		model.addAttribute("list",userList);
 		model.addAttribute("pageMaker", pageMaker);
+		
+		
+		//같은 페이지를 공유하기에 버튼이름 변경을 위한 model값 선언
+			if(usersecess == 1) { //탈퇴회원일 경우
+				model.addAttribute("btnName","회원 리스트");
+			}else {
+				model.addAttribute("btnName","탈퇴회원 조회");
+				}
 		
 		return "/manager/user/userMngList"; 
 	}
@@ -188,7 +220,7 @@ public class ManagerController {
 		return "/manager/reservation/reservationMngList";
 	}
 
-	// 상품관리
+//상품관리 ------------------------------------------------------------------------------------
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
 	public String addProductForm() {
 		return "/manager/product/addProductForm";
@@ -241,6 +273,23 @@ public class ManagerController {
 		tourService.deleteTour(vo);
 		return "redirect:tourMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
 	}
+	
+	//렌트카 상품 관리 
+	@RequestMapping(value = "rentcarMngList", method = RequestMethod.GET)
+	public String rentcarMngList(SearchCriteria cri, Model model) throws SQLException {
+		List<TourVO> list = tourService.listPage(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(tourService.totalCountBySearchCriteria(cri) < 10 ? 10 : tourService.totalCountBySearchCriteria(cri));
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri",cri);
+		model.addAttribute("page", cri.getPage());
+		return "/manager/rentcar/rentcarMngList";
+	}
+	
+	
+	
 	// 이벤트관리
 
 	// 게시판관리
@@ -312,16 +361,22 @@ public class ManagerController {
 	}
 	//배너 추가 버튼 눌렀을 때
 	@RequestMapping(value = "bannerRegister",method = RequestMethod.GET)
-	public String bannerRegister(SearchCriteria cri, Model model) throws Exception {
-		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
-		int lastNo = bannerList.get(0).getNo();
+	public String bannerRegister(SearchCriteria cri, Model model) {
+		int lastNo =0;
+		try{
+			List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
+		    lastNo = bannerList.get(0).getNo()+1;
+		}catch (Exception e) {
+			lastNo = 1;
+		}
+		
 		//	System.out.println(lastNo);
-		model.addAttribute("autoNo",lastNo+1);
+		model.addAttribute("autoNo",lastNo);
 		
 		return "/manager/design/bannerRegister"; 
 	}
 	//배너 이미지 한개 업로드
-	@RequestMapping(value = "bannerUpload", method = RequestMethod.POST)
+	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
 	public String outUpResult(String content, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
 
 		String savedName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
@@ -329,8 +384,10 @@ public class ManagerController {
 	    model.addAttribute("test",content);
 	    model.addAttribute("file",savedName);
 	    model.addAttribute("Originfile",file.getOriginalFilename());
+	    
+
 		
-		return "outUploadFileResult";
+		return "/manager/design/bannerMngList";
 	}
 	
 	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨

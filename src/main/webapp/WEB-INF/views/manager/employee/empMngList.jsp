@@ -34,7 +34,7 @@
 				</div>
 				<div class="box-body">
 					<button id="btnRegister" style="background:mistyrose;">추가</button>
-					<button id="btnSearchRetiredEmp" style="margin-left:10px;">퇴사사원 조회</button>
+					<button id="twowayBtn" style="margin-left:10px;">${btnName }</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -86,13 +86,32 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "empMngList?searchType="+searchType+"&keyword="+keyword;
-		//searchBoardController의 listPage GET 으로 받음 
+		
+		if("${btnName}"=="퇴사사원 조회"){ //근무사원 리스트에서 검색한 경우
+		  location.href = "${pageContext.request.contextPath}//empMngList/0?searchType="+searchType+"&keyword="+keyword;
+		}else{
+		  location.href = "${pageContext.request.contextPath}//empMngList/1?searchType="+searchType+"&keyword="+keyword;	
+		}
 		
 	})
 	
 	$("#btnRegister").click(function(){
+		
 		location.href = "employeeRegister";
+	})
+	
+	//퇴사 사원 혹은 근무사원 리스트 클릭
+	$("#twowayBtn").click(function(){
+	   //버튼 이름이 퇴사사원 조회인 경우
+	   var btnName = "${btnName}";
+	    if(btnName == "퇴사사원 조회"){
+	    	
+	       location.href ="${pageContext.request.contextPath}/empMngList/1";
+	       
+	    }else{
+	    	
+	       location.href ="${pageContext.request.contextPath}/empMngList/0";
+	    }
 	})
 </script>
 

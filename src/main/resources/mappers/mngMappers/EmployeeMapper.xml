@@ -48,14 +48,17 @@
 
 <!-- 검색 기능 -->
  <sql id="search">
+ <where>
+    empretired=#{empretired}
  	<if test="searchType!=null">
 		<if test='searchType.equalsIgnoreCase("empno")'>
-		   where empno like CONCAT('%',${keyword},'%')
+		 and empno like CONCAT('%','${keyword}','%')
 		</if>
 		<if test='searchType.equalsIgnoreCase("empname")'>
-		   where empname like CONCAT('%',${keyword},'%')
+		 and empname like CONCAT('%','${keyword}','%')
 		 </if>
  	</if>  
+  </where>
  </sql>
 
 <!-- 검색으로 나타나는 리스트 부분 -->
@@ -65,7 +68,7 @@
 	<!-- 검색한 결과 수  -->
 	    <select id="totalSearchCountEmployee" resultType="int">
 	        select  count(empno) from employee 
-		    <include refid="search"></include>  
+		    <include refid="search"/>  
 	    
 	    </select>
 

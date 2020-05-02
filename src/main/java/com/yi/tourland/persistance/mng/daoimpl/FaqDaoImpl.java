@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.daoimpl;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.FaqVO;
+import com.yi.tourland.persistance.mng.dao.FaqDao;
 @Repository
 public class FaqDaoImpl implements FaqDao {
 	@Autowired
