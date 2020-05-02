@@ -19,9 +19,9 @@ select  count(no) from banner ;
 
 -- 인선 --------------------------------------------------------------------------------------------
 select count(no) from faq where title like concat('%','쿠폰','%');
-select * from faq order by no desc;
+select * from faq where lcate = 'D' and mcate = 'J' and title like concat ('%','제주','%') order by no desc limit 1,10;
 desc tour;
-select * from tour order by no desc;
+select * from tour where no = 3001 order by no desc;
 delete from tour;
 -- 태원 --------------------------------------------------------------------------------------------
 SELECT *

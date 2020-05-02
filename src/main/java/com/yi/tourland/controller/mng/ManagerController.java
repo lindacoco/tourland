@@ -32,6 +32,7 @@ import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
@@ -40,6 +41,7 @@ import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
 import com.yi.tourland.util.UploadFileUtils;
 
@@ -50,6 +52,8 @@ public class ManagerController {
 	@Resource(name ="uploadPath") //서블릿컨텍스트의 id값과 일치해야함 
 	private String uploadPath;
 	
+	@Autowired
+	private TourService tourService;
 	@Autowired
 	private FaqService faqService;
 
@@ -150,7 +154,54 @@ public class ManagerController {
 	public String addProductForm() {
 		return "/manager/product/addProductForm";
 	}
-
+	// 현지 투어 관리
+	@RequestMapping(value = "tourMngList", method = RequestMethod.GET)
+	public String tourMngList(SearchCriteria cri, Model model) throws SQLException {
+		List<TourVO> list = tourService.listPage(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(tourService.totalCountBySearchCriteria(cri) < 10 ? 10 : tourService.totalCountBySearchCriteria(cri));
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri",cri);
+		model.addAttribute("page", cri.getPage());
+		return "/manager/tour/tourMngList";
+	}
+	@RequestMapping(value = "tourRegister", method = RequestMethod.GET)
+	public String tourRegisterGet(Model model) throws SQLException {
+		int no = tourService.totalCount();
+		model.addAttribute("no",no);
+		return "/manager/tour/tourRegister";
+	}
+	@RequestMapping(value = "tourRegister", method = RequestMethod.POST)
+	public String tourRegisterPost(TourVO vo, Model model) throws SQLException {
+		tourService.insertTour(vo);
+		return "redirect:tourMngList";
+	}
+	@RequestMapping(value = "tourDetail", method = RequestMethod.GET)
+	public String tourDetail(TourVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo = tourService.selectTourByNo(vo);
+		model.addAttribute("tour",vo);
+		model.addAttribute("cri",cri);
+		return "/manager/tour/tourDetail";
+	}
+	@RequestMapping(value = "tourModify", method = RequestMethod.GET)
+	public String tourModifyGet(TourVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo = tourService.selectTourByNo(vo);
+		model.addAttribute("tour",vo);
+		model.addAttribute("cri",cri);
+		return "/manager/tour/tourModify";
+	}
+	@RequestMapping(value = "tourModify", method = RequestMethod.POST)
+	public String tourModifyPost(TourVO vo,SearchCriteria cri) throws SQLException {
+		tourService.updateTour(vo);
+		return "redirect:tourDetail?no="+vo.getNo()+"&page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
+	}
+	@RequestMapping(value = "tourDelete", method = RequestMethod.GET)
+	public String tourDelete(TourVO vo,SearchCriteria cri,Model model) throws SQLException {
+		tourService.deleteTour(vo);
+		return "redirect:tourMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
+	}
 	// 이벤트관리
 
 	// 게시판관리
@@ -165,7 +216,6 @@ public class ManagerController {
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
 		model.addAttribute("cri",cri);
-		model.addAttribute("page", cri.getPage());
 		return "/manager/board/FAQMngList";
 	}
 	@RequestMapping(value = "FAQRegister", method = RequestMethod.GET)
@@ -192,16 +242,14 @@ public class ManagerController {
 		return "/manager/board/FAQModify";
 	}
 	@RequestMapping(value = "FAQModify", method = RequestMethod.POST)
-	public String FAQModifyPost(FaqVO vo,SearchCriteria cri,Model model) throws SQLException {
+	public String FAQModifyPost(FaqVO vo,SearchCriteria cri) throws SQLException {
 		faqService.updateFAQ(vo);
-		model.addAttribute("cri",cri);
-		return "redirect:FAQMngList";
+		return "redirect:FAQDetail?no="+vo.getNo()+"&page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
 	}
 	@RequestMapping(value = "FAQDelete", method = RequestMethod.GET)
 	public String FAQDelete(FaqVO vo,SearchCriteria cri,Model model) throws SQLException {
 		faqService.deleteFAQ(vo);
-		model.addAttribute("cri",cri);
-		return "redirect:FAQMngList";
+		return "redirect:FAQMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
 	}
 	// 디자인관리
 	//팝업 
