@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.UserMapper">
+<!-- 유저 추가  -->
+  <insert id="insertUser" parameterType="UserVO"> 
+     insert into user(userno, username, userbirth, usertel, useraddr, userpassport,  userid, userpass) values
+     (#{userno}, #{username}, #{userbirth}, #{usertel}, #{useraddr}, #{userpassport},  #{userid}, #{userpass})
+  </insert>
+
+
+<!-- 유저번호로 검색 -->
+   <select id="readByNoUser" resultType="UserVO">
+     select * from user
+     where userno = #{userno} and  usersecess = 0
+   </select> 
+
+
+<!-- 유저 정보 업데이트 -->
+    <update id="updateUser" parameterType="UserVO">
+       update user  set 
+       username =#{username}, userbirth=#{userbirth}, usertel=#{usertel}, 
+       useraddr=#{useraddr}, userpassport=#{userpassport}, 
+       userid=#{userid}, userpass=#{userpass},
+       usersecess = #{usersecess}
+       where userno=#{userno}
+    </update> 
+
+
+<!-- 유저 완전 삭제   -->
+   <delete id="deleteUser">
+       delete from user 
+       where userno= #{userno}
+   </delete>
+
+
+<!-- 유저 전체 리스트 페이지  (탈퇴회원 분리)-->
+    <select id="listCriteriaUser" resultType="UserVO">
+      select * from user where usersecess=#{usersecess} order by userno desc limit #{cri.pageStart}, #{cri.perPageNum}
+    </select>
+  
+    <!-- 리스트 위해 필요한 데이터 수  -->
+    <select id="totalCountUser" resultType="int">
+       select  count(userno) from user where usersecess=#{usersecess}  
+    </select>
+
+<!-- 검색 기능 -->
+ <sql id="search">
+        <if test="searchType=='userId'.toString()">
+	       where title like CONCAT('%','${keyword}','%')
+	      </if>
+	      <if test="searchType=='userName'.toString()">
+	       where content like CONCAT('%','${keyword}','%')
+	      </if>
+ </sql>
+
+<!-- 검색으로 나타나는 리스트 부분 -->
+    <select id="listSearchCriteriaUser" resultType="UserVO">
+      select * from user where usersecess=#{usersecess}
+      <include refid="search"></include>
+      order by userno desc  limit #{cri.pageStart}, #{cri.perPageNum}
+    </select>
+	<!-- 검색한 결과 수  -->
+	    <select id="totalSearchCountUser" resultType="int">
+	        select  count(userno) from user where usersecess=#{usersecess}
+		    <include refid="search"></include>  
+	    
+	    </select>
+
+</mapper>

@@ -5,20 +5,12 @@
 	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
 </style>
 <!-- <div id="opa">dummy</div> -->
-<script>
-$(function(){
-    
-	$("#addNotice").click(function(){
-		location.href ="${pageContext.request.contextPath}/addNoticeForm";
-	})
-})
-</script>
-<div class="content">	    
+<div class="content">	
 	<div class="row">
-		<div class="col-sm-12">        
+		<div class="col-sm-12">    
 			<div class="box box-primary">      
 				<div class="box-header">
-					<h2 class="box-title">공지사항 관리</h2>
+					<h2 class="box-title">항공 관리</h2>
 				</div>
 				<div class="box-body">
 				<!-- 검색 작업에서 유지될 데이터 
@@ -29,29 +21,47 @@ $(function(){
 				 -->
 					<select name="searchType" id="searchType">
 						<option value="n">-----</option>
-						<option value="t">번호</option>
-						<option value="c">제목</option>
+						<option value="no">번호</option>
+						<option value="ano">항공기 번호</option>
+						<option value="dloca">출발 지역</option>
+						<option value="rloca">도착 지역</option>
+						<option value="ddate">출발 일시</option>
+						<option value="rdate">도착 일시</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button id="addNotice">추가</button>
+					<button type="button" class="btn btn-info">항공편 추가</button>
+					<button type="button" class="btn">국내</button>
+					<button type="button" class="btn">해외</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
 						<tr>
 							<th>번호</th>
-							<th>제목</th>
-							<th>작성자</th>
-							<th>작성일자</th>
+							<th>항공기 번호</th>
+							<th>출발 지역</th>
+							<th>도착 지역</th>
+							<th>출발 일시</th>
+							<th>도착 일시</th>
+							<th>장소 구분</th>
+							<th>허용 인원</th>
+							<th>좌석</th>
+							<th>가격</th>
 						</tr>  
-						<c:forEach items="${noticeList}" var="n">   
+						<c:forEach items="${flightList }" var="f">   
 							<tr>
-								<td>${n.no }</td>
-								<td><a href="${pageContext.request.contextPath }/noticeDetail?no=${n.no}">${n.title }</a></td>
-								<td>${n.writer }</td>
-								<td><fmt:formatDate value="${n.regdate }" pattern ="yyyy-MM-dd"/></td>
+								<td>${f.no }</td>
+								<td><a href="#">${f.ano }</a></td>
+								<td>${f.dlocation }</td>
+								<td>${f.rlocation }</td>
+								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
+								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+								<td>${f.ldiv }</td>
+								<td>${f.capacity }</td>
+								<td>${f.seat }</td>
+								<td>${f.price }</td>
 							</tr>
 						</c:forEach>   
 					</table>      
@@ -60,17 +70,17 @@ $(function(){
 					<div class="text-center">
 						<ul class="pagination">
 							<c:if test="${pageMaker.prev == true }">
-								<li><a href="#">&laquo;</a></li>
+								<li><a href="flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 							</c:if>
 							<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-								<li class="${pageMaker.cri.page == idx ?'active':''}"><a href="#">${idx }</a></li>
+								<li class="${pageMaker.cri.page == idx ?'active':''}"><a href="flightMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}">${idx }</a></li>
 								<!-- 주소의 시작이 /로 시작하지 않고 localhost:8080..으로 시작하면 맨 마지막 것만 바꿔주면됨 -->
 							</c:forEach>
 							<c:if test="${pageMaker.next == true }">
-								<li><a href="#">&raquo;</a></li>
+								<li><a href="flightMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 							</c:if>
 						</ul>
-					</div>
+					</div>  
 				</div> 
 			</div>         
 		</div>
@@ -88,6 +98,10 @@ $(function(){
 	
 	$("#btnRegister").click(function(){
 		location.href = "register";
+	})
+	
+	$(".btn-info").click(function(){
+		location.href = "addFlightForm";
 	})
 </script>
 

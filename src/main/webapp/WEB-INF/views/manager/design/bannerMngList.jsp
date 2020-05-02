@@ -14,7 +14,7 @@
 		<div class="col-sm-12">    
 			<div class="box box-primary">      
 				<div class="box-header">
-					<h2 class="box-title">직원 관리</h2>
+					<h2 class="box-title">배너 관리</h2>
 				</div>
 				<div class="box-body">
 				<!-- 검색 작업에서 유지될 데이터 
@@ -25,33 +25,29 @@
 				 -->
 					<select name="searchType" id="searchType" style="width:200px;">
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
-						<option value="empN" ${cri.searchType =='empN'?'selected':''}>사원번호</option>
-						<option value="empName" ${cri.searchType =='empN'?'selected':''}>사원명</option>
+						<option value="bannerTitle" ${cri.searchType =='bannerTitle'?'selected':''}>배너 타이틀</option>
+						<option value="bannerContent" ${cri.searchType =='bannerContent'?'selected':''}>배너 설명</option>
 
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button>추가</button>
+					<button id="btnRegister">추가</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
 						<tr>
-							<th style="width:100px;">사원 번호</th>
-							<th>사원명</th>
-							<th>생년월일</th>
-							<th>전화번호</th>
-							<th>권한</th>
+							<th style="width:100px;">배너 번호</th>
+							<th>배너 사진</th>
+							<th>배너명</th>
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
-						<c:forEach var="empList" items="${list}">
-						    <tr data-click="${empList.empno }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
-						     <td>${empList.empno }</td>
-						    <td>${empList.empname }</td>
-						    <td><fmt:formatDate value="${empList.empbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
-						    <td>${empList.emptel }</td>
-						    <td>${empList.empauth==1?"관리자":"사원" }</td>
+						<c:forEach var="bannerList" items="${list}">
+						    <tr data-click="${bannerList.no }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
+						    <td>${bannerList.no }</td>
+						    <td>${bannerList.pic }</td>
+						    <td>${bannerList.title }</td>
 						    </tr>
 						</c:forEach>	
 					</table>      
@@ -83,13 +79,13 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
+		location.href = "bannerMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})
 	
 	$("#btnRegister").click(function(){
-		location.href = "register";
+		location.href = "bannerRegister";
 	})
 </script>
 

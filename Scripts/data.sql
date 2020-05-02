@@ -15,8 +15,15 @@ insert into user values
 (4,'박상아','1970-12-18','010-4245-3825','대구시 북구 태전동 254-30',null,null,'customer4',password('customer'),0),
 (5,'지민서','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),0);
 
+-- 현서 렌트카 ----------------------------------------------------------------------------------------------
+DESC rentcar;
+load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/rentcar.csv'
+INTO TABLE tour.rentcar
+character set 'utf8'
+fields terminated by ',';
+
 -- 인선 ---------------------------------------------------------------------------------------------------
-LOAD DATA LOCAL INFILE 'D:/workspace_spring/tourland/file/CSV/faq.csv'  
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/FAQ.csv'  
 INTO TABLE faq
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
@@ -26,16 +33,19 @@ IGNORE 1 lines;
 
 
 desc hotel;
-load data local infile 'D:/workspace/workspace_spring/tourland/file/Hotel_Sample.csv'
+load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/hotel.csv'
 into table tour.hotel
 character set 'utf8'
-fields terminated by ','
-ignore 1 lines;
-
-
+fields terminated by ',';
 
 
 -- 하나 ---------------------------------------------------------------------------------------------------
+
+-- 항공
+load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/flightDataCsv_v3.csv'
+into table tour.airplane
+character set 'utf8'
+fields terminated by ',';
 
 
 -- 공지사항

@@ -9,16 +9,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yi.tourland.domain.Criteria;
-import com.yi.tourland.domain.mng.EmployeeVO;
-import com.yi.tourland.persistance.mng.EmployeeDAO;
+import com.yi.tourland.domain.mng.BannerVO;
+import com.yi.tourland.persistance.mng.BannerDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class EmployeeDAOTest {
+public class BannerDAOTest {
 	
 	@Autowired
-	private EmployeeDAO dao;
+	private BannerDAO dao;
 	
 	@Test
 	public void testDAO() {
@@ -27,39 +27,36 @@ public class EmployeeDAOTest {
 	
 	@Test
 	public void test1insert() throws Exception {
-		EmployeeVO vo = new EmployeeVO();
-		vo.setEmpno(9);
-		vo.setEmpname("다시한번");
+		BannerVO vo = new BannerVO();
+		vo.setNo(7);
+		vo.setTitle("다시한번");
 
-		dao.insertEmployee(vo);		
+		dao.insertBanner(vo);	
 	}
 	
 	@Test
 	public void test2ReadByNo() throws Exception{
-		EmployeeVO vo = dao.readByNoEmployee(6);
+		BannerVO vo = dao.readByNoBanner(2);
 		System.out.println(vo);
 	}
     
 	@Test
 	public void test3Update() throws Exception {
-		EmployeeVO vo = dao.readByNoEmployee(6);
-		vo.setEmpname("코코넛");	
-		dao.updateEmployee(vo);
+		BannerVO vo = dao.readByNoBanner(2);
+		vo.setTitle("코코넛");	
+		dao.updateBanner(vo);
 		System.out.println(vo);
 	}
 	@Test
 	public void test4delete() throws Exception {
-		dao.deleteEmployee(9);
+		dao.deleteBanner(7);
 	}
 	
 	@Test
 	public void test5ListCriteria() throws Exception{
 		Criteria cri = new Criteria();
 		cri.setPage(1);
-		cri.setPerPageNum(3); //다섯개만 
-		dao.listCriteriaEmployee(cri,0);
+		cri.setPerPageNum(3);
+		dao.listCriteriaBanner(cri);
 	}
-	
-	
-	
 }
