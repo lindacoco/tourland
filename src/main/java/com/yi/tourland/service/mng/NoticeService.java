@@ -23,4 +23,19 @@ public class NoticeService {
 		return dao.totalCountNotice(cri);
 	}
 	
+	public void addNotice (NoticeVO notice) throws Exception{
+		dao.addNotice(notice);
+	}
+	
+	//번호로 공지사항 찾기
+	public NoticeVO readNoticeByNo (int no) throws Exception{
+		NoticeVO notice = dao.readNoticeByNo(no);
+		return notice;
+	}
+	
+	//공지사항 삭제
+	public void removeNotice(int no) throws Exception{
+		dao.removeNotice(no);
+	}
+	
 }
