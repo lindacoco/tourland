@@ -362,8 +362,20 @@ public class ManagerController {
 
 		return "/manager/hotel/hotelMngList"; 
 	}
-
+	
+	@RequestMapping(value = "hotelRegister", method = RequestMethod.GET)
+	public String hotelResgiter() throws SQLException {
+		return "/manager/hotel/hotelRegister";
+	}
+	@RequestMapping(value = "hotelRegister", method = RequestMethod.POST)
+	public String hotelResgiterPost(HotelVO vo) throws Exception {
+		hotelService.insertHotel(vo);
+		return "redirect:hotelMngList";
+}
 	// 장바구니
-
-
+	
+	
+	
+	
+	
 }
