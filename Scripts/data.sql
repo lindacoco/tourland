@@ -29,6 +29,14 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 lines;
+
+load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/tour.csv'
+INTO table tour
+character set 'utf8'
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
 -- 태원 ---------------------------------------------------------------------------------------------------
 
 
@@ -40,6 +48,12 @@ fields terminated by ',';
 
 
 -- 하나 ---------------------------------------------------------------------------------------------------
+
+-- 항공
+load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/flightDataCsv_v3.csv'
+into table tour.airplane
+character set 'utf8'
+fields terminated by ',';
 
 
 -- 공지사항
