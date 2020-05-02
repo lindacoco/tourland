@@ -60,4 +60,8 @@ public class UserService {
 		return dao.totalSearchCountUser(cri, usersecess);
 	}
 	
+	public UserVO readByIdUser(String userid) throws Exception {
+		return dao.readByIdUser(userid);
+	}
+	
 }

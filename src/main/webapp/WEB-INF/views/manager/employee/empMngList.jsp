@@ -25,15 +25,16 @@
 				 -->
 					<select name="searchType" id="searchType" style="width:200px;">
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
-						<option value="empN" ${cri.searchType =='empN'?'selected':''}>사원번호</option>
-						<option value="empName" ${cri.searchType =='empN'?'selected':''}>사원명</option>
+						<option value="empNo" ${cri.searchType =='empNo'?'selected':''}>사원번호</option>
+						<option value="empName" ${cri.searchType =='empName'?'selected':''}>사원명</option>
 
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button>추가</button>
+					<button id="btnRegister" style="background:mistyrose;">추가</button>
+					<button id="btnSearchRetiredEmp" style="margin-left:10px;">퇴사사원 조회</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -42,6 +43,7 @@
 							<th>사원명</th>
 							<th>생년월일</th>
 							<th>전화번호</th>
+							<th>아이디</th>
 							<th>권한</th>
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
@@ -51,6 +53,7 @@
 						    <td>${empList.empname }</td>
 						    <td><fmt:formatDate value="${empList.empbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
 						    <td>${empList.emptel }</td>
+						    <td>${empList.empid }</td>
 						    <td>${empList.empauth==1?"관리자":"사원" }</td>
 						    </tr>
 						</c:forEach>	
@@ -83,13 +86,13 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
+		location.href = "empMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})
 	
 	$("#btnRegister").click(function(){
-		location.href = "register";
+		location.href = "employeeRegister";
 	})
 </script>
 

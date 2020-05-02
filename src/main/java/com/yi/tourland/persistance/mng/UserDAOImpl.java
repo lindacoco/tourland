@@ -74,5 +74,11 @@ public class UserDAOImpl implements UserDAO{
 		map.put("usersecess",usersecess);
 		return sqlSession.selectOne(namespace+"totalSearchCountUser",map);
 	}
+
+	//아이디 중복체크 위함 사원에서도 쓰임
+	@Override
+	public UserVO readByIdUser(String userid) throws Exception {
+		return sqlSession.selectOne(namespace+"readByIdUser",userid);
+	}
    
 }

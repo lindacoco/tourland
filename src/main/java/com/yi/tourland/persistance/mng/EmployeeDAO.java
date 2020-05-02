@@ -17,6 +17,8 @@ public interface EmployeeDAO {
 	public List<EmployeeVO> listSearchCriteriaEmployee(SearchCriteria cri, int empretired)throws Exception;
 	public int totalSearchCountEmployee(SearchCriteria cri, int empretired) throws Exception;
 	
+	//아이디 체크를 위해 생성
+	public EmployeeVO readByIdEmployee(String empid)throws Exception;
 	// 리플 기능 필요한 곳에서
 	// public void updateReplyCnt(int amount, int bno)throws Exception;
 	
