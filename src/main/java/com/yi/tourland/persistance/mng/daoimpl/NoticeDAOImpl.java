@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.daoimpl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.persistance.mng.dao.NoticeDAO;
 
 @Repository
 public class NoticeDAOImpl implements NoticeDAO {

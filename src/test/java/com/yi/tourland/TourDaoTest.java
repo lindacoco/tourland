@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.TourVO;
-import com.yi.tourland.persistance.mng.TourDao;
+import com.yi.tourland.persistance.mng.dao.TourDao;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})

@@ -355,7 +355,7 @@
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
-              <a href="${pageContext.request.contextPath }/empMngList">
+              <a href="${pageContext.request.contextPath }/empMngList/0">
                 <i class="fa fa-dashboard"></i> <span>직원 관리</span><!--  <i class="fa fa-angle-left pull-right"></i> -->
               </a>
               <%-- <ul class="treeview-menu">
@@ -364,7 +364,7 @@
               </ul> --%>
             </li>
             <li class="treeview">
-              <a href="${pageContext.request.contextPath }/userMngList">
+              <a href="${pageContext.request.contextPath }/userMngList/0">
                 <i class="fa fa-files-o"></i>
                 <span>고객 관리</span>
                <!--  <span class="label label-primary pull-right">4</span>    --> <!-- new인 갯수 뜨는거 -->

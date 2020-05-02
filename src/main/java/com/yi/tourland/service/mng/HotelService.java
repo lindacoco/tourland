@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.HotelVO;
-import com.yi.tourland.persistance.mng.HotelDAO;
+import com.yi.tourland.persistance.mng.dao.HotelDAO;
 
 @Service
 public class HotelService {

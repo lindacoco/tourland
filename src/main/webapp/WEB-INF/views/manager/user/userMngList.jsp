@@ -25,15 +25,16 @@
 				 -->
 					<select name="searchType" id="searchType" style="width:200px;">
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
-						<option value="유저아이디" ${cri.searchType =='userId'?'selected':''}>유저아이디</option>
-						<option value="유저명" ${cri.searchType =='userName'?'selected':''}>유저명</option>
+						<option value="userId" ${cri.searchType =='userId'?'selected':''}>유저아이디</option>
+						<option value="userName" ${cri.searchType =='userName'?'selected':''}>유저명</option>
 
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button>추가</button>
+					<button id="btnRegister" style="background:mistyrose;">추가</button>
+					<button id="twowayBtn" style="margin-left:10px;">${btnName }</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -83,10 +84,31 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
-		//searchBoardController의 listPage GET 으로 받음 
+		
+
+		if("${btnName}"=="탈퇴회원 조회"){ //일반 고객 리스트에서 검색한 경우
+		  location.href = "${pageContext.request.contextPath}/userMngList/0?searchType="+searchType+"&keyword="+keyword;
+		}else{
+		  location.href = "${pageContext.request.contextPath}/userMngList/1?searchType="+searchType+"&keyword="+keyword;	
+		}
 		
 	})
+	
+	//일반회원 리스트, 탈퇴회원 조회
+	$("#twowayBtn").click(function(){
+	   //버튼 이름이 탈퇴회원 조회
+	   var btnName = "${btnName}";
+	    if(btnName == "탈퇴회원 조회"){
+	    	
+	       location.href ="${pageContext.request.contextPath}/userMngList/1";
+	       
+	    }else{
+	    	
+	       location.href ="${pageContext.request.contextPath}/userMngList/0";
+	    }
+	})
+	
+	
 	
 	$("#btnRegister").click(function(){
 		location.href = "register";

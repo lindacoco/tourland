@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.dao;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.UserVO;
-import com.yi.tourland.persistance.mng.UserDAO;
+import com.yi.tourland.persistance.mng.dao.UserDAO;
 
 @Service
 public class UserService {
