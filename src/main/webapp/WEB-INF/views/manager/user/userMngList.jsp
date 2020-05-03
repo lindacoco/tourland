@@ -23,7 +23,7 @@
 					3. 검색의 종류
 					4. 검색의 키워드
 				 -->
-					<select name="searchType" id="searchType" style="width:200px;">
+					<select name="searchType" id="searchType" style="width:200px; height: 25px;">
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
 						<option value="userId" ${cri.searchType =='userId'?'selected':''}>유저아이디</option>
 						<option value="userName" ${cri.searchType =='userName'?'selected':''}>유저명</option>
@@ -33,8 +33,9 @@
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button id="btnRegister" style="background:mistyrose;">추가</button>
-					<button id="twowayBtn" style="margin-left:10px;">${btnName }</button>
+				    <button id="twowayBtn">${btnName }</button>
+					<button id="btnRegister" style="background:mistyrose; margin-left:10px; ${btnName =='탈퇴회원 조회'?'visibility:visible;':'visibility:hidden;'}" >추가-테스트용</button>
+                    
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -47,7 +48,7 @@
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
 						<c:forEach var="userList" items="${list}">
-						    <tr data-click="${userList.userno }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
+						    <tr data-click="${userList.userno }" class="userList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${userList.userno }</td>
 						    <td>${userList.username }</td>
 						    <td><fmt:formatDate value="${userList.userbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
@@ -63,14 +64,14 @@
 	              <div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="listPage?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/userMngList/${usersecess }?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="listPage?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/userMngList/${usersecess }?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="listPage?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/userMngList/${usersecess }?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -109,9 +110,18 @@
 	})
 	
 	
-	
+	//추가 버튼 누르면 
 	$("#btnRegister").click(function(){
-		location.href = "register";
+		location.href = "${pageContext.request.contextPath}/register";
+	})
+	
+	//각 리스트를 클릭했을 때 디테일로 넘어가는 부분
+	$(".userList").click(function(){
+		var no = $(this).attr("data-click");
+		var searchType = "${cri.searchType}";
+		var keyword = "${cri.keyword}";
+		location.href = "${pageContext.request.contextPath}/userDetailForm/${usersecess}?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		
 	})
 </script>
 
