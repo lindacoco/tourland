@@ -14,8 +14,19 @@
   
 </style>
 <script>
- 
+	var empno = ${empVO.empno };
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
+	
+	var empretired = ${empretired};
+	 
 	$(function(){
+		//근무사원 정보인지 퇴사 사원 정보인지에 따라 폼 스타일 다르게 하기 
+		if(empretired==1){
+			$("#detaiLForm input").css("background","lavender");
+			$("input").attr("readonly","readonly");
+		}
+		
      //정규 표현식 ,빈칸인 경우는 부트 스트랩의 기본 설정으로 이미 설정되어있음 
 		$("form").submit(function(e){
 			$(this).attr("onsubmit","");
@@ -27,7 +38,7 @@
 			var empauth = $("input[name='empauth']").val();
 			var empid = $("input[name='empid']").val();
 			var emppass = $("input[name='emppass']").val();
-			var forCheckId = $("#forCheckId").val
+	//		var forCheckId = $("#forCheckId").val
 
 			//이름 정규표현식
 			var nameReg = /^[가-힣]{2,5}$/; //네임은 2-5 한글
@@ -69,9 +80,9 @@
 				 return false;
 		     }
 			 
-			 if(forCheckId =="exist"){
+/* 			 if(forCheckId =="exist"){
 				 return false;
-			 }
+			 } */
 			 
 			
 
@@ -96,6 +107,30 @@
 			
 		})
 		
+		//삭제 버튼을 눌렀을 경우 퇴사사원 처리 - 논리삭제
+		$("#btnDel").click(function(){
+			//먼저 확인창으로 물어볼 것
+			
+		    //근무사원리스트에서 접속한 것인지 퇴사사원 리스트에서 접속한 것인지에 따라 분리 
+			if(empretired == 0){
+		    var youSure = confirm("퇴사 사원 처리 하시겠습니까?");
+		    }else{
+		     var youSure = confirm("해당 사원의 정보를 완전 삭제 처리 하시겠습니까?");	
+		    }
+			if(youSure){
+				
+				location.href="${pageContext.request.contextPath}/employeeDelete/${empretired}/"+empno+"?searchType="+searchType+"&keyword="+keyword;
+			}
+			
+		})
+		
+		
+		
+     
+        //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
+		$("#btnReturnToList").click(function(){
+			location.href="${pageContext.request.contextPath}/empMngList/${empretired}/?searchType="+searchType+"&keyword="+keyword;
+		})
 		
 	})
 	
@@ -105,53 +140,57 @@
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">사원 추가</h3>
+					<h3 class="box-title">사원 정보 조회</h3> 
 				</div>
-				<form role="form" action="employeeRegister" method="post">
+				<form role="form" action="${pageContext.request.contextPath}/employeeUpdate/${empretired }" method="post" id="detaiLForm">
 					<div class="box-body">
-					    <input type="hidden" value="" id="forSubmit">
+					    <!-- <input type="hidden" value="" id="forSubmit"> -->
+					    <input type="hidden" value="${empretired }" name="empretired">
 						<div class="form-group">
 							<label>사원 번호</label>
-							<input type="text" name="empno" value="${autoNo }" readonly="readonly" style="background:lavender;" >
+							<input type="text" name="empno" value="${empVO.empno }" readonly="readonly" style="background:lavender;" >
 						</div>
 						<div class="form-group">
 							<label>사원 이름</label>
-							<input type="text" name="empname" required="required" placeholder=" 한글 2-5자리">
+							<input type="text" name="empname" required="required" placeholder=" 한글 2-5자리" value="${empVO.empname}">
 							<span class="errorMsg">이름을 한글 2자리에서 5자리로 입력해주세요.</span>
 						</div>
 						<div class="form-group">
 							<label>생년월일</label>
-							<input type="text" name="empbirth" required="required"  placeholder=" 2000-02-02">
+							<input type="text" name="empbirth" required="required"  placeholder=" 2000-02-02" value="<fmt:formatDate value='${empVO.empbirth}' pattern="yyyy-MM-dd"/>">
 							<span class="errorMsg">생년월일 형식에 맞게 넣어주세요. 예시: 2000-02-02</span>
 						</div>
 						<div class="form-group">
 							<label>전화번호</label>
-							<input type="text" name="emptel" required="required"  placeholder=" 010-4334-4321">
+							<input type="text" name="emptel" required="required"  placeholder=" 010-4334-4321" value="${empVO.emptel}">
 							<span class="errorMsg">형식에 맞게 넣어주세요 예시: 010-4334-4321</span>
 						</div>
 						<div class="form-group">
 							<label>주소</label>
-							<input type="text" name="empaddr" required="required" >
+							<input type="text" name="empaddr" required="required" value="${empVO.empaddr}" >
 						</div>
 						<div class="form-group">
 							<label>권한</label>
-							<input type="text" name="empauth" required="required"  placeholder=" 일반사원은 0">
+							<input type="text" name="empauth" required="required"  placeholder=" 일반사원은 0" value="${empVO.empauth}">
 							<span class="errorMsg">0또는 1을 넣어주세요 일반 사원은 0</span>
 						</div>
 						<div class="form-group">
 							<label>아이디</label> 
-							<input type="text" name="empid" required="required"  placeholder=" 영문,숫자 포함 5-12자리">
-							<button id="btnCheck" type="button">중복확인</button>
+							<input type="text" name="empid" readonly="readonly"  placeholder=" 영문,숫자 포함 5-12자리" value="${empVO.empid}" style="background:lavender;">
+					
 							<span class="errorMsg">영문, 숫자 포함 5-12자리를 넣어주세요</span>
 							<span class="errorMsg">중복되는 아이디 입니다. 다른 아이디를 입력해주세요.</span>
 						</div>
 						<div class="form-group">
 							<label>비밀번호</label>
-							<input type="text" name="emppass" placeholder=" 영문, 숫자 포함 5-12자리">
-							<span class="errorMsg">영문, 숫자 포함 5-12자리를 넣어주세요</span>
+							<input type="text" name="emppass" placeholder="기존 비밀번호 입력 필요" >
+							<span class="errorMsg">비밀번호가 일치하지 않습니다.</span> <!-- 관리자일 경우 프리패스로 만들 것  -->
 						</div>
 						<div class="box-footer">
-							<button type="submit" class="btn btn-primary">등록</button>
+						    <button type="button" class="btn btn-primary" style="background:red;" id="btnDel">${empretired =='0'?'퇴사사원처리':'삭제' }</button> <!-- 관리자일때만 활성화 -->
+							<button type="submit" class="btn btn-primary" style="${empretired== 0?'visibility:visible;':'visibility:hidden;'}">수정</button>
+							<br>
+							<button type="button" class="btn btn-primary" style="margin-top:10px;" id="btnReturnToList">리스트로 돌아가기</button>
 						</div>
 					</div>
 				</form>

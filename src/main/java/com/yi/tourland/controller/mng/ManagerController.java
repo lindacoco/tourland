@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -70,14 +69,12 @@ public class ManagerController {
 	
 	@Autowired
 	UserService userService;
-	
 
 	@Autowired
 	HotelService hotelService;
 	
 	@Autowired
 	BannerService bannerService;
-
 
 	@Autowired
 	FlightService flightService;
@@ -127,6 +124,7 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("list",empList);
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("empretired",empretired);
 		
 		//같은 페이지를 공유하기에 버튼이름 변경을 위한 model값 선언
 		if(empretired == 1) {
@@ -150,6 +148,9 @@ public class ManagerController {
 		    
 		    lastNo = empList.get(0).getEmpno();
 			lastNo2 = retiredEmpList.get(0).getEmpno();
+			
+//			System.out.println(lastNo);
+//			System.out.println(lastNo2);
 			if(lastNo> lastNo2) {
 				model.addAttribute("autoNo",lastNo+1);
 			}else {
@@ -158,6 +159,7 @@ public class ManagerController {
 			
 		}catch (Exception e) {
 		    e.printStackTrace();
+		    //퇴사 사원이 없는 경우 오류가 뜨기에 시범 데이터 입력 
 		}
 		
 		return "/manager/employee/empRegisterForm";
@@ -166,7 +168,7 @@ public class ManagerController {
 	public String employeeRegisterPost(EmployeeVO vo) throws Exception {
 		//System.out.println(vo);
 		employeeService.insertEmployee(vo);
-		return "redirect:empMngList";
+		return "redirect:empMngList/0";
 	}
 	//아이디 존재유무 체크
 	@ResponseBody
@@ -190,6 +192,43 @@ public class ManagerController {
 		
 	}
 	
+	//사원 리스트 클릭했을 때 자세한 정보 보기로 넘어가기
+	@RequestMapping(value = "employeeDetail/{empretired}", method = RequestMethod.GET)
+	public String employeeDetail(EmployeeVO vo,SearchCriteria cri,Model model,@PathVariable("empretired") int empretired) throws Exception {
+		vo = employeeService.readByNoEmployee(vo.getEmpno());
+		model.addAttribute("empVO",vo);
+		//System.out.println(vo); //퇴사사원 null로 찍혀서 mapper수정 
+		model.addAttribute("cri",cri);
+		model.addAttribute("empretired",empretired);
+		return "/manager/employee/empDetailForm";
+	}
+	
+	//사원 디테일 페이지에서 수정 버튼 눌렀을 때 수정 처리
+	@RequestMapping(value = "employeeUpdate/{empretired}", method = RequestMethod.POST)
+	public String employeeUpdate(EmployeeVO vo,SearchCriteria cri,Model model,@PathVariable("empretired") int empretired) throws Exception {
+		employeeService.updateEmployee(vo);
+	//	System.out.println(vo);
+		model.addAttribute("empVO",vo);
+		model.addAttribute("cri",cri);
+		model.addAttribute("empretired",empretired);
+		return "redirect:/employeeDetail/"+empretired+"?empno="+vo.getEmpno()+"&page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+	}
+	
+	//사원 논리 삭제(퇴사처리) 및 완전 삭제(정보삭제)
+	@RequestMapping(value = "employeeDelete/{empretired}/{empno}", method = RequestMethod.GET)
+	public String employeeDelete(SearchCriteria cri,Model model,@PathVariable("empretired") int empretired,@PathVariable("empno") int empno ) throws Exception {
+		EmployeeVO vo = employeeService.readByNoEmployee(empno);
+	//	System.out.println(vo);
+		if(empretired == 0) { //근무사원이라면
+			vo.setEmpretired(1); // 퇴사 사원 처리 
+			employeeService.updateEmployee(vo);
+		}else {
+			employeeService.deleteEmployee(vo.getEmpno()); //완전 삭제 
+		}
+		
+		return "redirect:/empMngList/"+empretired+"?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+	}
+	
   
 	// 고객관리리스트
 	@RequestMapping(value = "userMngList/{usersecess}", method = RequestMethod.GET)
@@ -202,6 +241,7 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("list",userList);
 		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("usersecess",usersecess);
 		
 		
 		//같은 페이지를 공유하기에 버튼이름 변경을 위한 model값 선언
@@ -213,6 +253,17 @@ public class ManagerController {
 		
 		return "/manager/user/userMngList"; 
 	}
+	
+	//고객 리스트 클릭했을 때 자세한 정보 보기로 넘어가기
+		@RequestMapping(value = "userDetailForm/{usersecess}", method = RequestMethod.GET)
+		public String userDetailForm(int no,SearchCriteria cri,Model model,@PathVariable("usersecess") int usersecess) throws Exception {
+			UserVO vo = userService.readByNoUser(no);
+			System.out.println(vo);
+			model.addAttribute("userVO",vo);
+			model.addAttribute("cri",cri);
+			model.addAttribute("usersecess",usersecess);
+			return "/manager/user/userDetailForm";
+		}
 
 	// 예약관리
 	@RequestMapping(value = "reservationMgnList", method = RequestMethod.GET)
@@ -371,18 +422,18 @@ public class ManagerController {
 		}
 		
 		//	System.out.println(lastNo);
-		model.addAttribute("autoNo",lastNo);
+		model.addAttribute("autoNo",lastNo); //가장 나중 번호로 자동세팅 
 		
 		return "/manager/design/bannerRegister"; 
 	}
 	//배너 이미지 한개 업로드
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
-	public String outUpResult(String content, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
+	public String outUpResult(BannerVO vo, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
 
 		String savedName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-
-	    model.addAttribute("test",content);
-	    model.addAttribute("file",savedName);
+        
+//	    model.addAttribute("content",content);
+        model.addAttribute("file",savedName);
 	    model.addAttribute("Originfile",file.getOriginalFilename());
 	    
 
@@ -427,8 +478,16 @@ public class ManagerController {
 		return entity;
 	}
 	
-	
-	
+	//배너 디테일 조회 
+	@RequestMapping(value = "bannerDetailForm", method = RequestMethod.GET)
+	public String bannerDetailForm(int no,SearchCriteria cri,Model model) throws Exception {
+		BannerVO vo = bannerService.readByNoBanner(no);
+	//	System.out.println(vo);
+		model.addAttribute("bannerVO",vo);
+		model.addAttribute("cri",cri);
+			
+		return "/manager/design/bannerDetailForm";
+	}
 
 	// 공지사항 관리
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)

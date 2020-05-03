@@ -11,7 +11,7 @@
 <!-- 유저번호로 검색 -->
    <select id="readByNoUser" resultType="UserVO">
      select * from user
-     where userno = #{userno} and  usersecess = 0
+     where userno = #{userno} 
    </select> 
 
 <!-- 유저아이디로 검색 -->

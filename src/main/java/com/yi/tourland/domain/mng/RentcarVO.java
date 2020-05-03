@@ -1,6 +1,9 @@
 package com.yi.tourland.domain.mng;
 
-import java.sql.Date;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class RentcarVO {
 	private int no;
@@ -43,16 +46,16 @@ public class RentcarVO {
 		return rentddate;
 	}
 
-	public void setRentddate(Date rentddate) {
-		this.rentddate = rentddate;
+	public void setRentddate(String rentddate) throws ParseException {
+		this.rentddate = new SimpleDateFormat("yyyy-MM-dd").parse(rentddate);
 	}
 
 	public Date getReturndate() {
 		return returndate;
 	}
 
-	public void setReturndate(Date returndate) {
-		this.returndate = returndate;
+	public void setReturndate(String returndate) throws ParseException {
+		this.returndate =  new SimpleDateFormat("yyyy-MM-dd").parse(returndate);
 	}
 
 	public String getRentaddr() {
