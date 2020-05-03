@@ -87,6 +87,15 @@
 	$("#btnRegister").click(function(){
 		location.href = "${pageContext.request.contextPath}/bannerRegister";
 	})
+	
+	//각 리스트를 클릭했을 때 디테일로 넘어가는 부분
+	$(".bannerList").click(function(){
+		var no = $(this).attr("data-click");
+		var searchType = "${cri.searchType}";
+		var keyword = "${cri.keyword}";
+		location.href = "${pageContext.request.contextPath}/bannerDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		
+	})
 </script>
 
 <%@ include file="../../include/footer.jsp"%>

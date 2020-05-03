@@ -207,7 +207,7 @@ public class ManagerController {
 	@RequestMapping(value = "employeeUpdate/{empretired}", method = RequestMethod.POST)
 	public String employeeUpdate(EmployeeVO vo,SearchCriteria cri,Model model,@PathVariable("empretired") int empretired) throws Exception {
 		employeeService.updateEmployee(vo);
-		System.out.println(vo);
+	//	System.out.println(vo);
 		model.addAttribute("empVO",vo);
 		model.addAttribute("cri",cri);
 		model.addAttribute("empretired",empretired);
@@ -218,7 +218,7 @@ public class ManagerController {
 	@RequestMapping(value = "employeeDelete/{empretired}/{empno}", method = RequestMethod.GET)
 	public String employeeDelete(SearchCriteria cri,Model model,@PathVariable("empretired") int empretired,@PathVariable("empno") int empno ) throws Exception {
 		EmployeeVO vo = employeeService.readByNoEmployee(empno);
-		System.out.println(vo);
+	//	System.out.println(vo);
 		if(empretired == 0) { //근무사원이라면
 			vo.setEmpretired(1); // 퇴사 사원 처리 
 			employeeService.updateEmployee(vo);
@@ -422,18 +422,18 @@ public class ManagerController {
 		}
 		
 		//	System.out.println(lastNo);
-		model.addAttribute("autoNo",lastNo);
+		model.addAttribute("autoNo",lastNo); //가장 나중 번호로 자동세팅 
 		
 		return "/manager/design/bannerRegister"; 
 	}
 	//배너 이미지 한개 업로드
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
-	public String outUpResult(String content, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
+	public String outUpResult(BannerVO vo, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
 
 		String savedName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-
-	    model.addAttribute("test",content);
-	    model.addAttribute("file",savedName);
+        
+//	    model.addAttribute("content",content);
+        model.addAttribute("file",savedName);
 	    model.addAttribute("Originfile",file.getOriginalFilename());
 	    
 
@@ -478,8 +478,16 @@ public class ManagerController {
 		return entity;
 	}
 	
-	
-	
+	//배너 디테일 조회 
+	@RequestMapping(value = "bannerDetailForm", method = RequestMethod.GET)
+	public String bannerDetailForm(int no,SearchCriteria cri,Model model) throws Exception {
+		BannerVO vo = bannerService.readByNoBanner(no);
+	//	System.out.println(vo);
+		model.addAttribute("bannerVO",vo);
+		model.addAttribute("cri",cri);
+			
+		return "/manager/design/bannerDetailForm";
+	}
 
 	// 공지사항 관리
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)
