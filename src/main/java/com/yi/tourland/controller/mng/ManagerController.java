@@ -33,6 +33,7 @@ import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.RentcarVO;
 import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
@@ -42,6 +43,7 @@ import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
 import com.yi.tourland.util.UploadFileUtils;
@@ -79,7 +81,10 @@ public class ManagerController {
 	@Autowired
 	FlightService flightService;
 
-
+    @Autowired
+    RentcarService rentcarService;
+    
+    
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
 	public String reservMngList(SearchCriteria cri, Model model) {
@@ -327,15 +332,18 @@ public class ManagerController {
 	
 	//렌트카 상품 관리 
 	@RequestMapping(value = "rentcarMngList", method = RequestMethod.GET)
-	public String rentcarMngList(SearchCriteria cri, Model model) throws SQLException {
-		List<TourVO> list = tourService.listPage(cri);
+	public String rentcarMngList(SearchCriteria cri, Model model) throws Exception {
+		List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
+		
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(tourService.totalCountBySearchCriteria(cri) < 10 ? 10 : tourService.totalCountBySearchCriteria(cri));
-		model.addAttribute("list", list);
+		pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+		
+		model.addAttribute("cri", cri);
+		model.addAttribute("list",rentcarList);
 		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("cri",cri);
-		model.addAttribute("page", cri.getPage());
+	
 		return "/manager/rentcar/rentcarMngList";
 	}
 	
