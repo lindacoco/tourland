@@ -355,7 +355,7 @@
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
             <li class="treeview">
-              <a href="${pageContext.request.contextPath }/empMngList">
+              <a href="${pageContext.request.contextPath }/empMngList/0">
                 <i class="fa fa-dashboard"></i> <span>직원 관리</span><!--  <i class="fa fa-angle-left pull-right"></i> -->
               </a>
               <%-- <ul class="treeview-menu">
@@ -364,7 +364,7 @@
               </ul> --%>
             </li>
             <li class="treeview">
-              <a href="${pageContext.request.contextPath }/userMngList">
+              <a href="${pageContext.request.contextPath }/userMngList/0">
                 <i class="fa fa-files-o"></i>
                 <span>고객 관리</span>
                <!--  <span class="label label-primary pull-right">4</span>    --> <!-- new인 갯수 뜨는거 -->
@@ -388,11 +388,12 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li>
-                <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
+              
                 <li><a href="${pageContext.request.contextPath }/flightMngList"><i class="fa fa-circle-o"></i>항공 관리</a></li>
-                <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
-                <li><a href="../charts/inline.html"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
+                <%-- <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li> --%>
+                <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/rentcarMngList"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
                  <li><a href="${pageContext.request.contextPath }/addProductForm"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
               </ul>
             </li>  

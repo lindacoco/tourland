@@ -36,7 +36,7 @@
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType">
-						<option value="N">전체</option>
+						<option value="">전체</option>
 						<option value="D">국내패키지상품</option>
 						<option value="I">해외패키지상품</option>
 						<option value="R">상품 예약 및 결제</option>
@@ -70,7 +70,17 @@
 					</table>      
 				</div>
 				<div class="box-footer">
-					<ul class="pagination"></ul>
+					<ul class="pagination">
+					<c:if test="${pageMaker.prev == true}">
+						<li><a href="${pageContext.request.contextPath}/FAQMngList?page=${pageMaker.startPage-1}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">&laquo;</a></li>
+					</c:if>
+					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/FAQMngList?page=${idx}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">${idx}</a></li>
+					</c:forEach>
+					<c:if test="${pageMaker.next == true}">
+						<li><a href="${pageContext.request.contextPath}/FAQMngList?page=${pageMaker.endPage+1}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">&raquo;</a></li>
+					</c:if>
+					</ul>
 				</div>
 			</div>         
 		</div>
@@ -78,28 +88,6 @@
 </div>
 
 <script>
-	var curPage = ${page};
-	var makePage = function(curPage) {
-		var endPage = ${pageMaker.endPage};
-		var prev = "${pageMaker.prev}"=="true"?true:false;
-		var next = "${pageMaker.next}"=="true"?true:false;
-		if(prev) $(".paination").append("<li id='prev'>&laquo;</li>")
-		for(var i=1;i<=endPage;i++) {
-			var li = $("<li>").html(i).css("float","left").css("list-style","none").css("padding","8px").css("border","1px solid grey").css("margin-right","5px");
-			$(".pagination").append(li);
-		}
-		if(prev) $(".paination").append("<li id='next'>&raquo;</li>")
-	};
-	var pageActive = function(curPage) {
-		$(".pagination li").each(function(i, obj) {
-			$(obj).removeClass("active");
-		})
-		$(".pagination li").each(function(i, obj) {
-			if($(obj).text()==curPage) {
-				$(obj).addClass("active");
-			}
-		})
-	};
 	var makeOption = function(searchType) {
 		switch(searchType) {
 		case "D":
@@ -107,7 +95,7 @@
 			$("#searchType2").append(option);
 			break;
 		case "I":
-			var option = $("<option value='N'>").html("전체");
+			var option = $("<option value=''>").html("전체");
 			var option1 = $("<option value='P'>").html("여행상품");
 			var option2 = $("<option value='V'>").html("여권 및 비자");
 			var option3 = $("<option value='T'>").html("환율");
@@ -115,7 +103,7 @@
 			$("#searchType2").append(option).append(option1).append(option2).append(option3).append(option4);
 			break;
 		case "R":
-			var option = $("<option value='N'>").html("전체");
+			var option = $("<option value=''>").html("전체");
 			var option1 = $("<option value='B'>").html("예약 및 취소");
 			var option2 = $("<option value='R'>").html("결제 및 환불");
 			$("#searchType2").append(option).append(option1).append(option2);
@@ -125,7 +113,7 @@
 			$("#searchType2").append(option);
 			break;
 		default :
-			var option = $("<option value='N'>").html("-----------");
+			var option = $("<option value=''>").html("-----------");
 			$("#searchType2").append(option);
 		}
 	}
@@ -144,7 +132,7 @@
 		})
 		$("#searchType2 option").each(function(i, obj) {
 			var value = $(this).val();
-			if(value==searchType) {
+			if(value==searchType2) {
 				$(this).prop("selected",true);
 				return;
 			}
@@ -156,7 +144,7 @@
 		var searchType = "${cri.searchType}";
 		var searchType2 = "${cri.searchType2}";
 		var keyword = "${cri.keyword}";
-		location.href = "FAQDetail?no="+no+"&page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+		location.href = "FAQDetail?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 	})
 	$("#searchType").change(function() {
 		$("#searchType2").empty();
@@ -173,30 +161,7 @@
 	$("#btnRegister").click(function(){
 		location.href = "FAQRegister";
 	})
-	makePage(curPage);
-	pageActive(curPage);
 	fixSearchTypeAndKeyword();
-	$(document).on("click",".pagination li",function() {
-		curPage = $(this).text();
-		var searchType = $("#searchType option:selected").val();
-		var searchType2 = $("#searchType2 option:selected").val();
-		var keyword = $("#keywordInput").val();
-		location.href = "FAQMngList?page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-	})
-	$(document).on("click","#prev",function(){
-		curPage = ${startPage-1};
-		var searchType = $("#searchType option:selected").val();
-		var searchType2 = $("#searchType2 option:selected").val();
-		var keyword = $("#keywordInput").val();
-		location.href = "FAQMngList?page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-	})
-	$(document).on("click","#next",function(){
-		curPage = ${endPage+1};
-		var searchType = $("#searchType option:selected").val();
-		var searchType2 = $("#searchType2 option:selected").val();
-		var keyword = $("#keywordInput").val();
-		location.href = "FAQMngList?page="+curPage+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-	})
 </script>
 
 <%@ include file="../../include/footer.jsp"%>

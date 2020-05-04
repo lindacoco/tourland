@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.NoticeVO;
-import com.yi.tourland.persistance.mng.NoticeDAO;
+import com.yi.tourland.persistance.mng.dao.NoticeDAO;
 
 @Service
 public class NoticeService {
@@ -36,6 +36,10 @@ public class NoticeService {
 	//공지사항 삭제
 	public void removeNotice(int no) throws Exception{
 		dao.removeNotice(no);
+	}
+	//공지사항 수정
+	public void editNotice(NoticeVO notice) throws Exception{
+		dao.editNotice(notice);
 	}
 	
 }

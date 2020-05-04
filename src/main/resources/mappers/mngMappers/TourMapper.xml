@@ -3,30 +3,28 @@
 <mapper namespace="mappers.mngMappers.TourMapper">
 <sql id="search">
 	<if test='searchType=="name"'>
-		where tname like CONCAT('%','#{keyword}','%')
+		where tname like CONCAT('%',#{keyword},'%')
 	</if>
 	<if test='searchType=="location"'>
-		where tlocation like CONCAT('%','#{keyword}','%')
+		where tlocation like CONCAT('%',#{keyword},'%')
 	</if>
 	<if test='searchType=="date"'>
 		where startDate = #{keyword}
 	</if>
 	<if test='searchType=="addr"'>
-		where taddr like CONCAT('%','#{keyword}','%')
+		where taddr like CONCAT('%',#{keyword},'%')
 	</if>
 	<if test='searchType=="div"'>
 		<if test='keyword=="해외"'>
-			where ldiv = 0;
+			where ldiv = 1
 		</if>
 		<if test='keyword=="국내"'>
-			where ldiv = 1;
+			where ldiv = 0
 		</if>
 	</if>
 </sql>
 <select id="listPage" resultType="TourVO">
-	select * from tour 
-	<include refid="search"/>
-	order by no desc limit #{pageStart},#{perPageNum}
+	select * from tour <include refid="search"/> order by no desc limit #{pageStart},#{perPageNum}
 </select>
 <select id="selectTourByNo" resultType="TourVO">
 	select * from tour where no = #{no}
@@ -36,8 +34,8 @@
 	(#{no},#{tname},#{tlocation},#{startDate},#{endDate},#{taddr},#{etime},#{capacity},#{tprice},#{ldiv})
 </insert>
 <update id="updateTour" parameterType="TourVO">
-	update tour set tname = #{tname}, startdate = #{startDate}, enddate = #{endDate},
-	etime = #{etime}, capacity = #{capacity}, tprice = #{tprice}, ldiv = #{ldiv} where no = #{no}
+	update tour set tname = #{tname}, tlocation = #{tlocation}, startdate = #{startDate}, enddate = #{endDate},
+	taddr = #{taddr}, etime = #{etime}, capacity = #{capacity}, tprice = #{tprice}, ldiv = #{ldiv} where no = #{no}
 </update>
 <delete id="deleteTour" parameterType="TourVO">
 	delete from tour where no = #{no}

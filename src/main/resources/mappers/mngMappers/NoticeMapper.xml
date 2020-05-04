@@ -18,4 +18,7 @@
 	<delete id="removeNotice">
 		delete from notice where no = #{no}
 	</delete>
+	<update id="editNotice">
+		update notice set title = #{title}, content=#{content} where no = #{no}
+	</update>
 </mapper>                

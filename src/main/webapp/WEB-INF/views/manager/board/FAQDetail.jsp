@@ -6,8 +6,8 @@
 		$("#mod").click(function(){
 			var no = "${faq.no}";
 			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
+			var searchType = "${cri.searchType}";
+			var searchType2 = "${cri.searchType2}";
 			var keyword = "${cri.keyword}";
 			location.href = "FAQModify?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 		})
@@ -18,15 +18,15 @@
 			}
 			var no = "${faq.no}";
 			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
+			var searchType = "${cri.searchType}";
+			var searchType2 = "${cri.searchType2}";
 			var keyword = "${cri.keyword}";
 			location.href = "FAQDelete?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 		})
 		$("#return").click(function() {
 			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
+			var searchType = "${cri.searchType}";
+			var searchType2 = "${cri.searchType2}";
 			var keyword = "${cri.keyword}";
 			location.href = "FAQMngList?page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 		})

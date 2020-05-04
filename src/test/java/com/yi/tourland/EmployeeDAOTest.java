@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.mng.EmployeeVO;
-import com.yi.tourland.persistance.mng.EmployeeDAO;
+import com.yi.tourland.persistance.mng.dao.EmployeeDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})
@@ -28,8 +28,14 @@ public class EmployeeDAOTest {
 	@Test
 	public void test1insert() throws Exception {
 		EmployeeVO vo = new EmployeeVO();
-		vo.setEmpno(9);
-		vo.setEmpname("다시한번");
+		vo.setEmpno(6);
+		vo.setEmpname("이건..");
+		vo.setEmpbirth("2020-01-13");
+		vo.setEmptel("010-4334-4321");
+		vo.setEmpaddr("서울어딘가");
+		vo.setEmpid("apple");
+		vo.setEmppass("apple");
+		
 
 		dao.insertEmployee(vo);		
 	}

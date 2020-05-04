@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.daoimpl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.persistance.mng.dao.NoticeDAO;
 
 @Repository
 public class NoticeDAOImpl implements NoticeDAO {
@@ -39,10 +40,16 @@ private static final String namespace ="mappers.mngMappers.NoticeMapper.";
 	public NoticeVO readNoticeByNo(int no) throws Exception {
 		return sqlSession.selectOne(namespace +"readNoticeByNo", no);
 	}
-
+	//공지사항 삭제
 	@Override
 	public void removeNotice(int no) throws Exception {
 		sqlSession.delete(namespace + "removeNotice", no);
+		
+	}
+	//공지사항 수정
+	@Override
+	public void editNotice(NoticeVO notice) throws Exception {
+		sqlSession.update(namespace + "editNotice", notice);
 		
 	}
 

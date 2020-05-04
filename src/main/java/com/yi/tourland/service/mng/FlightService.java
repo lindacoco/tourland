@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
-import com.yi.tourland.persistance.mng.FlightDAO;
+import com.yi.tourland.persistance.mng.dao.FlightDAO;
 
 @Service
 public class FlightService {

@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.mng.UserVO;
-import com.yi.tourland.persistance.mng.UserDAO;
+import com.yi.tourland.persistance.mng.dao.UserDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/spring/root-context.xml"})

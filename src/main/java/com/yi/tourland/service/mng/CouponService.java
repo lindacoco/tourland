@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.CouponVO;
-import com.yi.tourland.persistance.mng.CouponDAO;
+import com.yi.tourland.persistance.mng.dao.CouponDAO;
 
 @Service
 public class CouponService {

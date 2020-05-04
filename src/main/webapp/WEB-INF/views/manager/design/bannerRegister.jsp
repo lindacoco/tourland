@@ -12,32 +12,7 @@
 </style>
 <script>
 	$(function(){
-		$("#lcate").change(function() {
-			$("#mcate").empty();
-			var val = $("#lcate option:selected").val();
-			switch(val) {
-			case "D":
-				var option = $("<option value='J'>").html("제주여행");
-				$("#mcate").append(option);
-				break;
-			case "I":
-				var option1 = $("<option value='P'>").html("여행상품");
-				var option2 = $("<option value='V'>").html("여권 및 비자");
-				var option3 = $("<option value='T'>").html("환율");
-				var option4 = $("<option value='E'>").html("기타");
-				$("#mcate").append(option1).append(option2).append(option3).append(option4);
-				break;
-			case "R":
-				var option1 = $("<option value='B'>").html("예약 및 취소");
-				var option2 = $("<option value='R'>").html("결제 및 환불");
-				$("#mcate").append(option1).append(option2);
-				break;
-			case "U":
-				var option = $("<option value='C'>").html("쿠폰,이벤트");
-				$("#mcate").append(option);
-				break;
-			}
-		})
+
 	})
 </script>
 <div class="content">
@@ -52,6 +27,10 @@
 						<div class="form-group">
 							<label>배너 번호</label>
 							<input type="text" name="no" class="form-control" value="${autoNo }" readonly="readonly">
+						</div>
+						<div class="form-group">
+							<label>배너 타이틀</label>
+							<input type="text" name="title" class="form-control">
 						</div>
 						<div class="form-group">
 							<label>배너 설명(내용)</label>
@@ -78,7 +57,7 @@
     	 // var file = $(this)[0]; //$(this)[0] : javascript객체를 의미  제이쿼리의 0번째 정보는 자바스크립트가 가지고 있음
     	  console.log(file); 
     	  //파일 정보를 끄집어 내자 
-    	  var file = $(this)[0].files[0]; //files가 배열이라 0을 넣어줌
+    	  var file = $(this)[0].files[0]; //files가 배열이라 0을 넣어줌 배너 등록 페이지에서 필요한 건 단일 파일이기 때문 
     	  console.log(file); 
     	  
     	  var reader = new FileReader();

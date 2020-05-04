@@ -5,21 +5,26 @@
 <!-- 직원 추가  -->
   <insert id="insertEmployee" parameterType="EmployeeVO"> 
      insert into employee(empno, empname, empbirth, emptel, empaddr, empauth, empid, emppass, empretired) values
-     (#{empno}, #{empname}, #{empbirth}, #{emptel}, #{empaddr}, #{empauth}, #{empid}, #{emppass}, #{empretired})
+     (#{empno}, #{empname}, #{empbirth}, #{emptel}, #{empaddr}, #{empauth}, #{empid}, password(#{emppass}), #{empretired})
   </insert>
 
 
 <!-- 사번으로 검색 -->
    <select id="readByNoEmployee" resultType="EmployeeVO">
      select * from employee
-     where empno = #{empno} and empretired=0
+     where empno = #{empno} 
    </select> 
 
+<!-- 아이디로 검색  -->
+   <select id="readByIdEmployee" resultType="EmployeeVO">
+     select * from employee
+     where empid = #{empid} 
+   </select>
 
 <!-- 사원 업데이트 -->
     <update id="updateEmployee" parameterType="EmployeeVO">
        update employee  set 
-       empname =#{empname}, empbirth=#{empbirth}, emptel=#{emptel}, empaddr=#{empaddr}, empauth=#{empauth}, empid=#{empid}, emppass=#{emppass}, empretired=#{empretired}
+       empname =#{empname}, empbirth=#{empbirth}, emptel=#{emptel}, empaddr=#{empaddr}, empauth=#{empauth}, empid=#{empid}, emppass=password(#{emppass}), empretired=#{empretired}
        where empno=#{empno}
     </update> 
 
@@ -43,24 +48,27 @@
 
 <!-- 검색 기능 -->
  <sql id="search">
-        <if test="searchType=='empN'.toString()">
-	       where title like CONCAT('%','${keyword}','%')
-	      </if>
-	      <if test="searchType=='empName'.toString()">
-	       where content like CONCAT('%','${keyword}','%')
-	      </if>
+ <where>
+    empretired=#{empretired}
+ 	<if test="searchType!=null">
+		<if test='searchType.equalsIgnoreCase("empno")'>
+		 and empno like CONCAT('%','${keyword}','%')
+		</if>
+		<if test='searchType.equalsIgnoreCase("empname")'>
+		 and empname like CONCAT('%','${keyword}','%')
+		 </if>
+ 	</if>  
+  </where>
  </sql>
 
 <!-- 검색으로 나타나는 리스트 부분 -->
     <select id="listSearchCriteriaEmployee" resultType="EmployeeVO">
-      select * from employee where empretired=#{empretired}
-      <include refid="search"></include>
-      order by empno desc  limit #{cri.pageStart}, #{cri.perPageNum}
+      select * from employee <include refid="search"/> order by empno desc  limit #{cri.pageStart}, #{cri.perPageNum}
     </select>
 	<!-- 검색한 결과 수  -->
 	    <select id="totalSearchCountEmployee" resultType="int">
-	        select  count(empno) from employee where empretired=#{empretired}
-		    <include refid="search"></include>  
+	        select  count(empno) from employee 
+		    <include refid="search"/>  
 	    
 	    </select>
 

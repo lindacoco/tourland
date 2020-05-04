@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.daoimpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.UserVO;
+import com.yi.tourland.persistance.mng.dao.UserDAO;
 @Repository
 public class UserDAOImpl implements UserDAO{
 
@@ -73,6 +74,12 @@ public class UserDAOImpl implements UserDAO{
 		map.put("cri",cri);
 		map.put("usersecess",usersecess);
 		return sqlSession.selectOne(namespace+"totalSearchCountUser",map);
+	}
+
+	//아이디 중복체크 위함 사원에서도 쓰임
+	@Override
+	public UserVO readByIdUser(String userid) throws Exception {
+		return sqlSession.selectOne(namespace+"readByIdUser",userid);
 	}
    
 }

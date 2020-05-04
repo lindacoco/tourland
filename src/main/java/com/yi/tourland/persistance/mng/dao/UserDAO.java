@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.dao;
 
 import java.util.List;
 
@@ -17,6 +17,9 @@ public interface UserDAO {
 	public List<UserVO> listSearchCriteriaUser(SearchCriteria cri, int usersecess)throws Exception;
 	public int totalSearchCountUser(SearchCriteria cri, int usersecess) throws Exception;
 	
+	
+	//아이디 중복체크
+	public UserVO readByIdUser(String userid)throws Exception;
 	// 리플 기능 필요한 곳에서
 	// public void updateReplyCnt(int amount, int bno)throws Exception;
 }

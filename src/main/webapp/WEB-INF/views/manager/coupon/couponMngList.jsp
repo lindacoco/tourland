@@ -5,6 +5,14 @@
 	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
 </style>
 <!-- <div id="opa">dummy</div> -->
+<script>
+$(function(){
+    
+	$("#addCoupon").click(function(){
+		location.href ="${pageContext.request.contextPath}/addCouponForm";
+	})
+})
+</script>
 <div class="content">	
 	<div class="row">
 		<div class="col-sm-12">    
@@ -28,7 +36,7 @@
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button>추가</button>
+					<button id="addCoupon">추가</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">

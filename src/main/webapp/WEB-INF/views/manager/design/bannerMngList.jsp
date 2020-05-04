@@ -23,7 +23,7 @@
 					3. 검색의 종류
 					4. 검색의 키워드
 				 -->
-					<select name="searchType" id="searchType" style="width:200px;">
+					<select name="searchType" id="searchType" style="width:200px; height: 25px;">
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
 						<option value="bannerTitle" ${cri.searchType =='bannerTitle'?'selected':''}>배너 타이틀</option>
 						<option value="bannerContent" ${cri.searchType =='bannerContent'?'selected':''}>배너 설명</option>
@@ -44,7 +44,7 @@
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
 						<c:forEach var="bannerList" items="${list}">
-						    <tr data-click="${bannerList.no }"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
+						    <tr data-click="${bannerList.no }" class="bannerList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${bannerList.no }</td>
 						    <td>${bannerList.pic }</td>
 						    <td>${bannerList.title }</td>
@@ -58,14 +58,14 @@
 	              <div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="listPage?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/bannerMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="listPage?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/bannerMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="listPage?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/bannerMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -79,13 +79,22 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "bannerMngList?searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/bannerMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})
 	
 	$("#btnRegister").click(function(){
-		location.href = "bannerRegister";
+		location.href = "${pageContext.request.contextPath}/bannerRegister";
+	})
+	
+	//각 리스트를 클릭했을 때 디테일로 넘어가는 부분
+	$(".bannerList").click(function(){
+		var no = $(this).attr("data-click");
+		var searchType = "${cri.searchType}";
+		var keyword = "${cri.keyword}";
+		location.href = "${pageContext.request.contextPath}/bannerDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		
 	})
 </script>
 

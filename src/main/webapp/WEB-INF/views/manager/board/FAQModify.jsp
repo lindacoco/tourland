@@ -50,6 +50,10 @@
 				</div>
 				<form role="form" action="FAQModify" method="post">
 					<input type="hidden" value="${faq.no}" name="no">
+					<input type="hidden" value="${cri.page}" name="page">
+					<input type="hidden" value="${cri.searchType}" name="searchType">
+					<input type="hidden" value="${cri.searchType2}" name="searchType2">
+					<input type="hidden" value="${cri.keyword}" name="keyword">
 					<div class="box-body">
 						<div class="form-group">
 							<label>제목</label>

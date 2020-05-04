@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.dao;
 
 import java.util.List;
 
@@ -16,4 +16,6 @@ public interface NoticeDAO {
 	public NoticeVO readNoticeByNo(int no) throws Exception;
 	//공지사항 삭제
 	public void removeNotice (int no) throws Exception;
+	//공지사항 수정
+	public void editNotice(NoticeVO notice) throws Exception;
 }

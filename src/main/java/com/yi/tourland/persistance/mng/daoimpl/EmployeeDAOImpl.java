@@ -1,4 +1,4 @@
-package com.yi.tourland.persistance.mng;
+package com.yi.tourland.persistance.mng.daoimpl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.persistance.mng.dao.EmployeeDAO;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
 	
@@ -72,6 +73,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		map.put("cri",cri);
 		map.put("empretired",empretired);
 		return sqlSession.selectOne(namespace+"totalSearchCountEmployee",map);
+	}
+
+	//아이디 중복 체크 위함 
+	@Override
+	public EmployeeVO readByIdEmployee(String empid) throws Exception {
+		return sqlSession.selectOne(namespace+"readByIdEmployee",empid);
 	}
 
 	
