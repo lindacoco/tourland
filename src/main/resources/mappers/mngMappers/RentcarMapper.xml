@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.RentcarMapper">
+
+<!-- 새로운 렌트카 추가  -->
+  <insert id="insertRentcar" parameterType="RentcarVO"> 
+     insert into rentcar(no, cdiv, cno, rentddate, returndate, rentaddr, returnaddr, price, capacity, insurance, ldiv) values
+     (#{no}, #{cdiv}, #{cno}, #{rentddate}, #{returndate}, #{rentaddr}, #{returnaddr}, #{price}, #{capacity}, #{insurance}, #{ldiv})
+  </insert>
+
+
+<!-- 차 고유 번호로 검색 -->
+   <select id="readByNoRentcarList" resultType="RentcarVO">
+     select * from rentcar
+     where cno= #{cno}
+   </select> 
+
+
+<!-- 렌트카 정보 업데이트 -->
+    <update id="updateRentcar" parameterType="RentcarVO">
+       update rentcar  set 
+       cdiv =#{cdiv}, cno=#{cno}, rentddate=#{rentddate},  returndate=#{returndate}, rentaddr=#{rentaddr}, returnaddr=#{returnaddr},  
+       price=#{price}, capacity=#{capacity}, insurance=#{insurance}
+       where no=#{no}
+    </update> 
+
+
+<!-- 렌트카 완전 삭제   -->
+   <delete id="deleteRentcar">
+       delete from rentcar 
+       where no= #{no}
+   </delete>
+
+
+<!-- 렌트카 전체 리스트 페이지 -->
+    <select id="listCriteriaRentcar" resultType="RentcarVO">
+      select * from rentcar order by no desc limit #{pageStart}, #{perPageNum}
+    </select>
+  
+    <!-- 리스트 위해 필요한 데이터 수  -->
+    <select id="totalCountRentcar" resultType="int">
+       select  count(no) from rentcar 
+    </select>
+
+<!-- 검색 기능 날짜 검색은 추후에 200503 -->
+ <sql id="search">
+        <if test="searchType=='rentcarCno'.toString()">
+	       where cno like CONCAT('%','${keyword}','%')
+	      </if>
+	      <if test="searchType=='rentcarType'.toString()">
+	       where cdiv like CONCAT('%','${keyword}','%')
+	      </if>
+ </sql>
+
+<!-- 검색으로 나타나는 리스트 부분 -->
+    <select id="listSearchCriteriaRentcar" resultType="RentcarVO">
+      select * from rentcar 
+      <include refid="search"></include>
+      order by no desc  limit #{pageStart}, #{perPageNum}
+    </select>
+	<!-- 검색한 결과 수  -->
+	    <select id="totalSearchCountRentcar" resultType="int">
+	        select  count(no) from rentcar
+		    <include refid="search"></include>  
+	    
+	    </select>
+
+</mapper>

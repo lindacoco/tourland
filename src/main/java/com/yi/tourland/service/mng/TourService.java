@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.TourVO;
-import com.yi.tourland.persistance.mng.TourDao;
+import com.yi.tourland.persistance.mng.dao.TourDao;
 
 @Service
 public class TourService {

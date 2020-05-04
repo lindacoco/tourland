@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.FaqVO;
-import com.yi.tourland.persistance.mng.FaqDao;
+import com.yi.tourland.persistance.mng.dao.FaqDao;
 
 @Service
 public class FaqService {

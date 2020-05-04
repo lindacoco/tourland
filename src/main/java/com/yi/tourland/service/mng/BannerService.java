@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
-import com.yi.tourland.persistance.mng.BannerDAO;
+import com.yi.tourland.persistance.mng.dao.BannerDAO;
 
 @Service
 public class BannerService {

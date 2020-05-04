@@ -1,10 +1,15 @@
 package com.yi.tourland.domain.mng;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class UserVO {
     private int userno;
     private String username;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date userbirth;
     private String usertel;
     private String useraddr;
@@ -28,8 +33,8 @@ public class UserVO {
 	public Date getUserbirth() {
 		return userbirth;
 	}
-	public void setUserbirth(Date userbirth) {
-		this.userbirth = userbirth;
+	public void setUserbirth(String userbirth) throws ParseException {
+		this.userbirth = new SimpleDateFormat("yyyy-MM-dd").parse(userbirth);
 	}
 	public String getUsertel() {
 		return usertel;
