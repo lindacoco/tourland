@@ -12,24 +12,6 @@
 			/* location.href = "editNotice?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword; */
 			location.href = "editNotice?no="+no;
 		})
-		$("#del").click(function(){
-			if(!confirm("삭제하시겠습니까?")) {
-				return false;
-			}
-			var no = "${notice.no}";
-			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
-			var keyword = "${cri.keyword}";
-			location.href = "removeNotice?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-		})
-		$("#return").click(function() {
-			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
-			var keyword = "${cri.keyword}";
-			location.href = "noticeMngList?page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-		})
 	})
 </script>
 <div class="content">
@@ -40,6 +22,7 @@
 				
 					<h3 class="box-title">공지사항</h3>
 				</div>
+				<form action="editNotice" method="POST">
 				<div class="box-body">
 					<div class="form-group">
 						<label>번호</label>
@@ -47,18 +30,17 @@
 					</div>
 					<div class="form-group">
 						<label>제목</label>
-						<input type="text" name="title" class="form-control" value="${notice.title}" readonly="readonly">
+						<input type="text" name="title" class="form-control" value="${notice.title}">
 					</div>
 					<div class="form-group">
 						<label>내용</label>
-						<textarea rows="15" cols="30" name="content" class="form-control" readonly="readonly">${notice.content }</textarea>
+						<textarea rows="15" cols="30" name="content" class="form-control">${notice.content }</textarea>
 					</div>
 				<div class="box-footer">
 					<button class="btn btn-warning" id="mod">수정</button>
-					<button class="btn btn-danger" id="del">삭제</button>
-					<button class="btn btn-primary" id="return">돌아가기</button>
 				</div>
 				</div>
+				</form>
 		</div>
 	</div>
 </div>

@@ -518,6 +518,14 @@ public class ManagerController {
 		model.addAttribute("totalCnt", totalCnt);
 		return "/manager/notice/addNoticeForm";
 	}
+	//공지사항 추가
+	@RequestMapping(value="addNoticeForm", method=RequestMethod.POST)
+	public String addNoticeResult(NoticeVO notice, Model model) throws Exception{
+		System.out.println(notice);
+		noticeService.addNotice(notice);
+		return "redirect:/noticeMngList";
+	}
+	
 	//공지사항 상세페이지
 	@RequestMapping(value="noticeDetail", method=RequestMethod.GET)
 	public String noticeDetail(int no,SearchCriteria cri, Model model) throws Exception{
@@ -533,14 +541,21 @@ public class ManagerController {
 			noticeService.removeNotice(no);
 			model.addAttribute("cri",cri);
 			return "redirect:/noticeMngList";
-		}
-	
-	
-	@RequestMapping(value="addNoticeForm", method=RequestMethod.POST)
-	public String addNoticeResult(NoticeVO notice, Model model) throws Exception{
-		System.out.println(notice);
-		noticeService.addNotice(notice);
-		return "redirect:/noticeMngList";
+	}
+	//공지사항 수정 
+	@RequestMapping(value="editNotice", method=RequestMethod.GET)
+		public String editNoticeGET(int no, Model model) throws Exception{
+			NoticeVO notice = noticeService.readNoticeByNo(no);
+			model.addAttribute("notice", notice);
+			return "/manager/notice/editNotice";
+		}    
+	   
+	//공지사항 수정 
+	@RequestMapping(value="editNotice", method=RequestMethod.POST)
+		public String editNoticePOST(NoticeVO notice, Model model) throws Exception{
+			System.out.println(notice);
+			noticeService.editNotice(notice);
+			return "redirect://noticeDetail?no="+notice.getNo();
 	}
 
 	// 쿠폰관리

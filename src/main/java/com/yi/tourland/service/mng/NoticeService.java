@@ -37,5 +37,9 @@ public class NoticeService {
 	public void removeNotice(int no) throws Exception{
 		dao.removeNotice(no);
 	}
+	//공지사항 수정
+	public void editNotice(NoticeVO notice) throws Exception{
+		dao.editNotice(notice);
+	}
 	
 }
