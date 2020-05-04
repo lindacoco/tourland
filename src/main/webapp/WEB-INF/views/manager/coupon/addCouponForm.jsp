@@ -23,45 +23,76 @@
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-		 			 <h2>공지사항 추가</h2>      
+		 			 <h2>쿠폰 추가</h2>      
 		 		 </div>     
 		  <p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
-		  <form class="form-inline" action="${pageContext.request.contextPath }/addNoticeForm" method="post">
-	
+		  <form class="form-inline" action="${pageContext.request.contextPath }/addCouponForm" method="post">
 		  <div class="group">
 			    <div class="form-group">   
 			      <label>번호</label>
 				     <div class="container">
-				     	<input type="text" class="form-control" name="no" readonly="readonly" value="${totalCnt }">
+				     	<input type="text" class="form-control" name="cno" readonly="readonly" value="${totalCnt }">
 					</div>        
 			    </div>  
 		    </div>
 		  <div class="group">
 			    <div class="form-group">   
-			      <label><span class="red">*</span>제목</label>
+			      <label><span class="red">*</span>쿠폰명</label>
 				     <div class="container">
-				     	<input type="text" class="form-control" name="title">
-				     	<input type="hidden" class="form-control" name="writer" value="투어랜드">
+				     	<input type="text" class="form-control" name="cname">
 					</div>        
 			    </div>  
 		    </div>
-		    
+		    <div class="group">
+		    	<div class="form-group">
+		    	
+		    		<label><span class="red">*</span>시작일</label>
+		    		<div class='input-group date dateTimePicker' id='datetimepicker1'>
+					    <input type='text' class="form-control" id="ddate"/>
+					       <span class="input-group-addon">
+					         <span class="glyphicon glyphicon-calendar"></span>
+                  				</span>
+                	</div>
+                	<label><span class="red">*</span>마감일</label>
+		    		<div class='input-group date dateTimePicker' id='datetimepicker2'>
+					    <input type='text' class="form-control" id="ddate"/>
+					       <span class="input-group-addon">
+					         <span class="glyphicon glyphicon-calendar"></span>
+                  				</span>
+                	</div>  
+		    	</div>
+		    </div>
+		    <script type="text/javascript">
+
+		          $(function () {
+		            $('#datetimepicker1').datetimepicker();
+		            $('#datetimepicker2').datetimepicker();
+		          });
+
+       		 </script>
 		    <div class="group">
 			    <div class="form-group">   
 			      <label><span class="red">*</span>내용</label>
 				     <div class="container">
-				     	<textarea rows="10" cols="100" name="content"></textarea>
-					</div>        
+				     	<textarea rows="10" cols="100" name="ccontent"></textarea>
+					</div>          
 			    </div> 
 			<div class="group"></div> 
 			<div class="group"></div> 
 			<div class="group"></div> 
+			 <div class="form-group">   
+			      <label><span class="red">*</span>할인율</label>
+				     <div class="container">
+				     	<input type="text" class="form-control" name="mrate">
+					</div>        
+			    </div> 
 			   <div class="group">
 			    <div class="form-group">   
 			      	<button class="btn btn-primary">등록</button> 
 			    </div>  
 		    </div>
-		    </div>
+			</div>   
+			   
 		    
 		  </form>
 		                       
