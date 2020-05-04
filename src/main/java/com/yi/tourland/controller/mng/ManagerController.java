@@ -570,7 +570,24 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		return "/manager/coupon/couponMngList";
 	}
-
+	//쿠폰 추가
+		@RequestMapping(value="addCouponForm", method=RequestMethod.GET)
+		public String addCouponForm(Model model) throws Exception{
+			SearchCriteria cri = new SearchCriteria();
+			int total = couponService.totalCountNotice(cri);
+			int totalCnt = total+1;
+			model.addAttribute("totalCnt", totalCnt);
+			return "/manager/coupon/addCouponForm";
+		}
+	//쿠폰 추가
+	@RequestMapping(value="addCouponForm", method=RequestMethod.POST)
+	public String addCouponResult(CouponVO coupon, Model model) throws Exception{
+		System.out.println(coupon);
+		
+		return "redirect:/couponMngList";
+	}
+	
+	
 	
 	//호텔관리
 	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)
