@@ -7,6 +7,9 @@
 	table .table table-bordered th,td,th{
        text-align: center;
     }
+    .userList:hover {
+    	background-color : lightgrey;
+    }
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
