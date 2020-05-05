@@ -6,7 +6,7 @@ select user(),database();
 -- 사원
 desc employee;
 select * from employee;
-select * from employee where empretired=0 order by empno desc  limit 1, 3;
+select * from employee where empretired=0 order by empno desc  limit 3, 3;
 select * from employee where empno like concat('%','1','%') and empretired =0;
 delete from employee where empid = 'apple';
 insert into employee values (6,'장우주','1987-01-01','010-4444-4321','대구 광역시 달서구',0,'employee4',password('employee'),1);
@@ -20,6 +20,16 @@ select count(no) from rentcar r ;
 select * from banner b2 ;
 select * from banner order by no desc limit 1, 3;
 select  count(no) from banner ;
+
+-- 고객의 소리
+insert into custboard values
+(1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
+(2,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
+(3,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111));
+select * from custboard ;
+desc custboard ;
+delete from custboard where no = 3;
+select * from custboard order by no desc limit 1, 3;
 
 -- 인선 --------------------------------------------------------------------------------------------
 select count(no) from faq where title like concat('%','쿠폰','%');

@@ -34,6 +34,7 @@
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
+					<button id="btnReset">리셋</button>
 				</div>
 				<div class="box-body">
 				    <button id="twowayBtn">${btnName }</button>
@@ -54,7 +55,7 @@
 						    <tr data-click="${userList.userno }" class="userList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${userList.userno }</td>
 						    <td>${userList.username }</td>
-						    <td><fmt:formatDate value="${userList.userbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
+						    <td><fmt:formatDate value="${userList.userbirth }" pattern="yyyy-MM-dd"/></td>
 						    <td>${userList.userpassport == null?'등록필요':'등록완료' }</td>
 						    <td>${userList.userid }</td>
 						    </tr>
@@ -125,6 +126,14 @@
 		var keyword = "${cri.keyword}";
 		location.href = "${pageContext.request.contextPath}/userDetailForm/${usersecess}?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
+	})
+	
+	$("#btnReset").click(function(){
+		location.href = "${pageContext.request.contextPath}/userMngList/${usersecess}";
+	})
+	
+	$("#btnRegister").click(function(){
+		location.href = "${pageContext.request.contextPath}/userRegister";
 	})
 </script>
 
