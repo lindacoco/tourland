@@ -14,7 +14,7 @@
   
 </style>
 <script>
- 
+ 	var chkId = false;
 	$(function(){
      //정규 표현식 ,빈칸인 경우는 부트 스트랩의 기본 설정으로 이미 설정되어있음 
 		$("form").submit(function(e){
@@ -72,7 +72,7 @@
 			 if(forCheckId =="exist"){
 				 return false;
 			 }
-			 
+			 if(!chkId) return false;
 			
 
 		})
@@ -89,6 +89,7 @@
 					if(res=="exist"){
 						$("input[name='empid']").next().next().next().css("display", "inline");
 		//				$("form").attr("onsubmit","return false;");
+						chkId = true;
 					}
 				}
 				 
