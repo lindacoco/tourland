@@ -12,7 +12,7 @@
 			where dlocation like concat('%',#{keyword},'%')
 		</if>
 		<if test='searchType=="rloca"'>
-			where rlocation like concat('%',#{keyword}.'%')
+			where rlocation like concat('%',#{keyword},'%')
 		</if>
 		<if test='searchType=="ddate"'>
 			where ddate = #{keyword}
@@ -20,15 +20,53 @@
 		<if test='searchType=="rdate"'>
 			where rdate = #{keyword}
 		</if>
-	</sql> 
+	</sql>
+	<sql id="searchDiv">
+		<if test='searchType=="no"'>
+			and no = #{keyword}
+		</if>
+		<if test='searchType=="ano"'>
+			and ano like concat('%',#{keyword},'%') 
+		</if>
+		<if test='searchType=="dloca"'>
+			and dlocation like concat('%',#{keyword},'%')
+		</if>
+		<if test='searchType=="rloca"'>
+			and rlocation like concat('%',#{keyword},'%')
+		</if>
+		<if test='searchType=="ddate"'>
+			and ddate = #{keyword}
+		</if>
+		<if test='searchType=="rdate"'>
+			and rdate = #{keyword}
+		</if>
+	</sql>  
 	<select id="airplaneList" resultType="AirplaneVO">
-		select * from airplane 
+		select * from airplane
 		<include refid="search"/>
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="airplaneListByDepature" resultType="AirplaneVO">
+		select * from airplane where dlocation = 'ICN'
+		<include refid="searchDiv"/>
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<select id="airplaneListByRending" resultType="AirplaneVO">
+		select * from airplane where dlocation != 'ICN'
+		<include refid="searchDiv"/>
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	<select id="totalCountAirplane" resultType="int">
 		select count(*) from airplane
 		<include refid="search"/>
+	</select>
+	<select id="totalCountAirplaneByDepature" resultType="int">
+		select count(*) from airplane where dlocation = 'ICN'
+		<include refid="searchDiv"/>
+	</select>
+	<select id="totalCountAirplaneByRending" resultType="int">
+		select count(*) from airplane where dlocation != 'ICN'
+		<include refid="searchDiv"/>
 	</select>
 	<select id="airplaneByNo" resultType="AirplaneVO">
 		select * from airplane where no = #{no}

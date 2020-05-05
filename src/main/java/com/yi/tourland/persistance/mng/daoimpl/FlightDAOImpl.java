@@ -34,4 +34,24 @@ public class FlightDAOImpl implements FlightDAO {
 	public AirplaneVO airplaneByNo(AirplaneVO vo) throws SQLException {
 		return sqlSession.selectOne(namespace + "airplaneByNo",vo);
 	}
+
+	@Override
+	public List<AirplaneVO> airplaneListByDepature(SearchCriteria cri) throws Exception {
+		return sqlSession.selectList(namespace + "airplaneListByDepature",cri);
+	}
+
+	@Override
+	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception {
+		return sqlSession.selectList(namespace + "airplaneListByRending",cri);
+	}
+
+	@Override
+	public int totalCountAirplaneByDepature(SearchCriteria cri) throws Exception {
+		return sqlSession.selectOne(namespace + "totalCountAirplaneByDepature", cri);
+	}
+
+	@Override
+	public int totalCountAirplaneByRending(SearchCriteria cri) throws Exception {
+		return sqlSession.selectOne(namespace + "totalCountAirplaneByRending", cri);
+	}
 }

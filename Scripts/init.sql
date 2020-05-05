@@ -173,7 +173,8 @@ CREATE TABLE tour.package (
 	pcontent LONGTEXT     NULL     COMMENT '상품설명', -- 상품설명
 	pexpire  DATE         NULL     COMMENT '상품유효기간', -- 상품유효기간
 	pprice   INT          NULL     COMMENT '상품가격', -- 상품가격
-	ano      INT          NULL     COMMENT '항공번호', -- 항공번호
+	dano     INT          NULL     COMMENT '출발항공번호', -- 출발항공번호
+	rano     INT          NULL     COMMENT '도착항공번호', -- 도착항공번호
 	hno      INT          NULL     COMMENT '호텔번호', -- 호텔번호
 	tno      INT          NULL     COMMENT '투어번호', -- 투어번호
 	rno      INT          NULL     COMMENT '렌트카번호', -- 렌트카번호
@@ -370,7 +371,7 @@ ALTER TABLE tour.user
 ALTER TABLE tour.package
 	ADD CONSTRAINT FK_airplane_TO_package -- 항공 -> 상품
 		FOREIGN KEY (
-			ano -- 항공번호
+			dano -- 출발항공번호
 		)
 		REFERENCES tour.airplane ( -- 항공
 			no -- 번호
@@ -403,6 +404,16 @@ ALTER TABLE tour.package
 			rno -- 렌트카번호
 		)
 		REFERENCES tour.rentcar ( -- 렌트카
+			no -- 번호
+		);
+
+-- 상품
+ALTER TABLE tour.package
+	ADD CONSTRAINT FK_airplane_TO_package2 -- 항공 -> 상품2
+		FOREIGN KEY (
+			rano -- 도착항공번호
+		)
+		REFERENCES tour.airplane ( -- 항공
 			no -- 번호
 		);
 
