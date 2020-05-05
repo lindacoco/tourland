@@ -53,11 +53,11 @@
  <sql id="search">
   <where>
       usersecess=#{usersecess}
-        <if test="searchType=='userId'.toString()">
-	       where title like CONCAT('%','${keyword}','%')
+          <if test="cri.searchType=='userId'.toString()">
+	       and userid like CONCAT('%',#{cri.keyword},'%')
 	      </if>
-	      <if test="searchType=='userName'.toString()">
-	       where content like CONCAT('%','${keyword}','%')
+	      <if test="cri.searchType=='userName'.toString()">
+	       and username like CONCAT('%',#{cri.keyword},'%')
 	      </if>
   </where>
  </sql>

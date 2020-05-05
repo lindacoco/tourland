@@ -21,6 +21,10 @@ select * from banner b2 ;
 select * from banner order by no desc limit 1, 3;
 select  count(no) from banner ;
 
+-- 고객의 소리
+insert into custboard values
+(1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111));
+
 -- 인선 --------------------------------------------------------------------------------------------
 select count(no) from faq where title like concat('%','쿠폰','%');
 select * from faq where lcate = 'D' and mcate = 'J' and title like concat ('%','제주','%') order by no desc limit 1,10;

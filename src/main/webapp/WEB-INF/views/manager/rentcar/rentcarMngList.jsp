@@ -5,6 +5,9 @@
 	table .table table-bordered th,td,th{
        text-align: center;
     }
+    .rentcarList:hover {
+    	background-color : lightgrey;
+    }
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
@@ -16,13 +19,13 @@
 				</div>
 				<div class="box-body">
 
-					<select name="searchType" id="searchType">
-						<option value="N">----------</option>
-						<option value="rentcarType">차종류</option>
-						<option value="rentcarNo">차번호</option>
-						<option value="rentDepartDate">출발날짜</option>
-						<option value="rentDepartaddr">대여,반납 장소</option>
-						<option value="rentLDiv">장소구분</option>
+					<select name="searchType" id="searchType" style="width:200px; height: 25px;">
+						<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
+						<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
+						<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
+						<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>출발날짜</option>
+						<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
+						<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
@@ -50,8 +53,8 @@
 							<td>${rentcarList.no}</td>
 							<td>${rentcarList.cdiv}</td>
 							<td>${rentcarList.cno}</td>
-							<td>${rentcarList.rentddate}</td>
-							<td>${rentcarList.returndate}</td>
+							<td><fmt:formatDate value="${rentcarList.rentddate}" pattern="yyyy-MM-dd "/></td>
+							<td><fmt:formatDate value="${rentcarList.returndate}" pattern="yyyy-MM-dd "/></td>
 							<td>${rentcarList.rentaddr}</td>
 							<td>${rentcarList.returnaddr}</td>
 							<td>${rentcarList.price}</td>
