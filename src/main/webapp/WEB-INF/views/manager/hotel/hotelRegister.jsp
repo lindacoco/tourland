@@ -51,7 +51,7 @@
 <script>
 $(function(){
 	$(function() {
-		//달력을 오늘 이후로만 선택할수 있게
+		//달력을 오늘 이후로만 선택할 수 있게
 		var now = new Date();
 		var day = now.getDate();
 		var month = (now.getMonth() + 1);
@@ -65,10 +65,20 @@ $(function(){
 		today = year + '-' + month + '-' + day;
 		document.getElementById("checkin").setAttribute("min", today);
 	})
+	
+	$(function(){
+		$("#checkin").change(function() {
+			//체크인 날짜가 선택되면 체크아웃은 체크인날짜 다음날부터 선택할 수 있게
+			var checkIn = document.getElementById("checkin").value;
+			var day = parseInt(checkIn.substr(8,10))+1;
+			if (day < 10) {
+				day = '0' + day;
+			}
+			var result = checkIn.substr(0,7)+ '-' + day;
+			document.getElementById("checkout").setAttribute("min",result);
+		})
+	})
 })
-
-
-
 </script>
 <div class="content">
 	<div class="row">
@@ -81,7 +91,7 @@ $(function(){
 					<div class="box-body">
 						<div class="noNameAddr">
 							<label><span class="red">*</span>번호</label>
-							<input type="text" name="no" class="form-control" value="" readonly>
+							<input type="text" name="no" class="form-control" value="${lastNum + 1}" readonly>
 						</div>
 						<div class="noNameAddr">
 							<label><span class="red">*</span>호텔이름</label>
@@ -109,7 +119,7 @@ $(function(){
 							</select> 
 						</div>
 						<div class="form-group">
-							<label><span class="red">*</span>가격</label>
+							<label><span class="red">*</span>가격(1박)</label>
 							<input type="text" name="price" class="form-control" required="required" placeholder="원화로 입력해주세요.">							
 						</div>
 						<div class="form-group">
@@ -125,20 +135,19 @@ $(function(){
 							</select> 
 						</div>
 						<div class="form-group">
-							<label><span class="red">*</span>장소구분</label>
+							<label>장소구분</label>
 							<select name="ldiv" class="form-control" id="ldiv" required="required">
 								<option value="0">국내</option>
 								<option value="1">해외</option>
 							</select> 
 						</div>
 						<div class="form-group">
-							<label><span class="red">*</span>예약 가능 여부</label>
+							<label>예약 가능 여부</label>
 							<select name="bookedup" class="form-control" id="bookedup" required="required">
 								<option value="0">예약가능</option>
 								<option value="1">예약불가능</option>
 							</select> 
 						</div>
-						
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary">등록</button>
 						</div>

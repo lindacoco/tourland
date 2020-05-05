@@ -62,7 +62,6 @@
 	    <select id="totalSearchCountRentcar" resultType="int">
 	        select  count(no) from rentcar
 		    <include refid="search"></include>  
-	    
 	    </select>
 
 </mapper>

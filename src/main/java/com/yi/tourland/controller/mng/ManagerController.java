@@ -276,7 +276,7 @@ public class ManagerController {
 		return "/manager/reservation/reservationMngList";
 	}
 
-//상품관리 ------------------------------------------------------------------------------------
+	//상품관리
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
 	public String addProductForm() {
 		return "/manager/product/addProductForm";
@@ -347,8 +347,6 @@ public class ManagerController {
 		return "/manager/rentcar/rentcarMngList";
 	}
 	
-	
-	
 	// 이벤트관리
 
 	// 게시판관리
@@ -399,6 +397,7 @@ public class ManagerController {
 		return "redirect:FAQMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
 	}
 	// 디자인관리
+	
 	//팝업 
 	
 	//배너
@@ -587,8 +586,6 @@ public class ManagerController {
 		return "redirect:/couponMngList";
 	}
 	
-	
-	
 	//호텔관리
 	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)
 	public String hotelListPage(SearchCriteria cri, Model model) throws Exception { 
@@ -596,18 +593,16 @@ public class ManagerController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(hotelService.totalCountHotel());
-		
 		model.addAttribute("cri",cri);
 		model.addAttribute("list", list);
 		model.addAttribute("pageMaker", pageMaker);
-		model.addAttribute("searchType", cri.getSearchType());
-		model.addAttribute("keyword", cri.getKeyword());
-
 		return "/manager/hotel/hotelMngList"; 
 	}
 	
 	@RequestMapping(value = "hotelRegister", method = RequestMethod.GET)
-	public String hotelResgiter() throws SQLException {
+	public String hotelResgiter(SearchCriteria cri,Model model) throws Exception {
+		List<HotelVO> list = hotelService.listCriteriaHotel(cri);
+		model.addAttribute("lastNum", list.get(0).getNo());
 		return "/manager/hotel/hotelRegister";
 	}
 	@RequestMapping(value = "hotelRegister", method = RequestMethod.POST)
@@ -615,10 +610,24 @@ public class ManagerController {
 		hotelService.insertHotel(vo);
 		return "redirect:hotelMngList";
 }
+	@RequestMapping(value = "hotelModify", method = RequestMethod.GET)
+	public String hotelModify(HotelVO vo, SearchCriteria cri, Model model) throws Exception {
+		vo = hotelService.readHotel(vo);
+		model.addAttribute("hotelVo",vo);
+		model.addAttribute("cri",cri);
+		return "/manager/hotel/hotelModify";
+	}
+	@RequestMapping(value = "hotelModify", method = RequestMethod.POST)
+	public String hotelModifyPost(HotelVO vo,SearchCriteria cri) throws Exception {
+		hotelService.updateHotel(vo);
+		return "redirect:hotelMngList";
+	}
+	
+	@RequestMapping(value = "hotelDelete", method = RequestMethod.GET)
+	public String hotelDelete(HotelVO vo,SearchCriteria cri) throws Exception {
+		hotelService.deleteHotel(vo);
+		return "redirect:hotelMngList";
+	}
 	// 장바구니
-	
-	
-	
-	
 	
 }
