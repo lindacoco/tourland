@@ -33,6 +33,7 @@ import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
 import com.yi.tourland.domain.mng.BannerVO;
 import com.yi.tourland.domain.mng.CouponVO;
+import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
@@ -42,6 +43,7 @@ import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
+import com.yi.tourland.service.mng.CustBoardService;
 import com.yi.tourland.service.mng.EmployeeService;
 import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
@@ -66,6 +68,9 @@ public class ManagerController {
 
 	@Autowired
 	NoticeService noticeService;
+	
+	@Autowired
+	CustBoardService custBoardService;
 
 	@Autowired
 	CouponService couponService;
@@ -119,13 +124,11 @@ public class ManagerController {
 		return "flightMngList";
 	}      
 
-	// 직원관리리스트
+    // 직원관리리스트
 	@RequestMapping(value = "empMngList/{empretired}", method = RequestMethod.GET)
 	public String empMngList(SearchCriteria cri, Model model, @PathVariable("empretired") int empretired) throws Exception {
-	//	System.out.println(cri.toString());  검색 수정 필요 200502
-	//	System.out.println(empretired);
+
 		List<EmployeeVO> empList = employeeService.listSearchCriteriaEmployee(cri, empretired);
-    //  System.out.println(empList);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(employeeService.totalSearchCountEmployee(cri,empretired));
@@ -158,8 +161,6 @@ public class ManagerController {
 		    lastNo = empList.get(0).getEmpno();
 			lastNo2 = retiredEmpList.get(0).getEmpno();
 			
-//			System.out.println(lastNo);
-//			System.out.println(lastNo2);
 			if(lastNo> lastNo2) {
 				model.addAttribute("autoNo",lastNo+1);
 			}else {
@@ -175,7 +176,7 @@ public class ManagerController {
 	}
 	@RequestMapping(value = "employeeRegister", method = RequestMethod.POST)
 	public String employeeRegisterPost(EmployeeVO vo) throws Exception {
-		//System.out.println(vo);
+
 		employeeService.insertEmployee(vo);
 		return "redirect:empMngList/0";
 	}
@@ -430,7 +431,7 @@ public class ManagerController {
 	
 	// 이벤트관리
 
-	// 게시판관리
+// 게시판관리 -------------------------------------------------------------------------------------------------------------------------
 
 	// FAQ 관리
 	@RequestMapping(value = "FAQMngList", method = RequestMethod.GET)
@@ -477,12 +478,93 @@ public class ManagerController {
 		faqService.deleteFAQ(vo);
 		return "redirect:FAQMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&searchType2="+cri.getSearchType2()+"&keyword="+cri.getKeyword();
 	}
-	// 디자인관리
+	
+	//고객의 소리
+	
+	//고객의 소리 리스트
+	@RequestMapping(value = "custBoardMngList", method = RequestMethod.GET)
+	public String custBoardMngList(SearchCriteria cri, Model model) throws Exception {
+     
+		List<CustBoardVO> custBoardList = custBoardService.listSearchCriteriaCustBoard(cri);
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(custBoardService.totalSearchCountCustBoard(cri));
+		
+		model.addAttribute("cri", cri);
+		model.addAttribute("list",custBoardList);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/manager/board/custBoardList"; 
+	}
+	
+	//고객의 소리 조회
+	@RequestMapping(value = "custBoardDetail", method = RequestMethod.GET)
+	public String custBoardDetail(int no,SearchCriteria cri,Model model) throws Exception {
+		CustBoardVO vo = custBoardService.readByNoCustBoard(no);
+		
+		model.addAttribute("custBoardVO",vo);
+		model.addAttribute("cri",cri);
+			
+		return "/manager/board/custBoardDetail";
+	}
+	
+	//고객의 소리 추가 버튼 눌렀을 때
+	@RequestMapping(value = "custBoardRegister",method = RequestMethod.GET)
+	public String custBoardRegister(SearchCriteria cri, Model model) {
+		int lastNo =0;
+		try{
+			List<CustBoardVO> custBoardList = custBoardService.listSearchCriteriaCustBoard(cri);
+		    lastNo = custBoardList.get(0).getNo()+1;
+		}catch (Exception e) {
+			lastNo = 1;
+		}
+
+		model.addAttribute("autoNo",lastNo); //가장 나중 번호로 자동세팅 
+		
+		return "/manager/board/custBoardRegister"; 
+	}
+	//고객의 소리 추가
+	@RequestMapping(value = "custBoardRegister", method = RequestMethod.POST)
+	public String custBoardRegisterPost(CustBoardVO vo, Model model) throws Exception {
+      
+		custBoardService.insertCustBoard(vo);
+		
+		return "redirect:/custBoardDetail?no="+vo.getNo();
+	}
+	
+	//고객의 소리 업데이트- 고객글을 함부로 업데이트 하면 안되기 때문에 테스트용에 가까움
+	@RequestMapping(value = "custBoardUpdate", method = RequestMethod.POST)
+	public String custBoardUpdate(CustBoardVO vo,SearchCriteria cri,Model model) throws Exception {
+		System.out.println(vo);
+		custBoardService.updateCustBoard(vo);
+	
+		model.addAttribute("custBoardVO",vo);
+		model.addAttribute("cri",cri);
+		return "redirect:/custBoardDetail?no="+vo.getNo()+"&page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+	}
+	
+	//고객의 소리 게시글 삭제
+	@RequestMapping(value = "removeCustBoard", method = RequestMethod.GET)
+	public String removeCustBoard(int no, SearchCriteria cri) throws Exception{
+		custBoardService.deleteCustBoard(no);
+		return "redirect:/custBoardMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+	}
+	
+	
+	
+	//상품문의 사항
+	
+	
+	
+	
+// 디자인관리 ---------------------------------------------------------------------------------------------------------------
 	//팝업 
 	
 	//배너
 	@RequestMapping(value = "bannerMngList", method = RequestMethod.GET)
 	public String bannerMngList(SearchCriteria cri, Model model) throws Exception {
+		
 		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
 		
 		PageMaker pageMaker = new PageMaker();
@@ -623,7 +705,8 @@ public class ManagerController {
 	}
 	
 
-	// 공지사항 관리
+// 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
+	
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)
 	public String noticeMngList(SearchCriteria cri, Model model) throws Exception {
 		List<NoticeVO> noticeList = noticeService.noticeList(cri);

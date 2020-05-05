@@ -4,8 +4,8 @@
 
 <!-- 새로운 배너 추가  -->
   <insert id="insertBanner" parameterType="BannerVO"> 
-     insert into banner(no, title, content, pic, path) values
-     (#{no}, #{title}, #{content}, #{pic}, #{path})
+     insert into banner(no, title, content, pic, isSetting) values
+     (#{no}, #{title}, #{content}, #{pic}, 0)
   </insert>
 
 
@@ -19,7 +19,7 @@
 <!-- 배너 정보 업데이트 -->
     <update id="updateBanner" parameterType="BannerVO">
        update banner  set 
-       title =#{title}, content=#{content}, pic=#{pic},  path=#{path}
+       title =#{title}, content=#{content}, pic=#{pic},  isSetting=#{isSetting}
        where no=#{no}
     </update> 
 

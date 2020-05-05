@@ -95,6 +95,10 @@
 		    })
 			
 		})
+		  //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
+		$("#btnReturnToList").click(function(){
+			location.href="${pageContext.request.contextPath}/empMngList/0";
+		})
 		
 		
 	})
@@ -152,6 +156,7 @@
 						</div>
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary">등록</button>
+							<button type="button" class="btn btn-primary" id="btnReturnToList">목록으로</button>
 						</div>
 					</div>
 				</form>

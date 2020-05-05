@@ -5,13 +5,27 @@ public class BannerVO {
 	private String title;
 	private String content;
 	private String pic;
-	private String path;
+	private int isSetting;
+
+	
 
 	@Override
 	public String toString() {
-		return "BannerVO [no=" + no + ", title=" + title + ", content=" + content + ", pic=" + pic + ", path=" + path
-				+ "]";
+		return "BannerVO [no=" + no + ", title=" + title + ", content=" + content + ", pic=" + pic + ", isSetting="
+				+ isSetting + "]";
 	}
+	
+	
+
+	public int getIsSetting() {
+		return isSetting;
+	}
+
+
+	public void setIsSetting(int isSetting) {
+		this.isSetting = isSetting;
+	}
+
 
 	public int getNo() {
 		return no;
@@ -45,12 +59,6 @@ public class BannerVO {
 		this.pic = pic;
 	}
 
-	public String getPath() {
-		return path;
-	}
 
-	public void setPath(String path) {
-		this.path = path;
-	}
 
 }
