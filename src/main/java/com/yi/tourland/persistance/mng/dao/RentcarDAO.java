@@ -7,6 +7,8 @@ import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.RentcarVO;
 
 public interface RentcarDAO {
+	
+	
 	public void insertRentcar(RentcarVO vo) throws Exception;
 	public List<RentcarVO> readByNoRentcarList(String cno)throws Exception;
 	public void updateRentcar(RentcarVO vo)throws Exception;

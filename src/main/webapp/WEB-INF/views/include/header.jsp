@@ -78,7 +78,7 @@
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>A</b>LT</span>
           <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>TourLand</b></span>
+          <span class="logo-lg" id="logoTourLand"><b>TourLand</b></span>
         </a>
         <!-- Header Navbar: style can be found in header.less -->
         <nav class="navbar navbar-static-top" role="navigation">
@@ -420,7 +420,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="${pageContext.request.contextPath}/FAQMngList"><i class="fa fa-circle-o"></i>FAQ 관리</a></li>
-                <li><a href="../charts/morris.html"><i class="fa fa-circle-o"></i>고객의 소리 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/custBoardMngList"><i class="fa fa-circle-o"></i>고객의 소리 관리</a></li>
                 <li><a href="../charts/flot.html"><i class="fa fa-circle-o"></i>상품 문의사항 관리</a></li>
               </ul>
             </li> 
@@ -530,4 +530,3 @@
             <li class="active">General Elements</li>
           </ol>
         </section>
-	
