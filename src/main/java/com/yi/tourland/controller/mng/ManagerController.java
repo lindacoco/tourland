@@ -310,37 +310,59 @@ public class ManagerController {
 //상품관리 ------------------------------------------------------------------------------------
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
 	public String addProductFormGet(SearchCriteria cri, Model model) throws Exception {
-		List<AirplaneVO> flightList = flightService.airplaneList(cri);
-		PageMaker pageMaker = new PageMaker();
-		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
-		model.addAttribute("flightList",flightList);
-		model.addAttribute("pageMaker",pageMaker);
+		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
+		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
+		PageMaker pageMakerByFlightDepature = new PageMaker();
+		pageMakerByFlightDepature.setCri(cri);
+		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
+		PageMaker pageMakerByFlightRending = new PageMaker();
+		pageMakerByFlightRending.setCri(cri);
+		pageMakerByFlightRending.setTotalCount(flightService.totalCountAirplaneByRending(cri));
+		model.addAttribute("flightListDepature",flightListDepature);
+		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
+		model.addAttribute("flightListRending",flightListRending);
+		model.addAttribute("pageMakerByFlightRending",pageMakerByFlightRending);	
 		return "/manager/product/addProductForm";
 	}
 	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
 	public String addProductFormPost() {
-		return "/manager/product/productMgnList";
+		return "redirect:productMgnList";
 	}
 	@ResponseBody
 	@RequestMapping(value = "flightList", method = RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> flightList(SearchCriteria cri, Model model) {
+	public ResponseEntity<Map<String,Object>> flightList(String div,SearchCriteria cri, Model model) {
 		ResponseEntity<Map<String,Object>> entity = null;
 		Map<String,Object> map = new HashMap<>();
-		try {
-			List<AirplaneVO> flightList = flightService.airplaneList(cri);
-			PageMaker pageMaker = new PageMaker();
-			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
-			map.put("list", flightList);
-			map.put("pageMaker", pageMaker);
-			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		if(div.equals("Depature")) {
+			try {
+				List<AirplaneVO> flightList = flightService.airplaneListByDepature(cri);
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
+				pageMaker.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
+				map.put("list", flightList);
+				map.put("pageMaker", pageMaker);
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+			}
 		}
-		catch(Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		else if(div.equals("Rending")) {
+			try {
+				List<AirplaneVO> flightList = flightService.airplaneListByRending(cri);
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
+				pageMaker.setTotalCount(flightService.totalCountAirplaneByRending(cri));
+				map.put("list", flightList);
+				map.put("pageMaker", pageMaker);
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+			}
 		}
-		
 		return entity;
 	}
 	@ResponseBody

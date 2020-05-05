@@ -19,9 +19,20 @@ public class FlightService {
 	public List<AirplaneVO> airplaneList(SearchCriteria cri) throws Exception{
 		return dao.airplaneList(cri);
 	}
-	
+	public List<AirplaneVO> airplaneListByDepature(SearchCriteria cri) throws Exception{
+		return dao.airplaneListByDepature(cri);
+	}
+	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception{
+		return dao.airplaneListByRending(cri);
+	}
 	public int totalCountAirplane (SearchCriteria cri) throws Exception {
 		return dao.totalCountAirplane(cri);
+	}
+	public int totalCountAirplaneByDepature (SearchCriteria cri) throws Exception {
+		return dao.totalCountAirplaneByDepature(cri);
+	}
+	public int totalCountAirplaneByRending (SearchCriteria cri) throws Exception {
+		return dao.totalCountAirplaneByRending(cri);
 	}
 	public AirplaneVO airplaneByNo(AirplaneVO vo) throws SQLException {
 		return dao.airplaneByNo(vo);
