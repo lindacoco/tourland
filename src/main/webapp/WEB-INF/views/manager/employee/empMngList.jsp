@@ -34,6 +34,7 @@
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
+					<button id="btnReset">리셋</button>
 				</div>
 				<div class="box-body">
 				    <button id="twowayBtn">${btnName }</button>
@@ -55,7 +56,7 @@
 						    <tr data-click="${empList.empno }" class="empList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${empList.empno }</td>
 						    <td>${empList.empname }</td>
-						    <td><fmt:formatDate value="${empList.empbirth }" pattern="yyyy-MM-dd hh:mm"/></td>
+						    <td><fmt:formatDate value="${empList.empbirth }" pattern="yyyy-MM-dd"/></td>
 						    <td>${empList.emptel }</td>
 						    <td>${empList.empid }</td>
 						    <td>${empList.empauth==1?"관리자":"사원" }</td>
@@ -126,6 +127,10 @@
 		var keyword = "${cri.keyword}";
 		location.href = "${pageContext.request.contextPath}/employeeDetail/${empretired}?empno="+empno+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
+	})
+	
+	$("#btnReset").click(function(){
+		location.href = "${pageContext.request.contextPath}/empMngList/${empretired}";
 	})
 </script>
 

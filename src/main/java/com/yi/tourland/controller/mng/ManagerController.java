@@ -1,6 +1,7 @@
 package com.yi.tourland.controller.mng;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +57,7 @@ import com.yi.tourland.util.UploadFileUtils;
 public class ManagerController {
 	
 	@Resource(name ="uploadPath") //서블릿컨텍스트의 id값과 일치해야함 
-	private String uploadPath;
+	private String uploadPath; //  c:/tourland/upload/
 	
 	@Autowired
 	private TourService tourService;
@@ -261,6 +262,32 @@ public class ManagerController {
 		
 		return "/manager/user/userMngList"; 
 	}
+	@RequestMapping(value = "userRegister", method = RequestMethod.GET)
+	public String userRegister(SearchCriteria cri, UserVO vo, Model model) throws Exception {
+		int lastNo =0;
+		int lastNo2 =0;
+		try{
+			List<UserVO> userList = userService.listSearchCriteriaUser(cri, 0);
+		    List<UserVO> secessuserList = userService.listSearchCriteriaUser(cri, 1);
+		    
+		    lastNo = userList.get(0).getUserno();
+			lastNo2 = secessuserList.get(0).getUserno();
+			
+//			System.out.println(lastNo);
+//			System.out.println(lastNo2);
+			if(lastNo> lastNo2) {
+				model.addAttribute("autoNo",lastNo+1);
+			}else {
+				model.addAttribute("autoNo",lastNo2+1);
+			}
+			
+		}catch (Exception e) {
+		    e.printStackTrace();
+		    //퇴사 사원이 없는 경우 오류가 뜨기에 시범 데이터 입력 
+		}
+		return "/manager/user/userRegister";
+	}
+	
 	
 	//고객 리스트 클릭했을 때 자세한 정보 보기로 넘어가기
 		@RequestMapping(value = "userDetailForm/{usersecess}", method = RequestMethod.GET)
@@ -480,25 +507,22 @@ public class ManagerController {
 		}catch (Exception e) {
 			lastNo = 1;
 		}
-		
-		//	System.out.println(lastNo);
+
 		model.addAttribute("autoNo",lastNo); //가장 나중 번호로 자동세팅 
 		
 		return "/manager/design/bannerRegister"; 
 	}
 	//배너 이미지 한개 업로드
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
-	public String outUpResult(BannerVO vo, MultipartFile file, HttpServletRequest request, Model model) throws IOException {
-
-		String savedName = UploadFileUtils.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
-        
-//	    model.addAttribute("content",content);
-        model.addAttribute("file",savedName);
-	    model.addAttribute("Originfile",file.getOriginalFilename());
+	public String bannerRegisterPost(BannerVO vo, MultipartFile bannerPic, Model model) throws Exception {
+      
+		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename(), bannerPic.getBytes());
+		String bigSizePic = savedName.substring(0,12)+savedName.substring(14); 
+		//배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
 	    
-
-		
-		return "/manager/design/bannerMngList";
+        vo.setPic(bigSizePic);
+        bannerService.insertBanner(vo);
+		return "redirect:/bannerMngList";
 	}
 	
 	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨
@@ -542,12 +566,62 @@ public class ManagerController {
 	@RequestMapping(value = "bannerDetailForm", method = RequestMethod.GET)
 	public String bannerDetailForm(int no,SearchCriteria cri,Model model) throws Exception {
 		BannerVO vo = bannerService.readByNoBanner(no);
-	//	System.out.println(vo);
+		
 		model.addAttribute("bannerVO",vo);
 		model.addAttribute("cri",cri);
 			
 		return "/manager/design/bannerDetailForm";
 	}
+	
+	//디테일 페이지이자 폼에서 업데이트를 하는 경우 
+	@RequestMapping(value = "bannerUpdate", method = RequestMethod.POST)
+	public String bannerUpdate(BannerVO vo, MultipartFile bannerPic, Model model) throws Exception{
+		
+		if(bannerPic.getBytes().length != 0){  //새로 첨부한  파일이 있다면
+			//원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기 
+			
+			File bannerFile = new File(uploadPath+vo.getPic());
+			     bannerFile.delete();
+			  
+			     
+		    String smallSizePic = vo.getPic().substring(0,12)+"s_"+vo.getPic().substring(12); //썸네일용 사진도 
+		   // System.out.println(smallSizePic);
+			File bannerFile2 = new File(uploadPath+smallSizePic);
+			   bannerFile2.delete();
+			
+		//수정 된 파일로 교체 	   
+			String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename(), bannerPic.getBytes());
+			String bigSizePic = savedName.substring(0,12)+savedName.substring(14); 
+			//배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
+		    
+	        vo.setPic(bigSizePic);
+		}
+	     bannerService.updateBanner(vo);
+		
+		return "redirect:/bannerDetailForm?no="+vo.getNo();
+		
+	}
+	
+	//배너 삭제 
+	@RequestMapping(value = "removeBanner", method = RequestMethod.GET)
+	public String removeBanner(SearchCriteria cri,Model model,int no) throws Exception {
+		BannerVO vo = bannerService.readByNoBanner(no);
+	     if(vo.getPic() !=null) {
+	    	 //폴더에 남은 사진들 먼저 지우기
+	    	 File bannerFile = new File(uploadPath+vo.getPic());
+		     bannerFile.delete();
+		  
+		     String smallSizePic = vo.getPic().substring(0,12)+"s_"+vo.getPic().substring(12); //썸네일용 사진도 
+		
+		     File bannerFile2 = new File(uploadPath+smallSizePic);
+		     bannerFile2.delete();
+	     }
+		
+		bannerService.deleteBanner(vo.getNo());
+		
+		return "redirect:/bannerMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+	}
+	
 
 	// 공지사항 관리
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)

@@ -71,7 +71,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 	public int totalSearchCountEmployee(SearchCriteria cri, int empretired) throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cri",cri);
+		//System.out.println(cri);
 		map.put("empretired",empretired);
+		//System.out.println(empretired);
 		return sqlSession.selectOne(namespace+"totalSearchCountEmployee",map);
 	}
 
