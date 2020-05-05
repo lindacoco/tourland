@@ -39,7 +39,8 @@ select * from tour where no = 3001 order by no desc;
 delete from tour;
 -- 태원 --------------------------------------------------------------------------------------------
 SELECT *
-FROM hotel; 
+FROM hotel 
+where no = 811;
 select count(no) from hotel;
 select * from hotel order by no desc limit 10, 3;
 
