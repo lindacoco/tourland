@@ -44,11 +44,21 @@
 
 <!-- 검색 기능 날짜 검색은 추후에 200503 -->
  <sql id="search">
-        <if test="searchType=='rentcarCno'.toString()">
-	       where cno like CONCAT('%','${keyword}','%')
-	      </if>
+        
 	      <if test="searchType=='rentcarType'.toString()">
-	       where cdiv like CONCAT('%','${keyword}','%')
+	       where cdiv like CONCAT('%',#{keyword},'%')
+	      </if>
+	      <if test="searchType=='rentcarCno'.toString()">
+	       where cno like CONCAT('%',#{keyword},'%')
+	      </if>
+	      <if test="searchType=='rentDepartDate'.toString()">
+	       where rentddate like CONCAT('%',#{keyword},'%')
+	      </if>
+	      <if test="searchType=='rentDepartaddr'.toString()">
+	       where rentaddr like CONCAT('%',#{keyword},'%')
+	      </if>
+	      <if test="searchType=='rentLDiv'.toString()">
+	       where ldiv like CONCAT('%',#{keyword},'%')
 	      </if>
  </sql>
 

@@ -38,7 +38,7 @@
 						</div>
 						<div class="form-group">
 							<label>사진</label>
-							<input type="file" name="pic" id="file">
+							<input type="file" name="bannerPic" id="file">
 						</div>
 						<div class="form-group" id="previewDiv">
 							

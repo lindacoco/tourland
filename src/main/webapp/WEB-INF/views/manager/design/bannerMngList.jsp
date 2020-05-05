@@ -7,6 +7,9 @@
 	table .table table-bordered th,td,th{
        text-align: center;
     }
+    .bannerList:hover {
+    	background-color : lightgrey;
+    }
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
@@ -14,7 +17,7 @@
 		<div class="col-sm-12">    
 			<div class="box box-primary">      
 				<div class="box-header">
-					<h2 class="box-title">배너 관리</h2>
+					<h2 class="box-title">배너  관리</h2>
 				</div>
 				<div class="box-body">
 				<!-- 검색 작업에서 유지될 데이터 
@@ -39,15 +42,17 @@
 					<table class="table table-bordered">
 						<tr>
 							<th style="width:100px;">배너 번호</th>
-							<th>배너 사진</th>
 							<th>배너명</th>
+							<th>배너 설명</th>
+					<!-- 		<th>선택</th> -->
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
 						<c:forEach var="bannerList" items="${list}">
 						    <tr data-click="${bannerList.no }" class="bannerList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${bannerList.no }</td>
-						    <td>${bannerList.pic }</td>
 						    <td>${bannerList.title }</td>
+						    <td>${bannerList.content }</td>
+						  <%--   <td><input type="checkbox" name="bannercheckbox" value="${bannerList.no }" ></td> --%>
 						    </tr>
 						</c:forEach>	
 					</table>      

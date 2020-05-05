@@ -22,10 +22,11 @@
 				<div class="box-header">
 					<h3 class="box-title">배너 조회</h3>
 				</div>
-				<form role="form" action="bannerUpdate/${bannerVO.no }" method="post" enctype="multipart/form-data" id="bannerForm">
+				<form role="form" action="bannerUpdate" method="post" enctype="multipart/form-data" id="bannerForm">
 					<div class="box-body">
 						<div class="form-group">
 							<label>배너 번호</label>
+							<input type="hidden" name ="pic" value="${bannerVO.pic }">
 							<input type="text" name="no" class="form-control" value="${bannerVO.no }" readonly="readonly">
 						</div>
 						<div class="form-group">
@@ -34,18 +35,26 @@
 						</div>
 						<div class="form-group">
 							<label>배너 설명(내용)</label>
-							<textarea rows="15" cols="30" placeholder="내용을 입력하세요" name="content" class="form-control" required="required" value="${bannerVO.content}"></textarea>
+							<textarea rows="15" cols="30" placeholder="내용을 입력하세요" name="content" class="form-control" required="required">${bannerVO.content}</textarea>
 						</div>
 						<div class="form-group">
-							<label>사진</label>
-							<input type="file" name="pic" id="file">
+							<label>저장된 사진</label>
+							<div>
+							    <img src="displayFile?filename=${bannerVO.pic }" style="width:560px; height:200px; ">
+							</div>
+						</div>
+						<br>
+						<div class="form-group">
+							<label>수정할 사진</label>
+							<input type="file" name="bannerPic" id="file">
 						</div>
 						<div class="form-group" id="previewDiv">
-							<img src="${pageContext.request.contextPath }">
+							
 						</div>
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary">수정</button>
-							 <button type="button" class="btn btn-primary" style="background:red;" id="btnDel">삭제</button>
+							 <button type="button" class="btn btn-primary" style="background:red;" id="btnDel">삭제</button><br>
+							 <button type="button" class="btn btn-primary" id="btnReturnToList" style="margin-top:10px;">목록으로</button>
 						</div>
 					</div>
 				</form>
@@ -68,6 +77,21 @@
     		  $("#previewDiv").html($img);
     	  }
       })
+      
+       //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
+		$("#btnReturnToList").click(function(){
+			location.href="${pageContext.request.contextPath}/bannerMngList";
+		})
+		
+	   //삭제 누르면 삭제 되기
+	   $("button#btnDel").click(function(){
+		   var bannerno = ${bannerVO.no };
+		   var cc = confirm("삭제하시겠습니까?");
+		   if(cc){
+		   location.href="${pageContext.request.contextPath }/removeBanner?no="+bannerno+"&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
+		   }
+	   })
+	   
    
   </script>
 <%@ include file="../../include/footer.jsp"%>
