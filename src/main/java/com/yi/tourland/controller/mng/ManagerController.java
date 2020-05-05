@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
@@ -278,8 +281,57 @@ public class ManagerController {
 
 //상품관리 ------------------------------------------------------------------------------------
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
-	public String addProductForm() {
+	public String addProductFormGet(SearchCriteria cri, Model model) throws Exception {
+		List<AirplaneVO> flightList = flightService.airplaneList(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
+		model.addAttribute("flightList",flightList);
+		model.addAttribute("pageMaker",pageMaker);
 		return "/manager/product/addProductForm";
+	}
+	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
+	public String addProductFormPost() {
+		return "/manager/product/productMgnList";
+	}
+	@ResponseBody
+	@RequestMapping(value = "flightList", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> flightList(SearchCriteria cri, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			List<AirplaneVO> flightList = flightService.airplaneList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
+			map.put("list", flightList);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	@ResponseBody
+	@RequestMapping(value = "flightList/{no}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> flightList(@PathVariable("no") int no,AirplaneVO vo, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			vo.setNo(no);
+			vo = flightService.airplaneByNo(vo);
+			map.put("vo", vo);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	// 현지 투어 관리
 	@RequestMapping(value = "tourMngList", method = RequestMethod.GET)

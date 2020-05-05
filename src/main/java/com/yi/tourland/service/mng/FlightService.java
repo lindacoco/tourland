@@ -1,5 +1,6 @@
 package com.yi.tourland.service.mng;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,8 @@ public class FlightService {
 	
 	public int totalCountAirplane (SearchCriteria cri) throws Exception {
 		return dao.totalCountAirplane(cri);
+	}
+	public AirplaneVO airplaneByNo(AirplaneVO vo) throws SQLException {
+		return dao.airplaneByNo(vo);
 	}
 }

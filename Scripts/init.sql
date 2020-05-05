@@ -90,11 +90,11 @@ ALTER TABLE tour.event
 
 -- 배너
 CREATE TABLE tour.banner (
-	no      INT          NOT NULL COMMENT '번호', -- 번호
-	title   varchar(255) NULL     COMMENT '제목', -- 제목
-	content LONGTEXT     NULL     COMMENT '내용', -- 내용
-	pic     varchar(255) NULL     COMMENT '사진', -- 사진
-	path    varchar(255) NULL     COMMENT '세부경로' -- 세부경로
+	no        INT          NOT NULL COMMENT '번호', -- 번호
+	title     varchar(255) NULL     COMMENT '제목', -- 제목
+	content   LONGTEXT     NULL     COMMENT '내용', -- 내용
+	pic       varchar(255) NULL     COMMENT '사진', -- 사진
+	isSetting TINYINT(1)   NULL     COMMENT '설정여부' -- 설정여부
 )
 COMMENT '배너';
 
@@ -129,7 +129,7 @@ ALTER TABLE tour.FAQ
 	MODIFY COLUMN no INT NOT NULL AUTO_INCREMENT COMMENT '번호';
 
 -- 고객의소리
-CREATE TABLE tour.custnotice (
+CREATE TABLE tour.custboard (
 	no      INT          NOT NULL COMMENT '번호', -- 번호
 	title   varchar(255) NULL     COMMENT '제목', -- 제목
 	content LONGTEXT     NULL     COMMENT '내용', -- 내용
@@ -140,14 +140,14 @@ CREATE TABLE tour.custnotice (
 COMMENT '고객의소리';
 
 -- 고객의소리
-ALTER TABLE tour.custnotice
-	ADD CONSTRAINT PK_custnotice -- 고객의소리 기본키
+ALTER TABLE tour.custboard
+	ADD CONSTRAINT PK_custboard -- 고객의소리 기본키
 		PRIMARY KEY (
 			no -- 번호
 		);
 
 -- 상품문의사항
-CREATE TABLE tour.plannotice (
+CREATE TABLE tour.planboard (
 	no      INT          NOT NULL COMMENT '번호', -- 번호
 	title   varchar(255) NULL     COMMENT '제목', -- 제목
 	content LONGTEXT     NULL     COMMENT '내용', -- 내용
@@ -160,8 +160,8 @@ CREATE TABLE tour.plannotice (
 COMMENT '상품문의사항';
 
 -- 상품문의사항
-ALTER TABLE tour.plannotice
-	ADD CONSTRAINT PK_plannotice -- 상품문의사항 기본키
+ALTER TABLE tour.planboard
+	ADD CONSTRAINT PK_planboard -- 상품문의사항 기본키
 		PRIMARY KEY (
 			no -- 번호
 		);
@@ -176,7 +176,8 @@ CREATE TABLE tour.package (
 	ano      INT          NULL     COMMENT '항공번호', -- 항공번호
 	hno      INT          NULL     COMMENT '호텔번호', -- 호텔번호
 	tno      INT          NULL     COMMENT '투어번호', -- 투어번호
-	rno      INT          NULL     COMMENT '렌트카번호' -- 렌트카번호
+	rno      INT          NULL     COMMENT '렌트카번호', -- 렌트카번호
+	ppic     varchar(255) NULL     COMMENT '상품사진' -- 상품사진
 )
 COMMENT '상품';
 
