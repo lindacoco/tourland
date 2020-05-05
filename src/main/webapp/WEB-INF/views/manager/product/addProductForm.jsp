@@ -66,6 +66,8 @@ h2 {
 				$(".result").eq(0).empty();
 				$(".result").eq(0).append(res.vo.no+" "+res.vo.ano+" "+res.vo.dlocation+" "+res.vo.rlocation+" "+ddateStr+" "+rdateStr+" "+res.vo.ldiv+" "+res.vo.capacity+" "+res.vo.seat+" "+res.vo.price);
 				$("form").append(no).append(ano).append(dlocation).append(rlocation).append(ddate).append(rdate).append(ldiv).append(capacity).append(seat).append(price);
+				$('.modal-backdrop').remove();
+				
 			},
 			error : function(request, status, error) { // 결과 에러 콜백함수
 		        console.log(error)
@@ -108,9 +110,9 @@ h2 {
 					var tr = $("<tr class='flightList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
 					$("#table").append(tr);
 				});
-				var preva =  $("<a href='#' id='prev'>").html("&laquo;");
+				var preva =  $("<a id='prev'>").html("&laquo;");
 				var prevli = $("<li>").append(preva);
-				var nexta = $("<a href='#' id='next'>").html("&raquo;");
+				var nexta = $("<a id='next'>").html("&raquo;");
 				var nextli = $("<li>").append(nexta);
 				if(res.pageMaker.prev) $(".pagination").append(prevli);
 				for(var i=res.pageMaker.startPage;i<=res.pageMaker.endPage;i++) {
@@ -174,15 +176,10 @@ h2 {
 		$(".flightList").click(function(){
 			var no = $(this).attr("data-no");
 			clickAir(no);
-			$("#flight")
-			$(".close").click();
-			$('.modal-backdrop').remove();
 		})
 		$(document).on("click",".flightList",function(){
 			var no = $(this).attr("data-no");
 			clickAir(no);
-			$(".close").click();
-			$('.modal-backdrop').remove();
 		})
 	})
 </script>
@@ -300,7 +297,7 @@ h2 {
 			</div>
 		</div>
 	</div>
-	<div id="flight" class="modal fade" role="dialog">
+	<div id="flight" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
 	  	<div class="modal-dialog modal-lg">
 		    <!-- Modal content-->
 		    <div class="modal-content">
@@ -357,13 +354,13 @@ h2 {
 						<div class="text-center">
 							<ul class="pagination">
 								<c:if test="${pageMaker.prev == true }">
-									<li><a href="#" id="prev">&laquo;</a></li>
+									<li><a id="prev">&laquo;</a></li>
 								</c:if>
 								<c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-									<li class="${pageMaker.cri.page == idx ?'active':''}"><a href="#" class="index" data-index="${idx }">${idx }</a></li>
+									<li class="${pageMaker.cri.page == idx ?'active':''}"><a class="index" data-index="${idx }">${idx }</a></li>
 								</c:forEach>
 								<c:if test="${pageMaker.next == true }">
-									<li><a href="#" id="next">&raquo;</a></li>
+									<li><a id="next">&raquo;</a></li>
 								</c:if>
 							</ul>
 						</div>  

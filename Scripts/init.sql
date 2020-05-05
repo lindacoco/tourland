@@ -94,7 +94,7 @@ CREATE TABLE tour.banner (
 	title     varchar(255) NULL     COMMENT '제목', -- 제목
 	content   LONGTEXT     NULL     COMMENT '내용', -- 내용
 	pic       varchar(255) NULL     COMMENT '사진', -- 사진
-	isSetting TINYINT(1)   NULL     COMMENT '설정여부' -- 설정여부
+	isSetting TINYINT(1)   NULL     DEFAULT 0 COMMENT '설정여부' -- 설정여부
 )
 COMMENT '배너';
 
@@ -465,6 +465,5 @@ ALTER TABLE tour.cart
 		REFERENCES tour.package ( -- 상품
 			pno -- 상품번호
 		);
-		
 create user if not exists 'tour'@'localhost';
 grant all privileges on tour.* to 'tour'@'localhost' identified by 'tour';
