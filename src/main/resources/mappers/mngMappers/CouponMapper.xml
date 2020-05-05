@@ -7,4 +7,7 @@
 	<select id="totalCountCoupon" resultType="int">
 		select count(*) from coupon
 	</select>
+	<insert id="addCoupon">
+		insert into coupon values (#{cno}, #{cname}, #{pdate}, #{edate}, #{ccontent}, #{mrate})
+	</insert>
 </mapper>

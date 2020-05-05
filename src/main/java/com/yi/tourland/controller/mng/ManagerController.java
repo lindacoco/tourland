@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
@@ -278,8 +281,57 @@ public class ManagerController {
 
 //상품관리 ------------------------------------------------------------------------------------
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
-	public String addProductForm() {
+	public String addProductFormGet(SearchCriteria cri, Model model) throws Exception {
+		List<AirplaneVO> flightList = flightService.airplaneList(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
+		model.addAttribute("flightList",flightList);
+		model.addAttribute("pageMaker",pageMaker);
 		return "/manager/product/addProductForm";
+	}
+	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
+	public String addProductFormPost() {
+		return "/manager/product/productMgnList";
+	}
+	@ResponseBody
+	@RequestMapping(value = "flightList", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> flightList(SearchCriteria cri, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			List<AirplaneVO> flightList = flightService.airplaneList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(flightService.totalCountAirplane(cri));
+			map.put("list", flightList);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	@ResponseBody
+	@RequestMapping(value = "flightList/{no}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> flightList(@PathVariable("no") int no,AirplaneVO vo, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			vo.setNo(no);
+			vo = flightService.airplaneByNo(vo);
+			map.put("vo", vo);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
 	}
 	// 현지 투어 관리
 	@RequestMapping(value = "tourMngList", method = RequestMethod.GET)
@@ -518,6 +570,14 @@ public class ManagerController {
 		model.addAttribute("totalCnt", totalCnt);
 		return "/manager/notice/addNoticeForm";
 	}
+	//공지사항 추가
+	@RequestMapping(value="addNoticeForm", method=RequestMethod.POST)
+	public String addNoticeResult(NoticeVO notice, Model model) throws Exception{
+		System.out.println(notice);
+		noticeService.addNotice(notice);
+		return "redirect:/noticeMngList";
+	}
+	
 	//공지사항 상세페이지
 	@RequestMapping(value="noticeDetail", method=RequestMethod.GET)
 	public String noticeDetail(int no,SearchCriteria cri, Model model) throws Exception{
@@ -533,14 +593,21 @@ public class ManagerController {
 			noticeService.removeNotice(no);
 			model.addAttribute("cri",cri);
 			return "redirect:/noticeMngList";
-		}
-	
-	
-	@RequestMapping(value="addNoticeForm", method=RequestMethod.POST)
-	public String addNoticeResult(NoticeVO notice, Model model) throws Exception{
-		System.out.println(notice);
-		noticeService.addNotice(notice);
-		return "redirect:/noticeMngList";
+	}
+	//공지사항 수정 
+	@RequestMapping(value="editNotice", method=RequestMethod.GET)
+		public String editNoticeGET(int no, Model model) throws Exception{
+			NoticeVO notice = noticeService.readNoticeByNo(no);
+			model.addAttribute("notice", notice);
+			return "/manager/notice/editNotice";
+		}    
+	   
+	//공지사항 수정 
+	@RequestMapping(value="editNotice", method=RequestMethod.POST)
+		public String editNoticePOST(NoticeVO notice, Model model) throws Exception{
+			System.out.println(notice);
+			noticeService.editNotice(notice);
+			return "redirect://noticeDetail?no="+notice.getNo();
 	}
 
 	// 쿠폰관리
@@ -555,7 +622,24 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		return "/manager/coupon/couponMngList";
 	}
-
+	//쿠폰 추가
+		@RequestMapping(value="addCouponForm", method=RequestMethod.GET)
+		public String addCouponForm(Model model) throws Exception{
+			SearchCriteria cri = new SearchCriteria();
+			int total = couponService.totalCountNotice(cri);
+			int totalCnt = total+1;
+			model.addAttribute("totalCnt", totalCnt);
+			return "/manager/coupon/addCouponForm";
+		}
+	//쿠폰 추가
+	@RequestMapping(value="addCouponForm", method=RequestMethod.POST)
+	public String addCouponResult(CouponVO coupon, Model model) throws Exception{
+		System.out.println(coupon);
+		
+		return "redirect:/couponMngList";
+	}
+	
+	
 	
 	//호텔관리
 	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)

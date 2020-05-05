@@ -40,10 +40,16 @@ private static final String namespace ="mappers.mngMappers.NoticeMapper.";
 	public NoticeVO readNoticeByNo(int no) throws Exception {
 		return sqlSession.selectOne(namespace +"readNoticeByNo", no);
 	}
-
+	//공지사항 삭제
 	@Override
 	public void removeNotice(int no) throws Exception {
 		sqlSession.delete(namespace + "removeNotice", no);
+		
+	}
+	//공지사항 수정
+	@Override
+	public void editNotice(NoticeVO notice) throws Exception {
+		sqlSession.update(namespace + "editNotice", notice);
 		
 	}
 

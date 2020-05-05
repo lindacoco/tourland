@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.mngMappers.FlightMapper">
+	<sql id="search">
+		<if test='searchType=="no"'>
+			where no = #{keyword}
+		</if>
+		<if test='searchType=="ano"'>
+			where ano like concat('%',#{keyword},'%') 
+		</if>
+		<if test='searchType=="dloca"'>
+			where dlocation like concat('%',#{keyword},'%')
+		</if>
+		<if test='searchType=="rloca"'>
+			where rlocation like concat('%',#{keyword}.'%')
+		</if>
+		<if test='searchType=="ddate"'>
+			where ddate = #{keyword}
+		</if>
+		<if test='searchType=="rdate"'>
+			where rdate = #{keyword}
+		</if>
+	</sql> 
 	<select id="airplaneList" resultType="AirplaneVO">
-		select * from airplane limit #{pageStart}, #{perPageNum}
+		select * from airplane 
+		<include refid="search"/>
+		limit #{pageStart}, #{perPageNum}
 	</select>
 	<select id="totalCountAirplane" resultType="int">
 		select count(*) from airplane
+		<include refid="search"/>
+	</select>
+	<select id="airplaneByNo" resultType="AirplaneVO">
+		select * from airplane where no = #{no}
 	</select>
 </mapper> 

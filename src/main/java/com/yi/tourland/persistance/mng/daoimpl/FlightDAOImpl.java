@@ -1,5 +1,6 @@
 package com.yi.tourland.persistance.mng.daoimpl;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -27,5 +28,10 @@ public class FlightDAOImpl implements FlightDAO {
 	@Override   
 	public int totalCountAirplane(SearchCriteria cri) throws Exception {
 		return sqlSession.selectOne(namespace + "totalCountAirplane", cri);
+	}
+
+	@Override
+	public AirplaneVO airplaneByNo(AirplaneVO vo) throws SQLException {
+		return sqlSession.selectOne(namespace + "airplaneByNo",vo);
 	}
 }
