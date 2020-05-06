@@ -89,8 +89,8 @@
 										</c:when>
 									</c:choose>
 									<td>
-										<button type="button" class="btn btn-primary active btn-sm" id="btnModify" data-no="${hotel.no }">수정</button>
-										<button type="button" class="btn btn-primary btn-sm" id="btnDelete" data-no="${hotel.no }">삭제</button>
+										<button type="button" class="btn btn-primary active btn-sm btnModify" data-no="${hotel.no }">수정</button>
+										<button type="button" class="btn btn-primary btn-sm btnDelete" data-no="${hotel.no }">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -121,14 +121,14 @@
 		})
 		$("#btnRegister").click(function(){
 			location.href = "hotelRegister";
-		})	
-		$("#btnModify").click(function(){
+		})	      
+		$(".btnModify").click(function(){
 			var no = $(this).attr("data-no");
 			alert(no);
 
 			location.href = "hotelModify";
 		})	
-		$("#btnDelete").click(function(){
+		$(".btnDelete").click(function(){
 			var page =	"${cri.page}";
 			var searchType = "${cri.searchType}";
 			var keyword = "${cri.keyword}";
