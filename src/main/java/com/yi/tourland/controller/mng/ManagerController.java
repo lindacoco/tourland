@@ -312,16 +312,22 @@ public class ManagerController {
 	public String addProductFormGet(SearchCriteria cri, Model model) throws Exception {
 		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
 		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
+		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
 		PageMaker pageMakerByFlightDepature = new PageMaker();
 		pageMakerByFlightDepature.setCri(cri);
 		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
 		PageMaker pageMakerByFlightRending = new PageMaker();
 		pageMakerByFlightRending.setCri(cri);
 		pageMakerByFlightRending.setTotalCount(flightService.totalCountAirplaneByRending(cri));
+		PageMaker pageMakerByHotel = new PageMaker();
+		pageMakerByHotel.setCri(cri);
+		pageMakerByHotel.setTotalCount(hotelService.totalSearchCountHotel(cri));
 		model.addAttribute("flightListDepature",flightListDepature);
 		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
 		model.addAttribute("flightListRending",flightListRending);
-		model.addAttribute("pageMakerByFlightRending",pageMakerByFlightRending);	
+		model.addAttribute("pageMakerByFlightRending",pageMakerByFlightRending);
+		model.addAttribute("hotelList",hotelList);
+		model.addAttribute("pageMakerByHotel",pageMakerByHotel);
 		return "/manager/product/addProductForm";
 	}
 	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
