@@ -2,7 +2,6 @@ package com.yi.tourland.controller.mng;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +24,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
 import com.yi.tourland.domain.mng.BannerVO;
 import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
+import com.yi.tourland.domain.mng.DataListVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
@@ -112,15 +110,28 @@ public class ManagerController {
 
 	// 항공 추가 폼
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.GET)
-	public String addFlightForm() {
-		return "/manager/flight/addFlightForm";
+	public String addFlightForm(Model model) throws Exception {
+		SearchCriteria cri = new SearchCriteria();
+		int no = flightService.totalCountAirplane(cri);
+		int nextNo = no+1;
+		model.addAttribute("airTotalCnt",no);
+		model.addAttribute("airTotalNextCnt",nextNo);
+		return "/manager/flight/addFlightForm2";
 	}
 
 	// 항공 추가 폼
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.POST)
+
 	public String addFlightResult() {
 		return "flightMngList";
 	}
+
+	public String addFlightResult(AirplaneVO air) {
+			System.out.println(air);
+		
+		return "flightMngList";   
+	}      
+
 
 	// 직원관리리스트
 	@RequestMapping(value = "empMngList/{empretired}", method = RequestMethod.GET)
@@ -295,16 +306,23 @@ public class ManagerController {
 		return "/manager/user/userRegister";
 	}
 
+
 	// 고객 리스트 클릭했을 때 자세한 정보 보기로 넘어가기
 	@RequestMapping(value = "userDetailForm/{usersecess}", method = RequestMethod.GET)
-	public String userDetailForm(int no, SearchCriteria cri, Model model, @PathVariable("usersecess") int usersecess)
-			throws Exception {
+	public String userDetailForm(int no, SearchCriteria cri, Model model, @PathVariable("usersecess") int usersecess) throws Exception {
 		UserVO vo = userService.readByNoUser(no);
 		System.out.println(vo);
 		model.addAttribute("userVO", vo);
 		model.addAttribute("cri", cri);
 		model.addAttribute("usersecess", usersecess);
 		return "/manager/user/userDetailForm";
+	}
+
+	@RequestMapping(value = "userRegister", method = RequestMethod.POST)
+	public String userRegisterPost(UserVO vo) throws Exception {
+        System.out.println(vo);
+		userService.insertUser(vo);
+		return "redirect:userMngList/0";
 	}
 
 	// 예약관리
@@ -463,6 +481,34 @@ public class ManagerController {
 		return "/manager/rentcar/rentcarMngList";
 	}
 
+	//렌트카 추가
+	@RequestMapping(value = "rentcarRegister", method = RequestMethod.GET)
+	public String rentcarRegister(SearchCriteria cri, Model model) {
+		int lastNo =0;
+		
+		try{
+			List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
+
+		    
+		    lastNo = rentcarList.get(0).getNo();
+		
+				model.addAttribute("autoNo",lastNo+1);
+			
+			
+		}catch (Exception e) {
+		    e.printStackTrace();
+		    //퇴사 사원이 없는 경우 오류가 뜨기에 시범 데이터 입력 
+		}
+		
+		return "/manager/rentcar/rentcarRegister";
+	}
+	//렌트카 상품 삭제
+		@RequestMapping(value = "delRentcar", method = RequestMethod.GET)
+		public String delRentcar(int no, SearchCriteria cri) throws Exception{
+			rentcarService.deleteRentcar(no);
+			return "redirect:/rentcarMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+		}
+
 	// 이벤트관리
 
 // 게시판관리 -------------------------------------------------------------------------------------------------------------------------
@@ -608,12 +654,23 @@ public class ManagerController {
 
 		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
 
+
+
+		String rightBanner = bannerList.get(1).getPic();
+		String leftBanner = bannerList.get(0).getPic();
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bannerService.totalSearchCountBanner(cri));
 
 		model.addAttribute("cri", cri);
+
 		model.addAttribute("list", bannerList);
+
+
+		model.addAttribute("list",bannerList);
+		model.addAttribute("rightBanner",rightBanner);
+		model.addAttribute("leftBanner",leftBanner);
 
 		model.addAttribute("pageMaker", pageMaker);
 
@@ -746,6 +803,46 @@ public class ManagerController {
 				+ cri.getKeyword();
 	}
 
+	//리스트에서 배너 미리보기
+	@ResponseBody
+	@RequestMapping(value = "getPicPath/{no}",method = RequestMethod.GET)
+	public ResponseEntity<String> getPicPath(@PathVariable("no") int no){
+
+		ResponseEntity<String> entity = null;
+		
+		try {
+			BannerVO vo = bannerService.readByNoBanner(no);
+	
+			if(vo !=null ) {
+			entity = new ResponseEntity<String>(vo.getPic(),HttpStatus.OK);
+			   }
+		}catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST); //400에러
+					
+		}
+		return entity;
+		
+	}
+	
+	//리스트에서 미리보기로 본 후 설정 버튼 눌렀을 때 메인 이미지에 반영될 배너 리스트(설정여부 isSetting 리스트 갱신되기)
+/*	@RequestMapping(value = "bannerIsSetting/{no}/{whichSide}", method = RequestMethod.POST)
+	public String bannerIsSetting(@PathVariable("no") int no, Model model,SearchCriteria cri,@PathVariable("whichSide") String whichSide) throws Exception{
+		
+		List<BannerVO> OldBannerList = bannerService.listCriteriaSettingBanner(cri, 1);
+		if(OldBannerList.size() == 0 ) {
+			BannerVO vo = bannerService.readByNoBanner(no);
+			vo.setIsSetting(1);
+			bannerService.updateBanner(vo);
+		}
+	     bannerService.updateBanner(vo);
+		
+		return "redirect:/bannerDetailForm?no="+vo.getNo();
+		
+	}
+*/	
+
+
 // 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)
@@ -823,29 +920,66 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		return "/manager/coupon/couponMngList";
 	}
+	//쿠폰 추가
+		@RequestMapping(value="addCouponForm", method=RequestMethod.GET)
+		public String addCouponForm(Model model) throws Exception{
+			SearchCriteria cri = new SearchCriteria();
+			int total = couponService.totalCountNotice(cri);
+			int totalCnt = total+1;
+			model.addAttribute("totalCnt", totalCnt);
+			return "/manager/coupon/addCouponForm";
+		}
+	//쿠폰 추가
+	@RequestMapping(value="addCouponForm", method=RequestMethod.POST)
+	public String addCouponResult(CouponVO coupon,Model model) throws Exception{
 
-	// 쿠폰 추가
-	@RequestMapping(value = "addCouponForm", method = RequestMethod.GET)
-	public String addCouponForm(Model model) throws Exception {
-		SearchCriteria cri = new SearchCriteria();
-		int total = couponService.totalCountNotice(cri);
-		int totalCnt = total + 1;
-		model.addAttribute("totalCnt", totalCnt);
-		return "/manager/coupon/addCouponForm";
-	}
-
-	// 쿠폰 추가
-	@RequestMapping(value = "addCouponForm", method = RequestMethod.POST)
-	public String addCouponResult(CouponVO coupon, Model model) throws Exception {
 		System.out.println(coupon);
 
+		couponService.addCoupon(coupon);
 		return "redirect:/couponMngList";
 	}
+	
+	//쿠폰 상세페이지
+		@RequestMapping(value="couponDetail", method=RequestMethod.GET)
+		public String couponDetail(int cno,SearchCriteria cri, Model model) throws Exception{
+			CouponVO coupon = couponService.readCouponByNo(cno);
+			model.addAttribute("coupon", coupon);
+			model.addAttribute("pdate", coupon.getPdate());
+			model.addAttribute("edate", coupon.getEdate());
+			model.addAttribute("cri", cri);
+			return "/manager/coupon/couponDetail";
+		}
+	
+	//쿠폰 삭제
+		@RequestMapping(value = "removeCoupon", method = RequestMethod.GET)
+		public String removeCoupon(int cno, SearchCriteria cri, Model model) throws Exception {
+			couponService.removeCoupon(cno);
+			model.addAttribute("cri",cri);
+			return "redirect:/couponMngList";
+		}
 
-	// 호텔관리
-	@RequestMapping(value = "hotelMngList", method = RequestMethod.GET)
-	public String hotelListPage(SearchCriteria cri, Model model) throws Exception {
-		List<HotelVO> list = hotelService.listSearchHotel(cri);
+	// 쿠폰 수정
+	@RequestMapping(value = "editCoupon", method = RequestMethod.GET)
+	public String editCouponGET(int cno, Model model) throws Exception {
+		CouponVO coupon = couponService.readCouponByNo(cno);
+		 model.addAttribute("pdate", coupon.getPdate()); 
+		 model.addAttribute("edate",coupon.getEdate()); 
+		 model.addAttribute("coupon", coupon);
+		
+		return "/manager/coupon/editCoupon";
+	}
+
+	// 쿠폰 수정
+	@RequestMapping(value = "editCoupon", method = RequestMethod.POST)
+	public String editCouponPOST(CouponVO coupon, Model model) throws Exception {
+		couponService.editCoupon(coupon);
+		return "redirect:/couponDetail?cno=" + coupon.getCno();
+	}
+
+	//호텔관리
+	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)
+	public String hotelListPage(SearchCriteria cri, Model model) throws Exception { 
+		List<HotelVO> list = hotelService.listCriteriaHotel(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(hotelService.totalSearchCountHotel(cri));

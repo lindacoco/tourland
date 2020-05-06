@@ -6,6 +6,16 @@ import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.CouponVO;
 
 public interface CouponDAO {
+	//쿠폰 리스트
 	public List<CouponVO> couponList(SearchCriteria cri) throws Exception;
+	//쿠폰 전체 갯수
 	public int totalCountCoupon(SearchCriteria cri) throws Exception;
+	//쿠폰 추가
+	public void addCoupon(CouponVO coupon) throws Exception;
+	//쿠폰 번호로 쿠폰 객체 불러오기
+	public CouponVO readCouponByNo(int cno) throws Exception;
+	//쿠폰 삭제
+	public void removeCoupon(int cno) throws Exception;
+	//쿠폰 수정
+	public void editCoupon(CouponVO coupon) throws  Exception;
 }

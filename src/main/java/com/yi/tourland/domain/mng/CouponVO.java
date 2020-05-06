@@ -1,11 +1,17 @@
 package com.yi.tourland.domain.mng;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class CouponVO {
 	private int cno;
 	private String cname;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pdate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date edate;
 	private String ccontent;
 	private float mrate;
@@ -24,14 +30,14 @@ public class CouponVO {
 	public Date getPdate() {
 		return pdate;
 	}
-	public void setPdate(Date pdate) {
-		this.pdate = pdate;
+	public void setPdate(String pdate) throws ParseException {
+		this.pdate =  new SimpleDateFormat("yyyy-MM-dd").parse(pdate);
 	}
 	public Date getEdate() {
 		return edate;
 	}
-	public void setEdate(Date edate) {
-		this.edate = edate;
+	public void setEdate(String edate) throws ParseException {
+		this.edate =  new SimpleDateFormat("yyyy-MM-dd").parse(edate);
 	}
 	public String getCcontent() {
 		return ccontent;

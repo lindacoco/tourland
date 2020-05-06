@@ -31,7 +31,7 @@
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button id="btnRegister">추가</button>
+					<button id="btnRegister">렌트카 추가</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -47,9 +47,11 @@
 							<th>허용인원</th>
 							<th>보험여부</th>
 							<th>국내/해외</th>
+							<th>상세보기</th>
+							
 						</tr>
 						<c:forEach var="rentcarList" items="${list}">
-						<tr class="rentcarList" data-no="${rentcarList.no}">
+						<tr class="rentcarList" data-click="${rentcarList.no}">
 							<td>${rentcarList.no}</td>
 							<td>${rentcarList.cdiv}</td>
 							<td>${rentcarList.cno}</td>
@@ -61,6 +63,8 @@
 							<td>${rentcarList.capacity}</td>
 							<td>${rentcarList.insurance}</td>
 							<td>${rentcarList.ldiv == 0?'해외':'국내'}</td>
+							 <td><button style="background:steelblue; border:none;" class="toRentcarDetail" data-click="${rentcarList.no }">상세보기</button>
+							 <button style="background:tomato; border:none;" class="delRentcar" data-click="${rentcarList.no }">삭제</button></td>
 						</tr>
 						</c:forEach>     
 					</table>      
@@ -99,14 +103,31 @@ $("#btnRegister").click(function(){
 	location.href = "${pageContext.request.contextPath}/rentcarRegister";
 })
 
-//각 리스트를 클릭했을 때 디테일로 넘어가는 부분
+/* //각 리스트를 클릭했을 때 디테일로 넘어가는 부분
 $(".rentcarList").click(function(){
 	var no = $(this).attr("data-click");
 	var searchType = "${cri.searchType}";
 	var keyword = "${cri.keyword}";
 	location.href = "${pageContext.request.contextPath}/rentcarDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 	
+}) */
+$(".toRentcarDetail").click(function(){
+	var no = $(this).attr("data-click");
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
+	location.href = "${pageContext.request.contextPath}/rentcarDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 })
+$(".delRentcar").click(function(){
+	var cc = confirm("렌트카 상품을 삭제하시겠습니까?");
+	if(cc){
+	var no = $(this).attr("data-click");
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
+	location.href = "${pageContext.request.contextPath}/delRentcar?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+	}
+})
+
+
 </script>
 
 <%@ include file="../../include/footer.jsp"%>

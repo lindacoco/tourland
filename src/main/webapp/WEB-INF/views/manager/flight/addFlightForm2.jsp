@@ -63,58 +63,40 @@ function getFormatDate(date){
 	$(function(){
 		//등록 클릭 시
 		$("#addFlight").click(function(){
-			var dloca = $("#dloca").val(); //출발지
-			var rloca = $("#rloca").val(); //도착지
-			var seat = $("#seat").val();//좌석
-			var ddate = $("#ddate").val(); //출발일
-			var rdate = $("#rdate").val();
-			var capacity = $("#capacity").val(); //최대 인원 수
-			var price = $("#price").val();//가격
 			
 		})   
-		//도착지 선택 시 
-		$("#rloca").change(function(){
-			var dloca = $(this).val(); //출발지   
-				if(dloca=="인천"){
-					$("#FCode").val("KA");
-				}else if(dloca=="제주"){
-					$("#FCode").val("KA");
+		//출발 스케줄 - 도착지 선택 시 
+		$("#rlocation_d").change(function(){
+			var rloca = $(this).val(); //도착지
+				if(rloca=="제주"){
+					$("#FCode_d").val("KA");
 				}
-				else if(dloca=="일본"){
-					$("#FCode").val("JA");
+				else if(rloca=="일본"){
+					$("#FCode_d").val("JA");
 				}else{
-					$("#FCode").val("AC");
+					$("#FCode_d").val("AC");
 				}   
-		})/* 
-		//도착지 선택 시 
-		$("#rloca").change(function(){
-			var dloca = $("#dloca").val();
-			var rloca = $(this).val();
-			if(dloca==rloca){
-				alert("출발지와 도착지가 같습니다.");
-				$("#rloca").val("도착지 선택");
-				$("#FCode").val("");     
-			}
-		}) */
-	
-		//좌석 선택 시 
-		$("#seat").change(function(){
+		})
+		//출발 스케줄 - 좌석 선택 시 
+		$("#seat_d").change(function(){
 			var seat = $(this).val();
 			if(seat=="First-Class"){
-				$("#capacity").val("5");
+				$("#capacity_d").val("5");
 			}else if(seat=="Business-Class"){
-				$("#capacity").val("10");
+				$("#capacity_d").val("10");
+			}else if(seat=="Economy-Class"){
+				$("#capacity_d").val("30");
 			}else{
-				$("#capacity").val("30");
+				$("#capacity_d").val("");
 			}
 		})
 		
-		//여행일 선택 시 
-		$("#tourDays").change(function(){
-			var dloca = $("#dloca").val(); //출발지
-			var rloca = $("#rloca").val(); //도착지
+		//출발 스케줄 - 여행일 선택 시 
+		$("#tourDays_d").change(function(){
+			var dloca = $("#dlocation_d").val(); //출발지
+			var rloca = $("#rlocation_d").val(); //도착지
 			var tourDays = $(this).val(); //여행일
-			var ddate = $("#ddate").val();//출발일자
+			var ddate = $("#ddate_d").val();//출발일자
 			
 			//출발일자를 설정 -> 여행일 설정 -> 여행일에 따라 도착 일자가 더해짐 
 			var numArray = [3,5,7];
@@ -138,6 +120,9 @@ function getFormatDate(date){
 			var nd = new Date(newdate); //더해진 날짜 가져옴
 			nd = getFormatDate(nd); //자바스크립트 함수로 fomatting 해줌 (yyyy-MM-dd 형식)
 			
+			//있어야하는 것
+			//dloca, rloca, tourDays, ddate
+			
 			//도착지 -> 항공사 코드 결정
 			//좌석 -> 최대 인원수 결정
 			//출발 일자 -> 도착 일자 결정
@@ -145,56 +130,56 @@ function getFormatDate(date){
 			if(dloca=="인천"){
 				if(rloca=="제주"){
 					if(tourDays==3){
-						$("#dtime").val(" 09:00:00");        
-						$("#rdate").val(nd);
-						$("#rtime").val(" 10:15:00");
-						$("#FName").val("301");
+						$("#dtime_d").val(" 09:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 10:15:00");
+						$("#FName_d").val("301");
 					}else if(tourDays==5){
-						$("#dtime").val(" 10:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 11:15:00");
-						$("#FName").val("311");   
+						$("#dtime_d").val(" 10:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 11:15:00");
+						$("#FName_d").val("311");   
 					}else{
-						$("#dtime").val(" 11:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 12:15:00");
-						$("#FName").val("321");
+						$("#dtime_d").val(" 11:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 12:15:00");
+						$("#FName_d").val("321");
 					}
 						
 				}else if(rloca=="중국"){
 					if(tourDays==3){
-						$("#dtime").val(" 12:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 13:15:00");
-						$("#FName").val("201");
+						$("#dtime_d").val(" 12:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 13:15:00");
+						$("#FName_d").val("201");
 					}else if(tourDays==5){
-						$("#dtime").val(" 13:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 14:15:00");
-						$("#FName").val("211");   
+						$("#dtime_d").val(" 13:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 14:15:00");
+						$("#FName_d").val("211");   
 					}else{
-						$("#dtime").val(" 14:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 15:15:00");
-						$("#FName").val("221");
+						$("#dtime_d").val(" 14:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 15:15:00");
+						$("#FName_d").val("221");
 					}
 				}
 				else if(rloca=="일본"){
 					if(tourDays==3){
-						$("#dtime").val(" 15:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 16:15:00");
-						$("#FName").val("101");
+						$("#dtime_d").val(" 15:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 16:15:00");
+						$("#FName_d").val("101");
 					}else if(tourDays==5){
-						$("#dtime").val(" 16:00:00");  
-						$("#rdate").val(nd);
-						$("#rtime").val(" 17:15:00");
-						$("#FName").val("111");   
+						$("#dtime_d").val(" 16:00:00");  
+						$("#rdate_d").val(ddate);
+						$("#rtime_d").val(" 17:15:00");
+						$("#FName_d").val("111");   
 					}else{
 						$("#dtime").val(" 17:00:00");  
 						$("#rdate").val(nd);
 						$("#rtime").val(" 18:15:00");
-						$("#FName").val("121");
+						$("#FName_d").val("121");
 					}
 				}
 			} 
@@ -202,79 +187,76 @@ function getFormatDate(date){
 		
 		//출발 스케줄 확정 클릭 시    
 		$("#confirm").click(function(){     
-			var dloca = $("#dloca").val(); //출발지
-			var rloca = $("#rloca").val(); //도착지
-			var seat = $("#seat").val();//좌석
-			var rdate = $("#rdate").val(); //도착일
-			var dtime = $("#dtime").val();//출발 시간  
-			var rtime = $("#rtime").val();//도착 시간
-			var price = $("#price").val();//가격
-			var tourDays = $("#tourDays").val();//여행일
-			var capacity = $("#capacity").val();
+			var dloca = $("#dlocation_d").val(); //출발지
+			var rloca = $("#rlocation_d").val(); //도착지
+			var seat = $("#seat_d").val();//좌석
+			var ddate = $("#ddate_d").val();//출발일자
+			var dtime = $("#dtime_d").val();//출발 시간  
+			var rtime = $("#rtime_d").val();//도착 시간
+			var price = $("#price_d").val();//가격
+			var tourDays = $("#tourDays_d").val();//여행일
+			var capacity = $("#capacity_d").val();
+			var FCode = $("#FCode_d").val();//항공사 코드
+			var FName = $("#FName_d").val(); //편명
 			
-			if(dloca=="출발지 선택" || rloca=="도착지 선택" || seat=="좌석 선택" || rdate==""|| price=="" || dtime==""||rtime==""){
+			
+			if(dloca=="출발지 선택" || rloca=="도착지 선택" || seat=="좌석 선택" || price=="" || dtime==""||rtime==""){
 				alert("출발 스케줄의 모든 란을 선택/입력 해주세요.");	
 				return false;     
 			}else{
 				if(dloca=="인천"){
-					//도착 스케줄 값 자동설정용
-					var seatName = $("#seat").val();
-					var FCodeData = $("#FCode").val();
-					var rdateData=  $("#rdate").val();
 					
-					//출발 스케줄 데이터 전송용
-					var seatText = $("input[name='seatText']").val();//좌석
-					var ddateText = $("input[name='ddateText']").val();//출발일자
-					var dtime = $("input[name='dtime']").val();//출발시간
-					var rdateText = $("input[name='rdateText']").val();//도착일자
-					var rtime = $("input[name='rtime']").val();//도착시간
-					var FCode = $("input[name='FCode']").val(); //항공사 코드
-					var FName = $("input[name='FName']").val();//편명
-					var seat;//좌석필드
-					var ddate = ddateText + dtime; //출발 일시
-					var rdate = rdateText + rtime; //도착 일시
-					var ano = FCode + FName; //항공기 편명
-					var ldiv = 0;
-					if(seatText=="First-Class"){
-						seat = "F";
-					}else if(seatText=="Business-Class"){
-						seat = "B";
+					//출발일자를 설정 -> 여행일 설정 -> 여행일에 따라 도착 일자가 더해짐 
+					var numArray = [3,5,7];
+					var num;
+					if(tourDays =="3"){
+						num = 2;
+					}else if(tourDays =="5"){
+						num = 4;
 					}else {
-						seat = "E"
+						num = 5; 
 					}
 					
-					//출발 스케줄 input hidden에 값 저장
-					$("#s").val(seat);
-					$("#dd").val(ddate);
-					$("#rd").val(rdate);
-					$("#ano").val(ano);
+					//input에서 가져온 출발 일자 string을 년, 월, 일로 나눠서 새로운 date 생성 
+					var ddateY = ddate.substring(0, ddate.indexOf("-"));//2020
+					var ddateM = ddate.substring(ddate.indexOf("-")+1,ddate.lastIndexOf("-"));//05
+					var ddateD = ddate.substring(ddate.lastIndexOf("-")+1);//01
+					
+					var date = new Date(ddateY,ddateM,ddateD);   // 2020-05-01
+					var newdate = new Date(date); //완성된 출발일자
+					newdate.setDate(newdate.getDate()+num);  //여행일에 따라 달라지는 num 숫자를 날짜에 더해줌
+					var nd = new Date(newdate); //더해진 날짜 가져옴
+					nd = getFormatDate(nd); //자바스크립트 함수로 fomatting 해줌 (yyyy-MM-dd 형식)
+					
+					//국내, 해외 구분
+					var ldiv = 0;
 					
 					if(rloca=="제주"){
 						ldiv = 1;
-						$("#dloca2").val("제주");
-						$("#rloca2").val("인천");
+						$("#dlocation_r").val("제주");
+						$("#rlocation_r").val("인천");
 						if(tourDays==3){    
-							$("#seat2").val(seatName);
-							$("#FCode2").val(FCodeData);
-							$("#ddate2").val(rdateData);
-							$("#dtime2").val(" 09:30:00");  
-							$("#rtime2").val(" 10:45:00");
-							$("#FName2").val("302");
-							$("#capacity2").val(capacity);
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 09:30:00");  
+							$("#rtime_r").val(" 10:45:00");
+							$("#FName_r").val("302");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일
 						}else if(tourDays==5){
-							$("#seat2").val(seatName);
-							$("#FCode2").val(FCodeData);
-							$("#ddate2").val(rdateData);
-							$("#dtime2").val(" 10:30:00");  
-							$("#rtime2").val(" 11:45:00");
-							$("#FName2").val("312");
-							$("#capacity2").val(capacity); 
+							$("#seat_r").val(seat);
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);
+							$("#dtime_r").val(" 10:30:00");  
+							$("#rtime_r").val(" 11:45:00");
+							$("#FName_r").val("312");
+							$("#capacity_r").val(capacity); 
 						}else{
-							$("#seat2").val(seat);
-							$("#FCode2").val(FCodeData);
-							$("#ddate2").val(rdateData);
-							$("#dtime2").val(" 11:30:00");  
-							$("#rtime2").val(" 12:45:00");
+							$("#seat_r").val(seat);
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);
+							$("#dtime_r").val(" 11:30:00");  
+							$("#rtime_r").val(" 12:45:00");
 							$("#FName2").val("322");
 							$("#capacity2").val(capacity);
 						}
@@ -310,32 +292,60 @@ function getFormatDate(date){
 						}
 					}
 					//출발스케줄 - 국내,해외 구분
-					$("#ldiv").val(ldiv);
+					$("#ldivData_d").val(ldiv);
+					$("#ldivData_r").val(ldiv);
 					
-					//도착 스케줄 데이터 전송용
-					var seatText2 = $("input[name='seatText2']").val();//좌석
-					var ddateText2 = $("input[name='ddateText2']").val();//출발일자
-					var dtime2 = $("input[name='dtime2']").val();//출발시간
-					var rdateText2 = $("input[name='rdateText2']").val();//도착일자
-					var rtime2 = $("input[name='rtime2']").val();//도착시간
-					var FCode2 = $("input[name='FCode2']").val(); //항공사 코드
-					var FName2 = $("input[name='FName2']").val();//편명
-					var seat2;//좌석필드
-					var ddate2 = ddateText2 + dtime2; //출발 일시
-					var rdate2 = rdateText2 + rtime2; //도착 일시
-					var ano2 = FCode2 + FName2; //항공기 편명
-					if(seatText2=="First-Class"){
-						seat2 = "F";
-					}else if(seatText=="Business-Class"){
-						seat2 = "B";
+					//출발 스케줄 데이터 input hidden에 저장
+					//좌석
+					var seatData;
+					console.log(seat);
+					console.log(seatData);
+					if(seat=="First-Class"){
+						seatData = "F";
+					}else if(seat=="Business-Class"){
+						seatData = "B";
 					}else {
-						seat2 = "E"
+						seatData = "E";
 					}
-					//도착 스케줄 input hidden에 값 저장
-					$("#s2").val(seat2);
-					$("#dd2").val(ddate2);
-					$("#rd2").val(rdate2);
-					$("#ano2").val(ano2);
+					console.log(seatData);
+					$("#seatData_d").val(seatData);
+					var d = $("#seatData_d").val();
+					console.log(d +" !!");
+					//출발일시
+					var ddateData = ddate + dtime;
+					$("#ddateData_d").val(ddateData);
+					//도착일시
+					var rdateData = ddate + rtime;
+					$("#rdateData_d").val(rdateData);
+					//항공사 코드 + 편명 
+					var anoData = FCode+FName;
+					$("#anoData_d").val(anoData);
+					//번호
+					var noData = "${airTotalCnt }"
+					$("#noData_d").val(noData);
+					//도착 스케줄 데이터 input hidden에 저장
+					//좌석
+					$("#seatData_r").val(seatData);
+					
+					//출발일시
+					var ddate_r = $("#ddate_r").val();//출발일자 
+					var dtime_r = $("#dtime_r").val();//출발시간
+					var ddateData_r = ddate_r + dtime_r;
+					$("#ddateData_r").val(ddateData_r);
+					//도착일시
+					var rtime_r = $("#rtime_r").val();//도착시간
+					var rdateData_r = ddate_r + rtime_r;
+					$("#rdateData_r").val(rdateData_r);
+					//항공사 코드 + 편명 
+					var FCode_r = $("#FCode_r").val();//항공사 코드
+					var FName_r = $("#FName_r").val(); //편명 
+					var anoData_r = FCode_r+FName_r;
+					$("#anoData_r").val(anoData_r);
+					//번호
+					var noData_r = "${airTotalNextCnt }"
+					$("#noData_r").val(noData_r);
+
+					
 				} 
 				
 			}
@@ -361,16 +371,16 @@ function getFormatDate(date){
 		    <div class="form-group">   
 		      <label><span class="red">*</span>출발지</label>
 			     <div class="container">   
-			       <select class="form-control" id="dloca" name="list[0].dlocation">
+			       <select class="form-control" id="dlocation_d" name="list[0].dlocation">
 			       		<option>출발지 선택</option>
 					    <option>인천</option>
 	  				</select>  
 				</div>        
 		    </div>  
 		    <div class="form-group">
-		      <label><span class="red">*</span>도착지</label>
+		      <label><span class="red">*</span>도착지</label>    
 				    <div class="container">                                   
-						<select class="form-control" id="rloca" name="list[0].rlocation">
+						<select class="form-control" id="rlocation_d" name="list[0].rlocation">
 							<option>도착지 선택</option>
 						    <option>제주</option>
 						    <option>중국</option>
@@ -381,7 +391,7 @@ function getFormatDate(date){
 		    <div class="form-group">  
 		      <label><span class="red">*</span>좌석</label>
 				    <div class="container">  
-				    	<select class="form-control" id="seat" name="seatText">
+				    	<select class="form-control" id="seat_d" name="seatData_d">
 				    		<option>좌석 선택</option>
 						    <option>First-Class</option>
 						    <option>Business-Class</option>
@@ -393,7 +403,7 @@ function getFormatDate(date){
 					<div class="form-group">
 						  <label>최대 인원 수</label>
 			     				<div class="container">   	
-						  			<input type="text" class="form-control" id="capacity" name="list[0].capacity" readonly="readonly">
+						  			<input type="text" class="form-control" id="capacity_d" name="list[0].capacity" readonly="readonly">
 								</div>
 					</div>
 		    </div>
@@ -404,8 +414,8 @@ function getFormatDate(date){
 			     				<div class="container">   	
 						  			<!-- <input type="text" class="form-control" id="FCode"> -->
 						  			 <div class='input-group date dateTimePicker' id='datetimepicker1'>
-					                    <input type='text' class="form-control" id="ddate" name="ddateText"/>
-					                     <input type='hidden' class="form-control" id="rdate" name="rdateText"/>
+					                    <input type='text' class="form-control" id="ddate_d" name="ddateData_d"/>
+					                    <!--  <input type='hidden' class="form-control" id="rdate_d" name="rdateData_d"/> -->
 					                    <span class="input-group-addon">
 					                        <span class="glyphicon glyphicon-calendar"></span>
                   					    </span>
@@ -415,7 +425,7 @@ function getFormatDate(date){
 					<div class="form-group">
 						  <label><span class="red">*</span>여행일</label>
 								<div class="container">   
-									<select class="form-control" id="tourDays">
+									<select class="form-control" id="tourDays_d">
 						  			 	<option>여행일 선택</option>
 									    <option>3</option>
 									    <option>5</option>
@@ -434,24 +444,17 @@ function getFormatDate(date){
         </script>
 			</div>
 		    <div class="group">
-		    	<!-- 
-					<div class="form-group">
-						 <label>도착 일자</label>
-								<div class="container">  
-									<input type="text" class="form-control" id="rdate" readonly="readonly">
-								</div>   
-					</div> -->
 					<div class="form-group">     
 						 <label>출발 시간</label>
 								<div class="container">       
-									<input type="text" class="form-control" id="dtime" name="dtime" readonly="readonly">
+									<input type="text" class="form-control" id="dtime_d" name="dtimeData_d" readonly="readonly">
 								</div>    
 					</div>   
 		    		<div class="form-group">     
 						 <label>도착 시간</label>
 								<div class="container">  
-									<input type="text" class="form-control" id="rtime" name="rtime" readonly="readonly">
-									<input type="hidden" class="form-control" id="rdate">
+									<input type="text" class="form-control" id="rtime_d" name="rtimeData_d" readonly="readonly">
+									<!-- <input type="hidden" class="form-control" id="rdate_d" name="rdateData_d"> -->
 								</div>  
 					</div>
 		    </div>
@@ -459,13 +462,13 @@ function getFormatDate(date){
 				    <div class="form-group">
 						  <label>항공사 코드</label>
 			     				<div class="container">   	
-						  			<input type="text" class="form-control" id="FCode" name="FCode" readonly="readonly">
+						  			<input type="text" class="form-control" id="FCode_d" name="FCodeData_d" readonly="readonly">
 								</div>   
 					</div>
 					<div class="form-group">
 						  <label>편명</label>
 								<div class="container">       
-						  			<input type="text" class="form-control" id="FName" name="FName" readonly="readonly">
+						  			<input type="text" class="form-control" id="FName_d" name="FNameData_d" readonly="readonly">
 								</div>
 					</div>
 			</div>       
@@ -474,12 +477,13 @@ function getFormatDate(date){
 				    <div class="form-group">
 						  <label><span class="red">*</span>가격</label>
 			     				<div class="container">   	
-						  			<input type="text" class="form-control" id="price" name="list[0].price">
-					                <input type="hidden" name="list[0].seat" id="s">
-					                <input type="hidden" name="list[0].ddate" id="dd">
-					                <input type="hidden" name="list[0].rdate" id="rd">
-					                <input type="hidden" name="list[0].ano" id="ano">
-					                <input type="hidden" name="list[0].ldiv" id="ldiv">      
+						  			<input type="text" class="form-control" id="price_d" name="list[0].price">
+					                <input type="hidden" name="list[0].seat" id="seatData_d">
+					                <input type="hidden" name="list[0].ddate" id="ddateData_d">
+					                <input type="hidden" name="list[0].rdate" id="rdateData_d">
+					                <input type="hidden" name="list[0].ano" id="anoData_d">
+					                <input type="hidden" name="list[0].ldiv" id="ldivData_d">   
+						  			<input type="hidden" name="list[0].no" id="noData_d"> 
 								</div>
 					</div>
 			</div>
@@ -497,25 +501,25 @@ function getFormatDate(date){
 		    <div class="form-group">   
 		      <label><span class="red">*</span>출발지</label>
 			     <div class="container">   
-			      <input type="text" class="form-control" id="dloca2" name="list[1].dlocation" readonly="readonly">
+			      <input type="text" class="form-control" id="dlocation_r" name="list[1].dlocation" readonly="readonly">
 				</div>        
 		    </div>  
 		    <div class="form-group">
 		      <label><span class="red">*</span>도착지</label>   
 				    <div class="container">                                     
-						<input type="text" class="form-control" id="rloca2" name="list[1].rlocation" readonly="readonly">
+						<input type="text" class="form-control" id="rlocation_r" name="list[1].rlocation" readonly="readonly">
 					</div>
 		   </div> 
 		    <div class="form-group">  
 		      <label><span class="red">*</span>좌석</label>
 				    <div class="container">  
-				    	<input type="text" class="form-control" id="seat2" name="seatText2" readonly="readonly"> 
+				    	<input type="text" class="form-control" id="seat_r" name="seatData_r" readonly="readonly"> 
 					</div>   
 		    </div>
 			<div class="form-group">
 					<label>최대 인원 수</label>
 			     		<div class="container">   	
-						  <input type="text" class="form-control" id="capacity2" name="list[1].capacity" readonly="readonly">
+						  <input type="text" class="form-control" id="capacity_r" name="list[1].capacity" readonly="readonly">
 						</div>
 					</div>
 		    </div>          
@@ -523,8 +527,8 @@ function getFormatDate(date){
 				    <div class="form-group">
 						  <label><span class="red">*</span>출발 일자</label>
 			     				<div class="container">   	
-						  			<input type="text" class="form-control" id="ddate2" name="ddateText2" readonly="readonly">
-						  			<input type="hidden" class="form-control" id="rdate2" name="rdateText2" readonly="readonly">
+						  			<input type="text" class="form-control" id="ddate_r" name="ddateData_r" readonly="readonly">
+						  			<!-- <input type="hidden" class="form-control" id="rdate_r" name="rdateData_r" readonly="readonly"> -->
 								</div>
 					</div>   
 					
@@ -534,13 +538,13 @@ function getFormatDate(date){
 					<div class="form-group">
 						  <label>출발 시간</label>
 								<div class="container">  
-									<input type="text" class="form-control" id="dtime2" name="dtime2" readonly="readonly">
+									<input type="text" class="form-control" id="dtime_r" name="dtimeData_r" readonly="readonly">
 								</div>   
 					</div>
 					<div class="form-group">
 						  <label>도착 시간</label>
 								<div class="container">  
-									<input type="text" class="form-control" id="rtime2" name="rtime2" readonly="readonly">
+									<input type="text" class="form-control" id="rtime_r" name="rtimeData_r" readonly="readonly">
 								</div>   
 					</div>
 			</div>                      
@@ -548,13 +552,13 @@ function getFormatDate(date){
 				    <div class="form-group">
 						  <label>항공사 코드</label>
 			     				<div class="container">   	
-						  			<input type="text" class="form-control" id="FCode2" name="FCode2" readonly="readonly">
+						  			<input type="text" class="form-control" id="FCode_r" name="FCodeData_r" readonly="readonly">
 								</div>   
 					</div>
 					<div class="form-group">
 						  <label>편명</label>
 								<div class="container">       
-						  			<input type="text" class="form-control" id="FName2" name="FName2" readonly="readonly">
+						  			<input type="text" class="form-control" id="FName_r" name="FNameData_r" readonly="readonly">
 								</div>
 					</div>
 			</div> 
@@ -562,12 +566,13 @@ function getFormatDate(date){
 				    <div class="form-group">
 						  <label><span class="red">*</span>가격</label>
 			     				<div class="container">   	
-						  			<input type="text" class="form-control" id="price2" name="list[1].price">
-						  			<input type="hidden" name="list[1].seat" id="s2">
-					                <input type="hidden" name="list[1].ddate" id="dd2">
-					                <input type="hidden" name="list[1].rdate" id="rd2">
-					                <input type="hidden" name="list[1].ano" id="ano2">
-					                <input type="hidden" name="list[1].ldiv" id="ldiv2">   
+						  			<input type="text" class="form-control" id="price_r" name="list[1].price">
+						  			<input type="hidden" name="list[1].seat" id="seatData_r">
+					                <input type="hidden" name="list[1].ddate" id="ddateData_r">
+					                <input type="hidden" name="list[1].rdate" id="rdateData_r">
+					                <input type="hidden" name="list[1].ano" id="anoData_r">
+					                <input type="hidden" name="list[1].ldiv" id="ldivData_r">
+						  			<input type="hidden" name="list[1].no" id="noData_r">    
 								</div>
 					</div>
 			</div>  

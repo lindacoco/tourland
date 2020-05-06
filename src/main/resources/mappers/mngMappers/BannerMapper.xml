@@ -63,9 +63,29 @@
 		    <include refid="search"></include>  
 	    
 	    </select>
-
-
-
+<!--  배너 설정을 위한 검색, 리스트 -->
+ <sql id="settingSearch">
+   <where>
+        isSetting = 1
+        <if test="cri.searchType=='bannerTitle'.toString()">
+	       and title like CONCAT('%','${cri.keyword}','%')
+	      </if>
+	      <if test="cri.searchType=='bannerContent'.toString()">
+	       and content like CONCAT('%','${cri.keyword}','%')
+	      </if>
+	</where>
+ </sql>
+ <select id="listCriteriaSettingBanner" resultType="BannerVO">
+      select * from banner 
+      <include refid="settingSearch"></include>
+      order by no desc  limit #{cri.pageStart}, #{cri.perPageNum}
+    </select>
+	<!-- 검색한 결과 수  -->
+	    <select id="totalSearchSettingBanner" resultType="int">
+	        select  count(no) from banner
+		    <include refid="settingSearch"></include>  
+	    
+	    </select>
 
 
 
