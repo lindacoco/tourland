@@ -26,9 +26,9 @@
 				<div class="box-body">
 					<select name="searchType" id="searchType">
 						<option value="total" ${cri.searchType == 'null'? 'selected':'' }>전체</option>
-						<option value="n" ${cri.searchType == 'n'? 'selected':'' }>호텔이름</option>
-						<option value="a" ${cri.searchType == 'a'? 'selected':'' }>호텔주소</option>
-						<option value="b" ${cri.searchType == 'b'? 'selected':'' }>객실체크여부</option>
+						<option value="hname" ${cri.searchType == 'hname'? 'selected':'' }>호텔이름</option>
+						<option value="haddr" ${cri.searchType == 'haddr'? 'selected':'' }>호텔주소</option>
+						<option value="bookedup" ${cri.searchType == 'bookedup'? 'selected':'' }>객실체크여부</option>
 					</select>
 					<input type="text" name="keyword" id="keyword" value="${cri.keyword}">
 					<button id="btnSearch">검색</button>
@@ -73,16 +73,16 @@
 										</c:otherwise>
 									</c:choose>
 									
-									<c:if test="${hotel.ldiv==1}">
+									<c:if test="${hotel.ldiv==0}">
 										<td>해외</td>
 									</c:if>
-									<c:if test="${hotel.ldiv == 0}">
+									<c:if test="${hotel.ldiv == 1}">
 										<td>국내</td>
 									</c:if>
 									
 									<c:choose>
 										<c:when test="${hotel.bookedup == 0}">
-											<td><span class="badge bg-red">예약가능</span></td>
+											<td><span class="badge bg-orange">예약가능</span></td>
 										</c:when>
 										<c:when test="${hotel.bookedup == 1}">
 											<td><span class="badge bg-blue">예약불가능</span></td>
@@ -90,7 +90,7 @@
 									</c:choose>
 									<td>
 										<button type="button" class="btn btn-primary active btn-sm btnModify" data-no="${hotel.no }">수정</button>
-										<button type="button" class="btn btn-primary btn-sm btnDelete" data-no="${hotel.no }">삭제</button>
+										<button type="button" class="btn btn-primary btn-danger btn-sm btnDelete" data-no="${hotel.no }">삭제</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -114,29 +114,52 @@
 	</div>
 </div>
 <script>
+var keywordChange = function() {
+	
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
+	
+	$("#searchType option").each(function(i, obj) {
+			var value = $(this).val();
+				if(value==searchType) {
+					$(this).prop("selected",true);
+					
+				return;
+		}
+	})
+	$("#keyword").val(keyword);
+};
 		$("#btnSearch").click(function() {
 			var searchType= $("#searchType").val();
 			var keyword = $("#keyword").val();
-			location.href = "hotelMngList?searchType="+searchType+"&keyword="+keyword;
+			location.href = "hotelMngList?searchType="+searchType+"&keyword="+ keyword;
 		})
+		
 		$("#btnRegister").click(function(){
 			location.href = "hotelRegister";
 		})	      
+		
 		$(".btnModify").click(function(){
 			var no = $(this).attr("data-no");
-			alert(no);
-
-			location.href = "hotelModify";
+			var page =	"${cri.page}";
+			var searchType = "${cri.searchType}";
+			var keyword = "${cri.keyword}";
+			
+			location.href = "hotelModify?no="+no+"&page="+page+"&searchType="+searchType+"&keyword="+keyword;
 		})	
+		
 		$(".btnDelete").click(function(){
+			var no = $(this).attr("data-no");
 			var page =	"${cri.page}";
 			var searchType = "${cri.searchType}";
 			var keyword = "${cri.keyword}";
 			var res = confirm("삭제하시겠습니까?");
 			if(res){
 				alert("삭제되었습니다.");
-				location.href = "hotelDelete";
+				location.href = "hotelDelete?no="+no+"&page="+page+"&searchType="+searchType+"&keyword="+keyword;
 			}
 		})	
+
+		
 </script>
 <%@ include file="../../include/footer.jsp"%>

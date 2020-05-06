@@ -88,10 +88,13 @@ $(function(){
 					<h3 class="box-title">호텔 상품 등록</h3>
 				</div>
 				<form role="form" action="hotelModify" method="post">
+					<input type="hidden" value="${cri.page}" name="page">
+					<input type="hidden" value="${cri.searchType}" name="searchType">
+					<input type="hidden" value="${cri.keyword}" name="keyword">
 					<div class="box-body">
 						<div class="noNameAddr">
 							<label><span class="red">*</span>번호</label>
-							<input type="text" name="no" class="form-control" value="${hotelVo.no }" readonly>
+							<input type="text" name="no" class="form-control" value="${hotelVo.no }" readonly data-no="">
 						</div>
 						<div class="noNameAddr">
 							<label><span class="red">*</span>호텔이름</label>
@@ -103,11 +106,11 @@ $(function(){
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>체크인 날짜</label>
-							<input type="date" name="checkin" class="form-control"  required="required" id="checkin" value="${hotelVo.checkin }">	
+							<input type="date" name="checkin" class="form-control"  id="checkin" value="${hotelVo.checkin }">	
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>체크아웃 날짜</label>
-							<input type="date" name="checkout" class="form-control" required="required" id="checkout" value="${hotelVo.checkout }">
+							<input type="date" name="checkout" class="form-control"  id="checkout" value="${hotelVo.checkout }">
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>허용인원수</label>
@@ -137,8 +140,8 @@ $(function(){
 						<div class="form-group">
 							<label>장소구분</label>
 							<select name="ldiv" class="form-control" id="ldiv">
-								<option value="0" ${hotelVo.ldiv == 0? 'selected':'' }>국내</option>
-								<option value="1" ${hotelVo.ldiv == 1? 'selected':'' }>해외</option>
+								<option value="0" ${hotelVo.ldiv == 1? 'selected':'' }>국내</option>
+								<option value="1" ${hotelVo.ldiv == 0? 'selected':'' }>해외</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -158,11 +161,4 @@ $(function(){
 		</div>
 	</div>
 </div>
-<script>
-	$(function(){
-		$("#cancle").click(function(){
-			location.href="hotelMngList";
-		})
-	})
-</script>
 <%@ include file="../../include/footer.jsp"%>
