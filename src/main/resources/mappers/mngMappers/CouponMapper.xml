@@ -10,4 +10,13 @@
 	<insert id="addCoupon">
 		insert into coupon values (#{cno}, #{cname}, #{pdate}, #{edate}, #{ccontent}, #{mrate})
 	</insert>
+	<select id="readCouponByNo" resultType="CouponVO">
+		select * from coupon where cno = #{cno}
+	</select>
+	<delete id="removeCoupon">
+		delete from coupon where cno = #{cno}
+	</delete>
+	<update id="editCoupon">
+		update coupon set cname = #{cname}, pdate=#{pdate}, edate=#{edate}, ccontent=#{ccontent}, mrate=#{mrate} where cno=#{cno}
+	</update>
 </mapper>

@@ -46,45 +46,7 @@ $(document).ready(function(){
 	        $('#datepicker2').datetimepicker({
 	            useCurrent: false
 	        });
-	        $('#datepicker3').datetimepicker({
-	            useCurrent: false
-	        });
-	        $('#datepicker4').datetimepicker({
-	            useCurrent: false
-	        });
-	       
-	       // 함수 호출 순서가 4,3,2 순서이다.
-	       // 4가 바뀌어야 3이 바뀌고 3이 바뀌어야 2가 바뀐다.
-	        $("#datepicker1").on("dp.change", function (e) {
-	            $('#datepicker4').data("DateTimePicker").minDate(e.date);
-	        });
-	        $("#datepicker1").on("dp.change", function (e) {
-	            $('#datepicker3').data("DateTimePicker").minDate(e.date);
-	        });
-	        $("#datepicker1").on("dp.change", function (e) {
-	            $('#datepicker2').data("DateTimePicker").minDate(e.date);
-	        });/* 
-	       
-	        $("#datepicker2").on("dp.change", function (e) {
-	            $('#datepicker1').data("DateTimePicker").maxDate(e.date);
-	        });
 	    
-	       
-	        $("#datepicker2").on("dp.change", function (e) {
-	            $('#datepicker4').data("DateTimePicker").minDate(e.date);
-	        });
-	        $("#datepicker2").on("dp.change", function (e) {
-	            $('#datepicker3').data("DateTimePicker").minDate(e.date);
-	        }); 
-	       
-	       
-	        $("#datepicker3").on("dp.change", function (e) {
-	            $('#datepicker4').data("DateTimePicker").minDate(e.date);
-	        });
-	        $("#datepicker4").on("dp.change", function (e) {
-	            $('#datepicker3').data("DateTimePicker").maxDate(e.date);
-	        }); */
-	            
 	}); 
 	
 </script>

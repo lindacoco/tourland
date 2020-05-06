@@ -813,12 +813,49 @@ public class ManagerController {
 		}
 	//쿠폰 추가
 	@RequestMapping(value="addCouponForm", method=RequestMethod.POST)
-	public String addCouponResult(CouponVO coupon, Model model) throws Exception{
+	public String addCouponResult(CouponVO coupon,Model model) throws Exception{
 		System.out.println(coupon);
-		
+		couponService.addCoupon(coupon);
 		return "redirect:/couponMngList";
 	}
 	
+	//쿠폰 상세페이지
+		@RequestMapping(value="couponDetail", method=RequestMethod.GET)
+		public String couponDetail(int cno,SearchCriteria cri, Model model) throws Exception{
+			CouponVO coupon = couponService.readCouponByNo(cno);
+			model.addAttribute("coupon", coupon);
+			model.addAttribute("pdate", coupon.getPdate());
+			model.addAttribute("edate", coupon.getEdate());
+			model.addAttribute("cri", cri);
+			return "/manager/coupon/couponDetail";
+		}
+	
+	//쿠폰 삭제
+		@RequestMapping(value = "removeCoupon", method = RequestMethod.GET)
+		public String removeCoupon(int cno, SearchCriteria cri, Model model) throws Exception {
+			couponService.removeCoupon(cno);
+			model.addAttribute("cri",cri);
+			return "redirect:/couponMngList";
+		}
+
+	// 쿠폰 수정
+	@RequestMapping(value = "editCoupon", method = RequestMethod.GET)
+	public String editCouponGET(int cno, Model model) throws Exception {
+		CouponVO coupon = couponService.readCouponByNo(cno);
+		 model.addAttribute("pdate", coupon.getPdate()); 
+		 model.addAttribute("edate",coupon.getEdate()); 
+		 model.addAttribute("coupon", coupon);
+		
+		return "/manager/coupon/editCoupon";
+	}
+
+	// 쿠폰 수정
+	@RequestMapping(value = "editCoupon", method = RequestMethod.POST)
+	public String editCouponPOST(CouponVO coupon, Model model) throws Exception {
+		couponService.editCoupon(coupon);
+		return "redirect:/couponDetail?cno=" + coupon.getCno();
+	}
+
 	//호텔관리
 	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)
 	public String hotelListPage(SearchCriteria cri, Model model) throws Exception { 
