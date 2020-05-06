@@ -19,7 +19,8 @@
 //	var searchType = "${cri.searchType}";
 //	var keyword = "${cri.keyword}";
 	
-
+    var didUcheckId = false;
+    var validId = true;
 	 
 	$(function(){
 		
@@ -79,22 +80,32 @@
 				 return false;
 			 }
 			 
+			 if(didUcheckId == false){
+				 alert("아이디 중복 체크 해주세요");
+				 return false;
+			 }
+			 
+			 if(validId == false){
+				 return false;
+			 }
+			 
 			
 
 		})
 		
 		$("#btnCheck").click(function(){
-			var empid = $("input[name='empid']").val();
+			var empid = $("input[name='userid']").val();
 			 //아이디 중복 ajax로 처리하기
 			 $.ajax({
-				url:"empIdCheck/"+empid,
+				url:"empIdCheck/"+empid,  //이 커맨드에서 유저아이디와 사원 아이디를 모두 호가인하기에 
 				type:"get",
 				dataType:"text",
 				success:function(res){
 					console.log(res);
+					didUcheckId = true;
 					if(res=="exist"){
-						$("input[name='empid']").next().next().next().css("display", "inline");
-		//				$("form").attr("onsubmit","return false;");
+						$("input[name='userid']").next().next().next().css("display", "inline");
+						validId = false;
 					}
 				}
 				 
@@ -106,6 +117,13 @@
 		$("#btnReturnToList").click(function(){
 			location.href="${pageContext.request.contextPath}/userMngList/0";
 		})
+		
+		//아이디 입력값이 달라질 때 마다 아이디 체크 여부를 초기화 
+		$("#userId").change(function(){
+			didUcheckId = false;
+		    validId = true;
+		})
+		
 	})
 	
 </script>
@@ -144,7 +162,7 @@
 						</div>
 						<div class="form-group">
 							<label>여권번호</label>
-							<input type="text" name="userpassport" required="required" >
+							<input type="text" name="userpassport" >
 						</div>
 						<div class="form-group">
 							<label>보유쿠폰</label>
@@ -154,7 +172,7 @@
 						</div>
 						<div class="form-group">
 							<label>고객 아이디</label> 
-							<input type="text" name="userid" required="required"  placeholder=" 영문,숫자 포함 5-12자리" >
+							<input type="text" name="userid" required="required"  placeholder=" 영문,숫자 포함 5-12자리" id="userId">
 							<button id="btnCheck" type="button">중복확인</button>
 							<span class="errorMsg">영문, 숫자 포함 5-12자리를 넣어주세요</span>
 							<span class="errorMsg">중복되는 아이디 입니다. 다른 아이디를 입력해주세요.</span>
@@ -166,7 +184,8 @@
 						</div>
 						<div class="box-footer">
 							<!-- <button type="submit" class="btn btn-primary">등록</button> -->
-							<button type="button" class="btn btn-primary" style="margin-top:10px;" id="btnReturnToList">리스트로 돌아가기</button>
+							<button type="submit" class="btn btn-primary">등록-테스트</button>
+							<button type="button" class="btn btn-primary" id="btnReturnToList">리스트로 돌아가기</button>
 						</div>
 					</div>
 				</form>

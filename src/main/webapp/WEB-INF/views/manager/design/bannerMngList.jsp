@@ -10,11 +10,25 @@
     .bannerList:hover {
     	background-color : lightgrey;
     }
+     
+    #bannerLeft{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+    }
+    
+    #bannerRight{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+    }
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
 	<div class="row">
-		<div class="col-sm-12">    
+		<div class="col-sm-12" style="heigth:800px;">    
 			<div class="box box-primary">      
 				<div class="box-header">
 					<h2 class="box-title">배너  관리</h2>
@@ -42,9 +56,11 @@
 					<table class="table table-bordered">
 						<tr>
 							<th style="width:100px;">배너 번호</th>
-							<th>배너명</th>
-							<th>배너 설명</th>
-					<!-- 		<th>선택</th> -->
+							<th style="width:20%">배너명</th>
+							<th style="width:40%">배너 설명</th>
+					        <th>상세보기</th>
+					        <th>배너 미리보기(왼쪽)</th>
+					        <th>배너 미리보기(오른쪽)</th>
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
 						<c:forEach var="bannerList" items="${list}">
@@ -52,7 +68,9 @@
 						    <td>${bannerList.no }</td>
 						    <td>${bannerList.title }</td>
 						    <td>${bannerList.content }</td>
-						  <%--   <td><input type="checkbox" name="bannercheckbox" value="${bannerList.no }" ></td> --%>
+						    <td><button style="background:lightskyblue; border:none;" class="toBannerDetail" data-click="${bannerList.no }">상세보기</button></td>
+						     <td><input type="checkbox" class="leftBannercheckbox" value="${bannerList.no }" ><button style="margin-left:25px; height: 23px;" class="setLeftBanner" value="${bannerList.no }">설정</button></td>
+						     <td><input type="checkbox" class="rightBannercheckbox" value="${bannerList.no }" ><button style="margin-left:25px; height: 23px;" class="setRightBanner" value="${bannerList.no }">설정</button></td>
 						    </tr>
 						</c:forEach>	
 					</table>      
@@ -74,6 +92,17 @@
 	                       </c:if>
 	                   </ul>
 	               </div>
+	               <div class="box-body" id="mainBannerPreview" >
+	                   <!-- 배너 미리보기 -->
+	                    <div id="bannerLeft">
+	                        <p>Left side</p>
+	                        <img src="displayFile?filename=${leftBanner}" style="width:560px; height:200px;" id="bannerLeftImg">
+	                   </div>
+	                    <div id="bannerRight">
+		                   <p>Right side</p>
+		                   <img src="displayFile?filename=${rightBanner}" style="width:560px; height:200px;" id="bannerRightImg">
+	            		</div>
+				   </div>
 	           </div>
 			</div>         
 		</div>
@@ -94,13 +123,71 @@
 	})
 	
 	//각 리스트를 클릭했을 때 디테일로 넘어가는 부분
-	$(".bannerList").click(function(){
+/* 	$(".bannerList").click(function(){
 		var no = $(this).attr("data-click");
 		var searchType = "${cri.searchType}";
 		var keyword = "${cri.keyword}";
 		location.href = "${pageContext.request.contextPath}/bannerDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
+	}) */
+	
+	$(".toBannerDetail").click(function(){
+		var no = $(this).attr("data-click");
+		var searchType = "${cri.searchType}";
+		var keyword = "${cri.keyword}";
+		location.href = "${pageContext.request.contextPath}/bannerDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 	})
+	
+	//왼쪽체크박스 체크를 하면 
+	$(".leftBannercheckbox").change(function(){
+		
+	
+		if($(this).is(":checked")){
+		//	$(".leftBannercheckbox").attr("checked",false);
+		//	$(this).attr("checked",true);
+		   var bannerno = $(this).val();  //alert(bannerno);	
+		 //ajax로 이미지 경로 받아오기 
+		 $.ajax({
+			url:"getPicPath/"+bannerno,
+			type:"get",
+			dataType:"text",
+			success:function(res){
+				console.log(res);
+				
+				if(res != "fail"){
+					$("#bannerLeftImg").attr("src","displayFile?filename="+res);
+				}
+					
+				}
+			})
+		}
+	})
+	
+	//오른쪽체크박스 체크 시
+	$(".rightBannercheckbox").change(function(){
+		
+	
+		if($(this).is(":checked")){
+		//	$(".leftBannercheckbox").attr("checked",false);
+		//	$(this).attr("checked",true);
+		   var bannerno = $(this).val();  //alert(bannerno);	
+		 //ajax로 이미지 경로 받아오기 
+		 $.ajax({
+			url:"getPicPath/"+bannerno,
+			type:"get",
+			dataType:"text",
+			success:function(res){
+				console.log(res);
+				
+				if(res != "fail"){
+					$("#bannerRightImg").attr("src","displayFile?filename="+res);
+				}
+					
+				}
+			})
+		}
+	})
+	
 </script>
 
 <%@ include file="../../include/footer.jsp"%>

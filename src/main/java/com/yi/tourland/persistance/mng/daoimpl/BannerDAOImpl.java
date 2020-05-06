@@ -1,6 +1,8 @@
 package com.yi.tourland.persistance.mng.daoimpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +62,19 @@ public class BannerDAOImpl implements BannerDAO {
 	@Override
 	public int totalSearchCountBanner(SearchCriteria cri) throws Exception {
 		return sqlSession.selectOne(namespace+"totalSearchCountBanner",cri);
+	}
+
+	@Override
+	public List<BannerVO> listCriteriaSettingBanner(Criteria cri, int isSetting) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cri",cri);
+		map.put("isSetting",isSetting);
+		return sqlSession.selectList(namespace+"listCriteriaSettingBanner",map);
+	}
+
+	@Override
+	public int totalSearchSettingBanner(SearchCriteria cri) throws Exception {
+		return sqlSession.selectOne(namespace+"totalSearchSettingBanner",cri);
 	}
 
 }

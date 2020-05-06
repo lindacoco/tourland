@@ -1,6 +1,8 @@
 package com.yi.tourland.service.mng;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,5 +63,9 @@ public class BannerService {
 	public int totalSearchCountBanner(SearchCriteria cri) throws Exception {
 		return dao.totalSearchCountBanner(cri);
 		
+	}
+	
+	public List<BannerVO> listCriteriaSettingBanner(Criteria cri, int isSetting) throws Exception {
+		return dao.listCriteriaSettingBanner(cri, isSetting);
 	}
 }

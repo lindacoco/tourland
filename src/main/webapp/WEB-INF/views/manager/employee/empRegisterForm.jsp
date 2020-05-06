@@ -14,10 +14,16 @@
   
 </style>
 <script>
- 
+    var didUcheckId = false;
+    var validId = true;
+
 	$(function(){
      //정규 표현식 ,빈칸인 경우는 부트 스트랩의 기본 설정으로 이미 설정되어있음 
 		$("form").submit(function(e){
+	//	    alert("아이디중복체크했니"+didUcheckId);
+    //       alert("유효한 아이디니"+validId);
+          
+
 			$(this).attr("onsubmit","");
 			$(".errorMsg").css("display", "none");
 			var empname = $("input[name='empname']").val();
@@ -69,7 +75,12 @@
 				 return false;
 		     }
 			 
-			 if(forCheckId =="exist"){
+			 if(didUcheckId == false){
+				 alert("아이디 중복 체크 해주세요");
+				 return false;
+			 }
+			 
+			 if(validId == false){
 				 return false;
 			 }
 			 
@@ -86,9 +97,11 @@
 				dataType:"text",
 				success:function(res){
 					console.log(res);
+					didUcheckId = true;
 					if(res=="exist"){
 						$("input[name='empid']").next().next().next().css("display", "inline");
-		//				$("form").attr("onsubmit","return false;");
+						validId = false;
+						
 					}
 				}
 				 
@@ -100,6 +113,11 @@
 			location.href="${pageContext.request.contextPath}/empMngList/0";
 		})
 		
+		//아이디 입력값이 달라질 때 마다 아이디 체크 여부를 초기화 
+		$("#empId").change(function(){
+			didUcheckId = false;
+		    validId = true;
+		})
 		
 	})
 	
@@ -144,7 +162,7 @@
 						</div>
 						<div class="form-group">
 							<label>아이디</label> 
-							<input type="text" name="empid" required="required"  placeholder=" 영문,숫자 포함 5-12자리">
+							<input type="text" name="empid" required="required"  placeholder=" 영문,숫자 포함 5-12자리" id="empId">
 							<button id="btnCheck" type="button">중복확인</button>
 							<span class="errorMsg">영문, 숫자 포함 5-12자리를 넣어주세요</span>
 							<span class="errorMsg">중복되는 아이디 입니다. 다른 아이디를 입력해주세요.</span>
