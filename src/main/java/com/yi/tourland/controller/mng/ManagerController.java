@@ -293,6 +293,12 @@ public class ManagerController {
 		}
 		return "/manager/user/userRegister";
 	}
+	@RequestMapping(value = "userRegister", method = RequestMethod.POST)
+	public String userRegisterPost(UserVO vo) throws Exception {
+        System.out.println(vo);
+		userService.insertUser(vo);
+		return "redirect:userMngList/0";
+	}
 	
 	
 	//고객 리스트 클릭했을 때 자세한 정보 보기로 넘어가기
@@ -594,6 +600,8 @@ public class ManagerController {
 	public String bannerMngList(SearchCriteria cri, Model model) throws Exception {
 		
 		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
+		String rightBanner = bannerList.get(1).getPic();
+		String leftBanner = bannerList.get(0).getPic();
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -602,6 +610,8 @@ public class ManagerController {
 		
 		model.addAttribute("cri", cri);
 		model.addAttribute("list",bannerList);
+		model.addAttribute("rightBanner",rightBanner);
+		model.addAttribute("leftBanner",leftBanner);
 	
 		model.addAttribute("pageMaker", pageMaker);
 		
@@ -732,6 +742,44 @@ public class ManagerController {
 		return "redirect:/bannerMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
 	}
 	
+	//리스트에서 배너 미리보기
+	@ResponseBody
+	@RequestMapping(value = "getPicPath/{no}",method = RequestMethod.GET)
+	public ResponseEntity<String> getPicPath(@PathVariable("no") int no){
+
+		ResponseEntity<String> entity = null;
+		
+		try {
+			BannerVO vo = bannerService.readByNoBanner(no);
+	
+			if(vo !=null ) {
+			entity = new ResponseEntity<String>(vo.getPic(),HttpStatus.OK);
+			   }
+		}catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST); //400에러
+					
+		}
+		return entity;
+		
+	}
+	
+	//리스트에서 미리보기로 본 후 설정 버튼 눌렀을 때 메인 이미지에 반영될 배너 리스트(설정여부 isSetting 리스트 갱신되기)
+/*	@RequestMapping(value = "bannerIsSetting/{no}/{whichSide}", method = RequestMethod.POST)
+	public String bannerIsSetting(@PathVariable("no") int no, Model model,SearchCriteria cri,@PathVariable("whichSide") String whichSide) throws Exception{
+		
+		List<BannerVO> OldBannerList = bannerService.listCriteriaSettingBanner(cri, 1);
+		if(OldBannerList.size() == 0 ) {
+			BannerVO vo = bannerService.readByNoBanner(no);
+			vo.setIsSetting(1);
+			bannerService.updateBanner(vo);
+		}
+	     bannerService.updateBanner(vo);
+		
+		return "redirect:/bannerDetailForm?no="+vo.getNo();
+		
+	}
+*/	
 
 // 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
 	
