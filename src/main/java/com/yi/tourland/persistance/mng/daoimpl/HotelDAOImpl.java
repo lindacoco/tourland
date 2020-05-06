@@ -25,8 +25,8 @@ public class HotelDAOImpl implements HotelDAO {
 	}
 
 	@Override
-	public HotelVO readHotel(int no) throws Exception {
-		return sqlSession.selectOne(namespace + "readHotel",no);
+	public HotelVO readHotel(HotelVO vo) throws Exception {
+		return sqlSession.selectOne(namespace + "readHotel",vo);
 	}
 
 	@Override
@@ -35,22 +35,14 @@ public class HotelDAOImpl implements HotelDAO {
 	}
 
 	@Override
-	public int deleteHotel(int no) throws Exception {
-		return sqlSession.delete(namespace+"deleteHotel", no);
+	public int deleteHotel(HotelVO vo) throws Exception {
+		return sqlSession.delete(namespace+"deleteHotel", vo);
 	}
-	@Override
-	public List<HotelVO> listPageHotel(int page) throws Exception {
-		if(page < 0 ) {
-			page = 1;
-		}
-		page = (page-1)*10;
-		
-		return sqlSession.selectList(namespace+"listHotel",page);
-	}
-	
 
 	@Override
 	public List<HotelVO> listCriteriaHotel(Criteria cri) throws Exception {
+		
+		
 		return sqlSession.selectList(namespace+"listCriteriaHotel",cri);
 	}
 	@Override

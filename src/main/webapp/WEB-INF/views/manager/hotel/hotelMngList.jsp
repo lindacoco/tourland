@@ -8,6 +8,13 @@
 #n, #s, #d{
 	font-weight: bold;
 }
+#listTable th, td{
+	text-align: center;
+}
+#listTable td{
+	line-height: 28px;
+}
+
 </style>
 <div class="content">
 	<div class="row">
@@ -18,20 +25,17 @@
 				</div>
 				<div class="box-body">
 					<select name="searchType" id="searchType">
-						<option>전체</option>
-						<option>호텔이름</option>
-						<option>호텔주소</option>
-						<option>체크인날짜</option>
-						<option>장소구분</option>
-						<option>객실체크여부</option>
+						<option value="total" ${cri.searchType == 'null'? 'selected':'' }>전체</option>
+						<option value="n" ${cri.searchType == 'n'? 'selected':'' }>호텔이름</option>
+						<option value="a" ${cri.searchType == 'a'? 'selected':'' }>호텔주소</option>
+						<option value="b" ${cri.searchType == 'b'? 'selected':'' }>객실체크여부</option>
 					</select>
 					<input type="text" name="keyword" id="keyword" value="${cri.keyword}">
 					<button id="btnSearch">검색</button>
 					<button id="btnRegister">호텔상품 추가</button>
 				</div>
 				<div class="box-body">
-					
-					<table class="table table-bordered">
+					<table class="table table-bordered" id="listTable">
 						<tr>
 							<th>번호</th>
 							<th>호텔이름</th>
@@ -44,10 +48,11 @@
 							<th>객실타입</th>
 							<th>장소구분</th>
 							<th>예약 가능 여부</th>
+							<th>관리</th>
 						</tr>	
 							<c:forEach var="hotel" items="${list}">
 								<tr>
-									<td>${hotel.no }</td>
+									<td class="firstNo">${hotel.no }</td>
 									<td>${hotel.hname }</td>
 									<td>${hotel.haddr }</td>
 									<td><fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/></td>
@@ -57,10 +62,10 @@
 									<td>${hotel.roomcapacity }<span>실</span></td>
 
 									<c:choose>
-										<c:when test="${hotel.roomtype == 'N'}">
+										<c:when test="${hotel.roomtype=='N'}">
 											<td style="color:#5D5D5D;" id="n">노말</td>
 										</c:when>
-										<c:when test="${hotel.roomtype == 'D'}">
+										<c:when test="${hotel.roomtype=='D'}">
 											<td style="color:#F29661;" id="d">디럭스</td>
 										</c:when>
 										<c:otherwise>
@@ -74,12 +79,19 @@
 									<c:if test="${hotel.ldiv == 0}">
 										<td>국내</td>
 									</c:if>
-									<c:if test="${hotel.bookedup == 0}">
-										<td><span class="badge bg-red">예약가능</span><td>
-									</c:if>
-									<c:if test="${hotel.bookedup == 1}">
-										<td><span class="badge bg-blue">예약불가능</span><td>
-									</c:if>
+									
+									<c:choose>
+										<c:when test="${hotel.bookedup == 0}">
+											<td><span class="badge bg-red">예약가능</span></td>
+										</c:when>
+										<c:when test="${hotel.bookedup == 1}">
+											<td><span class="badge bg-blue">예약불가능</span></td>
+										</c:when>
+									</c:choose>
+									<td>
+										<button type="button" class="btn btn-primary active btn-sm" id="btnModify" data-no="${hotel.no }">수정</button>
+										<button type="button" class="btn btn-primary btn-sm" id="btnDelete" data-no="${hotel.no }">삭제</button>
+									</td>
 								</tr>
 							</c:forEach>
 					</table>
@@ -87,7 +99,7 @@
 				<div class="text-center">
 					<ul class="pagination">
 						<c:if test="${pageMaker.prev ==true }">
-							<li><a href="hotelMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+							<li><a href="hotelMngList?page=${pageMaker.startPage-1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 						</c:if>
 						<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage }" var="idx">
 							<li class="${pageMaker.cri.page == idx? 'active':'' }"><a href="hotelMngList?page=${idx }&searchType=${cri.searchType}&keyword=${cri.keyword}">${idx }</a></li>
@@ -101,13 +113,30 @@
 		</div>
 	</div>
 </div>
-
 <script>
-$(function(){
+		$("#btnSearch").click(function() {
+			var searchType= $("#searchType").val();
+			var keyword = $("#keyword").val();
+			location.href = "hotelMngList?searchType="+searchType+"&keyword="+keyword;
+		})
 		$("#btnRegister").click(function(){
 			location.href = "hotelRegister";
 		})	
-	})
-</script>
+		$("#btnModify").click(function(){
+			var no = $(this).attr("data-no");
+			alert(no);
 
+			location.href = "hotelModify";
+		})	
+		$("#btnDelete").click(function(){
+			var page =	"${cri.page}";
+			var searchType = "${cri.searchType}";
+			var keyword = "${cri.keyword}";
+			var res = confirm("삭제하시겠습니까?");
+			if(res){
+				alert("삭제되었습니다.");
+				location.href = "hotelDelete";
+			}
+		})	
+</script>
 <%@ include file="../../include/footer.jsp"%>

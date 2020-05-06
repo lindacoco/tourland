@@ -1,5 +1,7 @@
 package com.yi.tourland.domain.mng;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HotelVO {
@@ -62,16 +64,16 @@ public class HotelVO {
 		return checkin;
 	}
 
-	public void setCheckin(Date checkin) {
-		this.checkin = checkin;
+	public void setCheckin(String checkin) throws ParseException {
+		this.checkin = new SimpleDateFormat("yyyy-MM-dd").parse(checkin);
 	}
 
 	public Date getCheckout() {
 		return checkout;
 	}
 
-	public void setCheckout(Date checkout) {
-		this.checkout = checkout;
+	public void setCheckout(String checkout) throws ParseException {
+		this.checkout =new SimpleDateFormat("yyyy-MM-dd").parse(checkout);
 	}
 
 	public int getCapacity() {
@@ -128,7 +130,7 @@ public class HotelVO {
 	public String toString() {
 		return "HotelVO [no=" + no + ", hname=" + hname + ", haddr=" + haddr + ", checkin=" + checkin + ", checkout="
 				+ checkout + ", capacity=" + capacity + ", price=" + price + ", roomcapacity=" + roomcapacity
-				+ ", roomtype=" + roomtype + ", ldiv=" + ldiv + ", bookedup=" + bookedup + "]";
+				+ ", roomtype=" + roomtype + ", ldiv=" + ldiv + ", bookedup=" + bookedup+ "]";
 	}
 
 }
