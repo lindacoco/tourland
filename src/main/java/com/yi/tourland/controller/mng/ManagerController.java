@@ -3,7 +3,6 @@ package com.yi.tourland.controller.mng;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +25,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
 import com.yi.tourland.domain.mng.BannerVO;
 import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
+import com.yi.tourland.domain.mng.DataListVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
@@ -115,13 +113,20 @@ public class ManagerController {
 	    
 	// 항공 추가 폼
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.GET)
-	public String addFlightForm() {
-		return "/manager/flight/addFlightForm";
+	public String addFlightForm(Model model) throws Exception {
+		SearchCriteria cri = new SearchCriteria();
+		int no = flightService.totalCountAirplane(cri);
+		int nextNo = no+1;
+		model.addAttribute("airTotalCnt",no);
+		model.addAttribute("airTotalNextCnt",nextNo);
+		return "/manager/flight/addFlightForm2";
 	}
 	// 항공 추가 폼       
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.POST)
-	public String addFlightResult() {
-		return "flightMngList";
+	public String addFlightResult(AirplaneVO air) {
+			System.out.println(air);
+		
+		return "flightMngList";   
 	}      
 
     // 직원관리리스트
