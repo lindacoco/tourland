@@ -31,7 +31,7 @@
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
-					<button id="btnRegister">추가</button>
+					<button id="btnRegister">렌트카 추가</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -118,10 +118,13 @@ $(".toRentcarDetail").click(function(){
 	location.href = "${pageContext.request.contextPath}/rentcarDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 })
 $(".delRentcar").click(function(){
+	var cc = confirm("렌트카 상품을 삭제하시겠습니까?");
+	if(cc){
 	var no = $(this).attr("data-click");
 	var searchType = "${cri.searchType}";
 	var keyword = "${cri.keyword}";
 	location.href = "${pageContext.request.contextPath}/delRentcar?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+	}
 })
 
 

@@ -459,7 +459,33 @@ public class ManagerController {
 	
 		return "/manager/rentcar/rentcarMngList";
 	}
-	
+	//렌트카 추가
+	@RequestMapping(value = "rentcarRegister", method = RequestMethod.GET)
+	public String rentcarRegister(SearchCriteria cri, Model model) {
+		int lastNo =0;
+		
+		try{
+			List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
+
+		    
+		    lastNo = rentcarList.get(0).getNo();
+		
+				model.addAttribute("autoNo",lastNo+1);
+			
+			
+		}catch (Exception e) {
+		    e.printStackTrace();
+		    //퇴사 사원이 없는 경우 오류가 뜨기에 시범 데이터 입력 
+		}
+		
+		return "/manager/rentcar/rentcarRegister";
+	}
+	//렌트카 상품 삭제
+		@RequestMapping(value = "delRentcar", method = RequestMethod.GET)
+		public String delRentcar(int no, SearchCriteria cri) throws Exception{
+			rentcarService.deleteRentcar(no);
+			return "redirect:/rentcarMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+		}
 	// 이벤트관리
 
 // 게시판관리 -------------------------------------------------------------------------------------------------------------------------
