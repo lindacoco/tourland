@@ -20,8 +20,9 @@
 	.red{
 		color:red;
 	}
-	input[name='checkin'], input[name='checkout'], input[name='price'] {
+	input[name='checkin'], input[name='checkout'], input[name='price'], input[name='roomcapacity'] {
 		width:262px;
+		margin-bottom:7px;
 	}
 	[type="date"] {
 	background: #fff
@@ -46,10 +47,15 @@
     	height: 65px;
     	font-size: 20px;
 	}
+	.error{
+     color: red;
+     display: none;
+  }
 
 </style>
 <script>
 $(function(){
+	
 	$(function() {
 		//달력을 오늘 이후로만 선택할 수 있게
 		var now = new Date();
@@ -78,6 +84,25 @@ $(function(){
 			document.getElementById("checkout").setAttribute("min",result);
 		})
 	})
+
+	
+		$("form").submit(function(e){
+			$(".error").css("display", "none");
+			var price = $("input[name='price']").val();
+			var capa = $("input[name='roomcapacity']").val();
+			
+			var priceReg = /^[0-9]{3,13}$/; //가격은 3-13 숫자
+			if (priceReg.test(price) == false) {
+				$("input[name='price']").next().css("display", "inline");
+				  return false;
+			  }
+			
+			var capaReg = /^[0-9]{1,3}$/;
+			if (capaReg.test(capa) == false) {
+				$("input[name='roomcapacity']").next().css("display", "inline");
+				  return false;
+			  }
+		})
 })
 </script>
 <div class="content">
@@ -121,10 +146,12 @@ $(function(){
 						<div class="form-group">
 							<label><span class="red">*</span>가격(1박)</label>
 							<input type="text" name="price" class="form-control" required="required" placeholder="원화로 입력해주세요.">							
+							<span class="error">가격은 4자리 이상의 숫자만 적어주세요.</span>
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>허용객실수</label>
 							<input type="text" name="roomcapacity" class="form-control" required="required" placeholder="객실의 남은 개수를 입력해주세요.">					
+							<span class="error">허용객실수에는 4자리이하의 숫자만 적어주세요.</span>
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>객실타입</label>
@@ -137,8 +164,8 @@ $(function(){
 						<div class="form-group">
 							<label>장소구분</label>
 							<select name="ldiv" class="form-control" id="ldiv" required="required">
-								<option value="0">국내</option>
-								<option value="1">해외</option>
+								<option value="1">국내</option>
+								<option value="0">해외</option>
 							</select> 
 						</div>
 						<div class="form-group">

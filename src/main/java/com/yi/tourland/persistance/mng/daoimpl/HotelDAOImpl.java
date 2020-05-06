@@ -59,8 +59,4 @@ public class HotelDAOImpl implements HotelDAO {
 	public int totalSearchCountHotel(SearchCriteria cri) throws Exception {
 		return sqlSession.selectOne(namespace+"totalSearchCountHotel",cri);
 	}
-
-
-
-
 }

@@ -12,6 +12,7 @@ delete from employee where empid = 'apple';
 insert into employee values (6,'장우주','1987-01-01','010-4444-4321','대구 광역시 달서구',0,'employee4',password('employee'),1);
 desc user;
 select * from `user` u ;
+delete from `user` where userno = 7;
 insert into user values (6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),1);
 select * from rentcar r order by no desc ;
 -- 렌트카
@@ -39,10 +40,14 @@ select * from tour where no = 3001 order by no desc;
 delete from tour;
 -- 태원 --------------------------------------------------------------------------------------------
 SELECT *
-FROM hotel 
+FROM hotel; 
+
 where no = 811;
 select count(no) from hotel;
 select * from hotel order by no desc limit 10, 3;
+
+select * from hotel
+where bookedup like CONCAT('%','1','%');
 
 
 -- 하나 --------------------------------------------------------------------------------------------

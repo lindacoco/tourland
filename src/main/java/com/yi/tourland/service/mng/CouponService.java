@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.CouponVO;
+import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.persistance.mng.dao.CouponDAO;
 
 @Service
@@ -15,10 +16,28 @@ public class CouponService {
 	@Autowired
 	CouponDAO dao;
 	
+	//쿠폰 전체 리스트
 	public List<CouponVO> couponList(SearchCriteria cri) throws Exception{
 		return dao.couponList(cri);
 	}
+	//쿠폰 총 갯수
 	public int totalCountNotice (SearchCriteria cri) throws Exception {
 		return dao.totalCountCoupon(cri);
+	}
+	//쿠폰 추가
+	public void addCoupon (CouponVO coupon) throws Exception{
+		dao.addCoupon(coupon);
+	}
+	//쿠폰 번호로 쿠폰 객체 불러오기
+	public CouponVO readCouponByNo(int cno) throws Exception{
+		return dao.readCouponByNo(cno);
+	}
+	//쿠폰 삭제
+	public void removeCoupon(int cno) throws Exception {
+		dao.removeCoupon(cno);
+	}
+	//쿠폰 수정
+	public void editCoupon(CouponVO coupon) throws Exception{
+		dao.editCoupon(coupon);
 	}
 }
