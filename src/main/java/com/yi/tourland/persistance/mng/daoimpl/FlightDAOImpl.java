@@ -54,4 +54,9 @@ public class FlightDAOImpl implements FlightDAO {
 	public int totalCountAirplaneByRending(SearchCriteria cri) throws Exception {
 		return sqlSession.selectOne(namespace + "totalCountAirplaneByRending", cri);
 	}
+
+	@Override
+	public void addAirplane(AirplaneVO vo) throws Exception {
+		sqlSession.insert(namespace + "addAirplane", vo);
+	}
 }

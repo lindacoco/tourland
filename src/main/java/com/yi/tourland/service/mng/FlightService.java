@@ -15,7 +15,7 @@ public class FlightService {
 	
 	@Autowired
 	private FlightDAO dao;
-	
+	//항공편 전체 리스트
 	public List<AirplaneVO> airplaneList(SearchCriteria cri) throws Exception{
 		return dao.airplaneList(cri);
 	}
@@ -25,6 +25,7 @@ public class FlightService {
 	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception{
 		return dao.airplaneListByRending(cri);
 	}
+	//항공편 전체 숫자
 	public int totalCountAirplane (SearchCriteria cri) throws Exception {
 		return dao.totalCountAirplane(cri);
 	}
@@ -34,7 +35,12 @@ public class FlightService {
 	public int totalCountAirplaneByRending (SearchCriteria cri) throws Exception {
 		return dao.totalCountAirplaneByRending(cri);
 	}
-	public AirplaneVO airplaneByNo(AirplaneVO vo) throws SQLException {
+	//항공편 번호로 검색
+	public AirplaneVO airplaneByNo(AirplaneVO vo) throws Exception {
 		return dao.airplaneByNo(vo);
+	}
+	//항공 추가
+	public void addAirplane(AirplaneVO vo) throws Exception{
+		 dao.addAirplane(vo);
 	}
 }

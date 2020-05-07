@@ -1,13 +1,19 @@
 package com.yi.tourland.domain.mng;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class AirplaneVO {
 	private int no;
 	private String ano;
 	private String dlocation;
 	private String rlocation;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date ddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date rdate;
 	private int ldiv;
 	private int capacity;
@@ -41,14 +47,14 @@ public class AirplaneVO {
 	public Date getDdate() {
 		return ddate;
 	}
-	public void setDdate(Date ddate) {
-		this.ddate = ddate;
+	public void setDdate(String ddate) throws ParseException {
+		this.ddate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(ddate);
 	}
 	public Date getRdate() {
 		return rdate;
 	}
-	public void setRdate(Date rdate) {
-		this.rdate = rdate;
+	public void setRdate(String rdate) throws ParseException {
+		this.rdate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rdate);
 	}
 	public int getLdiv() {
 		return ldiv;

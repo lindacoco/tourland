@@ -410,7 +410,7 @@ function getFormatDate(date){
 			       		<option>출발지 선택</option>
 					    <option>인천</option>
 	  				</select>  
-	  				<input type="hidden" id="dlocaData_d" name="list[0].dlocation">
+	  				<input type="hidden" id="dlocaData_d" name="list[0].dlocation" value="list[0].dlocation">
 				</div>        
 		    </div>  
 		    <div class="form-group">
@@ -423,7 +423,7 @@ function getFormatDate(date){
 						    <option>일본</option>
 	  					</select>
 					</div>
-					<input type="hidden" id="rlocaData_d"  name="list[0].rlocation">
+					<input type="hidden" id="rlocaData_d"  name="list[0].rlocation" value="list[0].rlocation">
 		   </div> 
 		    <div class="form-group">  
 		      <label><span class="red">*</span>좌석</label>
