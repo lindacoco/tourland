@@ -94,7 +94,8 @@ CREATE TABLE tour.banner (
 	title     varchar(255) NULL     COMMENT '제목', -- 제목
 	content   LONGTEXT     NULL     COMMENT '내용', -- 내용
 	pic       varchar(255) NULL     COMMENT '사진', -- 사진
-	isSetting TINYINT(1)   NULL     DEFAULT 0 COMMENT '설정여부' -- 설정여부
+	isSetting TINYINT(1)   NULL     DEFAULT 0 COMMENT '설정여부', -- 설정여부
+	position  CHAR(1)      NULL     COMMENT '배너위치' -- 배너위치
 )
 COMMENT '배너';
 
@@ -173,12 +174,8 @@ CREATE TABLE tour.package (
 	pcontent LONGTEXT     NULL     COMMENT '상품설명', -- 상품설명
 	pexpire  DATE         NULL     COMMENT '상품유효기간', -- 상품유효기간
 	pprice   INT          NULL     COMMENT '상품가격', -- 상품가격
-	dano     INT          NULL     COMMENT '출발항공번호', -- 출발항공번호
-	rano     INT          NULL     COMMENT '도착항공번호', -- 도착항공번호
-	hno      INT          NULL     COMMENT '호텔번호', -- 호텔번호
-	tno      INT          NULL     COMMENT '투어번호', -- 투어번호
-	rno      INT          NULL     COMMENT '렌트카번호', -- 렌트카번호
-	ppic     varchar(255) NULL     COMMENT '상품사진' -- 상품사진
+	ppic     varchar(255) NULL     COMMENT '상품사진', -- 상품사진
+	pdiv     TINYINT(1)   NULL     COMMENT '상품구분' -- 상품구분
 )
 COMMENT '상품';
 
@@ -187,21 +184,6 @@ ALTER TABLE tour.package
 	ADD CONSTRAINT PK_package -- 상품 기본키
 		PRIMARY KEY (
 			pno -- 상품번호
-		);
-
--- 고객상품현황
-CREATE TABLE tour.userpackage (
-	userno INT NOT NULL COMMENT '유저번호', -- 유저번호
-	pno    INT NOT NULL COMMENT '상품번호' -- 상품번호
-)
-COMMENT '고객상품현황';
-
--- 고객상품현황
-ALTER TABLE tour.userpackage
-	ADD CONSTRAINT PK_userpackage -- 고객상품현황 기본키
-		PRIMARY KEY (
-			userno, -- 유저번호
-			pno     -- 상품번호
 		);
 
 -- 팝업
@@ -233,7 +215,8 @@ CREATE TABLE tour.airplane (
 	ldiv      TINYINT(1)  NULL     COMMENT '장소구분', -- 장소구분
 	capacity  INT         NULL     COMMENT '인원', -- 인원
 	seat      char(1)     NULL     COMMENT '좌석', -- 좌석
-	price     INT         NULL     COMMENT '가격' -- 가격
+	price     INT         NULL     COMMENT '가격', -- 가격
+	pdiv      TINYINT(1)  NULL     COMMENT '상품구분' -- 상품구분
 )
 COMMENT '항공';
 
@@ -256,7 +239,8 @@ CREATE TABLE tour.hotel (
 	roomcapacity INT          NULL     COMMENT '객실수', -- 객실수
 	roomtype     CHAR(1)      NULL     COMMENT '객실타입', -- 객실타입
 	ldiv         TINYINT(1)   NULL     COMMENT '장소구분', -- 장소구분
-	bookedup     TINYINT(1)   NULL     COMMENT '객실허용여부' -- 객실허용여부
+	bookedup     TINYINT(1)   NULL     COMMENT '객실허용여부', -- 객실허용여부
+	pdiv         TINYINT(1)   NULL     COMMENT '상품구분' -- 상품구분
 )
 COMMENT '호텔';
 
@@ -278,7 +262,8 @@ CREATE TABLE tour.tour (
 	etime     TIME         NULL     COMMENT '소요시간', -- 소요시간
 	capacity  INT          NULL     COMMENT '인원', -- 인원
 	tprice    INT          NULL     COMMENT '가격', -- 가격
-	ldiv      TINYINT(1)   NULL     COMMENT '장소구분' -- 장소구분
+	ldiv      TINYINT(1)   NULL     COMMENT '장소구분', -- 장소구분
+	pdiv      TINYINT(1)   NULL     COMMENT '상품구분' -- 상품구분
 )
 COMMENT '투어';
 
@@ -301,7 +286,8 @@ CREATE TABLE tour.rentcar (
 	price      INT          NULL     COMMENT '가격', -- 가격
 	capacity   INT          NULL     COMMENT '인원', -- 인원
 	insurance  TINYINT(1)   NULL     COMMENT '보험여부', -- 보험여부
-	ldiv       TINYINT(1)   NULL     COMMENT '장소구분' -- 장소구분
+	ldiv       TINYINT(1)   NULL     COMMENT '장소구분', -- 장소구분
+	pdiv       TINYINT(1)   NULL     COMMENT '상품구분' -- 상품구분
 )
 COMMENT '렌트카';
 
@@ -316,7 +302,6 @@ ALTER TABLE tour.rentcar
 CREATE TABLE tour.reservation (
 	no      INT        NOT NULL COMMENT '예약번호', -- 예약번호
 	userno  INT        NULL     COMMENT '유저번호', -- 유저번호
-	pno     INT        NULL     COMMENT '상품번호', -- 상품번호
 	rdate   TIMESTAMP  NULL     DEFAULT now() COMMENT '예약날짜', -- 예약날짜
 	comfirm TINYINT(1) NULL     COMMENT '확정여부' -- 확정여부
 )
@@ -357,6 +342,81 @@ CREATE TABLE tour.cart (
 )
 COMMENT '장바구니';
 
+-- 상품항공현황황
+CREATE TABLE tour.pairstatus (
+	pno INT NOT NULL COMMENT '상품번호', -- 상품번호
+	ano INT NOT NULL COMMENT '항공번호' -- 항공번호
+)
+COMMENT '상품항공현황황';
+
+-- 상품항공현황황
+ALTER TABLE tour.pairstatus
+	ADD CONSTRAINT PK_pairstatus -- 상품항공현황황 기본키
+		PRIMARY KEY (
+			pno, -- 상품번호
+			ano  -- 항공번호
+		);
+
+-- 유저상품현황
+CREATE TABLE tour.userpstatus (
+	userno INT NOT NULL COMMENT '유저번호', -- 유저번호
+	pno    INT NOT NULL COMMENT '상품번호' -- 상품번호
+)
+COMMENT '유저상품현황';
+
+-- 유저상품현황
+ALTER TABLE tour.userpstatus
+	ADD CONSTRAINT PK_userpstatus -- 유저상품현황 기본키
+		PRIMARY KEY (
+			userno, -- 유저번호
+			pno     -- 상품번호
+		);
+
+-- 상품렌트카현황
+CREATE TABLE tour.prentstatus (
+	pno INT NOT NULL COMMENT '상품번호', -- 상품번호
+	rno INT NOT NULL COMMENT '렌트카번호' -- 렌트카번호
+)
+COMMENT '상품렌트카현황';
+
+-- 상품렌트카현황
+ALTER TABLE tour.prentstatus
+	ADD CONSTRAINT PK_prentstatus -- 상품렌트카현황 기본키
+		PRIMARY KEY (
+			pno, -- 상품번호
+			rno  -- 렌트카번호
+		);
+
+-- 상품투어현황
+CREATE TABLE tour.ptourstatus (
+	pno INT NOT NULL COMMENT '상품번호', -- 상품번호
+	tno INT NOT NULL COMMENT '번호' -- 번호
+)
+COMMENT '상품투어현황';
+
+-- 상품투어현황
+ALTER TABLE tour.ptourstatus
+	ADD CONSTRAINT PK_ptourstatus -- 상품투어현황 기본키
+		PRIMARY KEY (
+			pno, -- 상품번호
+			tno  -- 번호
+		);
+
+-- 상품호텔현황
+CREATE TABLE tour.photelstatus (
+	pno INT NOT NULL COMMENT '상품번호', -- 상품번호
+	hno INT NOT NULL COMMENT '호텔번호' -- 호텔번호
+)
+COMMENT '상품호텔현황';
+
+-- 상품호텔현황
+ALTER TABLE tour.photelstatus
+	ADD CONSTRAINT PK_photelstatus -- 상품호텔현황 기본키
+		PRIMARY KEY (
+			pno, -- 상품번호
+			hno  -- 호텔번호
+		);
+
 -- 회원
 ALTER TABLE tour.user
 	ADD CONSTRAINT FK_coupon_TO_user -- 쿠폰 -> 회원
@@ -367,76 +427,6 @@ ALTER TABLE tour.user
 			cno -- 쿠폰번호
 		);
 
--- 상품
-ALTER TABLE tour.package
-	ADD CONSTRAINT FK_airplane_TO_package -- 항공 -> 상품
-		FOREIGN KEY (
-			dano -- 출발항공번호
-		)
-		REFERENCES tour.airplane ( -- 항공
-			no -- 번호
-		);
-
--- 상품
-ALTER TABLE tour.package
-	ADD CONSTRAINT FK_hotel_TO_package -- 호텔 -> 상품
-		FOREIGN KEY (
-			hno -- 호텔번호
-		)
-		REFERENCES tour.hotel ( -- 호텔
-			no -- 번호
-		);
-
--- 상품
-ALTER TABLE tour.package
-	ADD CONSTRAINT FK_tour_TO_package -- 투어 -> 상품
-		FOREIGN KEY (
-			tno -- 투어번호
-		)
-		REFERENCES tour.tour ( -- 투어
-			no -- 번호
-		);
-
--- 상품
-ALTER TABLE tour.package
-	ADD CONSTRAINT FK_rentcar_TO_package -- 렌트카 -> 상품
-		FOREIGN KEY (
-			rno -- 렌트카번호
-		)
-		REFERENCES tour.rentcar ( -- 렌트카
-			no -- 번호
-		);
-
--- 상품
-ALTER TABLE tour.package
-	ADD CONSTRAINT FK_airplane_TO_package2 -- 항공 -> 상품2
-		FOREIGN KEY (
-			rano -- 도착항공번호
-		)
-		REFERENCES tour.airplane ( -- 항공
-			no -- 번호
-		);
-
--- 고객상품현황
-ALTER TABLE tour.userpackage
-	ADD CONSTRAINT FK_user_TO_userpackage -- 회원 -> 고객상품현황
-		FOREIGN KEY (
-			userno -- 유저번호
-		)
-		REFERENCES tour.user ( -- 회원
-			userno -- 유저번호
-		);
-
--- 고객상품현황
-ALTER TABLE tour.userpackage
-	ADD CONSTRAINT FK_package_TO_userpackage -- 상품 -> 고객상품현황
-		FOREIGN KEY (
-			pno -- 상품번호
-		)
-		REFERENCES tour.package ( -- 상품
-			pno -- 상품번호
-		);
-
 -- 예약
 ALTER TABLE tour.reservation
 	ADD CONSTRAINT FK_user_TO_reservation -- 회원 -> 예약
@@ -445,16 +435,6 @@ ALTER TABLE tour.reservation
 		)
 		REFERENCES tour.user ( -- 회원
 			userno -- 유저번호
-		);
-
--- 예약
-ALTER TABLE tour.reservation
-	ADD CONSTRAINT FK_package_TO_reservation -- 상품 -> 예약
-		FOREIGN KEY (
-			pno -- 상품번호
-		)
-		REFERENCES tour.package ( -- 상품
-			pno -- 상품번호
 		);
 
 -- 장바구니
@@ -475,6 +455,106 @@ ALTER TABLE tour.cart
 		)
 		REFERENCES tour.package ( -- 상품
 			pno -- 상품번호
+		);
+
+-- 상품항공현황황
+ALTER TABLE tour.pairstatus
+	ADD CONSTRAINT FK_airplane_TO_pairstatus2 -- 항공 -> 상품항공현황황2
+		FOREIGN KEY (
+			ano -- 항공번호
+		)
+		REFERENCES tour.airplane ( -- 항공
+			no -- 번호
+		);
+
+-- 상품항공현황황
+ALTER TABLE tour.pairstatus
+	ADD CONSTRAINT FK_package_TO_pairstatus -- 상품 -> 상품항공현황황
+		FOREIGN KEY (
+			pno -- 상품번호
+		)
+		REFERENCES tour.package ( -- 상품
+			pno -- 상품번호
+		);
+
+-- 유저상품현황
+ALTER TABLE tour.userpstatus
+	ADD CONSTRAINT FK_package_TO_userpstatus -- 상품 -> 유저상품현황
+		FOREIGN KEY (
+			pno -- 상품번호
+		)
+		REFERENCES tour.package ( -- 상품
+			pno -- 상품번호
+		);
+
+-- 유저상품현황
+ALTER TABLE tour.userpstatus
+	ADD CONSTRAINT FK_user_TO_userpstatus -- 회원 -> 유저상품현황
+		FOREIGN KEY (
+			userno -- 유저번호
+		)
+		REFERENCES tour.user ( -- 회원
+			userno -- 유저번호
+		);
+
+-- 상품렌트카현황
+ALTER TABLE tour.prentstatus
+	ADD CONSTRAINT FK_package_TO_prentstatus -- 상품 -> 상품렌트카현황
+		FOREIGN KEY (
+			pno -- 상품번호
+		)
+		REFERENCES tour.package ( -- 상품
+			pno -- 상품번호
+		);
+
+-- 상품렌트카현황
+ALTER TABLE tour.prentstatus
+	ADD CONSTRAINT FK_rentcar_TO_prentstatus -- 렌트카 -> 상품렌트카현황
+		FOREIGN KEY (
+			rno -- 렌트카번호
+		)
+		REFERENCES tour.rentcar ( -- 렌트카
+			no -- 번호
+		);
+
+-- 상품투어현황
+ALTER TABLE tour.ptourstatus
+	ADD CONSTRAINT FK_package_TO_ptourstatus -- 상품 -> 상품투어현황
+		FOREIGN KEY (
+			pno -- 상품번호
+		)
+		REFERENCES tour.package ( -- 상품
+			pno -- 상품번호
+		);
+
+-- 상품투어현황
+ALTER TABLE tour.ptourstatus
+	ADD CONSTRAINT FK_tour_TO_ptourstatus -- 투어 -> 상품투어현황
+		FOREIGN KEY (
+			tno -- 번호
+		)
+		REFERENCES tour.tour ( -- 투어
+			no -- 번호
+		);
+
+-- 상품호텔현황
+ALTER TABLE tour.photelstatus
+	ADD CONSTRAINT FK_package_TO_photelstatus -- 상품 -> 상품호텔현황
+		FOREIGN KEY (
+			pno -- 상품번호
+		)
+		REFERENCES tour.package ( -- 상품
+			pno -- 상품번호
+		);
+
+-- 상품호텔현황
+ALTER TABLE tour.photelstatus
+	ADD CONSTRAINT FK_hotel_TO_photelstatus -- 호텔 -> 상품호텔현황
+		FOREIGN KEY (
+			hno -- 호텔번호
+		)
+		REFERENCES tour.hotel ( -- 호텔
+			no -- 번호
 		);
 create user if not exists 'tour'@'localhost';
 grant all privileges on tour.* to 'tour'@'localhost' identified by 'tour';
