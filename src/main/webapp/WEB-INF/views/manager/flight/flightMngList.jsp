@@ -53,7 +53,7 @@
 						<c:forEach items="${flightList }" var="f">   
 							<tr>
 								<td>${f.no }</td>
-								<td><a href="#">${f.ano }</a></td>
+								<td><a href="${pageContext.request.contextPath }/flightDetail?no=${f.no}">${f.ano }</a></td>
 								<td>${f.dlocation }</td>
 								<td>${f.rlocation }</td>
 								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>

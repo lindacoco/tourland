@@ -36,46 +36,18 @@
 				line-height: 40px;
 				border-radius: 5px;
 				text-decoration: none;
-				color: #fff; }   	
-	#flightWrap input { width: 180px; }	              
+				color: #fff; }   		              
 </style>    
 <script>
 $(document).ready(function(){   
 	 $('.dateTimePicker').datetimepicker({format:"YYYY-MM-DD"});
+	       
+	    
 	}); 
 	
 </script>
 <script>
-	$(function(){
-		$("#mod").click(function(){
-			/* var no = "${notice.no}";
-			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
-			var keyword = "${cri.keyword}";
-			/* location.href = "editNotice?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword; */
-			//location.href = "editNotice?no="+no; 
-		})
-		$("#del").click(function(){
-		 	 if(!confirm("항공편을 삭제하면 출발,도착편이 동시에 삭제됩니다. 삭제하시겠습니까?")) {
-				return false;
-			}
-			var d_no = $("#noData_d").val();
-			var r_no = $("#noData_r").val();
-			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
-			var keyword = "${cri.keyword}";
-			location.href = "removeFlight?d_no="+d_no+"&r_no="+r_no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword; 
-		})
-		$("#return").click(function() {
-			var page =	"${cri.page}";
-			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
-			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
-			var keyword = "${cri.keyword}";
-			location.href = "flightMngList?page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
-		})
-	})
+
 </script>
 <body>      
 	<div class="container">         
@@ -83,22 +55,21 @@ $(document).ready(function(){
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-		 			 <h2>항공 스케줄 세부 사항</h2>
+		 			 <h2>항공 스케줄 수정</h2>
 		 		 </div>
 		  <p id="guide">항공 스케줄의 세부 사항 입니다.</p>
-		<!--   <form class="form-inline"> -->
-		<div id="flightWrap">
+		  <form class="form-inline" action="${pageContext.request.contextPath }/addFlightForm" method="post">
 		  	<h3>출발 스케줄</h3>
 		  <div class="group">
 		    <div class="form-group">   
 		      <label><span class="red">*</span>출발지</label>
 			     <div class="container">
+			     
+			        
 	  				<c:if test="${noDiv==0 }">
 	  					<input type="text" id="dlocaData_d" class="form-control" value="${prevAir.dlocation }" readonly="readonly">
 	  				</c:if>
-	  				<c:if test="${noDiv==1}">
-	  					<input type="text" id="dlocaData_d" class="form-control" value="${selectedAir.dlocation }" readonly="readonly">
-	  				</c:if>
+	  	
 				</div>        
 		    </div>  
 		    <div class="form-group">
@@ -107,10 +78,8 @@ $(document).ready(function(){
 	  					
 					<c:if test="${noDiv==0 }">
 	  					<input type="text" id="rlocaData_d" class="form-control" value="${prevAir.rlocation }" readonly="readonly">
-	  				</c:if>	
-					<c:if test="${noDiv==1 }">
-	  					<input type="text" id="rlocaData_d" class="form-control" value="${selectedAir.rlocation }" readonly="readonly">
 	  				</c:if>
+
 					</div>
 		   </div> 
 		    <div class="form-group">  
@@ -129,18 +98,6 @@ $(document).ready(function(){
 				    	</c:if>
 	  					
 	  				</c:if>
-	  				<c:if test="${noDiv==1 }">
-				    	<c:if test="${selectedAir.seat=='E' }">
-				    		<input type="text" class="form-control" value="Economy-Class" readonly="readonly">
-				    	</c:if>
-				    	<c:if test="${selectedAir.seat=='B' }">
-				    		<input type="text" class="form-control" value="Business-Class" readonly="readonly">
-				    	</c:if>
-				    	<c:if test="${selectedAir.seat=='F' }">
-				    		<input type="text" class="form-control" value="First-Class" readonly="readonly">
-				    	</c:if>
-	  					
-	  				</c:if>
 					</div>   
 		    </div>
 		    
@@ -149,9 +106,6 @@ $(document).ready(function(){
 			     				<div class="container">
 			     					<c:if test="${noDiv==0 }">
 			     						<input type="text" class="form-control" id="capacity_d" value="${prevAir.capacity }" readonly="readonly">
-			     					</c:if>	
-			     					<c:if test="${noDiv==1 }">
-			     						<input type="text" class="form-control" id="capacity_d" value="${selectedAir.capacity }" readonly="readonly">
 			     					</c:if>	
 								</div>     
 					</div>
@@ -164,9 +118,6 @@ $(document).ready(function(){
 						  			 <div class='input-group date dateTimePicker' id='datetimepicker1'>
 						  			 	<c:if test="${noDiv==0 }">
 					                    	<input type='text' class="form-control" id="ddate_d" name="ddateData_d" value="<fmt:formatDate value="${prevAir.ddate }" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
-					                    </c:if>
-					                    <c:if test="${noDiv==1 }">
-					                    	<input type='text' class="form-control" id="ddate_d" name="ddateData_d" value="<fmt:formatDate value="${selectedAir.ddate }" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
 					                    </c:if>
 					                    <span class="input-group-addon">
 					                        <span class="glyphicon glyphicon-calendar"></span>
@@ -181,22 +132,14 @@ $(document).ready(function(){
 								<div class="container">   
 									<c:if test="${noDiv==0 }">
 										<input type="text" class="form-control" id="dtime_d" name="dtimeData_d" readonly="readonly" value="${prev_dtime }">	
-									</c:if>   
-									<c:if test="${noDiv==1 }">
-										<input type="text" class="form-control" id="dtime_d" name="dtimeData_d" readonly="readonly" value="${selected_dtime }">	
-									</c:if>  
+									</c:if>    
 									
 								</div>    
 					</div>   
 		    		<div class="form-group">     
 						 <label>도착 시간</label>
 								<div class="container">  
-								<c:if test="${noDiv==0 }">
 									<input type="text" class="form-control" id="rtime_d" name="rtimeData_d" readonly="readonly" value="${prev_rtime }">
-								</c:if>
-								<c:if test="${noDiv==1 }">
-									<input type="text" class="form-control" id="rtime_d" name="rtimeData_d" readonly="readonly" value="${selected_rtime }">
-								</c:if>
 									<!-- <input type="hidden" class="form-control" id="rdate_d" name="rdateData_d"> -->
 								</div>  
 					</div>
@@ -207,9 +150,6 @@ $(document).ready(function(){
 			     				<div class="container">   	
 			     					<c:if test="${noDiv==0 }">
 						  				<input type="text" class="form-control" id="FCode_d" name="FCodeData_d" readonly="readonly" value="${prevAir.ano }">
-						  			</c:if>
-						  			<c:if test="${noDiv==1 }">
-						  				<input type="text" class="form-control" id="FCode_d" name="FCodeData_d" readonly="readonly" value="${selectedAir.ano }">
 						  			</c:if>
 								</div>   
 					</div>
@@ -222,22 +162,13 @@ $(document).ready(function(){
 			     					<c:if test="${noDiv==0 }">
 			     						<input type="text" class="form-control" id="price_d" value="${prevAir.price }" readonly="readonly">
 			     					</c:if>   	
-						  			<c:if test="${noDiv==1 }">
-			     						<input type="text" class="form-control" id="price_d" value="${selectedAir.price }" readonly="readonly">
-			     					</c:if>  
-			     					
+						  			
 					                <input type="hidden" name="list[0].seat" id="seatData_d">
 					                <input type="hidden" name="list[0].ddate" id="ddateData_d">
 					                <input type="hidden" name="list[0].rdate" id="rdateData_d">
 					                <input type="hidden" name="list[0].ano" id="anoData_d">
 					                <input type="hidden" name="list[0].ldiv" id="ldivData_d">   
-					                <c:if test="${noDiv==0 }">
-					               	 <input type="hidden"  id="noData_d" value="${prevAir.no }"> 
-					                </c:if>
-					                <c:if test="${noDiv==1 }">
-					               	 <input type="hidden"  id="noData_d" value="${selectedAir.no }"> 
-					                </c:if>
-						  			
+						  			<input type="hidden" name="list[0].no" id="noData_d" value="${prevAir.no }"> 
 								</div>
 					</div>
 			</div>
@@ -255,23 +186,14 @@ $(document).ready(function(){
 		    <div class="form-group">   
 		      <label><span class="red">*</span>출발지</label>
 			     <div class="container">   
-			     <c:if test="${noDiv==0 }">
-			     	 <input type="text" class="form-control" id="dlocation_r"readonly="readonly" value="${selectedAir.dlocation }">
-			     </c:if>
-			     <c:if test="${noDiv==1 }">
-			     	 <input type="text" class="form-control" id="dlocation_r"readonly="readonly" value="${nextAir.dlocation }">
-			     </c:if>
+			      <input type="text" class="form-control" id="dlocation_r"readonly="readonly" value="${selectedAir.dlocation }">
+			      <input type="hidden" id="dlocaData_r" name="list[1].dlocation">
 				</div>        
 		    </div>  
 		    <div class="form-group">
 		      <label><span class="red">*</span>도착지</label>   
-				    <div class="container">    
-				    <c:if test="${noDiv==0 }">
-				    	<input type="text" class="form-control" id="rlocation_r"readonly="readonly" value="${selectedAir.rlocation }">
-				    </c:if>                                 
-					 <c:if test="${noDiv==1 }">
-				    	<input type="text" class="form-control" id="rlocation_r"readonly="readonly" value="${nextAir.rlocation }">
-				    </c:if>  	
+				    <div class="container">                                     
+						<input type="text" class="form-control" id="rlocation_r"readonly="readonly" value="${selectedAir.rlocation }">
 					</div>
 		   </div> 
 		    <div class="form-group">  
@@ -288,27 +210,14 @@ $(document).ready(function(){
 				    		<input type="text" class="form-control" value="First-Class" readonly="readonly">
 				    	</c:if>
 				    </c:if>
-				    <c:if test="${noDiv==1 }">
-				    	<c:if test="${nextAir.seat=='E' }">
-				    		<input type="text" class="form-control" value="Economy-Class" readonly="readonly">
-				    	</c:if>
-				    	<c:if test="${nextAir.seat=='B' }">
-				    		<input type="text" class="form-control" value="Business-Class" readonly="readonly">
-				    	</c:if>
-				    	<c:if test="${nextAir.seat=='F' }">
-				    		<input type="text" class="form-control" value="First-Class" readonly="readonly">
-				    	</c:if>
-				    </c:if>	 
+				    	 
 					</div>   
 		    </div>
 			<div class="form-group">
 					<label>최대 인원 수</label>
 			     		<div class="container"> 
-			     		  <c:if test="${noDiv==0 }">
+			     		  	<c:if test="${noDiv==0 }">
 						  	<input type="text" class="form-control" id="capacity_r" value="${selectedAir.capacity }" readonly="readonly">
-						  </c:if>
-						  <c:if test="${noDiv==1 }">
-						  	<input type="text" class="form-control" id="capacity_r" value="${nextAir.capacity }" readonly="readonly">
 						  </c:if>
 						</div>
 					</div>
@@ -319,10 +228,7 @@ $(document).ready(function(){
 			     				<div class="container">   	
 						  			<c:if test="${noDiv==0 }">
 					                    	<input type='text' class="form-control" id="ddate_d" value="<fmt:formatDate value="${selectedAir.ddate }" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
-					                 </c:if>
-					                 <c:if test="${noDiv==1 }">
-					                    	<input type='text' class="form-control" id="ddate_d" value="<fmt:formatDate value="${nextAir.ddate }" pattern="yyyy-MM-dd"/>" readonly="readonly"/>
-					                 </c:if>
+					                    </c:if>
 								</div>
 					</div>   
 					
@@ -335,9 +241,6 @@ $(document).ready(function(){
 									<c:if test="${noDiv==0 }">
 										<input type="text" class="form-control" id="dtime_r"  readonly="readonly" value="${selected_dtime }">	
 									</c:if>
-									<c:if test="${noDiv==1 }">
-										<input type="text" class="form-control" id="dtime_r"  readonly="readonly" value="${next_dtime }">	
-									</c:if>
 								</div>   
 					</div>
 					<div class="form-group">
@@ -346,58 +249,37 @@ $(document).ready(function(){
 									<c:if test="${noDiv==0 }">
 										<input type="text" class="form-control" id="rtime_r"  readonly="readonly" value="${selected_rtime }">	
 									</c:if>
-									<c:if test="${noDiv==1 }">
-										<input type="text" class="form-control" id="rtime_r"  readonly="readonly" value="${next_rtime }">	
-									</c:if>
 								</div>   
 					</div>
 			</div>                      
 		    <div class="group">          
 				    <div class="form-group">
 						  <label>항공사 코드</label>
-			     				<div class="container"> 
-			     				<c:if test="${noDiv==0 }">
-			     					<input type="text" class="form-control" id="FCode_r" name="FCodeData_r" readonly="readonly" value="${selectedAir.ano }">
-			     				</c:if>  	
-						  		<c:if test="${noDiv==1 }">
-			     					<input type="text" class="form-control" id="FCode_r" name="FCodeData_r" readonly="readonly" value="${nextAir.ano }">
-			     				</c:if>  	
+			     				<div class="container">   	
+						  			<input type="text" class="form-control" id="FCode_r" name="FCodeData_r" readonly="readonly" value="${selectedAir.ano }">
 								</div>   
 					</div>
 			</div> 
 			<div class="group"> 
 				    <div class="form-group">
 						  <label><span class="red">*</span>가격</label>
-			     				<div class="container">   
-			     				<c:if test="${noDiv==0 }">
-			     					<input type="text" class="form-control" id="price_r" value=${selectedAir.price } readonly="readonly">
-			     				</c:if>	
-						  		<c:if test="${noDiv==1 }">
-			     					<input type="text" class="form-control" id="price_r" value=${nextAir.price } readonly="readonly">
-			     				</c:if>	
+			     				<div class="container">   	
+						  			<input type="text" class="form-control" id="price_r" value=${selectedAir.price } readonly="readonly">
 						  			<input type="hidden" name="list[1].seat" id="seatData_r">
 					                <input type="hidden" name="list[1].ddate" id="ddateData_r">
 					                <input type="hidden" name="list[1].rdate" id="rdateData_r">
 					                <input type="hidden" name="list[1].ano" id="anoData_r">
 					                <input type="hidden" name="list[1].ldiv" id="ldivData_r">
-					            <c:if test="${noDiv==0 }">
-					            	<input type="hidden" name="list[1].no" id="noData_r" value="${selectedAir.no }">
-					            </c:if>
-						  		<c:if test="${noDiv==1 }">
-					            	<input type="hidden" name="list[1].no" id="noData_r" value="${nextAir.no }">
-					            </c:if>	    
+						  			<input type="hidden" name="list[1].no" id="noData_r" value="${selectedAir.no }">    
 								</div>
 					</div>
 			</div>  
 			<div class="group">
 				<div class="form-group">
-			    	<button class="btn btn-warning" id="mod">수정</button>
-					<button class="btn btn-danger" id="del">삭제</button>
-					<button class="btn btn-primary" id="return">돌아가기</button>
+			    	<button type="submit" class="btn btn-primary" id="addFlight">추가</button>
 			    </div>
 			 </div>
-		  <!-- </form> -->
-		  </div>
+		  </form>
 		</div>                        
 		</div>     
 	</div>      

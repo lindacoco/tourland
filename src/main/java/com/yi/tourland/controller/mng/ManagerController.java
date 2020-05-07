@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -108,7 +111,7 @@ public class ManagerController {
 		return "/manager/flight/flightMngList";
 	}
 
-	// 항공 추가 폼
+	// 항공 추가 GET
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.GET)
 	public String addFlightForm(Model model) throws Exception {
 		SearchCriteria cri = new SearchCriteria();
@@ -123,7 +126,7 @@ public class ManagerController {
 		return "/manager/flight/addFlightForm2";
 	}
 
-	// 항공 추가 폼
+	// 항공 추가 POST
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.POST)
 	public String addFlightResult(DataListVO list) throws Exception {
 		for(AirplaneVO a : list.getList()) {
@@ -132,8 +135,106 @@ public class ManagerController {
 		
 		return "redirect:/flightMngList";
 	}
-
-
+	
+	// 항공 세부 페이지
+		@RequestMapping(value = "flightDetail", method = RequestMethod.GET)
+		public String flightDetail(int no, SearchCriteria cri, Model model) throws Exception {
+			AirplaneVO selectedVo = new AirplaneVO();
+			AirplaneVO prevVo = new AirplaneVO();
+			AirplaneVO nextVo = new AirplaneVO();
+			int prevNo = no-1;//이전번호
+			int nextNo = no+1;//이후번호
+			selectedVo.setNo(no);//선택한 항공편
+			prevVo.setNo(prevNo);//이전번호 항공편
+			nextVo.setNo(nextNo);//이후번호 항공편
+			int noDiv = 0;
+			
+			//선택한 항공편
+			AirplaneVO selectedAir = flightService.airplaneByNo(selectedVo);//선택한 항공편 모든정보
+			//선택한 항공편 출발 시간
+			Date selected_dDate = selectedAir.getDdate();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String selected_dText = transFormat.format(selected_dDate);
+			String selected_dtime = selected_dText.substring(selected_dText.lastIndexOf("-")+3);
+			//선택한 항공편 도착 시간
+			Date selected_rDate = selectedAir.getRdate();
+			String selected_rText = transFormat.format(selected_rDate);
+			String selected_rtime = selected_rText.substring(selected_rText.lastIndexOf("-")+3);
+			
+			model.addAttribute("selected_dtime", selected_dtime);
+			model.addAttribute("selected_rtime", selected_rtime);
+			model.addAttribute("cri", cri);
+			
+			if(no%2 == 0 && no != 1) {//항공편 번호가 짝수 && 1이 아님 -> 선택한 항공편 & 이전번호 항공편 들고옴
+				AirplaneVO prevAir = flightService.airplaneByNo(prevVo);//이전번호 항공편 모든정보
+				
+				//이전번호 항공편 출발 시간
+				Date prev_dDate = prevAir.getDdate();
+				String prev_dText = transFormat.format(prev_dDate);
+				String prev_dtime = prev_dText.substring(prev_dText.lastIndexOf("-")+3);
+				//이전번호 항공편 도착 시간
+				Date prev_rDate = prevAir.getRdate();
+				String prev_rText = transFormat.format(prev_rDate);
+				String prev_rtime = prev_rText.substring(prev_rText.lastIndexOf("-")+3);
+				
+				model.addAttribute("selectedAir", selectedAir);
+				model.addAttribute("prevAir", prevAir);
+				model.addAttribute("noDiv", noDiv);
+				model.addAttribute("prev_dtime", prev_dtime);
+				model.addAttribute("prev_rtime", prev_rtime);
+			}else if(no%2 == 1 && no != 1) {//항공편 번호가 홀수 && 1이 아님 -> 선택한 항공편 & 이후번호 항공편 들고옴
+				noDiv = 1;
+				AirplaneVO nextAir = flightService.airplaneByNo(nextVo);//이후번호 항공편 모든정보
+				
+				//이후번호 항공편 출발 시간
+				Date next_dDate = nextAir.getDdate();
+				String next_dText = transFormat.format(next_dDate);
+				String next_dtime = next_dText.substring(next_dText.lastIndexOf("-")+3);
+				//이후번호 항공편 도착 시간
+				Date next_rDate = nextAir.getRdate();
+				String next_rText = transFormat.format(next_rDate);
+				String next_rtime = next_rText.substring(next_rText.lastIndexOf("-")+3);
+				
+				model.addAttribute("selectedAir", selectedAir);
+				model.addAttribute("nextAir", nextAir);
+				model.addAttribute("noDiv", noDiv);
+				model.addAttribute("next_dtime", next_dtime);
+				model.addAttribute("next_rtime", next_rtime);
+			}else if(no==1) {
+				noDiv = 2;
+				
+				AirplaneVO AirNo2 = new AirplaneVO();
+				AirNo2.setNo(2);
+				AirplaneVO nextAir = flightService.airplaneByNo(AirNo2);//이후번호 항공편 모든정보
+				//이후번호 항공편 출발 시간
+				Date next_dDate = nextAir.getDdate();
+				String next_dText = transFormat.format(next_dDate);
+				String next_dtime = next_dText.substring(next_dText.lastIndexOf("-")+3);
+				//이후번호 항공편 도착 시간
+				Date next_rDate = nextAir.getRdate();
+				String next_rText = transFormat.format(next_rDate);
+				String next_rtime = next_rText.substring(next_rText.lastIndexOf("-")+3);
+				
+				model.addAttribute("selectedAir", selectedAir);
+				model.addAttribute("nextAir", nextAir);
+				model.addAttribute("noDiv", noDiv);
+				model.addAttribute("next_dtime", next_dtime);
+				model.addAttribute("next_rtime", next_rtime);
+			}
+			
+			return "/manager/flight/flightDetail";
+		}
+		
+	//항공 삭제
+	@RequestMapping(value = "removeFlight", method = RequestMethod.GET)
+	public String removeFlight(int d_no, int r_no, SearchCriteria cri, Model model) throws Exception {
+		
+		flightService.removeAirplane(d_no);
+		flightService.removeAirplane(r_no);
+		model.addAttribute("cri", cri);
+		return "redirect:/flightMngList";
+	}
+		
 	// 직원관리리스트
 	@RequestMapping(value = "empMngList/{empretired}", method = RequestMethod.GET)
 	public String empMngList(SearchCriteria cri, Model model, @PathVariable("empretired") int empretired)

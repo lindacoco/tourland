@@ -43,4 +43,8 @@ public class FlightService {
 	public void addAirplane(AirplaneVO vo) throws Exception{
 		 dao.addAirplane(vo);
 	}
+	//항공 삭제
+	public void removeAirplane(int no) throws Exception{
+		dao.removeAirplane(no);
+	}
 }
