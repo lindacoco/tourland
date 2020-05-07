@@ -1067,12 +1067,12 @@ public class ManagerController {
 	//호텔관리
 	@RequestMapping(value="hotelMngList", method=RequestMethod.GET)
 	public String hotelListPage(SearchCriteria cri, Model model) throws Exception { 
-		List<HotelVO> list = hotelService.listCriteriaHotel(cri);
+		List<HotelVO> list = hotelService.listSearchHotel(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(hotelService.totalSearchCountHotel(cri));
-		model.addAttribute("cri", cri);
 		model.addAttribute("list", list);
+		model.addAttribute("cri", cri);
 		model.addAttribute("pageMaker", pageMaker);
 		return "/manager/hotel/hotelMngList";
 	}
@@ -1101,7 +1101,7 @@ public class ManagerController {
 	@RequestMapping(value = "hotelModify", method = RequestMethod.POST)
 	public String hotelModifyPost(HotelVO vo, SearchCriteria cri) throws Exception {
 		hotelService.updateHotel(vo);
-		return "redirect:hotelMngList?no="+vo.getNo()+"page="+cri.getPage() +"&searchType=" + cri.getSearchType()+"&keyword=" + cri.getKeyword();
+		return "redirect:hotelMngList?page="+cri.getPage() +"&searchType=" + cri.getSearchType()+"&keyword=" + cri.getKeyword();
 	}
 
 	@RequestMapping(value = "hotelDelete", method = RequestMethod.GET)

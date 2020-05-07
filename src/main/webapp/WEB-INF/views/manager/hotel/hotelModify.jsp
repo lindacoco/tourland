@@ -26,7 +26,7 @@
 	[type="date"] {
 	background: #fff
 		url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
-		97% 50% no-repeat;
+		97% 50% no-repeat; 
 	}
 
 	[type="date"]::-webkit-inner-spin-button {
@@ -37,14 +37,20 @@
 		opacity: 0;
 	}
 	.box-footer{
-    	clear: both;
-    	margin: 43px 636px;
-    	padding-top: 70px;
+	clear: both;
+    margin: 78px 522px;
+    padding-top: 81px;
+    width: 485px;
 	}
 	.box-footer button{
     	width: 200px;
     	height: 65px;
     	font-size: 20px;
+    	margin-left:20px;
+	}
+	.error{
+		color:red;
+		display: none;
 	}
 
 </style>
@@ -78,6 +84,32 @@ $(function(){
 			document.getElementById("checkout").setAttribute("min",result);
 		})
 	})
+	
+		$("#goList").click(function() {
+			var page =	"${cri.page}";
+			var searchType = "${cri.searchType}";
+			var keyword = "${cri.keyword}";
+			location.href = "hotelMngList?page="+page+"&searchType="+searchType+"&keyword="+keyword;
+		})
+		
+		$("form").submit(function(e){
+			$(".error").css("display", "none");
+			var price = $("input[name='price']").val();
+			var capa = $("input[name='roomcapacity']").val();
+			
+			var priceReg = /^[0-9]{3,13}$/; //가격은 3-13 숫자
+			if (priceReg.test(price) == false) {
+				$("input[name='price']").next().css("display", "inline");
+				  return false;
+			  }
+			
+			var capaReg = /^[0-9]{1,3}$/;
+			if (capaReg.test(capa) == false) {
+				$("input[name='roomcapacity']").next().css("display", "inline");
+				  return false;
+			  }
+		})
+
 })
 </script>
 <div class="content">
@@ -106,11 +138,11 @@ $(function(){
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>체크인 날짜</label>
-							<input type="date" name="checkin" class="form-control"  id="checkin" value="${hotelVo.checkin }">	
+							<input type="date" name="checkin" class="form-control"  id="checkin" value="<fmt:formatDate value="${hotelVo.checkin}" pattern='yyyy-MM-dd'/>">	
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>체크아웃 날짜</label>
-							<input type="date" name="checkout" class="form-control"  id="checkout" value="${hotelVo.checkout }">
+							<input type="date" name="checkout" class="form-control"  id="checkout" value="<fmt:formatDate value="${hotelVo.checkout}" pattern='yyyy-MM-dd'/>">
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>허용인원수</label>
@@ -123,25 +155,27 @@ $(function(){
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>가격(1박)</label>
-							<input type="text" name="price" class="form-control" required="required" value="${hotelVo.price }" >							
+							<input type="text" name="price" class="form-control" value="${hotelVo.price }" >							
+							<span class="error">가격은 4자리 이상의 숫자만 적어주세요.</span>
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>허용객실수</label>
-							<input type="text" name="roomcapacity" class="form-control" required="required" value="${hotelVo.roomcapacity }">					
+							<input type="text" name="roomcapacity" class="form-control" value="${hotelVo.roomcapacity }">					
+							<span class="error">허용객실수에는 4자리이하의 숫자만 적어주세요.</span>
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>객실타입</label>
 							<select name="roomtype" class="form-control" id="roomtype">
-								<option value="N" ${hotelVo.roomtype == N? 'selected':'' }>노말</option>
-								<option value="D" ${hotelVo.roomtype == D? 'selected':'' }>디럭스</option>
-								<option value="S" ${hotelVo.roomtype == S? 'selected':'' }>스위트</option>
+								<option value="N" ${hotelVo.roomtype == "N"? 'selected':'' }>노말</option>
+								<option value="D" ${hotelVo.roomtype == "D"? 'selected':'' }>디럭스</option>
+								<option value="S" ${hotelVo.roomtype == "S"? 'selected':'' }>스위트</option>
 							</select> 
 						</div>
 						<div class="form-group">
 							<label>장소구분</label>
 							<select name="ldiv" class="form-control" id="ldiv">
-								<option value="0" ${hotelVo.ldiv == 1? 'selected':'' }>국내</option>
-								<option value="1" ${hotelVo.ldiv == 0? 'selected':'' }>해외</option>
+								<option value="1" ${hotelVo.ldiv == 1? 'selected':'' }>국내</option>
+								<option value="0" ${hotelVo.ldiv == 0? 'selected':'' }>해외</option>
 							</select>
 						</div>
 						<div class="form-group">
@@ -153,7 +187,7 @@ $(function(){
 						</div>
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary">수정</button>
-							<button class="btn btn-primary" id="cancle">취소</button>
+							<button class="btn btn-primary" id="goList">돌아가기</button>
 						</div>
 					</div>
 				</form>
