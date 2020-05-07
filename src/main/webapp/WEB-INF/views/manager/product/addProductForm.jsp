@@ -70,15 +70,10 @@ h2 {
 		var ddateStr = makeDateStr(res.vo.ddate);
 		var rdateStr = makeDateStr(res.vo.rdate);
 		if (div == 'Depature') {
-			$(".result").eq(0).append(
-					"출발 : " + res.vo.no + " " + res.vo.ano + " "
-							+ res.vo.dlocation + " " + res.vo.rlocation + " "
-							+ ddateStr + " " + rdateStr + " " + res.vo.ldiv
-							+ " " + res.vo.capacity + " " + res.vo.seat + " "
-							+ res.vo.price + " ");
+			//$(".result").eq(0).append("출발 : " + res.vo.no + " " + res.vo.ano + " "+ res.vo.dlocation + " " + res.vo.rlocation + " "+ ddateStr + " " + rdateStr + " " + res.vo.ldiv + " " + res.vo.capacity + " " + res.vo.seat + " "+ res.vo.price + " ");
 			$("form").append(no);
 		} else {
-			$(".result").eq(0).append(
+			(".result").eq(0).append(
 					"도착 : " + res.vo.no + " " + res.vo.ano + " "
 							+ res.vo.dlocation + " " + res.vo.rlocation + " "
 							+ ddateStr + " " + rdateStr + " " + res.vo.ldiv
@@ -94,7 +89,7 @@ h2 {
 		var roomtype = res.vo.roomtype=='N'?'노말':res.vo.roomtype=='D'?'디럭스':'스위트';
 		var ldiv = res.vo.ldiv=='1'?'해외':'국내';
 		var bookedup = res.vo.bookedup=='0'?'예약가능':'예약불가';
-		$(".result").eq(1).append(res.vo.no + " " + res.vo.hname + " " + res.vo.haddr + " " + checkinDate + " " + checkoutDate + " " + res.vo.capacity + " " + res.vo.price + " " +res.vo.roomcapacity + " " + roomtype + " " + ldiv + " " + bookedup); 
+		//$(".result").eq(1).append(res.vo.no + " " + res.vo.hname + " " + res.vo.haddr + " " + checkinDate + " " + checkoutDate + " " + res.vo.capacity + " " + res.vo.price + " " +res.vo.roomcapacity + " " + roomtype + " " + ldiv + " " + bookedup); 
 		$("form").append(no);
 	}
 	var getTourData = function(res) {
@@ -103,7 +98,7 @@ h2 {
 		var endDateStr = makeDateStr(res.vo.endDate);
 		var etimeStr = makeTimeStr(res.vo.etime);
 		var ldiv = res.vo.ldiv=='1'?'해외':'국내';
-		$(".result").eq(2).append(res.vo.no + " " + res.vo.tname + " " + res.vo.tlocation + " " + startDateStr + " " + endDateStr + " " + res.vo.taddr + " " + etimeStr + " " +res.vo.capacity + " " + res.vo.tprice + " " + ldiv); 
+		//$(".result").eq(2).append(res.vo.no + " " + res.vo.tname + " " + res.vo.tlocation + " " + startDateStr + " " + endDateStr + " " + res.vo.taddr + " " + etimeStr + " " +res.vo.capacity + " " + res.vo.tprice + " " + ldiv); 
 		$("form").append(no);
 	}
 	var clickAir = function(no, div) {
@@ -113,7 +108,6 @@ h2 {
 			dataType : "json",
 			success : function(res) {
 				if (div == 'Depature') {
-					$(".result").eq(0).empty();
 					getAirData(div, res);
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
@@ -592,13 +586,13 @@ h2 {
 							tourAjax(page, searchType, keyword);
 						})
 		//다이얼로그 호출
-		$("#showFlight").click(function() {
+		$("#addFlight").click(function() {
 			$("#flightDepature").modal("show");
 		})
-		$("#showHotel").click(function() {
+		$("#addHotel").click(function() {
 			$("#hotel").modal("show");
 		})
-		$("#showTour").click(function() {
+		$("#addTour").click(function() {
 			$("#tour").modal("show");
 		})
 	})
@@ -619,8 +613,9 @@ h2 {
 								<label><span class="red">*</span>항공</label>
 								<div class="container">
 									<button type="button" class="btn btn-primary"
-										data-toggle="modal" id="showFlight">항공편 추가</button>
-									<span class="result"></span>
+										 id="addFlight">항공편 추가</button>
+									<button type="button" class="btn btn-primary"
+										 id="showFlight">항공편 보기</button>
 									<!-- <select class="form-control" id="sel1">
 				    <option>KA301 ICN/CJU 4/1 09:00AM-10:15AM (E)</option>
 				    <option>KA301 ICN/CJU 4/1 09:00AM-10:15AM (E)</option>
@@ -635,9 +630,10 @@ h2 {
 								<label><span class="red">*</span>호텔</label>
 								<div class="container">
 									<div class="dropdown">
-										<button type="button" class="btn btn-primary" id="showHotel">호텔
+										<button type="button" class="btn btn-primary" id="addHotel">호텔
 											추가</button>
-										<span class="result"></span>
+										<button type="button" class="btn btn-primary" id="showHotel">호텔
+											보기</button>
 										<!-- <select class="form-control" id="sel1">
 						    <option>Hidden Cliff 4/1 - 4/3 Normal</option>
 						    <option>Hidden Cliff 4/1 - 4/3 Normal</option>
@@ -652,8 +648,8 @@ h2 {
 							<div class="form-group">
 								<label><span class="red">*</span>현지 투어</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="showTour">현지투어 추가</button>
-									<span class="result"></span>
+									<button type="button" class="btn btn-primary" id="addTour">현지투어 추가</button>
+									<button type="button" class="btn btn-primary" id="showTour">현지투어 보기</button>
 									<!-- <select class="form-control" id="sel1">
 							    <option>도쿄에서 한적한 공원을 찾고 있다면, 우에노 공원 4/10</option>
 							    <option>도쿄에서 한적한 공원을 찾고 있다면, 우에노 공원 4/10</option>
@@ -667,8 +663,8 @@ h2 {
 							<div class="form-group">
 								<label><span class="red">*</span>렌트카</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary">렌트카 추가</button>
-									<span class="result"></span>
+									<button type="button" class="btn btn-primary" id="addRent">렌트카 추가</button>
+									<button type="button" class="btn btn-primary" id="showRent">렌트카 보기</button>
 									<!-- <select class="form-control" id="sel1">
 								    <option>경차 4/1-4/3</option>
 								     <option>경차 4/1-4/3</option>
@@ -691,8 +687,8 @@ h2 {
 							<div class="form-group">
 								<label><span class="red">*</span>상품 설명</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary">상품설명 추가</button>
-									<span class="result"></span>
+									<button type="button" class="btn btn-primary" id="addDetail">상품설명 추가</button>
+									<button type="button" class="btn btn-primary" id="showDetail">상품설명 보기</button>
 								</div>
 							</div>
 						</div>
