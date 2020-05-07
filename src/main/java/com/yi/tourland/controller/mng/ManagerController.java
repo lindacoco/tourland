@@ -165,7 +165,7 @@ public class ManagerController {
 			model.addAttribute("selected_rtime", selected_rtime);
 			model.addAttribute("cri", cri);
 			
-			if(no%2 == 0 && no != 1) {//항공편 번호가 짝수 && 1이 아님 -> 선택한 항공편 & 이전번호 항공편 들고옴
+			if(no%2 == 0) {//항공편 번호가 짝수 && 1이 아님 -> 선택한 항공편 & 이전번호 항공편 들고옴
 				AirplaneVO prevAir = flightService.airplaneByNo(prevVo);//이전번호 항공편 모든정보
 				
 				//이전번호 항공편 출발 시간
@@ -182,7 +182,7 @@ public class ManagerController {
 				model.addAttribute("noDiv", noDiv);
 				model.addAttribute("prev_dtime", prev_dtime);
 				model.addAttribute("prev_rtime", prev_rtime);
-			}else if(no%2 == 1 && no != 1) {//항공편 번호가 홀수 && 1이 아님 -> 선택한 항공편 & 이후번호 항공편 들고옴
+			}else if(no%2 == 1) {//항공편 번호가 홀수 && 1이 아님 -> 선택한 항공편 & 이후번호 항공편 들고옴
 				noDiv = 1;
 				AirplaneVO nextAir = flightService.airplaneByNo(nextVo);//이후번호 항공편 모든정보
 				
@@ -200,27 +200,23 @@ public class ManagerController {
 				model.addAttribute("noDiv", noDiv);
 				model.addAttribute("next_dtime", next_dtime);
 				model.addAttribute("next_rtime", next_rtime);
-			}else if(no==1) {
-				noDiv = 2;
-				
-				AirplaneVO AirNo2 = new AirplaneVO();
-				AirNo2.setNo(2);
-				AirplaneVO nextAir = flightService.airplaneByNo(AirNo2);//이후번호 항공편 모든정보
-				//이후번호 항공편 출발 시간
-				Date next_dDate = nextAir.getDdate();
-				String next_dText = transFormat.format(next_dDate);
-				String next_dtime = next_dText.substring(next_dText.lastIndexOf("-")+3);
-				//이후번호 항공편 도착 시간
-				Date next_rDate = nextAir.getRdate();
-				String next_rText = transFormat.format(next_rDate);
-				String next_rtime = next_rText.substring(next_rText.lastIndexOf("-")+3);
-				
-				model.addAttribute("selectedAir", selectedAir);
-				model.addAttribute("nextAir", nextAir);
-				model.addAttribute("noDiv", noDiv);
-				model.addAttribute("next_dtime", next_dtime);
-				model.addAttribute("next_rtime", next_rtime);
-			}
+		} /*
+			 * else if(no==1) { noDiv = 2;
+			 * 
+			 * AirplaneVO AirNo2 = new AirplaneVO(); AirNo2.setNo(2); AirplaneVO nextAir =
+			 * flightService.airplaneByNo(AirNo2);//이후번호 항공편 모든정보 //이후번호 항공편 출발 시간 Date
+			 * next_dDate = nextAir.getDdate(); String next_dText =
+			 * transFormat.format(next_dDate); String next_dtime =
+			 * next_dText.substring(next_dText.lastIndexOf("-")+3); //이후번호 항공편 도착 시간 Date
+			 * next_rDate = nextAir.getRdate(); String next_rText =
+			 * transFormat.format(next_rDate); String next_rtime =
+			 * next_rText.substring(next_rText.lastIndexOf("-")+3);
+			 * 
+			 * model.addAttribute("selectedAir", selectedAir); model.addAttribute("nextAir",
+			 * nextAir); model.addAttribute("noDiv", noDiv);
+			 * model.addAttribute("next_dtime", next_dtime);
+			 * model.addAttribute("next_rtime", next_rtime); }
+			 */
 			
 			return "/manager/flight/flightDetail";
 		}

@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
 <style>
-	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
+	table th, td { text-align: center;}
+	#first { color: maroon; font-weight: bold;}
+	#bus { color: steelblue; font-weight: bold;}
+	#eco { color: goldenrod; font-weight: bold;}
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
@@ -58,9 +61,22 @@
 								<td>${f.rlocation }</td>
 								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
 								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
-								<td>${f.ldiv }</td>
+								<c:if test="${f.ldiv==0 }">
+									<td>해외</td>
+								</c:if>
+								<c:if test="${f.ldiv==1 }">
+									<td>국내</td>
+								</c:if>
 								<td>${f.capacity }</td>
-								<td>${f.seat }</td>
+								<c:if test="${f.seat =='F'}">
+									<td id="first">First-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='B'}">
+									<td id="bus">Business-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='E'}">
+									<td id="eco">Economy-Class</td>
+								</c:if>
 								<td>${f.price }</td>
 							</tr>
 						</c:forEach>   
