@@ -67,13 +67,18 @@ function getFormatDate(date){
 		})   
 		//출발 스케줄 - 도착지 선택 시 
 		$("#rlocation_d").change(function(){
+			var dloca = $("#dlocation_d").val();//출발지 dlocaData_d
+			$("#dlocaData_d").val("ICN");
 			var rloca = $(this).val(); //도착지
 				if(rloca=="제주"){
+					$("#rlocaData_d").val("CJU");
 					$("#FCode_d").val("KA");
 				}
 				else if(rloca=="일본"){
+					$("#rlocaData_d").val("NRT");
 					$("#FCode_d").val("JA");
 				}else{
+					$("#rlocaData_d").val("PEK");
 					$("#FCode_d").val("AC");
 				}   
 		})
@@ -231,10 +236,14 @@ function getFormatDate(date){
 					//국내, 해외 구분
 					var ldiv = 0;
 					
+					//도착스케줄 인천으로 고정 
+					$("#rlocation_r").val("인천");
+					$("#rlocaData_r").val("ICN");
+					
 					if(rloca=="제주"){
 						ldiv = 1;
 						$("#dlocation_r").val("제주");
-						$("#rlocation_r").val("인천");
+						$("#dlocaData_r").val("CJU");
 						if(tourDays==3){    
 							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
 							$("#FCode_r").val(FCode);//항공사 코드
@@ -262,33 +271,61 @@ function getFormatDate(date){
 						}
 							
 					}else if(rloca=="중국"){
+						$("#dlocation_r").val("중국");
+						$("#dlocaData_r").val("PEK");
 						if(tourDays==3){
-							/* $("#dtime").val("PM 12:00:00");  
-							$("#rtime").val("PM 13:15:00");
-							$("#FName").val("201"); */
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 12:30:00");  
+							$("#rtime_r").val(" 13:45:00");
+							$("#FName_r").val("202");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일
 						}else if(tourDays==5){
-							/* $("#dtime").val("PM 13:00:00");  
-							$("#rtime").val("PM 14:15:00");
-							$("#FName").val("211");  */  
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 13:30:00");  
+							$("#rtime_r").val(" 14:45:00");
+							$("#FName_r").val("212");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일
 						}else{
-							/* $("#dtime").val("PM 14:00:00");  
-							$("#rtime").val("PM 15:15:00");
-							$("#FName").val("221"); */
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 14:30:00");  
+							$("#rtime_r").val(" 15:45:00");
+							$("#FName_r").val("222");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일
 						}
 					}
 					else if(rloca=="일본"){
+						$("#dlocation_r").val("일본");
+						$("#dlocaData_r").val("NRT");
 						if(tourDays==3){
-							/* $("#dtime").val("PM 15:00:00");
-							$("#rtime").val("PM 16:15:00");
-							$("#FName").val("101"); */
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 15:30:00");  
+							$("#rtime_r").val(" 16:45:00");
+							$("#FName_r").val("102");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일
 						}else if(tourDays==5){
-							/* $("#dtime").val("PM 16:00:00"); 
-							$("#rtime").val("PM 17:15:00");
-							$("#FName").val("111");  */  
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 16:30:00");  
+							$("#rtime_r").val(" 17:45:00");
+							$("#FName_r").val("112");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일 
 						}else{
-							/* $("#dtime").val("PM 17:00:00"); 
-							$("#rtime").val("PM 18:15:00");
-							$("#FName").val("121"); */
+							$("#seat_r").val(seat); //출발 스케줄 좌석과 동일
+							$("#FCode_r").val(FCode);//항공사 코드
+							$("#ddate_r").val(nd);//출발 일자 
+							$("#dtime_r").val(" 17:30:00");  
+							$("#rtime_r").val(" 18:45:00");
+							$("#FName_r").val("122");
+							$("#capacity_r").val(capacity);//출발 스케줄 인원 수와 동일
 						}
 					}
 					//출발스케줄 - 국내,해외 구분
@@ -371,22 +408,24 @@ function getFormatDate(date){
 		    <div class="form-group">   
 		      <label><span class="red">*</span>출발지</label>
 			     <div class="container">   
-			       <select class="form-control" id="dlocation_d" name="list[0].dlocation">
+			       <select class="form-control" id="dlocation_d">
 			       		<option>출발지 선택</option>
 					    <option>인천</option>
 	  				</select>  
+	  				<input type="hidden" id="dlocaData_d" name="list[0].dlocation">
 				</div>        
 		    </div>  
 		    <div class="form-group">
 		      <label><span class="red">*</span>도착지</label>    
 				    <div class="container">                                   
-						<select class="form-control" id="rlocation_d" name="list[0].rlocation">
+						<select class="form-control" id="rlocation_d">
 							<option>도착지 선택</option>
 						    <option>제주</option>
 						    <option>중국</option>
 						    <option>일본</option>
 	  					</select>
 					</div>
+					<input type="hidden" id="rlocaData_d"  name="list[0].rlocation">
 		   </div> 
 		    <div class="form-group">  
 		      <label><span class="red">*</span>좌석</label>
@@ -494,20 +533,22 @@ function getFormatDate(date){
 				</div>
 			</div>   
 			
-			<!-- ===========도착 스케줄 ============== -->
+			<!-- =====================================도착 스케줄 ========================================== -->
 			<h3>도착 스케줄</h3>
 			  
 			<div class="group">
 		    <div class="form-group">   
 		      <label><span class="red">*</span>출발지</label>
 			     <div class="container">   
-			      <input type="text" class="form-control" id="dlocation_r" name="list[1].dlocation" readonly="readonly">
+			      <input type="text" class="form-control" id="dlocation_r"readonly="readonly">
+			      <input type="hidden" id="dlocaData_r" name="list[1].dlocation">
 				</div>        
 		    </div>  
 		    <div class="form-group">
 		      <label><span class="red">*</span>도착지</label>   
 				    <div class="container">                                     
-						<input type="text" class="form-control" id="rlocation_r" name="list[1].rlocation" readonly="readonly">
+						<input type="text" class="form-control" id="rlocation_r"readonly="readonly">
+						<input type="hidden" id="rlocaData_r" name="list[1].rlocation">
 					</div>
 		   </div> 
 		    <div class="form-group">  
