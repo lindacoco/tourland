@@ -35,6 +35,9 @@
     </select>
     
    	 <sql id="search">
+   	 	<if test="searchType=='total'.toString()">
+			where hname like CONCAT('%',#{keyword},'%')
+		</if>
 		<if test="searchType=='hname'.toString()">
 			where hname like CONCAT('%',#{keyword},'%')
 		</if>
@@ -42,18 +45,12 @@
 			where haddr like CONCAT('%',#{keyword},'%')
 		</if> 
 		<if test="searchType=='bookedup'">
-<!-- 			<if test='keyword=="가능" or keyword=="예약가능"'>
+ 			<if test='keyword=="가능" or keyword=="예약가능"'>
 				where bookedup = 0
 			</if>
 			<if test='keyword=="불가능" or keyword=="예약불가능"'>
 				where bookedup = 1
-			</if> -->
-			<if test='keyword=="예약가능"'>
-				where bookedup = 0
 			</if>
-			<if test='keyword=="예약불가능"'>
-				where bookedup = 1
-			</if> 
 		</if>
 	</sql>
 	

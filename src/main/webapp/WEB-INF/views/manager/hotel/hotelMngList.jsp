@@ -25,12 +25,12 @@
 				</div>
 				<div class="box-body">
 					<select name="searchType" id="searchType">
-						<option value="total" ${cri.searchType == 'null'? 'selected':'' }>전체</option>
+						<option value="total" ${cri.searchType == 'total'? 'selected':'' }>전체</option>
 						<option value="hname" ${cri.searchType == 'hname'? 'selected':'' }>호텔이름</option>
 						<option value="haddr" ${cri.searchType == 'haddr'? 'selected':'' }>호텔주소</option>
 						<option value="bookedup" ${cri.searchType == 'bookedup'? 'selected':'' }>객실체크여부</option>
 					</select>
-					<input type="text" name="keyword" id="keyword">
+					<input type="text" name="keyword" id="keyword" value="${cri.keyword }">
 					<button id="btnSearch">검색</button>
 					<button id="btnRegister">호텔상품 추가</button>
 				</div>
@@ -129,8 +129,9 @@ var keywordChange = function() {
 	})
 	$("#keyword").val(keyword);
 };
+
 		$("#btnSearch").click(function() {
-			var searchType= $("#searchType").val();
+			var searchType= $("#searchType option:selected").val();
 			var keyword = $("#keyword").val();
 			location.href = "hotelMngList?searchType="+searchType+"&keyword="+ keyword;
 		})
@@ -158,8 +159,6 @@ var keywordChange = function() {
 				alert("삭제되었습니다.");
 				location.href = "hotelDelete?no="+no+"&page="+page+"&searchType="+searchType+"&keyword="+keyword;
 			}
-		})	
-
-		
+		})		
 </script>
 <%@ include file="../../include/footer.jsp"%>

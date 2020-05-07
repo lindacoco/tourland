@@ -41,4 +41,5 @@
 		base-package="com.yi.tourland.persistance" />
 	<context:component-scan
 		base-package="com.yi.tourland.service" />
+
 </beans>

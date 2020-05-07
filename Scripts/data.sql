@@ -5,7 +5,8 @@ insert into employee values
 (3,'장현서','1988-01-01','010-4334-4321','대구 광역시 달서구',0,'employee2',password('employee'),0),
 (4,'박인선','1989-01-01','010-3333-4321','대구 광역시 달서구',0,'employee3',password('employee'),0),
 (5,'황하나','1987-01-01','010-4444-4321','대구 광역시 달서구',0,'employee4',password('employee'),0),
-(6,'장우주','1987-01-01','010-4444-4321','대구 광역시 달서구',0,'employee4',password('employee'),1);
+(6,'장우주','1987-01-01','010-4444-4321','대구 광역시 달서구',0,'employee4',password('employee'),1),
+(7,'테스트','1991-12-18','010-4245-3825','대구 광역시 달서구',0,'test11',password('123'),0);
 
 -- 고객
 desc user;
@@ -15,7 +16,8 @@ insert into user values
 (3,'정윤호','1952-12-18','010-1111-3825','대구시 북구 태전동 254-30',null,null,'customer3',password('customer'),0),
 (4,'박상아','1970-12-18','010-4245-3825','대구시 북구 태전동 254-30',null,null,'customer4',password('customer'),0),
 (5,'지민서','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),0),
-(6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),1);
+(6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),1),
+(6,'관리자테스트','1991-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'manager',password('123'),0);
 
 -- 현서 렌트카 ----------------------------------------------------------------------------------------------
 DESC rentcar;
@@ -41,12 +43,15 @@ LINES TERMINATED BY '\n'
 IGNORE 1 lines;
 -- 태원 ---------------------------------------------------------------------------------------------------
 
-
+-- 호텔
 desc hotel;
 load data local infile 'D:/workspace/workspace_spring/tourland/file/CSV/hotel.csv'
 into table tour.hotel
 character set 'utf8'
 fields terminated by ',';
+
+-- 상품문의사항
+desc planboard;
 
 
 -- 하나 ---------------------------------------------------------------------------------------------------

@@ -19,6 +19,7 @@ public interface FlightDAO {
 	public AirplaneVO airplaneByNo(AirplaneVO vo) throws Exception;
 	//항공 추가
 	public void addAirplane(AirplaneVO vo) throws Exception;
-	
+	//항공 삭제
+	public void removeAirplane(int no) throws Exception;
 }
   

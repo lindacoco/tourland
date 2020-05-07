@@ -47,8 +47,9 @@ select count(no) from hotel;
 select * from hotel order by no desc limit 10, 3;
 
 select * from hotel
-where bookedup like CONCAT('%','1','%');
+where hname like CONCAT('%','hidden','%');
 
+select * from user;
 
 -- 하나 --------------------------------------------------------------------------------------------
 

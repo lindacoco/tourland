@@ -76,6 +76,10 @@
 	</select>
 	<!-- 항공 추가 -->
 	<insert id="addAirplane">
-		insert into airplane values(#{no}, #{ano}, #{dlocation}, #{rlocation}, #{ddate}, #{rdate}, #{ldiv}, #{capacity}, #{seat}, #{price})
+		insert into airplane values(#{no}, #{ano}, #{dlocation}, #{rlocation}, #{ddate}, #{rdate}, #{ldiv}, #{capacity}, #{seat}, #{price}, #{pdiv} )
 	</insert>
+	<!-- 항공 삭제 -->
+	<delete id="removeAirplane">
+		delete from airplane where no = #{no }
+	</delete>
 </mapper> 
