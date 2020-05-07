@@ -339,6 +339,7 @@ public class ManagerController {
 		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
 		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
 		List<TourVO> tourList = tourService.listPage(cri);
+		List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
 		PageMaker pageMakerByFlightDepature = new PageMaker();
 		pageMakerByFlightDepature.setCri(cri);
 		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
@@ -351,6 +352,9 @@ public class ManagerController {
 		PageMaker pageMakerByTour = new PageMaker();
 		pageMakerByTour.setCri(cri);
 		pageMakerByTour.setTotalCount(tourService.totalCountBySearchCriteria(cri));
+		PageMaker pageMakerByRentcar = new PageMaker();
+		pageMakerByRentcar.setCri(cri);
+		pageMakerByRentcar.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
 		model.addAttribute("flightListDepature",flightListDepature);
 		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
 		model.addAttribute("flightListRending",flightListRending);
@@ -359,6 +363,8 @@ public class ManagerController {
 		model.addAttribute("pageMakerByHotel",pageMakerByHotel);
 		model.addAttribute("tourList",tourList);
 		model.addAttribute("pageMakerByTour",pageMakerByTour);
+		model.addAttribute("rentcarList",rentcarList);
+		model.addAttribute("pageMakerByRentcar",pageMakerByRentcar);
 		return "/manager/product/addProductForm";
 	}
 
@@ -485,6 +491,44 @@ public class ManagerController {
 		try {
 			vo.setNo(no);
 			vo = tourService.selectTourByNo(vo);
+			map.put("vo", vo);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
+	@ResponseBody
+	@RequestMapping(value = "rentList", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> rentList(SearchCriteria cri, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			List<RentcarVO> rentList = rentcarService.listSearchCriteriaRentcar(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+			map.put("list", rentList);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	@ResponseBody
+	@RequestMapping(value = "rentList/{no}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> rentList(@PathVariable("no") int no,RentcarVO vo, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			vo.setNo(no);
+			vo = rentcarService.readByNo(no);
 			map.put("vo", vo);
 			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 		}

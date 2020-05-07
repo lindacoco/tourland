@@ -42,18 +42,25 @@ h2 {
 .tourList:hover {
 	background-color: lightgrey;
 }
+.rentcarList:hover {
+	background-color: lightgrey;
+}
 </style>
+<link
+	href="${pageContext.request.contextPath}/resources/plugins/ckeditor/contents.css"
+	rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
 <script>
 	var div;
 	var page;
 	var searchType;
 	var keyword;
+	var airAdd = [false,false];
 	var makeDateStr = function(pdate) {
 		var date = new Date(pdate);
-		var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1)
-				: (date.getMonth() + 1);
-		var day = (date.getDate() + 1) < 10 ? "0" + (date.getDate() + 1)
-				: (date.getDate() + 1);
+		var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
+		var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
 		var dateStr = date.getFullYear() + "-" + month + "-" + day;
 		return dateStr;
 	}
@@ -67,39 +74,88 @@ h2 {
 	}
 	var getAirData = function(div, res) {
 		var no = $("<input type='hidden' name='air"+div+"No'>").val(res.vo.no);
+		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td2 = $("<td>").html(res.vo.ano);
+		var td3 = $("<td>").html(res.vo.dlocation);
+		var td4 = $("<td>").html(res.vo.rlocation);
 		var ddateStr = makeDateStr(res.vo.ddate);
 		var rdateStr = makeDateStr(res.vo.rdate);
-		if (div == 'Depature') {
-			//$(".result").eq(0).append("출발 : " + res.vo.no + " " + res.vo.ano + " "+ res.vo.dlocation + " " + res.vo.rlocation + " "+ ddateStr + " " + rdateStr + " " + res.vo.ldiv + " " + res.vo.capacity + " " + res.vo.seat + " "+ res.vo.price + " ");
-			$("form").append(no);
-		} else {
-			(".result").eq(0).append(
-					"도착 : " + res.vo.no + " " + res.vo.ano + " "
-							+ res.vo.dlocation + " " + res.vo.rlocation + " "
-							+ ddateStr + " " + rdateStr + " " + res.vo.ldiv
-							+ " " + res.vo.capacity + " " + res.vo.seat + " "
-							+ res.vo.price);
-			$("form").append(no);
-		}
+		var td5 = $("<td>").html(ddateStr);
+		var td6 = $("<td>").html(rdateStr);
+		var ldiv = 	ldiv==0?"해외":"국내";
+		var td7 = $("<td>").html(ldiv);
+		var td8 = $("<td>").html(res.vo.capacity);
+		var td9 = $("<td>").html(res.vo.seat);
+		var td10 = $("<td>").html(res.vo.price);
+		var tr = $("<tr class='flightList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
+		$("#totalFlight table").append(tr);
 	}
 	var getHotelData = function(res) {
 		var no = $("<input type='hidden' name='hotelNo'>").val(res.vo.no);
-		var checkinDate = makeDateStr(res.vo.checkin);
-		var checkoutDate = makeDateStr(res.vo.checkout);
-		var roomtype = res.vo.roomtype=='N'?'노말':res.vo.roomtype=='D'?'디럭스':'스위트';
-		var ldiv = res.vo.ldiv=='1'?'해외':'국내';
-		var bookedup = res.vo.bookedup=='0'?'예약가능':'예약불가';
-		//$(".result").eq(1).append(res.vo.no + " " + res.vo.hname + " " + res.vo.haddr + " " + checkinDate + " " + checkoutDate + " " + res.vo.capacity + " " + res.vo.price + " " +res.vo.roomcapacity + " " + roomtype + " " + ldiv + " " + bookedup); 
-		$("form").append(no);
+		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td2 = $("<td>").html(res.vo.hname);
+		var td3 = $("<td>").html(res.vo.haddr);
+		var checkinStr = makeDateStr(res.vo.checkin);
+		var checkoutStr = makeDateStr(res.vo.checkout);
+		var td4 = $("<td>").html(checkinStr);
+		var td5 = $("<td>").html(checkoutStr);
+		var td6 = $("<td>").html(res.vo.capacity + "인");
+		var td7 = $("<td>").html(res.vo.price);
+		var td8 = $("<td>").html(res.vo.roomcapacity + "실");
+		var td9;
+		switch(res.vo.roomtype) {
+		case "N":
+			td9 = $("<td style='color : #5D5D5D;' id='n'>").html("노말");
+			break;
+		case "D":
+			td9 = $("<td style='color : #F29661;' id='d'>").html("디럭스");
+			break;
+		case "S":
+			td9 = $("<td style='color : #D941C5;' id='s'>").html("스위트");
+			break;
+		}
+		var td10 = res.vo.ldiv==1?$("<td>").html("해외"):$("<td>").html("국내");
+		var span = res.vo.bookedup==0?$("<span class='badge bg-red'>").html("예약가능"):$("<span class='badge bg-red'>").html("예약불가");
+		var td11 = $("<td>").append(span);
+		var tr = $("<tr class='hotelList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
+		$("#totalHotel #table").append(tr);
 	}
 	var getTourData = function(res) {
 		var no = $("<input type='hidden' name='tourNo'>").val(res.vo.no);
+		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td2 = $("<td>").html(res.vo.tname);
+		var td3 = $("<td>").html(res.vo.tlocation);
 		var startDateStr = makeDateStr(res.vo.startDate);
 		var endDateStr = makeDateStr(res.vo.endDate);
 		var etimeStr = makeTimeStr(res.vo.etime);
-		var ldiv = res.vo.ldiv=='1'?'해외':'국내';
-		//$(".result").eq(2).append(res.vo.no + " " + res.vo.tname + " " + res.vo.tlocation + " " + startDateStr + " " + endDateStr + " " + res.vo.taddr + " " + etimeStr + " " +res.vo.capacity + " " + res.vo.tprice + " " + ldiv); 
-		$("form").append(no);
+		var td4 = $("<td>").html(startDateStr);
+		var td5 = $("<td>").html(endDateStr);
+		var td6 = $("<td>").html(res.vo.taddr);
+		var td7 = $("<td>").html(etimeStr);
+		var td8 = $("<td>").html(res.vo.capacity);
+		var td9 = $("<td>").html(res.vo.tprice);
+		var td10 = res.vo.ldiv==0?$("<td>").html("국내"):$("<td>").html("해외");
+		var tr = $("<tr class='tourList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
+		$("#totalTour #table").append(tr);
+	}
+	var getRentData = function(res) {
+		var no = $("<input type='hidden' name='rentcarNo'>").val(res.vo.no);
+		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td2 = $("<td>").html(res.vo.cdiv);
+		var td3 = $("<td>").html(res.vo.cno);
+		var rentdDate = makeDateStr(res.vo.rentddate);
+		var returnDate = makeDateStr(res.vo.returndate);
+		var td4 = $("<td>").html(rentdDate);
+		var td5 = $("<td>").html(returnDate);
+		var td6 = $("<td>").html(res.vo.rentaddr);
+		var td7 = $("<td>").html(res.vo.returnaddr);
+		var td8 = $("<td>").html(res.vo.price);
+		var td9 = $("<td>").html(res.vo.capacity);
+		var td10 = $("<td>").html(res.vo.insurance);
+		var ldiv = res.vo.ldiv==0?'해외':'국내';
+		var td11 = $("<td>").html(ldiv);
+		var tr = $("<tr class='rentcarList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
+		$("#totalRent #table").append(tr);
 	}
 	var clickAir = function(no, div) {
 		$.ajax({
@@ -109,11 +165,13 @@ h2 {
 			success : function(res) {
 				if (div == 'Depature') {
 					getAirData(div, res);
+					airAdd[0] = true;
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
 					$("#flightRending").modal("show");
 				} else {
 					getAirData(div, res);
+					airAdd[1] = true;
 					$("#flightRending").modal("hide");
 					$('#flightRending .modal-backdrop').remove();
 				}
@@ -247,7 +305,7 @@ h2 {
 					var td2 = $("<td>").html(obj.hname);
 					var td3 = $("<td>").html(obj.haddr);
 					var checkinStr = makeDateStr(obj.checkin);
-					var checkoutStr = makeDateStr(obj.checkOut);
+					var checkoutStr = makeDateStr(obj.checkout);
 					var td4 = $("<td>").html(checkinStr);
 					var td5 = $("<td>").html(checkoutStr);
 					var td6 = $("<td>").html(obj.capacity + "인");
@@ -300,7 +358,6 @@ h2 {
 			dataType : "json",
 			success : function(res) {
 				console.log(res);
-				$(".result").eq(0).empty();
 				getHotelData(res);
 				$("#hotel").modal("hide");
 				$('#hotel .modal-backdrop').remove();
@@ -370,10 +427,79 @@ h2 {
 			dataType : "json",
 			success : function(res) {
 				console.log(res);
-				$(".result").eq(2).empty();
 				getTourData(res);
 				$("#tour").modal("hide");
 				$('#tour .modal-backdrop').remove();
+			},
+			error : function(request, status, error) { // 결과 에러 콜백함수
+				console.log(error)
+			}
+		})
+	}
+	var rentAjax = function(page,searchType,keyword) {
+		$.ajax({
+			url : "rentList",
+			type : "get",
+			data : {
+				page : page,
+				searchType : searchType,
+				keyword : keyword
+			},
+			dataType : "json",
+			success : function(res) { // 결과 성공 콜백함수
+				console.log(res)
+				$("#rent .rentcarList").remove();
+				$("#rent .pagination").empty();
+				$(res.list).each(function(i,obj){
+					var td1 = $("<td>").html(obj.no);
+					var td2 = $("<td>").html(obj.cdiv);
+					var td3 = $("<td>").html(obj.cno);
+					var rentdDate = makeDateStr(obj.rentddate);
+					var returnDate = makeDateStr(obj.returndate);
+					var td4 = $("<td>").html(rentdDate);
+					var td5 = $("<td>").html(returnDate);
+					var td6 = $("<td>").html(obj.rentaddr);
+					var td7 = $("<td>").html(obj.returnaddr);
+					var td8 = $("<td>").html(obj.price);
+					var td9 = $("<td>").html(obj.capacity);
+					var td10 = $("<td>").html(obj.insurance);
+					var ldiv = obj.ldiv==0?'해외':'국내';
+					var td11 = $("<td>").html(ldiv);			
+					var tr = $("<tr class='rentcarList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
+					$("#rent #table").append(tr);
+				})
+				var prev = res.pageMaker.prev;
+				var next = res.pageMaker.next;
+				var prevA = $("<a id='prev'>").html("&laquo;");
+				var nextA = $("<a id='next'>").html("&raquo;");
+				var liPrev = $("<li>").append(prevA);
+				var liNext = $("<li>").append(nextA);
+				if(prev) $("#rent .pagination").append(liPrev);
+				for(var i = res.pageMaker.startPage; i <= res.pageMaker.endPage; i++) {
+					var a = $("<a class='index' data-index='"+i+"'>").html(i);
+					var li = $("<li>").append(a);
+					if (res.pageMaker.cri.page == i) {
+						li.addClass("active");
+					}
+					$("#rent .pagination").append(li);
+				}
+				if(next) $("#rent .pagination").append(liNext);
+			},
+			error : function(request, status, error) { // 결과 에러 콜백함수
+				console.log(error)
+			}
+		})
+	}
+	var clickRent = function(no) {
+		$.ajax({
+			url : "rentList/" + no,
+			type : "get",
+			dataType : "json",
+			success : function(res) {
+				console.log(res);
+				getRentData(res);
+				$("#rent").modal("hide");
+				$('#rent .modal-backdrop').remove();
 			},
 			error : function(request, status, error) { // 결과 에러 콜백함수
 				console.log(error)
@@ -585,15 +711,123 @@ h2 {
 							keyword = $("#tour #keywordInput").val();
 							tourAjax(page, searchType, keyword);
 						})
+		//렌터카 다이얼로그
+		$(document).on("click", "#rent .index", function() {
+			page = $(this).attr("data-index");
+			searchType = $("#rent #searchType option:selected").val();
+			keyword = $("#rent #keywordInput").val();
+			rentAjax(page, searchType, keyword);
+		})
+		$(document)
+				.on(
+						"click",
+						"#rent #prev",
+						function() {
+							page = Number($("#rent .index").eq(0)
+									.attr("data-index")) - 1;
+							searchType = $(
+									"#rent #searchType option:selected")
+									.val();
+							keyword = $("#rent #keywordInput").val();
+							rentAjax(page, searchType, keyword);
+						})
+		$(document)
+				.on(
+						"click",
+						"#rent #next",
+						function() {
+							page = Number($("#rent .index").eq(9)
+									.attr("data-index")) + 1;
+							searchType = $(
+									"#rent #searchType option:selected")
+									.val();
+							keyword = $("#rent #keywordInput").val();
+							rentAjax(page, searchType, keyword);
+						})
+		$(document).on("click", "#rent .rentcarList", function() {
+			var no = $(this).attr("data-no");
+			clickRent(no);
+		})
+		$("#rent #btnSearch")
+				.click(
+						function() {
+							page = $("#rent .pagination").find(
+									".active a").attr("data-index");
+							searchType = $(
+									"#rent #searchType option:selected")
+									.val();
+							keyword = $("#rent #keywordInput").val();
+							rentAjax(page, searchType, keyword);
+						})
 		//다이얼로그 호출
 		$("#addFlight").click(function() {
-			$("#flightDepature").modal("show");
+			if(airAdd[0]&&airAdd[1]) {
+				if(confirm("기존의 출도착 항공편이 추가되어있습니다 다시 추가하시겠습니까?")) {
+					airAdd[0] = false;
+					airAdd[1] = false;
+					$("#totalFlight .flightList").empty();
+					$("#flightDepature").modal("show");
+				}
+			}
+			else if(!airAdd[0]&&!airAdd[1]) {
+				$("#flightDepature").modal("show");
+			}
+		})
+		$("#showFlight").click(function() {
+			$("#totalFlight").modal("show");
 		})
 		$("#addHotel").click(function() {
 			$("#hotel").modal("show");
 		})
+		$("#showHotel").click(function() {
+			$("#totalHotel").modal("show");
+		})
 		$("#addTour").click(function() {
 			$("#tour").modal("show");
+		})
+		$("#showTour").click(function() {
+			$("#totalTour").modal("show");
+		})
+		$("#addRent").click(function() {
+			$("#rent").modal("show");
+		})
+		$("#showRent").click(function() {
+			$("#totalRent").modal("show");
+		})
+		$("#addDetail").click(function(){
+			$("#detail").modal("show");
+		})
+		$("#showDetail").click(function(){
+			$("#totalDetail").modal("show");
+		})
+		//ckeditor
+		CKEDITOR.replace('editor1');
+		$.fn.modal.Constructor.prototype.enforceFocus = function () {
+		    modal_this = this
+		    $(document).on('focusin.modal', function (e) {
+		        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+		        // add whatever conditions you need here:
+		        &&
+		        !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+		            modal_this.$element.focus()
+		        }
+		    })
+		};
+		CKEDITOR.replace('editor2');
+		$.fn.modal.Constructor.prototype.enforceFocus = function () {
+		    modal_this = this
+		    $(document).on('focusin.modal', function (e) {
+		        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+		        // add whatever conditions you need here:
+		        &&
+		        !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+		            modal_this.$element.focus()
+		        }
+		    })
+		};
+		$("#saveDetail").click(function(){
+			$("#editor2").val($("#editor1").val());
+			alert("저장되었습니다");
 		})
 	})
 </script>
@@ -676,7 +910,7 @@ h2 {
 						</div>
 						<div class="group">
 							<div class="form-group">
-								<label>상품 번호</label> <input type="text" class="form-control">
+								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="1">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
@@ -878,6 +1112,37 @@ h2 {
 			</div>
 		</div>
 	</div>
+	<div id="totalFlight" class="modal fade" role="dialog"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">추가된 항공편</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered" id="table">
+						<tr>
+							<th>번호</th>
+							<th>항공기 번호</th>
+							<th>출발 지역</th>
+							<th>도착 지역</th>
+							<th>출발 일시</th>
+							<th>도착 일시</th>
+							<th>장소 구분</th>
+							<th>허용 인원</th>
+							<th>좌석</th>
+							<th>가격</th>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="hotel" class="modal fade" role="dialog" data-backdrop="static"
 		data-keyboard="false">
 		<div class="modal-dialog modal-lg">
@@ -984,6 +1249,38 @@ h2 {
 			</div>
 		</div>
 	</div>
+	<div id="totalHotel" class="modal fade" role="dialog"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">추가된 호텔 리스트</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered" id="table">
+						<tr>
+							<th>번호</th>
+							<th>호텔이름</th>
+							<th>호텔주소</th>
+							<th>체크인날짜</th>
+							<th>체크아웃날짜</th>
+							<th>허용인원수</th>
+							<th>가격(1박)</th>
+							<th>객실 수</th>
+							<th>객실타입</th>
+							<th>장소구분</th>
+							<th>예약 가능 여부</th>  
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="tour" class="modal fade" role="dialog" data-backdrop="static"
 		data-keyboard="false">
 		<div class="modal-dialog modal-lg">
@@ -1065,6 +1362,189 @@ h2 {
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="totalTour" class="modal fade" role="dialog"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">추가된 투어 리스트</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered" id="table">
+						<tr>
+							<th>번호</th>
+							<th>투어제목</th>
+							<th>투어장소</th>
+							<th>시작일자</th>
+							<th>종료일자</th>
+							<th>주소</th>
+							<th>소요시간</th>
+							<th>허용인원</th>
+							<th>가격</th>
+							<th>장소구분</th>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="rent" class="modal fade" role="dialog" data-backdrop="static"
+		data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">투어</h4>
+				</div>
+				<div class="modal-body">
+					<div class="box box-primary">
+						<div class="box-body">
+							<select name="searchType" id="searchType" style="width:200px; height: 25px;">
+								<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
+								<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
+								<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
+								<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>대여날짜</option>
+								<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
+								<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
+							</select>
+							<input type="text" name="keyword" id="keywordInput">
+							<button id="btnSearch">Search</button>
+						</div>
+						<div class="box-body">
+							<table class="table table-bordered" id="table">
+								<tr>
+									<th>번호</th>
+									<th>차 종류</th>
+									<th>차 번호</th>
+									<th>대여 일자</th>
+									<th>반납 일자</th>
+									<th>대여 장소</th>
+									<th>반납 장소</th>
+									<th>가격</th>
+									<th>허용인원</th>
+									<th>보험여부</th>
+									<th>국내/해외</th>		
+								</tr>
+								<c:forEach var="rentcar" items="${rentcarList}">
+								<tr class="rentcarList" data-no="${rentcar.no}">
+									<td>${rentcar.no}</td>
+									<td>${rentcar.cdiv}</td>
+									<td>${rentcar.cno}</td>
+									<td><fmt:formatDate value="${rentcar.rentddate}" pattern="yyyy-MM-dd "/></td>
+									<td><fmt:formatDate value="${rentcar.returndate}" pattern="yyyy-MM-dd "/></td>
+									<td>${rentcar.rentaddr}</td>
+									<td>${rentcar.returnaddr}</td>
+									<td>${rentcar.price}</td>
+									<td>${rentcar.capacity}</td>
+									<td>${rentcar.insurance}</td>
+									<td>${rentcar.ldiv == 0?'해외':'국내'}</td>
+								</tr>
+								</c:forEach>     
+							</table>      
+						</div>
+						<div class="box-footer">
+							<div class="text-center">
+								<ul class="pagination">
+									<c:if test="${pageMakerByRentcar.prev == true }">
+										<li><a id="prev">&laquo;</a></li>
+									</c:if>
+									<c:forEach begin="${pageMakerByRentcar.startPage }"
+										end="${pageMakerByRentcar.endPage }" var="idx">
+										<li class="${pageMakerByRentcar.cri.page == idx ?'active':''}"><a
+											class="index" data-index="${idx }">${idx }</a></li>
+									</c:forEach>
+									<c:if test="${pageMakerByRentcar.next == true }">
+										<li><a id="next">&raquo;</a></li>
+									</c:if>
+								</ul>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="totalRent" class="modal fade" role="dialog"
+		data-backdrop="static" data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">추가된 렌트카 리스트</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-bordered" id="table">
+						<tr>
+							<th>번호</th>
+							<th>차 종류</th>
+							<th>차 번호</th>
+							<th>대여 일자</th>
+							<th>반납 일자</th>
+							<th>대여 장소</th>
+							<th>반납 장소</th>
+							<th>가격</th>
+							<th>허용인원</th>
+							<th>보험여부</th>
+							<th>국내/해외</th>		
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="modalAddBrandLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                 <h4 class="modal-title" id="modalAddBrandLabel">상품 설명 추가</h4>
+	
+	            </div>
+	            <div class="modal-body">
+	                <form>
+	                    <textarea name="editor1" id="editor1"></textarea>
+	                </form>
+	            </div>
+	            <div class="modal-footer">
+	            	<button id="saveDetail" type="button" class="btn btn-primary">저장</button>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	<div class="modal fade" id="totalDetail" tabindex="-1" role="dialog" aria-labelledby="modalAddBrandLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                 <h4 class="modal-title" id="modalAddBrandLabel">상품 설명 보기</h4>
+	
+	            </div>
+	            <div class="modal-body">
+	                <form>
+	                    <textarea name="editor2" id="editor2"></textarea>
+	                </form>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </body>
 </html>

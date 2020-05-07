@@ -18,7 +18,6 @@
 					<h2 class="box-title">렌트카 관리</h2>
 				</div>
 				<div class="box-body">
-
 					<select name="searchType" id="searchType" style="width:200px; height: 25px;">
 						<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
 						<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
