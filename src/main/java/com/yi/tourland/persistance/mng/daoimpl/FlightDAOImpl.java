@@ -59,4 +59,9 @@ public class FlightDAOImpl implements FlightDAO {
 	public void addAirplane(AirplaneVO vo) throws Exception {
 		sqlSession.insert(namespace + "addAirplane", vo);
 	}
+
+	@Override
+	public void removeAirplane(int no) throws Exception {
+		sqlSession.delete(namespace + "removeAirplane", no);
+	}
 }

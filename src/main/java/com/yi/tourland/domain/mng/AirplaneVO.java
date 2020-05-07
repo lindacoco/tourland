@@ -19,6 +19,7 @@ public class AirplaneVO {
 	private int capacity;
 	private String seat;
 	private int price;
+	private int pdiv;
 	
 	public int getNo() {
 		return no;
@@ -81,12 +82,23 @@ public class AirplaneVO {
 		this.price = price;
 	}
 	
+	
+	
+	public int getPdiv() {
+		return pdiv;
+	}
+	public void setPdiv(int pdiv) {
+		this.pdiv = pdiv;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "AirplaneVO [no=" + no + ", ano=" + ano + ", dlocation=" + dlocation + ", rlocation=" + rlocation
 				+ ", ddate=" + ddate + ", rdate=" + rdate + ", ldiv=" + ldiv + ", capacity=" + capacity + ", seat="
-				+ seat + ", price=" + price + "]";
-	} 
+				+ seat + ", price=" + price + ", pdiv=" + pdiv + "]";
+	}
+	
 	
 	
 }
