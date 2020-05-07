@@ -96,7 +96,7 @@ $(function(){
 						<div class="noNameAddr">
 							<label><span class="red">*</span>차 종류</label>
 							<select name="cdiv" class="form-control" required="required">
-							   <option>---------</option>
+							   <option ${cri.searchType ==null?'selected':''}>---------</option>
 							   <option value="L">경차</option>
 							   <option value="S">세단</option>
 							   <option value="U">SUV</option>

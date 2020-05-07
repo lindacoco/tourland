@@ -702,6 +702,8 @@ public class ManagerController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+		
+	//	System.out.println(rentcarService.totalSearchCountRentcar(cri));
 
 		model.addAttribute("cri", cri);
 		model.addAttribute("list", rentcarList);
@@ -710,7 +712,7 @@ public class ManagerController {
 		return "/manager/rentcar/rentcarMngList";
 	}
 
-	//렌트카 추가
+	//렌트카 추가 폼
 	@RequestMapping(value = "rentcarRegister", method = RequestMethod.GET)
 	public String rentcarRegister(SearchCriteria cri, Model model) {
 		int lastNo =0;
@@ -718,9 +720,9 @@ public class ManagerController {
 		try{
 			List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
 
-		    
-		    lastNo = rentcarList.get(0).getNo();
-		
+		    if(rentcarList.size() != 0) {
+		         lastNo = rentcarList.get(0).getNo();
+		    }
 				model.addAttribute("autoNo",lastNo+1);
 			
 			
@@ -730,6 +732,12 @@ public class ManagerController {
 		}
 		
 		return "/manager/rentcar/rentcarRegister";
+	}
+	
+	@RequestMapping(value = "rentcarRegister", method = RequestMethod.POST)
+	public String rentcarRegisterPost(RentcarVO vo, Model model) throws Exception {
+		  rentcarService.insertRentcar(vo);
+		return "redirect:rentcarMngList";
 	}
 	//렌트카 상품 삭제
 		@RequestMapping(value = "delRentcar", method = RequestMethod.GET)
@@ -801,7 +809,7 @@ public class ManagerController {
 	// 고객의 소리 리스트
 	@RequestMapping(value = "custBoardMngList", method = RequestMethod.GET)
 	public String custBoardMngList(SearchCriteria cri, Model model) throws Exception {
-
+        cri.setPerPageNum(5);
 		List<CustBoardVO> custBoardList = custBoardService.listSearchCriteriaCustBoard(cri);
 
 		PageMaker pageMaker = new PageMaker();
@@ -880,26 +888,29 @@ public class ManagerController {
 	// 배너
 	@RequestMapping(value = "bannerMngList", method = RequestMethod.GET)
 	public String bannerMngList(SearchCriteria cri, Model model) throws Exception {
-
-		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
-
-		String rightBanner = bannerList.get(1).getPic();
-		String leftBanner = bannerList.get(0).getPic();
-		
+		cri.setPerPageNum(5);
+        List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
+        
+        BannerVO leftBannerVO = bannerService.setBanner("L");
+        BannerVO rightBannerVO = bannerService.setBanner("R");
+        if(leftBannerVO != null) {
+//  		
+		   String leftBanner = leftBannerVO.getPic();
+		   model.addAttribute("leftBanner",leftBanner);
+		   
+        }
+        
+        if(rightBannerVO != null) {
+		 	String rightBanner = rightBannerVO.getPic();
+			// 작은이미지는 앞에 s_달려있음
+			model.addAttribute("rightBanner",rightBanner);
+        }
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bannerService.totalSearchCountBanner(cri));
-
 		model.addAttribute("cri", cri);
-
 		model.addAttribute("list", bannerList);
-
-        //작은이미지는 앞에 s_달려있음
-		model.addAttribute("list",bannerList);
-		model.addAttribute("rightBanner",rightBanner);
-		model.addAttribute("leftBanner",leftBanner);
-
-		model.addAttribute("pageMaker", pageMaker);
+       	model.addAttribute("pageMaker", pageMaker);
 
 		return "/manager/design/bannerMngList";
 	}
@@ -924,12 +935,12 @@ public class ManagerController {
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
 	public String bannerRegisterPost(BannerVO vo, MultipartFile bannerPic, Model model) throws Exception {
 
-		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename(),
+		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename().replaceAll(" ", "_"),
 				bannerPic.getBytes());
 		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
 		// 배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
 
-		vo.setPic(bigSizePic);
+		vo.setPic(bigSizePic.replaceAll(" ", "_"));
 		bannerService.insertBanner(vo);
 		return "redirect:/bannerMngList";
 	}
@@ -1032,7 +1043,7 @@ public class ManagerController {
 
 	//리스트에서 배너 미리보기
 	@ResponseBody
-	@RequestMapping(value = "getPicPath/{no}",method = RequestMethod.GET)
+	@RequestMapping(value = "getPicPath/{no}",produces = "application/text; charset=utf8" ,method = RequestMethod.GET)
 	public ResponseEntity<String> getPicPath(@PathVariable("no") int no){
 
 		ResponseEntity<String> entity = null;
@@ -1051,25 +1062,53 @@ public class ManagerController {
 		return entity;
 		
 	}
-	
-	//리스트에서 미리보기로 본 후 설정 버튼 눌렀을 때 메인 이미지에 반영될 배너 리스트(설정여부 isSetting 리스트 갱신되기)
-/*	@RequestMapping(value = "bannerIsSetting/{no}/{whichSide}", method = RequestMethod.POST)
-	public String bannerIsSetting(@PathVariable("no") int no, Model model,SearchCriteria cri,@PathVariable("whichSide") String whichSide) throws Exception{
-		
-		List<BannerVO> OldBannerList = bannerService.listCriteriaSettingBanner(cri, 1);
-		if(OldBannerList.size() == 0 ) {
-			BannerVO vo = bannerService.readByNoBanner(no);
-			vo.setIsSetting(1);
-			bannerService.updateBanner(vo);
+	//배너 설정하기 
+	@ResponseBody
+	@RequestMapping(value = "setBanner/{no}/{side}", method = RequestMethod.GET)
+	public ResponseEntity<String> setBanner(@PathVariable("no") int no,@PathVariable("side") String side, Model model,SearchCriteria cri) throws Exception{
+		ResponseEntity<String> entity = null;
+
+		try {
+			//왼쪽배너부터
+			
+			if(side.equals("left")) {
+
+				BannerVO lvo = bannerService.setBanner("L");
+				//System.out.println("lvo"+lvo);
+				if(lvo != null) {
+					lvo.setPosition(null);
+					bannerService.updateBanner(lvo);
+					
+				}
+				BannerVO leftVO = bannerService.readByNoBanner(no);
+				leftVO.setPosition("L");
+				bannerService.updateBanner(leftVO);
+				model.addAttribute("leftBanner",leftVO.getPic());
+				entity = new ResponseEntity<String>("leftSuccess", HttpStatus.OK);
+			}
+			if(side.equals("right")) {
+				BannerVO rvo = bannerService.setBanner("R");
+				if(rvo != null) {
+					rvo.setPosition(null);
+					bannerService.updateBanner(rvo);
+					
+				}
+				BannerVO rightVO = bannerService.readByNoBanner(no);
+				rightVO.setPosition("R");
+				bannerService.updateBanner(rightVO);
+				model.addAttribute("rightBanner",rightVO.getPic());
+				entity = new ResponseEntity<String>("rightSuccess", HttpStatus.OK);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
 		}
-	     bannerService.updateBanner(vo);
-		
-		return "redirect:/bannerDetailForm?no="+vo.getNo();
+		return entity;
 		
 	}
-*/	
-
-
+		
 // 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)

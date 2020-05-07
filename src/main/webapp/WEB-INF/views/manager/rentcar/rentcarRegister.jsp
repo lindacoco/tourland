@@ -49,6 +49,9 @@
 
 </style>
 <script>
+
+
+
 $(function(){
 	$(function() {
 		//달력을 오늘 이후로만 선택할 수 있게
@@ -78,6 +81,20 @@ $(function(){
 			document.getElementById("checkout").setAttribute("min",result);
 		})
 	})
+	
+	$("#rentPlace").change(function(){
+		$("#returnPlace").val($(this).val());
+	})
+	
+	//가격 정규표현석
+	$("form").submit(function(){
+		var rentPrice = $("input[name='price']").val();
+		var checkPrice = /^[0-9]$/;
+		if(checkPrice.test(rentPrice) == false){
+			alert("dd");
+			return false;
+		}
+	})
 })
 </script>
 <div class="content">
@@ -87,7 +104,7 @@ $(function(){
 				<div class="box-header">
 					<h3 class="box-title">렌트카 상품 등록</h3>
 				</div>
-				<form role="form" action="hotelRegister" method="post">
+				<form role="form" action="rentcarRegister" method="post">
 					<div class="box-body">
 						<div class="noNameAddr">
 							<label><span class="red">*</span>번호</label>
@@ -118,15 +135,15 @@ $(function(){
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>대여장소</label>
-							<input type="text" name="rentaddr" class="form-control" required="required" >							
+							<input type="text" name="rentaddr" class="form-control" required="required" id="rentPlace" >							
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>반납장소</label>
-							<input type="text" name="returnaddr" class="form-control" required="required" >					
+							<input type="text" name="returnaddr" class="form-control" required="required" id="returnPlace">					
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>가격</label>
-							<input type="text" name="price" class="form-control" required="required" >					
+							<input type="text" name="price" class="form-control" required="required" style="width:300px;" placeholder="8자리 이내 숫자만 입력 가능">				
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>허용인원 수</label>
@@ -139,7 +156,7 @@ $(function(){
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>보험여부</label>
-							<select name="insurance" class="form-control" id="ldiv" required="required">
+							<select name="insurance" class="form-control" id="insurance" required="required">
 								<option value="0">선택안함</option>
 								<option value="1">포함</option>
 							</select> 	
