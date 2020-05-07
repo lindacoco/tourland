@@ -29,12 +29,6 @@
 					<h2 class="box-title">현지 투어 관리</h2>
 				</div>
 				<div class="box-body">
-				<!-- 검색 작업에서 유지될 데이터 
-					1. 현재 페이지의 번호     
-					2. 페이지당 보여지는 데이터의 수
-					3. 검색의 종류
-					4. 검색의 키워드
-				 -->
 					<select name="searchType" id="searchType">
 						<option value="N">----------</option>
 						<option value="name">투어이름</option>
