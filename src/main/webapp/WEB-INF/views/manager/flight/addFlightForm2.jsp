@@ -344,10 +344,8 @@ function getFormatDate(date){
 					}else {
 						seatData = "E";
 					}
-					console.log(seatData);
 					$("#seatData_d").val(seatData);
 					var d = $("#seatData_d").val();
-					console.log(d +" !!");
 					//출발일시
 					var ddateData = ddate + dtime;
 					$("#ddateData_d").val(ddateData);
