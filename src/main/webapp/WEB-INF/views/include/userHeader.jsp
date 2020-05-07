@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>    
@@ -21,10 +22,13 @@
 	nav#nav1 ul { width: 1200px;
 				  height: 50px;
 				  margin: 0 auto; }
-	nav#nav1 li { width: 8%; 
-				  line-height: 50px;
-				  float: right;
-				  font-size: 15px; }
+	nav#nav1 li { width: 8%;
+   				  line-height: 50px;
+    			  float: right;
+    			  font-size: 14px; }
+	.balance{
+		padding-left:12px;
+	}
 	nav#nav1 #manager a { border-radius: 3px; 
 						  background: maroon; color: #fff; 
 						  padding: 0 3px;
@@ -53,12 +57,13 @@
 					 height: 50px;  
 				     float: left; 
 				     margin-right:20px; }
-	div#nav2 ul li a { display: block;
+	div#nav2 ul li a { display: block;    
 					   text-align: center;
 					   line-height: 50px;
 					   color: #fff;}
 	div#nav2 ul li#orange { width: 50px; background: #ff7f00;}
 	div#nav2 ul li.short { width: 50px;} 
+	
 </style>
 
 <header>
@@ -67,8 +72,16 @@
 					<li><a href="#">고객센터</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">마이페이지</a></li>
 					<li><a href="#">회원가입</a></li>
-					<li><a href="#">로그인</a></li>
-					<li id="manager"><a href="${pageContext.request.contextPath }/empMngList/0">관리자</a></li>
+					<li><a href="${pageContext.request.contextPath }/loginForm" class="balance">로그인</a></li>
+					
+					<c:if test="${Manager!=null }">
+						<li id="manager"><a href="${pageContext.request.contextPath }/empMngList/0">관리자</a></li>
+						<p>${Manager}님! 반갑습니다.</p>
+					</c:if>
+					<c:if test="${User!=null }">
+						<p>${User}님! 반갑습니다.</p>
+					</c:if>
+					
 				</ul>
 			</nav>
 			
