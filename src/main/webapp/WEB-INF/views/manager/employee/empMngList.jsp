@@ -80,6 +80,8 @@
 	                          <li><a href="${pageContext.request.contextPath}/empMngList/${empretired }?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
+	                   <!-- 테스트용 
+	                   <img src="${pageContext.request.contextPath}/resources/images/banner.jpg"> -->
 	               </div>
 	           </div>
 			</div>         

@@ -56,11 +56,13 @@
 <script>
       $("#file").change(function(){
     	 // var file = $(this)[0]; //$(this)[0] : javascript객체를 의미  제이쿼리의 0번째 정보는 자바스크립트가 가지고 있음
+    	 
+  
     	  console.log(file); 
     	  //파일 정보를 끄집어 내자 
     	  var file = $(this)[0].files[0]; //files가 배열이라 0을 넣어줌 배너 등록 페이지에서 필요한 건 단일 파일이기 때문 
     	  console.log(file); 
-    	  
+    	
     	  var reader = new FileReader();
     	  reader.readAsDataURL(file);
     	  reader.onload = function(e){ //.addEventListener("load",function(){}) - 여러개 이벤트를 넣을 수 있음 

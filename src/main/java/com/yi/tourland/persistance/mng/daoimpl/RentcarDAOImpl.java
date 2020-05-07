@@ -60,7 +60,7 @@ public class RentcarDAOImpl implements RentcarDAO {
 
 	@Override
 	public int totalSearchCountRentcar(SearchCriteria cri) throws Exception {
-		return sqlSession.selectOne(namespace+"totalSearchCountRentcar");
+		return sqlSession.selectOne(namespace+"totalSearchCountRentcar",cri);
 	}
 
 }

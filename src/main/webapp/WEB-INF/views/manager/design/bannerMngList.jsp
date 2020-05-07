@@ -67,7 +67,7 @@
 						<c:forEach var="bannerList" items="${list}">
 						    <tr data-click="${bannerList.no }" class="bannerList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${bannerList.no }</td>
-						    <td><img src="displayFile?filename=${bannerList.pic }" style="width:100px; height:30px;" ></td>
+						    <td><img src="displayFile?filename=${bannerList.pic }" style="width:95px; height:40px;" ></td>
 						    <td>${bannerList.title }</td>
 						    <td>${bannerList.content }</td>
 						    <td><button style="background:lightskyblue; border:none;" class="toBannerDetail" data-click="${bannerList.no }">상세보기</button></td>
@@ -98,12 +98,23 @@
 	                   <!-- 배너 미리보기 -->
 	                    <div id="bannerLeft" style=" margin-left:10%;">
 	                        <p>Left side</p>
+	                        <c:if test="${leftBanner == null }">
+	                            <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:560px; height:200px;" id="bannerLeftImg">
+	                        </c:if>
+	                        <c:if test="${leftBanner != null }">
 	                        <img src="displayFile?filename=${leftBanner}" style="width:560px; height:200px;" id="bannerLeftImg">
+	                        </c:if>
 	                   </div>
 	                    <div id="bannerRight">
 		                   <p>Right side</p>
+		                   <c:if test="${rightBanner == null }">
+	                            <img src="${pageContext.request.contextPath}/resources/images/banner2.jpg" style="width:560px; height:200px;" id="bannerRightImg">
+	                        </c:if>
+	                        <c:if test="${rightBanner != null }">
 		                   <img src="displayFile?filename=${rightBanner}" style="width:560px; height:200px;" id="bannerRightImg">
+		                   </c:if>
 	            		</div>
+	            		
 				   </div>
 	           </div>
 			</div>         
@@ -155,7 +166,7 @@
 			dataType:"text",
 			success:function(res){
 				console.log(res);
-				
+				//alert(res);
 				if(res != "fail"){
 					$("#bannerLeftImg").attr("src","displayFile?filename="+res);
 				}
@@ -170,8 +181,6 @@
 		
 	
 		if($(this).is(":checked")){
-		//	$(".leftBannercheckbox").attr("checked",false);
-		//	$(this).attr("checked",true);
 		   var bannerno = $(this).val();  //alert(bannerno);	
 		 //ajax로 이미지 경로 받아오기 
 		 $.ajax({
@@ -188,6 +197,43 @@
 				}
 			})
 		}
+	})
+	
+	//왼쪽배너 설정 버튼을 누르면
+	$(".setLeftBanner").click(function(){
+		var no = $(this).val(); //alert(no);
+		$.ajax({
+			url:"setBanner/"+no+"/left",
+			type:"get",
+			dataType:"text",
+			success:function(res){
+				console.log(res);
+				
+				if(res == "leftSuccess"){
+					alert("왼쪽 배너로 설정되었습니다");
+				}
+					
+			}
+		})
+
+	})
+	
+		$(".setRightBanner").click(function(){
+		var no = $(this).val(); //alert(no);
+		$.ajax({
+			url:"setBanner/"+no+"/right",
+			type:"get",
+			dataType:"text",
+			success:function(res){
+				console.log(res);
+				
+				if(res == "rightSuccess"){
+					alert("오른쪽 배너로 설정되었습니다");
+				}
+					
+			}
+		})
+
 	})
 	
 </script>

@@ -65,7 +65,8 @@ public class BannerService {
 		
 	}
 	
-	public List<BannerVO> listCriteriaSettingBanner(Criteria cri, int isSetting) throws Exception {
-		return dao.listCriteriaSettingBanner(cri, isSetting);
+	
+	public BannerVO setBanner(String position) throws Exception {
+		return dao.setBanner(position);
 	}
 }
