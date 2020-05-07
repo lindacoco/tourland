@@ -56,6 +56,7 @@
 					<table class="table table-bordered">
 						<tr>
 							<th style="width:100px;">배너 번호</th>
+							<th>썸네일</th>
 							<th style="width:20%">배너명</th>
 							<th style="width:40%">배너 설명</th>
 					        <th>상세보기</th>
@@ -66,6 +67,7 @@
 						<c:forEach var="bannerList" items="${list}">
 						    <tr data-click="${bannerList.no }" class="bannerList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${bannerList.no }</td>
+						    <td><img src="displayFile?filename=${bannerList.pic }" style="width:100px; height:30px;" ></td>
 						    <td>${bannerList.title }</td>
 						    <td>${bannerList.content }</td>
 						    <td><button style="background:lightskyblue; border:none;" class="toBannerDetail" data-click="${bannerList.no }">상세보기</button></td>
@@ -94,7 +96,7 @@
 	               </div>
 	               <div class="box-body" id="mainBannerPreview" >
 	                   <!-- 배너 미리보기 -->
-	                    <div id="bannerLeft">
+	                    <div id="bannerLeft" style=" margin-left:10%;">
 	                        <p>Left side</p>
 	                        <img src="displayFile?filename=${leftBanner}" style="width:560px; height:200px;" id="bannerLeftImg">
 	                   </div>

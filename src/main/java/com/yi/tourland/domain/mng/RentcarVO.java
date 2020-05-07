@@ -1,6 +1,5 @@
 package com.yi.tourland.domain.mng;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,6 +16,7 @@ public class RentcarVO {
 	private int capacity;
 	private int insurance;
 	private int ldiv;
+	private int pdiv;
 
 	public int getNo() {
 		return no;
@@ -46,16 +46,16 @@ public class RentcarVO {
 		return rentddate;
 	}
 
-	public void setRentddate(String rentddate) throws ParseException {
-		this.rentddate = new SimpleDateFormat("yyyy-MM-dd").parse(rentddate);
+	public void setRentddate(Date rentddate) {
+		this.rentddate = rentddate;
 	}
 
 	public Date getReturndate() {
 		return returndate;
 	}
 
-	public void setReturndate(String returndate) throws ParseException {
-		this.returndate =  new SimpleDateFormat("yyyy-MM-dd").parse(returndate);
+	public void setReturndate(Date returndate) {
+		this.returndate = returndate;
 	}
 
 	public String getRentaddr() {
@@ -106,11 +106,19 @@ public class RentcarVO {
 		this.ldiv = ldiv;
 	}
 
+	public int getPdiv() {
+		return pdiv;
+	}
+
+	public void setPdiv(int pdiv) {
+		this.pdiv = pdiv;
+	}
+
 	@Override
 	public String toString() {
 		return "RentcarVO [no=" + no + ", cdiv=" + cdiv + ", cno=" + cno + ", rentddate=" + rentddate + ", returndate="
 				+ returndate + ", rentaddr=" + rentaddr + ", returnaddr=" + returnaddr + ", price=" + price
-				+ ", capacity=" + capacity + ", insurance=" + insurance + ", ldiv=" + ldiv + "]";
+				+ ", capacity=" + capacity + ", insurance=" + insurance + ", ldiv=" + ldiv + ", pdiv=" + pdiv + "]";
 	}
 
 }

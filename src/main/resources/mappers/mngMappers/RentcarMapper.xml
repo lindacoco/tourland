@@ -4,8 +4,8 @@
 
 <!-- 새로운 렌트카 추가  -->
   <insert id="insertRentcar" parameterType="RentcarVO"> 
-     insert into rentcar(no, cdiv, cno, rentddate, returndate, rentaddr, returnaddr, price, capacity, insurance, ldiv) values
-     (#{no}, #{cdiv}, #{cno}, #{rentddate}, #{returndate}, #{rentaddr}, #{returnaddr}, #{price}, #{capacity}, #{insurance}, #{ldiv})
+     insert into rentcar(no, cdiv, cno, rentddate, returndate, rentaddr, returnaddr, price, capacity, insurance, ldiv, pdiv) values
+     (#{no}, #{cdiv}, #{cno}, #{rentddate}, #{returndate}, #{rentaddr}, #{returnaddr}, #{price}, #{capacity}, #{insurance}, #{ldiv}, 0)
   </insert>
 
 
