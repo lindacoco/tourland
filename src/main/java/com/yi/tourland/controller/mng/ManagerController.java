@@ -741,8 +741,6 @@ public class ManagerController {
 
 		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
 
-
-
 		String rightBanner = bannerList.get(1).getPic();
 		String leftBanner = bannerList.get(0).getPic();
 		
@@ -754,7 +752,7 @@ public class ManagerController {
 
 		model.addAttribute("list", bannerList);
 
-
+        //작은이미지는 앞에 s_달려있음
 		model.addAttribute("list",bannerList);
 		model.addAttribute("rightBanner",rightBanner);
 		model.addAttribute("leftBanner",leftBanner);
