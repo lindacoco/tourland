@@ -41,9 +41,10 @@
 			and rdate = #{keyword}
 		</if>
 	</sql>  
+	<!-- 항공 전체 리스트  -->
 	<select id="airplaneList" resultType="AirplaneVO">
-		select * from airplane
-		<include refid="search"/>
+		select * from airplane order by no desc
+		<include refid="search"/>    
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	<select id="airplaneListByDepature" resultType="AirplaneVO">
@@ -56,6 +57,7 @@
 		<include refid="searchDiv"/>
 		limit #{pageStart}, #{perPageNum}
 	</select>
+	<!-- 항공편 전체 숫자 -->
 	<select id="totalCountAirplane" resultType="int">
 		select count(*) from airplane
 		<include refid="search"/>
@@ -68,7 +70,12 @@
 		select count(*) from airplane where dlocation != 'ICN'
 		<include refid="searchDiv"/>
 	</select>
+	<!-- 항공 번호로 검색 -->
 	<select id="airplaneByNo" resultType="AirplaneVO">
 		select * from airplane where no = #{no}
 	</select>
+	<!-- 항공 추가 -->
+	<insert id="addAirplane">
+		insert into airplane values(#{no}, #{ano}, #{dlocation}, #{rlocation}, #{ddate}, #{rdate}, #{ldiv}, #{capacity}, #{seat}, #{price})
+	</insert>
 </mapper> 
