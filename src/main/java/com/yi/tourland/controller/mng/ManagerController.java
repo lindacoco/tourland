@@ -112,8 +112,12 @@ public class ManagerController {
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.GET)
 	public String addFlightForm(Model model) throws Exception {
 		SearchCriteria cri = new SearchCriteria();
-		int no = flightService.totalCountAirplane(cri);
-		int nextNo = no+1;
+		//항공기번호 세팅
+		int dbNo = flightService.totalCountAirplane(cri);
+		//출발편 번호
+		int no = dbNo +1;
+		//도착편 번호
+		int nextNo = dbNo+2;
 		model.addAttribute("airTotalCnt",no);
 		model.addAttribute("airTotalNextCnt",nextNo);
 		return "/manager/flight/addFlightForm2";
@@ -121,16 +125,13 @@ public class ManagerController {
 
 	// 항공 추가 폼
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.POST)
-
-	public String addFlightResult() {
-		return "flightMngList";
-	}
-
-	public String addFlightResult(AirplaneVO air) {
-			System.out.println(air);
+	public String addFlightResult(DataListVO list) throws Exception {
+		for(AirplaneVO a : list.getList()) {
+			flightService.addAirplane(a);
+		}
 		
-		return "flightMngList";   
-	}      
+		return "redirect:/flightMngList";
+	}
 
 
 	// 직원관리리스트
