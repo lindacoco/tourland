@@ -30,7 +30,7 @@
 						<option value="haddr" ${cri.searchType == 'haddr'? 'selected':'' }>호텔주소</option>
 						<option value="bookedup" ${cri.searchType == 'bookedup'? 'selected':'' }>객실체크여부</option>
 					</select>
-					<input type="text" name="keyword" id="keyword" value="${cri.keyword}">
+					<input type="text" name="keyword" id="keyword">
 					<button id="btnSearch">검색</button>
 					<button id="btnRegister">호텔상품 추가</button>
 				</div>
