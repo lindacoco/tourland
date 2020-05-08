@@ -58,5 +58,8 @@ public class PopupService {
 		return dao.totalSearchCountPopup(cri);
 	}
 
+	public PopupVO setPopup(String position) throws Exception {
+		return dao.setPopup(position);
+	}
     
 }

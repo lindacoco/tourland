@@ -19,10 +19,14 @@
 <!-- 팝업 정보 업데이트 -->
     <update id="updatePopup" parameterType="PopupVO">
        update popup  set 
-       title =#{title}, content=#{content}, pic=#{pic},  startdate=#{startdate}, enddate=#{enddate}
+       title =#{title}, content=#{content}, pic=#{pic},  startdate=#{startdate}, enddate=#{enddate}, position=#{position}
        where no=#{no}
     </update> 
-
+    
+<!-- 포지션에 따른 팝업 구하기 -->
+<select id="setPopup" resultType="PopupVO">
+      select * from popup where position =#{position} 
+</select>
 
 <!-- 팝업 완전 삭제   -->
    <delete id="deletePopup">

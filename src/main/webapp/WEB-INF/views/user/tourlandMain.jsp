@@ -119,10 +119,101 @@
 									      border: 1px solid #c8c8c8;
 									      float: left; 
 									      margin: 20px 10px 10px 10px; }
+									      
+	/*팝업스타일 */
+	 #popup1{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+      height: 600px;
+      position: relative;
+      position: absolute;
+      top: 150px;
+    }
+    
+    #popup2{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+      position: relative;
+    }
+    
+    #previewPopup1{
+    width:400px;
+    box-shadow: 0 0 8px black;
+    position: absolute;
+    left:85px;
+    top:50px;
+  }
+  
+   #previewPopup2{
+    width:400px;
+    box-shadow: 0 0 8px black;
+    position: absolute;
+    left:85px;
+    top:50px;
+  }
+  
+   p.popupClose{
+     width:400px;
+     position: absolute;
+     top:400px;
+     left:0;
+     padding-bottom: 10px;
+     box-shadow: 0 0 8px black;
+   }
+   input.expireCK{
+     margin-right:10px;
+     margin-top:13px;
+   }
+   button.popupBtnClose{
+     margin-left:20px;
+     width:30px;
+   }
+									      
 </style>
 <body>
 	<div id="container">
 	<%@ include file="../include/userHeader.jsp"%>
+	<script type="text/javascript">
+	  $(function(){
+		  //팝업 버튼 누르면 팝업창 사라지기 popup1
+		  $(".popupBtnClose").click(function(){
+			  $(this).parent().parent().parent().css("display","none");
+			  
+		  })
+	  
+	  
+	  
+	  })
+
+	</script>
+	        <!-- 팝업 -->
+	         <div id="popup1" style=" margin-left:10%;">
+	                        <p>1번 팝업</p>
+	                        <c:if test="${popup1 == null }">
+	                            <div id="previewPopup1">
+	                              <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK">
+							          <label id="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose"> 닫기 </button>
+						          </p>
+	                            </div>
+	                        </c:if>
+	                        <c:if test="${popup1 != null }">
+	                        <div id="previewPopup1">
+	                             <img src="displayFile/popup?filename=${popup1}" style="width:560px; height:200px;" id="popup1Img">
+	                             <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK">
+							          <label id="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose"> 닫기 </button>
+						         </p>
+	                        </div>
+	                        </c:if>
+	                   </div>
 			<div id="mainBox">  
 				<section id="section1">
 					<div id="imgBox">

@@ -832,7 +832,7 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("list", rentcarList);
 		model.addAttribute("pageMaker", pageMaker);
-
+		
 		return "/manager/rentcar/rentcarMngList";
 	}
 
@@ -1111,6 +1111,73 @@ public class ManagerController {
 		return "redirect:/popupDetailForm?no=" + vo.getNo();
 
 	}
+	//리스트에서 팝업 미리보기
+		@ResponseBody
+		@RequestMapping(value = "getPopupPicPath/{no}",produces = "application/text; charset=utf8" ,method = RequestMethod.GET)
+		public ResponseEntity<String> getPopupPicPath(@PathVariable("no") int no){
+
+			ResponseEntity<String> entity = null;
+			
+			try {
+				PopupVO vo = popupService.readByNoPopup(no);
+				if(vo !=null ) {
+				entity = new ResponseEntity<String>(vo.getPic(),HttpStatus.OK);
+				   }
+			}catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST); //400에러
+					
+			}
+			return entity;
+			
+		}
+		
+    //팝업 설정하기
+		@ResponseBody
+		@RequestMapping(value = "setPopup/{no}/{numbering}", method = RequestMethod.GET)
+		public ResponseEntity<String> setPopup(@PathVariable("no") int no,@PathVariable("numbering") String numbering, Model model,SearchCriteria cri) throws Exception{
+			ResponseEntity<String> entity = null;
+
+			try {
+				//왼쪽배너부터
+				
+				if(numbering.equals("popup1")) {
+
+					PopupVO lvo = popupService.setPopup("L");
+					//System.out.println("lvo"+lvo);
+					if(lvo != null) {
+						lvo.setPosition(null);
+						popupService.updatePopup(lvo);
+						
+					}
+					PopupVO firstVO = popupService.readByNoPopup(no);
+					firstVO.setPosition("L");
+					popupService.updatePopup(firstVO);
+					model.addAttribute("popup1",firstVO.getPic());
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+				if(numbering.equals("popup2")) {
+					PopupVO rvo = popupService.setPopup("R");
+					if(rvo != null) {
+						rvo.setPosition(null);
+						popupService.updatePopup(rvo);
+						
+					}
+					PopupVO secondVO = popupService.readByNoPopup(no);
+					secondVO.setPosition("R");
+					popupService.updatePopup(secondVO);
+					model.addAttribute("popup2",secondVO.getPic());
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
+			
+		}
 	
 	//팝업삭제
      @RequestMapping(value = "removePopup", method = RequestMethod.GET)
@@ -1321,51 +1388,51 @@ public class ManagerController {
 		
 	}
 	//배너 설정하기 
-	@ResponseBody
-	@RequestMapping(value = "setBanner/{no}/{side}", method = RequestMethod.GET)
-	public ResponseEntity<String> setBanner(@PathVariable("no") int no,@PathVariable("side") String side, Model model,SearchCriteria cri) throws Exception{
-		ResponseEntity<String> entity = null;
+		@ResponseBody
+		@RequestMapping(value = "setBanner/{no}/{side}", method = RequestMethod.GET)
+		public ResponseEntity<String> setBanner(@PathVariable("no") int no,@PathVariable("side") String side, Model model,SearchCriteria cri) throws Exception{
+			ResponseEntity<String> entity = null;
 
-		try {
-			//왼쪽배너부터
+			try {
+				//왼쪽배너부터
+				
+				if(side.equals("left")) {
+
+					BannerVO lvo = bannerService.setBanner("L");
+					//System.out.println("lvo"+lvo);
+					if(lvo != null) {
+						lvo.setPosition(null);
+						bannerService.updateBanner(lvo);
+						
+					}
+					BannerVO leftVO = bannerService.readByNoBanner(no);
+					leftVO.setPosition("L");
+					bannerService.updateBanner(leftVO);
+					model.addAttribute("leftBanner",leftVO.getPic());
+					entity = new ResponseEntity<String>("leftSuccess", HttpStatus.OK);
+				}
+				if(side.equals("right")) {
+					BannerVO rvo = bannerService.setBanner("R");
+					if(rvo != null) {
+						rvo.setPosition(null);
+						bannerService.updateBanner(rvo);
+						
+					}
+					BannerVO rightVO = bannerService.readByNoBanner(no);
+					rightVO.setPosition("R");
+					bannerService.updateBanner(rightVO);
+					model.addAttribute("rightBanner",rightVO.getPic());
+					entity = new ResponseEntity<String>("rightSuccess", HttpStatus.OK);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
 			
-			if(side.equals("left")) {
-
-				BannerVO lvo = bannerService.setBanner("L");
-				//System.out.println("lvo"+lvo);
-				if(lvo != null) {
-					lvo.setPosition(null);
-					bannerService.updateBanner(lvo);
-					
-				}
-				BannerVO leftVO = bannerService.readByNoBanner(no);
-				leftVO.setPosition("L");
-				bannerService.updateBanner(leftVO);
-				model.addAttribute("leftBanner",leftVO.getPic());
-				entity = new ResponseEntity<String>("leftSuccess", HttpStatus.OK);
-			}
-			if(side.equals("right")) {
-				BannerVO rvo = bannerService.setBanner("R");
-				if(rvo != null) {
-					rvo.setPosition(null);
-					bannerService.updateBanner(rvo);
-					
-				}
-				BannerVO rightVO = bannerService.readByNoBanner(no);
-				rightVO.setPosition("R");
-				bannerService.updateBanner(rightVO);
-				model.addAttribute("rightBanner",rightVO.getPic());
-				entity = new ResponseEntity<String>("rightSuccess", HttpStatus.OK);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
-
 		}
-		return entity;
-		
-	}
 		
 // 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
 
