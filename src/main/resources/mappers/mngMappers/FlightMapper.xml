@@ -53,7 +53,7 @@
 	<!-- 항공 국내만 -->
 	<select id="airplaneDomList" resultType="AirplaneVO">
 		select * from airplane 
-		<include refid="search"/>    
+		where ldiv = 1    
 		order by no desc
 		limit #{pageStart}, #{perPageNum}
 	</select>

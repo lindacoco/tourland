@@ -3,11 +3,23 @@
 <%@ include file="../../include/header.jsp"%>
 <style>
 	table th, td { text-align: center;}
-	#first { color: maroon; font-weight: bold;}
-	#bus { color: steelblue; font-weight: bold;}
-	#eco { color: goldenrod; font-weight: bold;}
+	.first { color: maroon; font-weight: bold;}
+	.bus { color: steelblue; font-weight: bold;}
+	.eco { color: goldenrod; font-weight: bold;}
 </style>
+
 <script>
+
+function getFormatDate(date){
+    var year = date.getFullYear()+"-";              //yyyy
+    var month = (date.getMonth()+1)+"-";          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '' + month + '' + day;
+}
+
+
 function getDomList(page){
 	$.ajax({   
 		url : "flightDomList/"+page,
@@ -18,48 +30,66 @@ function getDomList(page){
 			$(rs.list).each(function(i, obj){
 				console.log(obj);
 			})
-			//$("#list").empty();
-			
-			/* $(rs.list).each(function(i, obj) {
-				
-				var rno = obj.rno;
-				var replyer = obj.replyer;
-				var replytext = obj.replytext;
-				
-			
-				/* var $li = $("<li>").html(rno + " : " + replyer + "<br>" + replytext);
-				$("#list").append($li); */
-				
-				/* var $li = $("<li>");
-				var $div1 = $("<div>").addClass("item");
-				var $span1 = $("<span>").addClass("rno").html(rno);
-				var $span2 = $("<span>").addClass("writer").html(replyer);
-				var $span3 = $("<span>").addClass("text").html(replytext);
-				var $span4 = $("<span>").html(" : ");
-				var $div2 = $("<div>").addClass("btnWrap");
-				var $button1 = $("<button>").addClass("btnMod").html("수정").attr("data-rno", obj.rno).attr("data-text", obj.replytext);
-				var $button2 = $("<button>").addClass("btnDel").html("삭제");
-				
-				$div2.append($button1);
-				$div2.append($button2);
-				$div1.append($span1);
-				$div1.append($span4);
-				$div1.append($span2);
-				$div1.append($span3);
-				$div1.append($div2);
-				
-				$li.append($div1);
-				$("#list").append($li); 
-				
-				
-			
-			}) */
-			$(".pagination").empty();
+			 $(".forEachTr").remove();
+			 $(rs.list).each(function(i, obj) {
+				 var date1 = new Date(obj.ddate);
+				 var date2 = new Date(obj.rdate);
+				 
+				 var ddate = getFormatDate(date1);
+				 var rdate = getFormatDate(date2);
+				 
+				 $tr = $("<tr>").addClass("forEachTr");
+				 
+				 $td1 = $("<td>").html(obj.no);
+				 $td2 = $("<td>");
+				 $td3 = $("<td>").html(obj.dlocation);
+				 $td4 = $("<td>").html(obj.rlocation);
+				 $td5 = $("<td>").html(ddate);
+				 $td6 = $("<td>").html(rdate);
+				 if(obj.ldiv==0){
+					 $td7 = $("<td>해외</td>");
+				 }else {
+					 $td7 = $("<td>국내</td>");
+				 }
+				 $td8 = $("<td>").html(obj.capacity);
+				 if(obj.seat=='F'){
+					 $td9 = $("<td>").html("First-Class").addClass("first");
+				 }else if(obj.seat=='B'){
+					 $td9 = $("<td>").html("Business-Class").addClass("bus");
+				 }else {
+					 $td9 = $("<td>").html("Economy-Class").addClass("eco");
+				 }
+				 $td10 = $("<td>").html(obj.price);
+				 
+				 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no=${obj.no}").html(obj.ano);
+				 
+				 $td2.append($a);
+				 $tr.append($td1);
+				 $tr.append($td2);
+				 $tr.append($td3);
+				 $tr.append($td4);
+				 $tr.append($td5);
+				 $tr.append($td6);
+				 $tr.append($td7);
+				 $tr.append($td8);
+				 $tr.append($td9);
+				 $tr.append($td10);
+				 
+				 $("table").append($tr);
+				 
+			}) 
+		 	$(".pagination").empty();
 			for(var i = rs.pageMaker.startPage; i<= rs.pageMaker.endPage; i++){
 				
 				var $li = $("<li>").html(i);
+				if(rs.pageMaker.prev==true){
+					var $a = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}").html("&laquo");
+				}
+				for()
+				
+				
 				$(".pagination").append($li);
-			}  
+			}   
 		}   
 	})   
 }
@@ -67,7 +97,7 @@ function getDomList(page){
 
 	$(function(){
 		$("#dom").click(function(){
-			getDomList(1);
+			 getDomList(1); 
 		})
 	})
 </script>
@@ -116,9 +146,9 @@ function getDomList(page){
 							<th>허용 인원</th>
 							<th>좌석</th>
 							<th>가격</th>
-						</tr>  
+						</tr> 
 						<c:forEach items="${flightList }" var="f">   
-							<tr>
+							<tr class="forEachTr">
 								<td>${f.no }</td>
 								<td><a href="${pageContext.request.contextPath }/flightDetail?no=${f.no}">${f.ano }</a></td>
 								<td>${f.dlocation }</td>
@@ -133,13 +163,13 @@ function getDomList(page){
 								</c:if>
 								<td>${f.capacity }</td>
 								<c:if test="${f.seat =='F'}">
-									<td id="first">First-Class</td>
+									<td class="first">First-Class</td>
 								</c:if>
 								<c:if test="${f.seat =='B'}">
-									<td id="bus">Business-Class</td>
+									<td class="bus">Business-Class</td>
 								</c:if>
 								<c:if test="${f.seat =='E'}">
-									<td id="eco">Economy-Class</td>
+									<td class="eco">Economy-Class</td>
 								</c:if>
 								<td>${f.price }</td>
 							</tr>
