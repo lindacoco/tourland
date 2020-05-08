@@ -21,10 +21,13 @@ function getFormatDate(date){
 
 
 function getDomList(page){
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
 	$.ajax({   
 		url : "flightDomList/"+page,
 		type : "get", 
-		dataType : "json",                            
+		dataType : "json",
+		data : {searchType : searchType, keyword : keyword},
 		success: function(rs){                  
 			console.log(rs);
 			$(rs.list).each(function(i, obj){
@@ -61,7 +64,7 @@ function getDomList(page){
 				 }
 				 $td10 = $("<td>").html(obj.price);
 				 
-				 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no=${obj.no}").html(obj.ano);
+				 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no="+obj.no).html(obj.ano);
 				 
 				 $td2.append($a);
 				 $tr.append($td1);
@@ -79,16 +82,33 @@ function getDomList(page){
 				 
 			}) 
 		 	$(".pagination").empty();
-			for(var i = rs.pageMaker.startPage; i<= rs.pageMaker.endPage; i++){
 				
-				var $li = $("<li>").html(i);
 				if(rs.pageMaker.prev==true){
-					var $a = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}").html("&laquo");
+					var $li1 = $("<li>");
+					var $a1 = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}" ).html("&laquo");
+					$li1.append($a1);
 				}
-				for()
 				
 				
-				$(".pagination").append($li);
+				if(rs.pageMaker.next==true){
+					var $li3 = $("<li>");
+					var $a3 = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}" ).html("&laquo");
+
+					$li3.append($a3);
+				}
+				
+				for(var j = rs.pageMaker.startPage; j<= rs.pageMaker.endPage; j++){
+					$li2 = $("<li>");
+					$a2 = $("<a>").html(j).addClass("domList");
+					if(j==rs.pageMaker.cri.page) {
+						$li2.addClass("active");
+					}
+					$li2.append($a2);
+					
+				
+				$(".pagination").append($li1);
+				$(".pagination").append($li2);
+				$(".pagination").append($li3);
 			}   
 		}   
 	})   
@@ -98,6 +118,10 @@ function getDomList(page){
 	$(function(){
 		$("#dom").click(function(){
 			 getDomList(1); 
+		})
+		$(document).on("click", ".domList", function(){
+			var page = $(this).html();
+			getDomList(page);
 		})
 	})
 </script>

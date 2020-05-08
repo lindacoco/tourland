@@ -332,8 +332,7 @@ public class ManagerController {
 	//항공 국내 검색 ajax
 	@RequestMapping(value="flightDomList/{page}", method= RequestMethod.GET)
 	public ResponseEntity<Map<String,Object>> listPage(@PathVariable("page") int page){
-		ResponseEntity<Map<String,Object>> entity = null;
-		
+		ResponseEntity<Map<String,Object>> entity = null;	
 		try {
 			SearchCriteria cri = new SearchCriteria();
 			cri.setPage(page);
