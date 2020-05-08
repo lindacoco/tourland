@@ -40,13 +40,24 @@
 		<if test='searchType=="rdate"'>
 			and rdate = #{keyword}
 		</if>
-	</sql>  
+	</sql> 
+	<sql id="ldiv">
+		<if test=""></if>
+	</sql>
 	<!-- 항공 전체 리스트  -->
 	<select id="airplaneList" resultType="AirplaneVO">
 		select * from airplane order by no desc
 		<include refid="search"/>    
 		limit #{pageStart}, #{perPageNum}
 	</select>
+	<!-- 항공 국내만 -->
+	<select id="airplaneDomList" resultType="AirplaneVO">
+		select * from airplane 
+		<include refid="search"/>    
+		order by no desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	
 	<select id="airplaneListByDepature" resultType="AirplaneVO">
 		select * from airplane where dlocation = 'ICN'
 		<include refid="searchDiv"/>
@@ -82,4 +93,8 @@
 	<delete id="removeAirplane">
 		delete from airplane where no = #{no }
 	</delete>
+	<!-- 항공 수정 -->
+	<update id="editAirplane">
+		update airplane set price = #{price} where no = #{no}
+	</update>
 </mapper> 

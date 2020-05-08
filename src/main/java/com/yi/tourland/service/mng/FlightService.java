@@ -19,6 +19,10 @@ public class FlightService {
 	public List<AirplaneVO> airplaneList(SearchCriteria cri) throws Exception{
 		return dao.airplaneList(cri);
 	}
+	//항공편 국내 리스트
+	public List<AirplaneVO> airplaneDomList(SearchCriteria cri) throws Exception{
+		return dao.airplaneDomList(cri);
+	}
 	public List<AirplaneVO> airplaneListByDepature(SearchCriteria cri) throws Exception{
 		return dao.airplaneListByDepature(cri);
 	}
@@ -46,5 +50,9 @@ public class FlightService {
 	//항공 삭제
 	public void removeAirplane(int no) throws Exception{
 		dao.removeAirplane(no);
+	}
+	//항공 수정
+	public void editAirplane(AirplaneVO vo) throws Exception{
+		dao.editAirplane(vo);
 	}
 }

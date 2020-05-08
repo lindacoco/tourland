@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
 <style>
-	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
+	table th, td { text-align: center;}
 </style>
-<!-- <div id="opa">dummy</div> -->
 <script>
 $(function(){
     
@@ -28,9 +27,9 @@ $(function(){
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType">
-						<option value="n">-----</option>
-						<option value="t">번호</option>
-						<option value="c">이름/내용<option>
+						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
+						<option value="cno" ${cri.searchType =='cno'?'selected':''}>번호</option>
+						<option value="cncc" ${cri.searchType =='cncc'?'selected':''}>이름/내용<option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
@@ -51,7 +50,7 @@ $(function(){
 					<c:forEach items="${couponList }" var="c">
 						<tr>
 							<td>${c.cno }</td>
-							<td><a href="${pageContext.request.contextPath }/couponDetail?cno=${c.cno }">${c.cname } </a></td>
+							<td><a href="${pageContext.request.contextPath }/couponDetail?cno=${c.cno }&page=${cri.page}">${c.cname } </a></td>
 							<td><fmt:formatDate value="${c.pdate }" pattern="yyyy-MM-dd"/></td>
 							<td><fmt:formatDate value="${c.edate }" pattern="yyyy-MM-dd"/></td>
 							<td>${c.ccontent }</td>
@@ -85,7 +84,7 @@ $(function(){
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
+		location.href = "couponMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})

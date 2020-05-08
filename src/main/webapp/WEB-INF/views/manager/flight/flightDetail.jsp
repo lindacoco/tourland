@@ -48,13 +48,14 @@ $(document).ready(function(){
 <script>
 	$(function(){
 		$("#mod").click(function(){
-			/* var no = "${notice.no}";
+			var no_d = $("#noData_d").val();
+			var no_r = $("#noData_r").val();
 			var page =	"${cri.page}";
 			var searchType = "${cri.searchType}"==""?"N":"${cri.searchType}";
 			var searchType2 = "${cri.searchType2}"==""?"N":"${cri.searchType2}";
 			var keyword = "${cri.keyword}";
-			/* location.href = "editNotice?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword; */
-			//location.href = "editNotice?no="+no; 
+			//location.href = "editNotice?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword; 
+			location.href = "editFlight?no_d="+no_d+"&no_r="+no_r; 
 		})
 		$("#del").click(function(){
 		 	 if(!confirm("항공편을 삭제하면 출발,도착편이 동시에 삭제됩니다. 삭제하시겠습니까?")) {

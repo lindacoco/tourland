@@ -7,7 +7,71 @@
 	#bus { color: steelblue; font-weight: bold;}
 	#eco { color: goldenrod; font-weight: bold;}
 </style>
-<!-- <div id="opa">dummy</div> -->
+<script>
+function getDomList(page){
+	$.ajax({   
+		url : "flightDomList/"+page,
+		type : "get", 
+		dataType : "json",                            
+		success: function(rs){                  
+			console.log(rs);
+			$(rs.list).each(function(i, obj){
+				console.log(obj);
+			})
+			//$("#list").empty();
+			
+			/* $(rs.list).each(function(i, obj) {
+				
+				var rno = obj.rno;
+				var replyer = obj.replyer;
+				var replytext = obj.replytext;
+				
+			
+				/* var $li = $("<li>").html(rno + " : " + replyer + "<br>" + replytext);
+				$("#list").append($li); */
+				
+				/* var $li = $("<li>");
+				var $div1 = $("<div>").addClass("item");
+				var $span1 = $("<span>").addClass("rno").html(rno);
+				var $span2 = $("<span>").addClass("writer").html(replyer);
+				var $span3 = $("<span>").addClass("text").html(replytext);
+				var $span4 = $("<span>").html(" : ");
+				var $div2 = $("<div>").addClass("btnWrap");
+				var $button1 = $("<button>").addClass("btnMod").html("수정").attr("data-rno", obj.rno).attr("data-text", obj.replytext);
+				var $button2 = $("<button>").addClass("btnDel").html("삭제");
+				
+				$div2.append($button1);
+				$div2.append($button2);
+				$div1.append($span1);
+				$div1.append($span4);
+				$div1.append($span2);
+				$div1.append($span3);
+				$div1.append($div2);
+				
+				$li.append($div1);
+				$("#list").append($li); 
+				
+				
+			
+			}) */
+			$(".pagination").empty();
+			for(var i = rs.pageMaker.startPage; i<= rs.pageMaker.endPage; i++){
+				
+				var $li = $("<li>").html(i);
+				$(".pagination").append($li);
+			}  
+		}   
+	})   
+}
+
+
+	$(function(){
+		$("#dom").click(function(){
+			getDomList(1);
+		})
+	})
+</script>
+
 <div class="content">	
 	<div class="row">
 		<div class="col-sm-12">    
@@ -23,21 +87,21 @@
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType">
-						<option value="n">-----</option>
-						<option value="no">번호</option>
-						<option value="ano">항공기 번호</option>
-						<option value="dloca">출발 지역</option>
-						<option value="rloca">도착 지역</option>
-						<option value="ddate">출발 일시</option>
-						<option value="rdate">도착 일시</option>
+						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
+						<option value="no" ${cri.searchType =='no'?'selected':''}>번호</option>
+						<option value="ano" ${cri.searchType =='ano'?'selected':''}>항공기 번호</option>
+						<option value="dloca" ${cri.searchType =='dloca'?'selected':''}>출발 지역</option>
+						<option value="rloca" ${cri.searchType =='rloca'?'selected':''}>도착 지역</option>
+						<option value="ddate" ${cri.searchType =='ddate'?'selected':''}>출발 일시</option>
+						<option value="rdate" ${cri.searchType =='rdate'?'selected':''}>도착 일시</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
 					<button type="button" class="btn btn-info">항공편 추가</button>
-					<button type="button" class="btn">국내</button>
-					<button type="button" class="btn">해외</button>
+					<button type="button" class="btn" id="dom">국내</button>
+					<button type="button" class="btn" id="ab">해외</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
