@@ -11,7 +11,7 @@ public class ProductVO {
 	private String pcontent;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date pexpire;
-	private String pprice;
+	private int pprice;
 	private String pic;
 	private boolean pdiv;
 	private List<AirplaneVO> air;
@@ -26,7 +26,7 @@ public class ProductVO {
 		this.pno = pno;
 	}
 	
-	public ProductVO(int pno, String pname, String pcontent, Date pexire, String pprice, String pic, boolean pdiv) {
+	public ProductVO(int pno, String pname, String pcontent, Date pexire, int pprice, String pic, boolean pdiv) {
 		this.pno = pno;
 		this.pname = pname;
 		this.pcontent = pcontent;
@@ -37,7 +37,7 @@ public class ProductVO {
 	}
 	
 
-	public ProductVO(int pno, String pname, String pcontent, Date pexire, String pprice, String pic, boolean pdiv,
+	public ProductVO(int pno, String pname, String pcontent, Date pexire, int pprice, String pic, boolean pdiv,
 			List<AirplaneVO> air, List<HotelVO> hotel, List<TourVO> tour, List<RentcarVO> rentcar) {
 		this.pno = pno;
 		this.pname = pname;
@@ -70,10 +70,10 @@ public class ProductVO {
 	public void setPcontent(String pcontent) {
 		this.pcontent = pcontent;
 	}
-	public String getPprice() {
+	public int getPprice() {
 		return pprice;
 	}
-	public void setPprice(String pprice) {
+	public void setPprice(int pprice) {
 		this.pprice = pprice;
 	}
 	public String getPic() {

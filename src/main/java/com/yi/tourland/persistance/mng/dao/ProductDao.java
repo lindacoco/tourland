@@ -19,6 +19,14 @@ public interface ProductDao {
 	public void insertpTourStatus(ProductVO pvo, TourVO tvo) throws SQLException;
 	public void insertpRentcarStatus(ProductVO pvo, RentcarVO rvo) throws SQLException;
 	public void updateProduct(ProductVO vo) throws SQLException;
+	public void updatepAirStatus(ProductVO pvo, AirplaneVO avo) throws SQLException;
+	public void updatepHotelStatus(ProductVO pvo, HotelVO hvo) throws SQLException;
+	public void updatepTourStatus(ProductVO pvo, TourVO tvo) throws SQLException;
+	public void updatepRentStatus(ProductVO pvo, RentcarVO rvo) throws SQLException;
+	public void deletepAirStatus(ProductVO pvo, AirplaneVO avo) throws SQLException;
+	public void deletepHotelStatus(ProductVO pvo, HotelVO hvo) throws SQLException;
+	public void deletepTourStatus(ProductVO pvo, TourVO hvo) throws SQLException;
+	public void deletepRentStatus(ProductVO pvo, RentcarVO rvo) throws SQLException;
 	public void deleteProduct(ProductVO vo) throws SQLException;
 	public int totalCountBySearchProduct(SearchCriteria cri) throws SQLException;
 }
