@@ -24,6 +24,8 @@ delete from banner where no in(1,3,4,5,6,7,8,9,10,11);
 
 select  count(no) from banner ;
 
+-- 팝업
+select  * from popup;
 -- 고객의 소리
 insert into custboard values
 (1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
@@ -33,6 +35,8 @@ select * from custboard ;
 desc custboard ;
 delete from custboard where no = 3;
 select * from custboard order by no desc limit 1, 3;
+
+
 
 -- 인선 --------------------------------------------------------------------------------------------
 select count(no) from faq where title like concat('%','쿠폰','%');

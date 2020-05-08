@@ -16,9 +16,7 @@ public interface BannerDAO {
     public int totalCountBanner() throws Exception;
 	public List<BannerVO> listSearchCriteriaBanner(SearchCriteria cri)throws Exception;
 	public int totalSearchCountBanner(SearchCriteria cri) throws Exception;
-	
-	// 리플 기능 필요한 곳에서
-	// public void updateReplyCnt(int amount, int bno)throws Exception;
+
 	//배너 설정하기
     public BannerVO setBanner(String position) throws Exception;
 }

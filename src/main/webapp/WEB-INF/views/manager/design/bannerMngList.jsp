@@ -67,7 +67,7 @@
 						<c:forEach var="bannerList" items="${list}">
 						    <tr data-click="${bannerList.no }" class="bannerList"> <!-- 전체 줄 클릭했을 때 디테일로 넘어가도록 처리할 data-click 속성 선언 -->
 						    <td>${bannerList.no }</td>
-						    <td><img src="displayFile?filename=${bannerList.pic }" style="width:95px; height:40px;" ></td>
+						    <td><img src="displayFile/banner?filename=${bannerList.pic }" style="width:95px; height:40px;" ></td>
 						    <td>${bannerList.title }</td>
 						    <td>${bannerList.content }</td>
 						    <td><button style="background:lightskyblue; border:none;" class="toBannerDetail" data-click="${bannerList.no }">상세보기</button></td>
@@ -102,7 +102,7 @@
 	                            <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:560px; height:200px;" id="bannerLeftImg">
 	                        </c:if>
 	                        <c:if test="${leftBanner != null }">
-	                        <img src="displayFile?filename=${leftBanner}" style="width:560px; height:200px;" id="bannerLeftImg">
+	                        <img src="displayFile/banner?filename=${leftBanner}" style="width:560px; height:200px;" id="bannerLeftImg">
 	                        </c:if>
 	                   </div>
 	                    <div id="bannerRight">
@@ -111,7 +111,7 @@
 	                            <img src="${pageContext.request.contextPath}/resources/images/banner2.jpg" style="width:560px; height:200px;" id="bannerRightImg">
 	                        </c:if>
 	                        <c:if test="${rightBanner != null }">
-		                   <img src="displayFile?filename=${rightBanner}" style="width:560px; height:200px;" id="bannerRightImg">
+		                   <img src="displayFile/banner?filename=${rightBanner}" style="width:560px; height:200px;" id="bannerRightImg">
 		                   </c:if>
 	            		</div>
 	            		
@@ -168,7 +168,7 @@
 				console.log(res);
 				//alert(res);
 				if(res != "fail"){
-					$("#bannerLeftImg").attr("src","displayFile?filename="+res);
+					$("#bannerLeftImg").attr("src","displayFile/banner?filename="+res);
 				}
 					
 				}
@@ -191,7 +191,7 @@
 				console.log(res);
 				
 				if(res != "fail"){
-					$("#bannerRightImg").attr("src","displayFile?filename="+res);
+					$("#bannerRightImg").attr("src","displayFile/banner?filename="+res);
 				}
 					
 				}

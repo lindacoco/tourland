@@ -38,6 +38,7 @@ import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.RentcarVO;
 import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
@@ -49,6 +50,7 @@ import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.PopupService;
 import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
@@ -58,7 +60,10 @@ import com.yi.tourland.util.UploadFileUtils;
 public class ManagerController {
 
 	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함
-	private String uploadPath; // c:/tourland/upload/
+	private String uploadPath; // c:/tourland/upload
+	
+	@Resource(name = "uploadPath2")
+	private String uploadPathPopup; // c:/tourland/upload/popup
 
 	@Autowired
 	private TourService tourService;
@@ -82,6 +87,9 @@ public class ManagerController {
 
 	@Autowired
 	HotelService hotelService;
+	
+	@Autowired
+	PopupService popupService;
 
 	@Autowired
 	BannerService bannerService;
@@ -739,6 +747,30 @@ public class ManagerController {
 		  rentcarService.insertRentcar(vo);
 		return "redirect:rentcarMngList";
 	}
+	
+	//렌트카 상세 페이지
+	@RequestMapping(value = "rentcarDetailForm", method = RequestMethod.GET)
+	public String rentcarDetailForm(int no, SearchCriteria cri, Model model) throws SQLException {
+		RentcarVO vo = rentcarService.readByNo(no);
+
+		model.addAttribute("rentcarVO", vo);
+		model.addAttribute("cri", cri);
+
+		return "/manager/rentcar/rentcarDetailForm";
+	}
+	
+	//렌트카 정보 수정
+	@RequestMapping(value = "rentcarDetailFormUpdate", method = RequestMethod.POST)
+	public String rentcarDetailFormUpdate(RentcarVO vo, SearchCriteria cri, Model model) throws Exception {
+		System.out.println(vo);
+		rentcarService.updateRentcar(vo);
+
+		model.addAttribute("rentcarVO", vo);
+		model.addAttribute("cri", cri);
+		return "redirect:/rentcarDetailForm?no=" + vo.getNo() + "&page=" + cri.getPage() + "&searchType="
+				+ cri.getSearchType() + "&keyword=" + cri.getKeyword();
+	}
+	
 	//렌트카 상품 삭제
 		@RequestMapping(value = "delRentcar", method = RequestMethod.GET)
 		public String delRentcar(int no, SearchCriteria cri) throws Exception{
@@ -884,6 +916,106 @@ public class ManagerController {
 // 디자인관리 ---------------------------------------------------------------------------------------------------------------
 
 	// 팝업
+    @RequestMapping(value ="popupMngList", method = RequestMethod.GET)
+	public String popupMngList(SearchCriteria cri, Model model) throws Exception {
+		cri.setPerPageNum(5);
+        List<PopupVO> popupList = popupService.listSearchCriteriaPopup(cri);
+       
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(popupService.totalSearchCountPopup(cri));
+		model.addAttribute("cri", cri);
+		model.addAttribute("list", popupList);
+       	model.addAttribute("pageMaker", pageMaker);
+
+		return "/manager/design/popupMngList";
+	}
+    //팝업 추가
+    @RequestMapping(value = "popupRegister", method = RequestMethod.GET)
+	public String popupRegister(SearchCriteria cri, Model model) {
+		int lastNo = 0;
+		try {
+			List<PopupVO> popupList = popupService.listSearchCriteriaPopup(cri);
+			lastNo = popupList.get(0).getNo() + 1;
+		} catch (Exception e) {
+			lastNo = 1;
+		}
+
+		model.addAttribute("autoNo", lastNo); // 가장 나중 번호로 자동세팅
+
+		return "/manager/design/popupRegister";
+	}
+	@RequestMapping(value = "popupRegister", method = RequestMethod.POST)
+	public String popupRegisterPost(PopupVO vo, MultipartFile popupPic, Model model) throws Exception {
+
+		String savedName = UploadFileUtils.uploadFile(uploadPathPopup, popupPic.getOriginalFilename().replaceAll(" ", "_"),
+				popupPic.getBytes());
+		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+
+		vo.setPic(bigSizePic.replaceAll(" ", "_"));
+		popupService.insertPopup(vo);
+		return "redirect:/popupMngList";
+	}
+	
+	//팝업 디테일 조회
+	@RequestMapping(value = "popupDetailForm", method = RequestMethod.GET)
+	public String popupDetailForm(int no, SearchCriteria cri, Model model) throws Exception {
+		PopupVO vo = popupService.readByNoPopup(no);
+
+		model.addAttribute("popupVO", vo);
+		model.addAttribute("cri", cri);
+
+		return "/manager/design/popupDetailForm";
+	}
+	
+	//팝업 수정
+	@RequestMapping(value = "popupUpdate", method = RequestMethod.POST)
+	public String popupUpdate(PopupVO vo, MultipartFile popupPic, Model model) throws Exception {
+	
+		if (popupPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
+			// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
+
+			File popupFile = new File(uploadPathPopup + vo.getPic());
+			popupFile.delete();
+
+			String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+			// System.out.println(smallSizePic);
+			File popupFile2 = new File(uploadPathPopup + smallSizePic);
+			popupFile2.delete();
+
+			// 수정 된 파일로 교체
+			String savedName = UploadFileUtils.uploadFile(uploadPathPopup, popupPic.getOriginalFilename(),
+					popupPic.getBytes());
+			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+			
+			vo.setPic(bigSizePic);
+		}
+		popupService.updatePopup(vo);
+
+		return "redirect:/popupDetailForm?no=" + vo.getNo();
+
+	}
+	
+	//팝업삭제
+     @RequestMapping(value = "removePopup", method = RequestMethod.GET)
+     public String removePopup(SearchCriteria cri, Model model, int no) throws Exception {
+    	 PopupVO vo = popupService.readByNoPopup(no);
+			if (vo.getPic() != null) {
+				// 폴더에 남은 사진들 먼저 지우기
+				File popupFile = new File(uploadPathPopup + vo.getPic());
+				popupFile.delete();
+
+				String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+
+				File popupFile2 = new File(uploadPathPopup + smallSizePic);
+				popupFile2.delete();
+			}
+
+			popupService.deletePopup(no);
+
+			return "redirect:/popupMngList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword="
+					+ cri.getKeyword();
+		}
 
 	// 배너
 	@RequestMapping(value = "bannerMngList", method = RequestMethod.GET)
@@ -947,14 +1079,24 @@ public class ManagerController {
 
 	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨
 	@ResponseBody
-	@RequestMapping(value = "displayFile", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> displayFile(String filename) {
+	@RequestMapping(value = "displayFile/{whichOne}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(String filename,@PathVariable("whichOne") String choice) {
 		ResponseEntity<byte[]> entity = null;
-
+        String path = null;
+        
+        if(choice.equals("banner")) {
+        	path = uploadPath;
+        }
+        
+        if(choice.equals("popup")) {
+        	path = uploadPathPopup; 
+        }
 		// System.out.println("displayFile-----------"+ filename);
 		InputStream in = null;
 		try {
-			in = new FileInputStream(uploadPath + filename); // 파일개체는 오류처리하라고..
+			
+	//		System.out.println("path=="+path);
+			in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
 			String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
 			MediaType mType = null;
 

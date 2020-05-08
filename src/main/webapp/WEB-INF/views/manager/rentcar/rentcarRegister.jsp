@@ -8,7 +8,7 @@
 	.form-group{
 		float:left;
 		width: 300px;
-		margin: 20px;
+		margin: 20px 50px 20px 0px;
 	}
 	input[name='no']{
 		background: lightGray;
@@ -36,17 +36,11 @@
 	[type="date"]::-webkit-calendar-picker-indicator {
 		opacity: 0;
 	}
-	.box-footer{
-    	clear: both;
-    	margin: 43px 636px;
-    	padding-top: 70px;
-	}
-	.box-footer button{
-    	width: 200px;
-    	height: 65px;
-    	font-size: 20px;
-	}
 
+    #rentcarForm input, select{
+      width: 300px;
+      margin-left:10px;
+    }
 </style>
 <script>
 
@@ -95,6 +89,11 @@ $(function(){
 			return false;
 		}
 	})
+	
+	//리스트로 버튼 눌렀을 때 리스트로 돌아가기 
+		$("#btnReturnToList").click(function(){
+			location.href="${pageContext.request.contextPath}/rentcarMngList";
+		})
 })
 </script>
 <div class="content">
@@ -102,9 +101,9 @@ $(function(){
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">렌트카 상품 등록</h3>
+					<h3 class="box-title">렌트카 상품 등록페이지 </h3>
 				</div>
-				<form role="form" action="rentcarRegister" method="post">
+				<form role="form" action="rentcarRegister" method="post" id="rentcarForm">
 					<div class="box-body">
 						<div class="noNameAddr">
 							<label><span class="red">*</span>번호</label>
@@ -112,7 +111,7 @@ $(function(){
 						</div>
 						<div class="noNameAddr">
 							<label><span class="red">*</span>차 종류</label>
-							<select name="cdiv" class="form-control" required="required">
+							<select name="cdiv" class="form-control" required="required" style="width:300px;">
 							   <option>---------</option>
 							   <option value="L">경차</option>
 							   <option value="S">세단</option>
@@ -123,7 +122,7 @@ $(function(){
 						</div>
 						<div class="noNameAddr">
 							<label><span class="red">*</span>차번호</label>
-							<input type="text" name="cno" class="form-control" required="required">					<!-- 리스트 불러오도록 할 것  -->		
+							<input type="text" name="cno" class="form-control" required="required" style="width:300px;">					
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>대여 날짜</label>
@@ -169,8 +168,9 @@ $(function(){
 							</select> 
 						</div>
 					
-						<div class="box-footer">
-							<button type="submit" class="btn btn-primary">등록</button>
+						<div class="box-footer" style="clear:both;">
+							<button type="submit" class="btn btn-primary">등록</button><br>
+							<button type="button" class="btn btn-primary" id="btnReturnToList" style="margin-top:10px;">목록으로</button>
 						</div>
 					</div>
 				</form>
