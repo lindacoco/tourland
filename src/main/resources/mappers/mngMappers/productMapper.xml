@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.productMapper">
+	<!-- 관리자 상품 등록 -->
+	<insert id="insertProduct">
+		insert into tour values(#{pno},#{pname},#{pcontent},#{pexpire},#{pprice},#{ppic},#{pdiv});
+	</insert>
+	<insert id="insertpAirStatus">
+		insert into pairstatus values(#{p.pno},#{a.no});
+	</insert>
+	<insert id="insertpHotelStatus">
+		insert into photelstatus values(#{p.pno},#{h.no});
+	</insert>
+	<insert id="insertpTourStatus">
+		insert into ptourstatus values(#{p.pno},#{t.no});
+	</insert>
+	<insert id="insertpRentcarStatus">
+		insert into prentcarstatus values(#{p.pno},#{r.no});
+	</insert>
+	<resultMap type="ProductVO" id="product">
+		<id property="pno" column="pno"/>
+		<result property="pname" column="panme"/>
+		<result property="pcontent" column="pcontent"/>
+		<result property="pexpire" column="pexpire"/>
+		<result property="pprice" column="pprice"/>
+		<result property="pic" column="pic"/>
+		<result property="pdiv" column="pdiv"/>
+		<collection property="air" column="a2.no">
+			
+		</collection>
+	</resultMap>
+	<select id="productByNo" resultMap="product">
+		select * from product p join pairstatus a on p.pno = a.pno join airplane a2 on a.ano = a2.no
+							 	join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no
+							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no
+							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no
+		where p.pno = #{pno}
+	</select>
+</mapper>

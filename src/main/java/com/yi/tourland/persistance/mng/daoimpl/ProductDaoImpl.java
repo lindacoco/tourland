@@ -1,0 +1,86 @@
+package com.yi.tourland.persistance.mng.daoimpl;
+
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.AirplaneVO;
+import com.yi.tourland.domain.mng.HotelVO;
+import com.yi.tourland.domain.mng.ProductVO;
+import com.yi.tourland.domain.mng.RentcarVO;
+import com.yi.tourland.domain.mng.TourVO;
+import com.yi.tourland.persistance.mng.dao.ProductDao;
+
+public class ProductDaoImpl implements ProductDao {
+	@Autowired
+	private SqlSession sqlSession;
+	private static final String namespace = "mappers.mngMappers.productMapper.";
+	@Override
+	public List<ProductVO> productListPage(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "productListPage",cri);
+	}
+
+	@Override
+	public int totalCountBySearchProduct(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCountBySearchProduct",cri);
+	}
+	
+	@Override
+	public ProductVO productByNo(ProductVO vo) throws SQLException {
+		return sqlSession.selectOne(namespace + "productByNo",vo);
+	}
+
+	@Override
+	public void insertProduct(ProductVO vo) throws SQLException {
+		sqlSession.insert(namespace + "insertProduct",vo);
+	}
+	@Override
+	public void insertpAirStatus(ProductVO pvo, AirplaneVO avo) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("p", pvo);
+		map.put("a", avo);
+		sqlSession.insert(namespace + "insertpAirStatus",map);
+	}
+
+	@Override
+	public void insertpHotelStatus(ProductVO pvo, HotelVO hvo) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("p", pvo);
+		map.put("h", hvo);
+		sqlSession.insert(namespace + "insertpHotelStatus",map);
+	}
+
+	@Override
+	public void insertpTourStatus(ProductVO pvo, TourVO tvo) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("p", pvo);
+		map.put("t", tvo);
+		sqlSession.insert(namespace + "insertpTourStatus",map);
+		
+	}
+
+	@Override
+	public void insertpRentcarStatus(ProductVO pvo, RentcarVO rvo) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("p", pvo);
+		map.put("r", rvo);
+		sqlSession.insert(namespace + "insertpTourStatus",map);
+		
+	}
+
+	@Override
+	public void updateProduct(ProductVO vo) throws SQLException {
+		sqlSession.update(namespace + "updateProduct",vo);
+	}
+
+	@Override
+	public void deleteProduct(ProductVO vo) throws SQLException {
+		sqlSession.delete(namespace + "deleteProduct",vo);
+	}
+
+}

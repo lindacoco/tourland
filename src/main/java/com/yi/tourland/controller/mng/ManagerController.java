@@ -466,7 +466,7 @@ public class ManagerController {
 	}
 
 	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
-	public String addProductFormPost() {
+	public String addProductFormPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo) {
 		return "redirect:productMgnList";
 	}
 
