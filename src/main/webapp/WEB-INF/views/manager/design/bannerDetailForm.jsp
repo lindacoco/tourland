@@ -40,7 +40,7 @@
 						<div class="form-group">
 							<label>저장된 사진</label>
 							<div>
-							    <img src="displayFile?filename=${bannerVO.pic }" style="width:560px; height:200px; ">
+							    <img src="displayFile/banner?filename=${bannerVO.pic }" style="width:560px; height:200px; ">
 							</div>
 						</div>
 						<br>

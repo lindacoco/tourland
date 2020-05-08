@@ -3,12 +3,24 @@
 <%@ include file="../../include/header.jsp"%>
 <style>
   #previewDiv{
-    height: 250px;
+    height: 500px;
   }
   .previewImg{
-    width: 560px;
-    height: 200px;
+    width: 500px;
+    height: 500px;
   }
+    [type="date"] {
+	background: #fff
+		url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
+		97% 50% no-repeat;
+	}
+  	[type="date"]::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	[type="date"]::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
 </style>
 <script>
 	$(function(){
@@ -20,25 +32,34 @@
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">배너 이미지 추가</h3>
+					<h3 class="box-title">팝업 등록</h3>
 				</div>
-				<form role="form" action="bannerRegister" method="post" enctype="multipart/form-data" id="bannerForm">
+				<form role="form" action="popupRegister" method="post" enctype="multipart/form-data" id="popupForm">
 					<div class="box-body">
 						<div class="form-group">
-							<label>배너 번호</label>
-							<input type="text" name="no" class="form-control" value="${autoNo }" readonly="readonly">
+							<label>팝업 번호</label>
+							<input type="hidden" name="no" class="form-control" value="${autoNo }" readonly="readonly" style="width:200px;">
+							 <br><span style="margin-left:10px;">${autoNo }</span>
 						</div>
 						<div class="form-group">
-							<label>배너 타이틀</label>
-							<input type="text" name="title" class="form-control">
+							<label>팝업 타이틀</label>
+							<input type="text" name="title" class="form-control" style="width:70%;">
 						</div>
 						<div class="form-group">
-							<label>배너 설명(내용)</label>
-							<textarea rows="15" cols="30" placeholder="내용을 입력하세요" name="content" class="form-control" required="required"></textarea>
+							<label>팝업 내용</label>
+							<textarea rows="15" cols="30" placeholder="내용을 입력하세요" name="content" class="form-control" required="required" style="width:70%;"></textarea>
+						</div>
+						<div class="form-group">
+							<label>시작 날짜</label>
+							<input type="date" name="startdate" class="form-control" style="width:200px;">
+						</div>
+						<div class="form-group">
+							<label>종료 날짜</label>
+							<input type="date" name="enddate" class="form-control" style="width:200px;">
 						</div>
 						<div class="form-group">
 							<label>사진</label>
-							<input type="file" name="bannerPic" id="file" required="required">
+							<input type="file" name="popupPic" id="file" required="required">
 						</div>
 						<div class="form-group" id="previewDiv">
 							
@@ -73,7 +94,7 @@
       
         //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
 		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/bannerMngList";
+			location.href="${pageContext.request.contextPath}/popupMngList";
 		})
    
   </script>

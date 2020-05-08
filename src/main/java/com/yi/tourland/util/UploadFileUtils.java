@@ -19,7 +19,7 @@ public class UploadFileUtils {
     		//	String uploadPath = "c:/tourland/upload/";
     			File dir = new File(uploadPath);
     			if(dir.exists()== false) { //폴더 없으면 폴더 만들어줌 
-    				dir.mkdir();
+    				dir.mkdirs();
     			}
     			//년. 월. 일 폴더를 만들기 
     			//다른 폴더에 저장할때 또 복 붙해야해서 업로드 전용 클래스를 만든다 
