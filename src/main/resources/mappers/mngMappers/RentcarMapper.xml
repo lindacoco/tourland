@@ -46,33 +46,41 @@
 
 <!-- 검색 기능 날짜 검색은 추후에 200503 -->
  <sql id="search">
+      <where>
 	      <if test="searchType=='rentcarType'.toString()">
-	       where cdiv like CONCAT('%',#{keyword},'%')
+	       and cdiv like CONCAT('%',#{keyword},'%')
 	      </if>
 	      <if test="searchType=='rentcarCno'.toString()">
-	       where cno like CONCAT('%',#{keyword},'%')
+	       and cno like CONCAT('%',#{keyword},'%')
 	      </if>
 	      <if test="searchType=='rentDepartDate'.toString()">
-	       where rentddate like CONCAT('%',#{keyword},'%')
+	       and rentddate like CONCAT('%',#{keyword},'%')
 	      </if>
 	      <if test="searchType=='rentDepartaddr'.toString()">
-	       where rentaddr like CONCAT('%',#{keyword},'%')
+	       and rentaddr like CONCAT('%',#{keyword},'%')
 	      </if>
 	      <if test="searchType=='rentLDiv'.toString()">
-	       where ldiv like CONCAT('%',#{keyword},'%')
+	         <if test='keyword=="국내"'>
+	             and ldiv = 1
+	         </if>
+	         <if test='keyword=="해외"'>
+	             and ldiv = 0
+	         </if>
+	         
 	      </if>
+	  </where>
  </sql>
 
 <!-- 검색으로 나타나는 리스트 부분 -->
     <select id="listSearchCriteriaRentcar" resultType="RentcarVO">
       select * from rentcar 
-      <include refid="search"></include>
+      <include refid="search"/>
       order by no desc  limit #{pageStart}, #{perPageNum}
     </select>
 	<!-- 검색한 결과 수  -->
 	    <select id="totalSearchCountRentcar" resultType="int">
 	        select  count(no) from rentcar
-		    <include refid="search"></include>  
+		    <include refid="search"/>  
 	    </select>
 
 </mapper>

@@ -13,6 +13,15 @@ public class PopupVO {
 	private String pic;
 	private Date startdate;
 	private Date enddate;
+	private String position;
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
 
 	public int getNo() {
 		return no;
@@ -65,7 +74,7 @@ public class PopupVO {
 	@Override
 	public String toString() {
 		return "PopupVO [no=" + no + ", title=" + title + ", content=" + content + ", pic=" + pic + ", startdate="
-				+ startdate + ", enddate=" + enddate + "]";
+				+ startdate + ", enddate=" + enddate + ", position=" + position + "]";
 	}
 
 }

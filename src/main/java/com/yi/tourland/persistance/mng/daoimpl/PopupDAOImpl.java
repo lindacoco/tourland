@@ -61,11 +61,12 @@ public class PopupDAOImpl implements PopupDAO {
 		return sqlSession.selectOne(namespace+"totalSearchCountPopup",cri);
 	}
 
-	/*
-	 * @Override public PopupVO setPopup(int isSetting) throws Exception { return
-	 * sqlSession.selectOne(namespace+"setPopup",isSetting); }
-	 */
-	
+	@Override
+	public PopupVO setPopup(String position) throws Exception {
+		return sqlSession.selectOne(namespace+"setPopup",position);
+	}
+
+
 	
 	
 }
