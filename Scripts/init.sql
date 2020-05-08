@@ -168,7 +168,7 @@ ALTER TABLE tour.planboard
 		);
 
 -- 상품
-CREATE TABLE tour.package (
+CREATE TABLE tour.product (
 	pno      INT          NOT NULL COMMENT '상품번호', -- 상품번호
 	pname    varchar(100) NULL     COMMENT '상품이름', -- 상품이름
 	pcontent LONGTEXT     NULL     COMMENT '상품설명', -- 상품설명
@@ -180,8 +180,8 @@ CREATE TABLE tour.package (
 COMMENT '상품';
 
 -- 상품
-ALTER TABLE tour.package
-	ADD CONSTRAINT PK_package -- 상품 기본키
+ALTER TABLE tour.product
+	ADD CONSTRAINT PK_product -- 상품 기본키
 		PRIMARY KEY (
 			pno -- 상품번호
 		);
@@ -193,7 +193,8 @@ CREATE TABLE tour.popup (
 	content   LONGTEXT     NULL     COMMENT '내용', -- 내용
 	pic       varchar(255) NULL     COMMENT '사진', -- 사진
 	startdate DATE         NULL     COMMENT '시작날짜', -- 시작날짜
-	enddate   DATE         NULL     COMMENT '종료날짜' -- 종료날짜
+	enddate   DATE         NULL     COMMENT '종료날짜', -- 종료날짜
+	position  CHAR(1)      NULL     COMMENT '팝업위치' -- 팝업위치
 )
 COMMENT '팝업';
 
@@ -449,11 +450,11 @@ ALTER TABLE tour.cart
 
 -- 장바구니
 ALTER TABLE tour.cart
-	ADD CONSTRAINT FK_package_TO_cart -- 상품 -> 장바구니
+	ADD CONSTRAINT FK_product_TO_cart -- 상품 -> 장바구니
 		FOREIGN KEY (
 			pno -- 상품번호
 		)
-		REFERENCES tour.package ( -- 상품
+		REFERENCES tour.product ( -- 상품
 			pno -- 상품번호
 		);
 
@@ -469,21 +470,21 @@ ALTER TABLE tour.pairstatus
 
 -- 상품항공현황황
 ALTER TABLE tour.pairstatus
-	ADD CONSTRAINT FK_package_TO_pairstatus -- 상품 -> 상품항공현황황
+	ADD CONSTRAINT FK_product_TO_pairstatus -- 상품 -> 상품항공현황황
 		FOREIGN KEY (
 			pno -- 상품번호
 		)
-		REFERENCES tour.package ( -- 상품
+		REFERENCES tour.product ( -- 상품
 			pno -- 상품번호
 		);
 
 -- 유저상품현황
 ALTER TABLE tour.userpstatus
-	ADD CONSTRAINT FK_package_TO_userpstatus -- 상품 -> 유저상품현황
+	ADD CONSTRAINT FK_product_TO_userpstatus -- 상품 -> 유저상품현황
 		FOREIGN KEY (
 			pno -- 상품번호
 		)
-		REFERENCES tour.package ( -- 상품
+		REFERENCES tour.product ( -- 상품
 			pno -- 상품번호
 		);
 
@@ -499,11 +500,11 @@ ALTER TABLE tour.userpstatus
 
 -- 상품렌트카현황
 ALTER TABLE tour.prentstatus
-	ADD CONSTRAINT FK_package_TO_prentstatus -- 상품 -> 상품렌트카현황
+	ADD CONSTRAINT FK_product_TO_prentstatus -- 상품 -> 상품렌트카현황
 		FOREIGN KEY (
 			pno -- 상품번호
 		)
-		REFERENCES tour.package ( -- 상품
+		REFERENCES tour.product ( -- 상품
 			pno -- 상품번호
 		);
 
@@ -519,11 +520,11 @@ ALTER TABLE tour.prentstatus
 
 -- 상품투어현황
 ALTER TABLE tour.ptourstatus
-	ADD CONSTRAINT FK_package_TO_ptourstatus -- 상품 -> 상품투어현황
+	ADD CONSTRAINT FK_product_TO_ptourstatus -- 상품 -> 상품투어현황
 		FOREIGN KEY (
 			pno -- 상품번호
 		)
-		REFERENCES tour.package ( -- 상품
+		REFERENCES tour.product ( -- 상품
 			pno -- 상품번호
 		);
 
@@ -539,11 +540,11 @@ ALTER TABLE tour.ptourstatus
 
 -- 상품호텔현황
 ALTER TABLE tour.photelstatus
-	ADD CONSTRAINT FK_package_TO_photelstatus -- 상품 -> 상품호텔현황
+	ADD CONSTRAINT FK_product_TO_photelstatus -- 상품 -> 상품호텔현황
 		FOREIGN KEY (
 			pno -- 상품번호
 		)
-		REFERENCES tour.package ( -- 상품
+		REFERENCES tour.product ( -- 상품
 			pno -- 상품번호
 		);
 
