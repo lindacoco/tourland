@@ -1,6 +1,9 @@
 package com.yi.tourland.controller.user;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -68,17 +71,21 @@ public class CustomerController {
 	
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
-	public String tourlandMain(Model model) throws Exception {
+	public String tourlandMain(Model model, HttpServletRequest request) throws Exception {
 		//팝업 불러오기
-		PopupVO popup1 = popupService.setPopup("L");
-		if(popup1 != null) {
-			model.addAttribute("popup1",popup1.getPic());
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null) {
+			for(int i =0; i<cookies.length; i++) {
+				Cookie coo = cookies[i];
+				if(coo.getName().equals("popup1")) {
+					model.addAttribute("popup1",coo.getValue());
+					System.out.println("팝1"+coo.getValue());
+				}if(coo.getName().equals("popup2")) {
+					model.addAttribute("popup2",coo.getValue());
+					System.out.println(coo.getValue());
+				}	
+			}
 		}
-		PopupVO popup2 = popupService.setPopup("R");
-		if(popup2 != null) {
-			model.addAttribute("popup2",popup2.getPic());
-		}
-		
 		return "/user/tourlandMain"; 
 	}
 	//마이 페이지 - 내 정보 수정
