@@ -14,7 +14,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> 
 
 
     <meta charset="UTF-8">
@@ -458,7 +459,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="../charts/chartjs.html"><i class="fa fa-circle-o"></i>팝업 관리</a></li>
+                <li><a href="${pageContext.request.contextPath}/popupMngList"><i class="fa fa-circle-o"></i>팝업 관리</a></li>
                 <li><a href="${pageContext.request.contextPath}/bannerMngList"><i class="fa fa-circle-o"></i>배너 관리</a></li>
               </ul>
             </li> 

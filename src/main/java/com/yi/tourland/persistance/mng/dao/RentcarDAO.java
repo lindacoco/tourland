@@ -10,6 +10,7 @@ public interface RentcarDAO {
 	
 	
 	public void insertRentcar(RentcarVO vo) throws Exception;
+	public RentcarVO readByNo(int no);
 	public List<RentcarVO> readByNoRentcarList(String cno)throws Exception;
 	public void updateRentcar(RentcarVO vo)throws Exception;
 	public void deleteRentcar(int no)throws Exception;

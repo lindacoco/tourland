@@ -27,11 +27,11 @@
 		$("#startDate").datepicker({
 			format : "yyyy-mm-dd",
 			autoclose : true
-		}).datepicker("setDate", '${tour.startDate}');
+		});		
 		$("#endDate").datepicker({
 			format : "yyyy-mm-dd",
 			autoclose : true
-		}).datepicker("setDate", '${tour.endDate}');
+		});
 		$("#etime").timepicker({
 			timeFormat : 'HH:mm:ss',
 			interval : 10,
@@ -104,11 +104,11 @@
 							</div>
 							<div class="form-group">
 								<label>시작일자</label> <input type="text" name="startDate"
-									class="form-control" required="required" id="startDate">
+									class="form-control" required="required" id="startDate" value="<fmt:formatDate value='${tour.startDate}' pattern='yyyy-MM-dd'/>">
 							</div>
 							<div class="form-group">
 								<label>종료일자</label> <input type="text" name="endDate"
-									class="form-control" required="required" id="endDate">
+									class="form-control" required="required" id="endDate" value="<fmt:formatDate value='${tour.endDate}' pattern='yyyy-MM-dd'/>">
 							</div>
 						</div>
 						<div class="col-sm-6">

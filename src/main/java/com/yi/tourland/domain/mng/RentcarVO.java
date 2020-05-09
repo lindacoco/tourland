@@ -4,11 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class RentcarVO {
 	private int no;
 	private String cdiv;
 	private String cno;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date rentddate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date returndate;
 	private String rentaddr;
 	private String returnaddr;
@@ -46,16 +50,16 @@ public class RentcarVO {
 		return rentddate;
 	}
 
-	public void setRentddate(Date rentddate) {
-		this.rentddate = rentddate;
+	public void setRentddate(String rentddate) throws ParseException {
+		this.rentddate = new SimpleDateFormat("yyyy-MM-dd").parse(rentddate);
 	}
 
 	public Date getReturndate() {
 		return returndate;
 	}
 
-	public void setReturndate(Date returndate) {
-		this.returndate = returndate;
+	public void setReturndate(String returndate) throws ParseException {
+		this.returndate = new SimpleDateFormat("yyyy-MM-dd").parse(returndate);
 	}
 
 	public String getRentaddr() {

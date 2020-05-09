@@ -521,6 +521,7 @@ function getFormatDate(date){
 					                <input type="hidden" name="list[0].ano" id="anoData_d">
 					                <input type="hidden" name="list[0].ldiv" id="ldivData_d">   
 						  			<input type="hidden" name="list[0].no" id="noData_d"> 
+						  			<input type="hidden" name="list[0].pdiv" id="pdivData_d" value="0">
 								</div>
 					</div>
 			</div>
@@ -611,7 +612,8 @@ function getFormatDate(date){
 					                <input type="hidden" name="list[1].rdate" id="rdateData_r">
 					                <input type="hidden" name="list[1].ano" id="anoData_r">
 					                <input type="hidden" name="list[1].ldiv" id="ldivData_r">
-						  			<input type="hidden" name="list[1].no" id="noData_r">    
+						  			<input type="hidden" name="list[1].no" id="noData_r">
+						  			<input type="hidden" name="list[1].pdiv" id="pdivData_r" value="0">    
 								</div>
 					</div>
 			</div>  

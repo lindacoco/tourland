@@ -2,9 +2,130 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
 <style>
-	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
+	table th, td { text-align: center;}
+	.first { color: maroon; font-weight: bold;}
+	.bus { color: steelblue; font-weight: bold;}
+	.eco { color: goldenrod; font-weight: bold;}
 </style>
-<!-- <div id="opa">dummy</div> -->
+
+<script>
+
+function getFormatDate(date){
+    var year = date.getFullYear()+"-";              //yyyy
+    var month = (date.getMonth()+1)+"-";          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '' + month + '' + day;
+}
+
+
+function getDomList(page){
+	var searchType = "${cri.searchType}";
+	var keyword = "${cri.keyword}";
+	$.ajax({   
+		url : "flightDomList/"+page,
+		type : "get", 
+		dataType : "json",
+		data : {searchType : searchType, keyword : keyword},
+		success: function(rs){                  
+			console.log(rs);
+			$(rs.list).each(function(i, obj){
+				console.log(obj);
+			})
+			 $(".forEachTr").remove();
+			 $(rs.list).each(function(i, obj) {
+				 var date1 = new Date(obj.ddate);
+				 var date2 = new Date(obj.rdate);
+				 
+				 var ddate = getFormatDate(date1);
+				 var rdate = getFormatDate(date2);
+				 
+				 $tr = $("<tr>").addClass("forEachTr");
+				 
+				 $td1 = $("<td>").html(obj.no);
+				 $td2 = $("<td>");
+				 $td3 = $("<td>").html(obj.dlocation);
+				 $td4 = $("<td>").html(obj.rlocation);
+				 $td5 = $("<td>").html(ddate);
+				 $td6 = $("<td>").html(rdate);
+				 if(obj.ldiv==0){
+					 $td7 = $("<td>해외</td>");
+				 }else {
+					 $td7 = $("<td>국내</td>");
+				 }
+				 $td8 = $("<td>").html(obj.capacity);
+				 if(obj.seat=='F'){
+					 $td9 = $("<td>").html("First-Class").addClass("first");
+				 }else if(obj.seat=='B'){
+					 $td9 = $("<td>").html("Business-Class").addClass("bus");
+				 }else {
+					 $td9 = $("<td>").html("Economy-Class").addClass("eco");
+				 }
+				 $td10 = $("<td>").html(obj.price);
+				 
+				 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no="+obj.no).html(obj.ano);
+				 
+				 $td2.append($a);
+				 $tr.append($td1);
+				 $tr.append($td2);
+				 $tr.append($td3);
+				 $tr.append($td4);
+				 $tr.append($td5);
+				 $tr.append($td6);
+				 $tr.append($td7);
+				 $tr.append($td8);
+				 $tr.append($td9);
+				 $tr.append($td10);
+				 
+				 $("table").append($tr);
+				 
+			}) 
+		 	$(".pagination").empty();
+				
+				if(rs.pageMaker.prev==true){
+					var $li1 = $("<li>");
+					var $a1 = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}" ).html("&laquo");
+					$li1.append($a1);
+				}
+				
+				
+				if(rs.pageMaker.next==true){
+					var $li3 = $("<li>");
+					var $a3 = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}" ).html("&laquo");
+
+					$li3.append($a3);
+				}
+				
+				for(var j = rs.pageMaker.startPage; j<= rs.pageMaker.endPage; j++){
+					$li2 = $("<li>");
+					$a2 = $("<a>").html(j).addClass("domList");
+					if(j==rs.pageMaker.cri.page) {
+						$li2.addClass("active");
+					}
+					$li2.append($a2);
+					
+				
+				$(".pagination").append($li1);
+				$(".pagination").append($li2);
+				$(".pagination").append($li3);
+			}   
+		}   
+	})   
+}
+
+
+	$(function(){
+		$("#dom").click(function(){
+			 getDomList(1); 
+		})
+		$(document).on("click", ".domList", function(){
+			var page = $(this).html();
+			getDomList(page);
+		})
+	})
+</script>
+
 <div class="content">	
 	<div class="row">
 		<div class="col-sm-12">    
@@ -20,21 +141,21 @@
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType">
-						<option value="n">-----</option>
-						<option value="no">번호</option>
-						<option value="ano">항공기 번호</option>
-						<option value="dloca">출발 지역</option>
-						<option value="rloca">도착 지역</option>
-						<option value="ddate">출발 일시</option>
-						<option value="rdate">도착 일시</option>
+						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
+						<option value="no" ${cri.searchType =='no'?'selected':''}>번호</option>
+						<option value="ano" ${cri.searchType =='ano'?'selected':''}>항공기 번호</option>
+						<option value="dloca" ${cri.searchType =='dloca'?'selected':''}>출발 지역</option>
+						<option value="rloca" ${cri.searchType =='rloca'?'selected':''}>도착 지역</option>
+						<option value="ddate" ${cri.searchType =='ddate'?'selected':''}>출발 일시</option>
+						<option value="rdate" ${cri.searchType =='rdate'?'selected':''}>도착 일시</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">
 					<button type="button" class="btn btn-info">항공편 추가</button>
-					<button type="button" class="btn">국내</button>
-					<button type="button" class="btn">해외</button>
+					<button type="button" class="btn" id="dom">국내</button>
+					<button type="button" class="btn" id="ab">해외</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -49,18 +170,31 @@
 							<th>허용 인원</th>
 							<th>좌석</th>
 							<th>가격</th>
-						</tr>  
+						</tr> 
 						<c:forEach items="${flightList }" var="f">   
-							<tr>
+							<tr class="forEachTr">
 								<td>${f.no }</td>
-								<td><a href="#">${f.ano }</a></td>
+								<td><a href="${pageContext.request.contextPath }/flightDetail?no=${f.no}">${f.ano }</a></td>
 								<td>${f.dlocation }</td>
 								<td>${f.rlocation }</td>
 								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
 								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
-								<td>${f.ldiv }</td>
+								<c:if test="${f.ldiv==0 }">
+									<td>해외</td>
+								</c:if>
+								<c:if test="${f.ldiv==1 }">
+									<td>국내</td>
+								</c:if>
 								<td>${f.capacity }</td>
-								<td>${f.seat }</td>
+								<c:if test="${f.seat =='F'}">
+									<td class="first">First-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='B'}">
+									<td class="bus">Business-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='E'}">
+									<td class="eco">Economy-Class</td>
+								</c:if>
 								<td>${f.price }</td>
 							</tr>
 						</c:forEach>   

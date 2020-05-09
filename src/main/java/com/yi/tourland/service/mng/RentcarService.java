@@ -20,7 +20,10 @@ public class RentcarService {
 		dao.insertRentcar(vo);
 
 	}
-
+	
+	public RentcarVO readByNo(int no) {
+		return dao.readByNo(no);
+	}
 	
 	public List<RentcarVO> readByNoRentcarList(String cno) throws Exception {
 		return dao.readByNoRentcarList(cno);
@@ -59,4 +62,5 @@ public class RentcarService {
 	public int totalSearchCountRentcar(SearchCriteria cri) throws Exception {
 		return dao.totalSearchCountRentcar(cri);
 	}
+
 }

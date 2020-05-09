@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.RentcarVO;
 import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
@@ -46,6 +49,7 @@ import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.PopupService;
 import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
@@ -55,7 +59,10 @@ import com.yi.tourland.util.UploadFileUtils;
 public class ManagerController {
 
 	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함
-	private String uploadPath; // c:/tourland/upload/
+	private String uploadPath; // c:/tourland/upload
+	
+	@Resource(name = "uploadPath2")
+	private String uploadPathPopup; // c:/tourland/upload/popup
 
 	@Autowired
 	private TourService tourService;
@@ -79,6 +86,9 @@ public class ManagerController {
 
 	@Autowired
 	HotelService hotelService;
+	
+	@Autowired
+	PopupService popupService;
 
 	@Autowired
 	BannerService bannerService;
@@ -108,7 +118,7 @@ public class ManagerController {
 		return "/manager/flight/flightMngList";
 	}
 
-	// 항공 추가 폼
+	// 항공 추가 GET
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.GET)
 	public String addFlightForm(Model model) throws Exception {
 		SearchCriteria cri = new SearchCriteria();
@@ -123,7 +133,7 @@ public class ManagerController {
 		return "/manager/flight/addFlightForm2";
 	}
 
-	// 항공 추가 폼
+	// 항공 추가 POST
 	@RequestMapping(value = "addFlightForm", method = RequestMethod.POST)
 	public String addFlightResult(DataListVO list) throws Exception {
 		for(AirplaneVO a : list.getList()) {
@@ -132,7 +142,218 @@ public class ManagerController {
 		
 		return "redirect:/flightMngList";
 	}
+	
+	// 항공 세부 페이지
+	@RequestMapping(value = "flightDetail", method = RequestMethod.GET)
+	public String flightDetail(int no, SearchCriteria cri, Model model) throws Exception {
+			AirplaneVO selectedVo = new AirplaneVO();
+			AirplaneVO prevVo = new AirplaneVO();
+			AirplaneVO nextVo = new AirplaneVO();
+			int prevNo = no-1;//이전번호
+			int nextNo = no+1;//이후번호
+			selectedVo.setNo(no);//선택한 항공편
+			prevVo.setNo(prevNo);//이전번호 항공편
+			nextVo.setNo(nextNo);//이후번호 항공편
+			int noDiv = 0;
+			
+			//선택한 항공편
+			AirplaneVO selectedAir = flightService.airplaneByNo(selectedVo);//선택한 항공편 모든정보
+			//선택한 항공편 출발 시간
+			Date selected_dDate = selectedAir.getDdate();
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			String selected_dText = transFormat.format(selected_dDate);
+			String selected_dtime = selected_dText.substring(selected_dText.lastIndexOf("-")+3);
+			//선택한 항공편 도착 시간
+			Date selected_rDate = selectedAir.getRdate();
+			String selected_rText = transFormat.format(selected_rDate);
+			String selected_rtime = selected_rText.substring(selected_rText.lastIndexOf("-")+3);
+			
+			model.addAttribute("selected_dtime", selected_dtime);
+			model.addAttribute("selected_rtime", selected_rtime);
+			model.addAttribute("cri", cri);
+			
+			//항공편 번호 == 짝수 -> 도착편 // 항공편 번호 == 홀수 -> 출발편
+			if(no%2 == 0) {//항공편 번호가 짝수 -> 선택한 항공편 & 이전번호 항공편 들고옴
+				AirplaneVO prevAir = flightService.airplaneByNo(prevVo);//이전번호 항공편 모든정보
+				
+				//이전번호 항공편 출발 시간
+				Date prev_dDate = prevAir.getDdate();
+				String prev_dText = transFormat.format(prev_dDate);
+				String prev_dtime = prev_dText.substring(prev_dText.lastIndexOf("-")+3);
+				//이전번호 항공편 도착 시간
+				Date prev_rDate = prevAir.getRdate();
+				String prev_rText = transFormat.format(prev_rDate);
+				String prev_rtime = prev_rText.substring(prev_rText.lastIndexOf("-")+3);
+				
+				model.addAttribute("selectedAir", selectedAir);
+				model.addAttribute("prevAir", prevAir);
+				model.addAttribute("noDiv", noDiv);
+				model.addAttribute("prev_dtime", prev_dtime);
+				model.addAttribute("prev_rtime", prev_rtime);
+			}else if(no%2 == 1) {//항공편 번호가 홀수  -> 선택한 항공편 & 이후번호 항공편 들고옴
+				noDiv = 1;
+				AirplaneVO nextAir = flightService.airplaneByNo(nextVo);//이후번호 항공편 모든정보
+				
+				//이후번호 항공편 출발 시간
+				Date next_dDate = nextAir.getDdate();
+				String next_dText = transFormat.format(next_dDate);
+				String next_dtime = next_dText.substring(next_dText.lastIndexOf("-")+3);
+				//이후번호 항공편 도착 시간
+				Date next_rDate = nextAir.getRdate();
+				String next_rText = transFormat.format(next_rDate);
+				String next_rtime = next_rText.substring(next_rText.lastIndexOf("-")+3);
+				
+				model.addAttribute("selectedAir", selectedAir);
+				model.addAttribute("nextAir", nextAir);
+				model.addAttribute("noDiv", noDiv);
+				model.addAttribute("next_dtime", next_dtime);
+				model.addAttribute("next_rtime", next_rtime);
+		} 
+			
+			return "/manager/flight/flightDetail";
+	}
+		
+	//항공 삭제
+	@RequestMapping(value = "removeFlight", method = RequestMethod.GET)
+	public String removeFlight(int d_no, int r_no, SearchCriteria cri, Model model) throws Exception {
+		
+		flightService.removeAirplane(d_no);
+		flightService.removeAirplane(r_no);
+		model.addAttribute("cri", cri);
+		return "redirect:/flightMngList";
+	}
+	
+	// 항공 수정
+		@RequestMapping(value = "editFlight", method = RequestMethod.GET)
+		public String editFlight(int no_d, int no_r, SearchCriteria cri, Model model) throws Exception {
+				AirplaneVO depVo = new AirplaneVO();//출발 항공편
+				AirplaneVO appVo = new AirplaneVO();//도착 항공편
+			
+				depVo.setNo(no_d);//출발 항공편
+				appVo.setNo(no_r);//도착 항공편
+				
+				//출발 항공편
+				AirplaneVO depAir = flightService.airplaneByNo(depVo);//출발 항공편 모든정보
+				//출발 항공편 출발 시간
+				Date dep_dDate = depAir.getDdate();
+				SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String dep_dText = transFormat.format(dep_dDate);
+				String dep_dtime = dep_dText.substring(dep_dText.lastIndexOf("-")+3);
+				//출발 항공편 도착 시간
+				Date dep_rDate = depAir.getRdate();
+				String dep_rText = transFormat.format(dep_rDate);
+				String dep_rtime = dep_rText.substring(dep_rText.lastIndexOf("-")+3);
+				
+				
+				
+				AirplaneVO appAir = flightService.airplaneByNo(appVo);// 도착 항공편 모든정보
+		
+				// 도착 항공편 출발 시간
+				Date app_dDate = appAir.getDdate();
+				String app_dText = transFormat.format(app_dDate);
+				String app_dtime = app_dText.substring(app_dText.lastIndexOf("-") + 3);
+				// 도착 항공편 도착 시간
+				Date app_rDate = appAir.getRdate();
+				String app_rText = transFormat.format(app_rDate);
+				String app_rtime = app_rText.substring(app_rText.lastIndexOf("-") + 3);
+		
+				model.addAttribute("depAir", depAir);//출발 항공편
+				model.addAttribute("appAir", appAir);//도착 항공편
+				model.addAttribute("dep_dtime", dep_dtime);//출발 항공편 출발 시간
+				model.addAttribute("dep_rtime", dep_rtime);//출발 항공편 도착 시간
+				model.addAttribute("app_dtime", app_dtime);//도착 항공편 출발 시간
+				model.addAttribute("app_rtime", app_rtime);//도착 항공편 도착 시간
+				model.addAttribute("cri", cri);//페이징
+				
+				return "/manager/flight/editFlight";
+		}
+	
+	// 항공 수정 POST
+	@RequestMapping(value = "editFlight", method = RequestMethod.POST)
+	public String editFlight(DataListVO list, SearchCriteria cri, Model model) throws Exception {
+		AirplaneVO depVo = new AirplaneVO();//출발 항공편
+		AirplaneVO appVo = new AirplaneVO();//도착 항공편
+		int noDiv = 0;
+		depVo = list.getList().get(0);
+		appVo = list.getList().get(1);
+		
+		flightService.editAirplane(depVo);
+		flightService.editAirplane(appVo);
+		
+		//출발 항공편
+		AirplaneVO depAir = flightService.airplaneByNo(depVo);//출발 항공편 모든정보
+		//출발 항공편 출발 시간
+		Date dep_dDate = depAir.getDdate();
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String dep_dText = transFormat.format(dep_dDate);
+		String dep_dtime = dep_dText.substring(dep_dText.lastIndexOf("-")+3);
+		//출발 항공편 도착 시간
+		Date dep_rDate = depAir.getRdate();
+		String dep_rText = transFormat.format(dep_rDate);
+		String dep_rtime = dep_rText.substring(dep_rText.lastIndexOf("-")+3);
+		
+		AirplaneVO appAir = flightService.airplaneByNo(appVo);// 도착 항공편 모든정보
 
+		// 도착 항공편 출발 시간
+		Date app_dDate = appAir.getDdate();
+		String app_dText = transFormat.format(app_dDate);
+		String app_dtime = app_dText.substring(app_dText.lastIndexOf("-") + 3);
+		// 도착 항공편 도착 시간
+		Date app_rDate = appAir.getRdate();
+		String app_rText = transFormat.format(app_rDate);
+		String app_rtime = app_rText.substring(app_rText.lastIndexOf("-") + 3);
+		
+		//세부 페이지에서 선택한 항공편&선택한 항공편의 짝인 항공편 으로 나누고 해당 항공편들의 정보를 들고감
+		//여기서는 edit페이지를 지나 다시 detail페이지로 들어갈때, 단순히 출발/도착항공편으로 나뉘기 때문에 다시 구분해서 detail페이지 value에 따라 다시 세팅해줌
+		if(depVo.getNo()%2==1) {
+			noDiv = 1;
+			model.addAttribute("selectedAir", depAir);//출발 항공편
+			model.addAttribute("nextAir", appAir);//도착 항공편
+			model.addAttribute("selected_dtime", dep_dtime);//출발 항공편 출발 시간
+			model.addAttribute("selected_rtime", dep_rtime);//출발 항공편 도착 시간
+			model.addAttribute("next_dtime", app_dtime);//도착 항공편 출발 시간
+			model.addAttribute("next_rtime", app_rtime);//도착 항공편 도착 시간
+		}else {
+			model.addAttribute("prevAir", depAir);//출발 항공편
+			model.addAttribute("selectedAir", appAir);//도착 항공편
+			model.addAttribute("prev_dtime", dep_dtime);//출발 항공편 출발 시간
+			model.addAttribute("prev_rtime", dep_rtime);//출발 항공편 도착 시간
+			model.addAttribute("selected_dtime", app_dtime);//도착 항공편 출발 시간
+			model.addAttribute("selected_rtime", app_rtime);//도착 항공편 도착 시간
+		}
+		
+		model.addAttribute("cri", cri);//페이징
+		model.addAttribute("noDiv", noDiv);
+		
+		
+		return "/manager/flight/flightDetail";
+	}
+	
+	//항공 국내 검색 ajax
+	@RequestMapping(value="flightDomList/{page}", method= RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> listPage(@PathVariable("page") int page){
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			SearchCriteria cri = new SearchCriteria();
+			cri.setPage(page);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			int totalCount = flightService.totalCountAirplane(cri);
+			pageMaker.setTotalCount(totalCount);
+			List<AirplaneVO> list = flightService.airplaneDomList(cri);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}   
+		return entity;
+	}
+	
+	
+	
 
 	// 직원관리리스트
 	@RequestMapping(value = "empMngList/{empretired}", method = RequestMethod.GET)
@@ -339,6 +560,7 @@ public class ManagerController {
 		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
 		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
 		List<TourVO> tourList = tourService.listPage(cri);
+		List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
 		PageMaker pageMakerByFlightDepature = new PageMaker();
 		pageMakerByFlightDepature.setCri(cri);
 		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
@@ -351,6 +573,9 @@ public class ManagerController {
 		PageMaker pageMakerByTour = new PageMaker();
 		pageMakerByTour.setCri(cri);
 		pageMakerByTour.setTotalCount(tourService.totalCountBySearchCriteria(cri));
+		PageMaker pageMakerByRentcar = new PageMaker();
+		pageMakerByRentcar.setCri(cri);
+		pageMakerByRentcar.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
 		model.addAttribute("flightListDepature",flightListDepature);
 		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
 		model.addAttribute("flightListRending",flightListRending);
@@ -359,11 +584,13 @@ public class ManagerController {
 		model.addAttribute("pageMakerByHotel",pageMakerByHotel);
 		model.addAttribute("tourList",tourList);
 		model.addAttribute("pageMakerByTour",pageMakerByTour);
+		model.addAttribute("rentcarList",rentcarList);
+		model.addAttribute("pageMakerByRentcar",pageMakerByRentcar);
 		return "/manager/product/addProductForm";
 	}
 
 	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
-	public String addProductFormPost() {
+	public String addProductFormPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo) {
 		return "redirect:productMgnList";
 	}
 
@@ -495,6 +722,44 @@ public class ManagerController {
 		
 		return entity;
 	}
+	@ResponseBody
+	@RequestMapping(value = "rentList", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> rentList(SearchCriteria cri, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			List<RentcarVO> rentList = rentcarService.listSearchCriteriaRentcar(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+			map.put("list", rentList);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		return entity;
+	}
+	@ResponseBody
+	@RequestMapping(value = "rentList/{no}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> rentList(@PathVariable("no") int no,RentcarVO vo, Model model) {
+		ResponseEntity<Map<String,Object>> entity = null;
+		Map<String,Object> map = new HashMap<>();
+		try {
+			vo.setNo(no);
+			vo = rentcarService.readByNo(no);
+			map.put("vo", vo);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.BAD_REQUEST);
+		}
+		
+		return entity;
+	}
 	// 현지 투어 관리
 	@RequestMapping(value = "tourMngList", method = RequestMethod.GET)
 	public String tourMngList(SearchCriteria cri, Model model) throws SQLException {
@@ -561,15 +826,17 @@ public class ManagerController {
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+		
+	//	System.out.println(rentcarService.totalSearchCountRentcar(cri));
 
 		model.addAttribute("cri", cri);
 		model.addAttribute("list", rentcarList);
 		model.addAttribute("pageMaker", pageMaker);
-
+		
 		return "/manager/rentcar/rentcarMngList";
 	}
 
-	//렌트카 추가
+	//렌트카 추가 폼
 	@RequestMapping(value = "rentcarRegister", method = RequestMethod.GET)
 	public String rentcarRegister(SearchCriteria cri, Model model) {
 		int lastNo =0;
@@ -577,9 +844,9 @@ public class ManagerController {
 		try{
 			List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
 
-		    
-		    lastNo = rentcarList.get(0).getNo();
-		
+		    if(rentcarList.size() != 0) {
+		         lastNo = rentcarList.get(0).getNo();
+		    }
 				model.addAttribute("autoNo",lastNo+1);
 			
 			
@@ -590,6 +857,36 @@ public class ManagerController {
 		
 		return "/manager/rentcar/rentcarRegister";
 	}
+	
+	@RequestMapping(value = "rentcarRegister", method = RequestMethod.POST)
+	public String rentcarRegisterPost(RentcarVO vo, Model model) throws Exception {
+		  rentcarService.insertRentcar(vo);
+		return "redirect:rentcarMngList";
+	}
+	
+	//렌트카 상세 페이지
+	@RequestMapping(value = "rentcarDetailForm", method = RequestMethod.GET)
+	public String rentcarDetailForm(int no, SearchCriteria cri, Model model) throws SQLException {
+		RentcarVO vo = rentcarService.readByNo(no);
+
+		model.addAttribute("rentcarVO", vo);
+		model.addAttribute("cri", cri);
+
+		return "/manager/rentcar/rentcarDetailForm";
+	}
+	
+	//렌트카 정보 수정
+	@RequestMapping(value = "rentcarDetailFormUpdate", method = RequestMethod.POST)
+	public String rentcarDetailFormUpdate(RentcarVO vo, SearchCriteria cri, Model model) throws Exception {
+		System.out.println(vo);
+		rentcarService.updateRentcar(vo);
+
+		model.addAttribute("rentcarVO", vo);
+		model.addAttribute("cri", cri);
+		return "redirect:/rentcarDetailForm?no=" + vo.getNo() + "&page=" + cri.getPage() + "&searchType="
+				+ cri.getSearchType() + "&keyword=" + cri.getKeyword();
+	}
+	
 	//렌트카 상품 삭제
 		@RequestMapping(value = "delRentcar", method = RequestMethod.GET)
 		public String delRentcar(int no, SearchCriteria cri) throws Exception{
@@ -660,7 +957,7 @@ public class ManagerController {
 	// 고객의 소리 리스트
 	@RequestMapping(value = "custBoardMngList", method = RequestMethod.GET)
 	public String custBoardMngList(SearchCriteria cri, Model model) throws Exception {
-
+        cri.setPerPageNum(5);
 		List<CustBoardVO> custBoardList = custBoardService.listSearchCriteriaCustBoard(cri);
 
 		PageMaker pageMaker = new PageMaker();
@@ -735,30 +1032,200 @@ public class ManagerController {
 // 디자인관리 ---------------------------------------------------------------------------------------------------------------
 
 	// 팝업
+    @RequestMapping(value ="popupMngList", method = RequestMethod.GET)
+	public String popupMngList(SearchCriteria cri, Model model) throws Exception {
+		cri.setPerPageNum(5);
+        List<PopupVO> popupList = popupService.listSearchCriteriaPopup(cri);
+       
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(popupService.totalSearchCountPopup(cri));
+		model.addAttribute("cri", cri);
+		model.addAttribute("list", popupList);
+       	model.addAttribute("pageMaker", pageMaker);
+
+		return "/manager/design/popupMngList";
+	}
+    //팝업 추가
+    @RequestMapping(value = "popupRegister", method = RequestMethod.GET)
+	public String popupRegister(SearchCriteria cri, Model model) {
+		int lastNo = 0;
+		try {
+			List<PopupVO> popupList = popupService.listSearchCriteriaPopup(cri);
+			lastNo = popupList.get(0).getNo() + 1;
+		} catch (Exception e) {
+			lastNo = 1;
+		}
+
+		model.addAttribute("autoNo", lastNo); // 가장 나중 번호로 자동세팅
+
+		return "/manager/design/popupRegister";
+	}
+	@RequestMapping(value = "popupRegister", method = RequestMethod.POST)
+	public String popupRegisterPost(PopupVO vo, MultipartFile popupPic, Model model) throws Exception {
+
+		String savedName = UploadFileUtils.uploadFile(uploadPathPopup, popupPic.getOriginalFilename().replaceAll(" ", "_"),
+				popupPic.getBytes());
+		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+
+		vo.setPic(bigSizePic.replaceAll(" ", "_"));
+		popupService.insertPopup(vo);
+		return "redirect:/popupMngList";
+	}
+	
+	//팝업 디테일 조회
+	@RequestMapping(value = "popupDetailForm", method = RequestMethod.GET)
+	public String popupDetailForm(int no, SearchCriteria cri, Model model) throws Exception {
+		PopupVO vo = popupService.readByNoPopup(no);
+
+		model.addAttribute("popupVO", vo);
+		model.addAttribute("cri", cri);
+
+		return "/manager/design/popupDetailForm";
+	}
+	
+	//팝업 수정
+	@RequestMapping(value = "popupUpdate", method = RequestMethod.POST)
+	public String popupUpdate(PopupVO vo, MultipartFile popupPic, Model model) throws Exception {
+	
+		if (popupPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
+			// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
+
+			File popupFile = new File(uploadPathPopup + vo.getPic());
+			popupFile.delete();
+
+			String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+			// System.out.println(smallSizePic);
+			File popupFile2 = new File(uploadPathPopup + smallSizePic);
+			popupFile2.delete();
+
+			// 수정 된 파일로 교체
+			String savedName = UploadFileUtils.uploadFile(uploadPathPopup, popupPic.getOriginalFilename(),
+					popupPic.getBytes());
+			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+			
+			vo.setPic(bigSizePic);
+		}
+		popupService.updatePopup(vo);
+
+		return "redirect:/popupDetailForm?no=" + vo.getNo();
+
+	}
+	//리스트에서 팝업 미리보기
+		@ResponseBody
+		@RequestMapping(value = "getPopupPicPath/{no}",produces = "application/text; charset=utf8" ,method = RequestMethod.GET)
+		public ResponseEntity<String> getPopupPicPath(@PathVariable("no") int no){
+
+			ResponseEntity<String> entity = null;
+			
+			try {
+				PopupVO vo = popupService.readByNoPopup(no);
+				if(vo !=null ) {
+				entity = new ResponseEntity<String>(vo.getPic(),HttpStatus.OK);
+				   }
+			}catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST); //400에러
+					
+			}
+			return entity;
+			
+		}
+		
+    //팝업 설정하기
+		@ResponseBody
+		@RequestMapping(value = "setPopup/{no}/{numbering}", method = RequestMethod.GET)
+		public ResponseEntity<String> setPopup(@PathVariable("no") int no,@PathVariable("numbering") String numbering, Model model,SearchCriteria cri) throws Exception{
+			ResponseEntity<String> entity = null;
+
+			try {
+				//왼쪽배너부터
+				
+				if(numbering.equals("popup1")) {
+
+					PopupVO lvo = popupService.setPopup("L");
+					//System.out.println("lvo"+lvo);
+					if(lvo != null) {
+						lvo.setPosition(null);
+						popupService.updatePopup(lvo);
+						
+					}
+					PopupVO firstVO = popupService.readByNoPopup(no);
+					firstVO.setPosition("L");
+					popupService.updatePopup(firstVO);
+					model.addAttribute("popup1",firstVO.getPic());
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+				if(numbering.equals("popup2")) {
+					PopupVO rvo = popupService.setPopup("R");
+					if(rvo != null) {
+						rvo.setPosition(null);
+						popupService.updatePopup(rvo);
+						
+					}
+					PopupVO secondVO = popupService.readByNoPopup(no);
+					secondVO.setPosition("R");
+					popupService.updatePopup(secondVO);
+					model.addAttribute("popup2",secondVO.getPic());
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
+			
+		}
+	
+	//팝업삭제
+     @RequestMapping(value = "removePopup", method = RequestMethod.GET)
+     public String removePopup(SearchCriteria cri, Model model, int no) throws Exception {
+    	 PopupVO vo = popupService.readByNoPopup(no);
+			if (vo.getPic() != null) {
+				// 폴더에 남은 사진들 먼저 지우기
+				File popupFile = new File(uploadPathPopup + vo.getPic());
+				popupFile.delete();
+
+				String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+
+				File popupFile2 = new File(uploadPathPopup + smallSizePic);
+				popupFile2.delete();
+			}
+
+			popupService.deletePopup(no);
+
+			return "redirect:/popupMngList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword="
+					+ cri.getKeyword();
+		}
 
 	// 배너
 	@RequestMapping(value = "bannerMngList", method = RequestMethod.GET)
 	public String bannerMngList(SearchCriteria cri, Model model) throws Exception {
-
-		List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
-
-		String rightBanner = bannerList.get(1).getPic();
-		String leftBanner = bannerList.get(0).getPic();
-		
+		cri.setPerPageNum(5);
+        List<BannerVO> bannerList = bannerService.listSearchCriteriaBanner(cri);
+        
+        BannerVO leftBannerVO = bannerService.setBanner("L");
+        BannerVO rightBannerVO = bannerService.setBanner("R");
+        if(leftBannerVO != null) {
+//  		
+		   String leftBanner = leftBannerVO.getPic();
+		   model.addAttribute("leftBanner",leftBanner);
+		   
+        }
+        
+        if(rightBannerVO != null) {
+		 	String rightBanner = rightBannerVO.getPic();
+			// 작은이미지는 앞에 s_달려있음
+			model.addAttribute("rightBanner",rightBanner);
+        }
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(bannerService.totalSearchCountBanner(cri));
-
 		model.addAttribute("cri", cri);
-
 		model.addAttribute("list", bannerList);
-
-        //작은이미지는 앞에 s_달려있음
-		model.addAttribute("list",bannerList);
-		model.addAttribute("rightBanner",rightBanner);
-		model.addAttribute("leftBanner",leftBanner);
-
-		model.addAttribute("pageMaker", pageMaker);
+       	model.addAttribute("pageMaker", pageMaker);
 
 		return "/manager/design/bannerMngList";
 	}
@@ -783,26 +1250,36 @@ public class ManagerController {
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
 	public String bannerRegisterPost(BannerVO vo, MultipartFile bannerPic, Model model) throws Exception {
 
-		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename(),
+		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename().replaceAll(" ", "_"),
 				bannerPic.getBytes());
 		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
 		// 배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
 
-		vo.setPic(bigSizePic);
+		vo.setPic(bigSizePic.replaceAll(" ", "_"));
 		bannerService.insertBanner(vo);
 		return "redirect:/bannerMngList";
 	}
 
 	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨
 	@ResponseBody
-	@RequestMapping(value = "displayFile", method = RequestMethod.GET)
-	public ResponseEntity<byte[]> displayFile(String filename) {
+	@RequestMapping(value = "displayFile/{whichOne}", method = RequestMethod.GET)
+	public ResponseEntity<byte[]> displayFile(String filename,@PathVariable("whichOne") String choice) {
 		ResponseEntity<byte[]> entity = null;
-
+        String path = null;
+        
+        if(choice.equals("banner")) {
+        	path = uploadPath;
+        }
+        
+        if(choice.equals("popup")) {
+        	path = uploadPathPopup; 
+        }
 		// System.out.println("displayFile-----------"+ filename);
 		InputStream in = null;
 		try {
-			in = new FileInputStream(uploadPath + filename); // 파일개체는 오류처리하라고..
+			
+	//		System.out.println("path=="+path);
+			in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
 			String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
 			MediaType mType = null;
 
@@ -891,7 +1368,7 @@ public class ManagerController {
 
 	//리스트에서 배너 미리보기
 	@ResponseBody
-	@RequestMapping(value = "getPicPath/{no}",method = RequestMethod.GET)
+	@RequestMapping(value = "getPicPath/{no}",produces = "application/text; charset=utf8" ,method = RequestMethod.GET)
 	public ResponseEntity<String> getPicPath(@PathVariable("no") int no){
 
 		ResponseEntity<String> entity = null;
@@ -910,25 +1387,53 @@ public class ManagerController {
 		return entity;
 		
 	}
-	
-	//리스트에서 미리보기로 본 후 설정 버튼 눌렀을 때 메인 이미지에 반영될 배너 리스트(설정여부 isSetting 리스트 갱신되기)
-/*	@RequestMapping(value = "bannerIsSetting/{no}/{whichSide}", method = RequestMethod.POST)
-	public String bannerIsSetting(@PathVariable("no") int no, Model model,SearchCriteria cri,@PathVariable("whichSide") String whichSide) throws Exception{
-		
-		List<BannerVO> OldBannerList = bannerService.listCriteriaSettingBanner(cri, 1);
-		if(OldBannerList.size() == 0 ) {
-			BannerVO vo = bannerService.readByNoBanner(no);
-			vo.setIsSetting(1);
-			bannerService.updateBanner(vo);
+	//배너 설정하기 
+		@ResponseBody
+		@RequestMapping(value = "setBanner/{no}/{side}", method = RequestMethod.GET)
+		public ResponseEntity<String> setBanner(@PathVariable("no") int no,@PathVariable("side") String side, Model model,SearchCriteria cri) throws Exception{
+			ResponseEntity<String> entity = null;
+
+			try {
+				//왼쪽배너부터
+				
+				if(side.equals("left")) {
+
+					BannerVO lvo = bannerService.setBanner("L");
+					//System.out.println("lvo"+lvo);
+					if(lvo != null) {
+						lvo.setPosition(null);
+						bannerService.updateBanner(lvo);
+						
+					}
+					BannerVO leftVO = bannerService.readByNoBanner(no);
+					leftVO.setPosition("L");
+					bannerService.updateBanner(leftVO);
+					model.addAttribute("leftBanner",leftVO.getPic());
+					entity = new ResponseEntity<String>("leftSuccess", HttpStatus.OK);
+				}
+				if(side.equals("right")) {
+					BannerVO rvo = bannerService.setBanner("R");
+					if(rvo != null) {
+						rvo.setPosition(null);
+						bannerService.updateBanner(rvo);
+						
+					}
+					BannerVO rightVO = bannerService.readByNoBanner(no);
+					rightVO.setPosition("R");
+					bannerService.updateBanner(rightVO);
+					model.addAttribute("rightBanner",rightVO.getPic());
+					entity = new ResponseEntity<String>("rightSuccess", HttpStatus.OK);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
+			
 		}
-	     bannerService.updateBanner(vo);
 		
-		return "redirect:/bannerDetailForm?no="+vo.getNo();
-		
-	}
-*/	
-
-
 // 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
 
 	@RequestMapping(value = "noticeMngList", method = RequestMethod.GET)

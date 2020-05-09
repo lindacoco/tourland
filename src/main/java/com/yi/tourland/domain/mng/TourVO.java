@@ -18,6 +18,7 @@ public class TourVO {
 	private int capacity;
 	private int tprice;
 	private boolean ldiv;
+	private boolean pdiv;
 	public TourVO() {
 		
 	}
@@ -96,6 +97,13 @@ public class TourVO {
 	}
 	public void setLdiv(boolean ldiv) {
 		this.ldiv = ldiv;
+	}
+	
+	public boolean isPdiv() {
+		return pdiv;
+	}
+	public void setPdiv(boolean pdiv) {
+		this.pdiv = pdiv;
 	}
 	@Override
 	public String toString() {

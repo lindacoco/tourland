@@ -19,7 +19,7 @@
 <!-- 배너 정보 업데이트 -->
     <update id="updateBanner" parameterType="BannerVO">
        update banner  set 
-       title =#{title}, content=#{content}, pic=#{pic},  isSetting=#{isSetting}
+       title =#{title}, content=#{content}, pic=#{pic},  isSetting=#{isSetting}, position=#{position}
        where no=#{no}
     </update> 
 
@@ -30,7 +30,10 @@
        where no= #{no}
    </delete>
 
-
+<!-- 포지션에 따른 배너 -->
+<select id="setBanner" resultType="BannerVO">
+      select * from banner where position =#{position} 
+</select>
 <!-- 배너 전체 리스트 페이지 -->
     <select id="listCriteriaBanner" resultType="BannerVO">
       select * from banner order by no desc limit #{pageStart}, #{perPageNum}
@@ -86,10 +89,5 @@
 		    <include refid="settingSearch"></include>  
 	    
 	    </select>
-
-
-
-
-
 
 </mapper>

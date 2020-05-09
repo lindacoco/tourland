@@ -16,7 +16,7 @@ public class HotelVO {
 	private String roomtype; // 객실타입
 	private String ldiv; // 장소구분
 	private int bookedup; // 객실체크여부
-	
+	private boolean pdiv;
 	public HotelVO() {
 		//기본생성자
 	}
@@ -125,7 +125,12 @@ public class HotelVO {
 		this.bookedup = bookedup;
 	}
 
-
+	public boolean isPdiv() {
+		return pdiv;
+	}
+	public void setPdiv(boolean pdiv) {
+		this.pdiv = pdiv;
+	}
 	@Override
 	public String toString() {
 		return "HotelVO [no=" + no + ", hname=" + hname + ", haddr=" + haddr + ", checkin=" + checkin + ", checkout="

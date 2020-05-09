@@ -6,16 +6,29 @@ public class BannerVO {
 	private String content;
 	private String pic;
 	private int isSetting;
+	private String position;
 
+	
+
+	
 	
 
 	@Override
 	public String toString() {
 		return "BannerVO [no=" + no + ", title=" + title + ", content=" + content + ", pic=" + pic + ", isSetting="
-				+ isSetting + "]";
+				+ isSetting + ", position=" + position + "]";
 	}
-	
-	
+
+
+	public String getPosition() {
+		return position;
+	}
+
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
 
 	public int getIsSetting() {
 		return isSetting;

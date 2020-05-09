@@ -8,7 +8,7 @@
 	.form-group{
 		float:left;
 		width: 300px;
-		margin: 20px;
+		margin: 20px 50px 20px 0px;
 	}
 	input[name='no']{
 		background: lightGray;
@@ -36,16 +36,12 @@
 	[type="date"]::-webkit-calendar-picker-indicator {
 		opacity: 0;
 	}
-	.box-footer{
-    	clear: both;
-    	margin: 43px 636px;
-    	padding-top: 70px;
-	}
-	.box-footer button{
-    	width: 200px;
-    	height: 65px;
-    	font-size: 20px;
-	}
+	
+	 #rentcarForm input, select{
+      width: 300px;
+      margin-left:10px;
+    }
+
 
 </style>
 <script>
@@ -78,6 +74,13 @@ $(function(){
 			document.getElementById("checkout").setAttribute("min",result);
 		})
 	})
+	
+	//리스트로 버튼 눌렀을 때 리스트로 돌아가기 
+		$("#btnReturnToList").click(function(){
+			location.href="${pageContext.request.contextPath}/rentcarMngList";
+		})
+
+  // alert("${rentcarVO.rentddate }");
 })
 </script>
 <div class="content">
@@ -85,75 +88,75 @@ $(function(){
 		<div class="col-sm-12">
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">렌트카 상품 등록</h3>
+					<h3 class="box-title">렌트카 상품 상세페이지</h3>
 				</div>
-				<form role="form" action="hotelRegister" method="post">
+				<form role="form" action="rentcarDetailFormUpdate" method="post" id="rentcarForm">
 					<div class="box-body">
 						<div class="noNameAddr">
 							<label><span class="red">*</span>번호</label>
-							<input type="text" name="no" class="form-control" value="${autoNo}" readonly>
+							<input type="text" name="no" class="form-control" value="${rentcarVO.no}" readonly>
 						</div>
 						<div class="noNameAddr">
 							<label><span class="red">*</span>차 종류</label>
-							<select name="cdiv" class="form-control" required="required">
-							   <option>---------</option>
-							   <option value="L">경차</option>
-							   <option value="S">세단</option>
-							   <option value="U">SUV</option>
-							   <option value="V">밴</option>
-							   <option value="B">버스</option>
+							<select name="cdiv" class="form-control" required="required" style="width:300px;">
+							   <option value="L" ${rentcarVO.cdiv=='L'?'selected':''}>경차</option>
+							   <option value="S" ${rentcarVO.cdiv=='S'?'selected':''}>세단</option>
+							   <option value="U" ${rentcarVO.cdiv=='U'?'selected':''}>SUV</option>
+							   <option value="V" ${rentcarVO.cdiv=='V'?'selected':''}>밴</option>
+							   <option value="B" ${rentcarVO.cdiv=='B'?'selected':''}>버스</option>
 							</select>
 						</div>
 						<div class="noNameAddr">
 							<label><span class="red">*</span>차번호</label>
-							<input type="text" name="cno" class="form-control" required="required">					<!-- 리스트 불러오도록 할 것  -->		
+							<input type="text" name="cno" class="form-control" required="required" value="${rentcarVO.cno }">					<!-- 리스트 불러오도록 할 것  -->		
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>대여 날짜</label>
-							<input type="date" name="rentddate" class="form-control"  required="required" id="checkin">	
+							<input type="date" name="rentddate" class="form-control"  required="required" id="checkin" value="<fmt:formatDate value="${rentcarVO.rentddate}" pattern='yyyy-MM-dd'/>">	
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>반납 날짜</label>
-							<input type="date" name="returndate" class="form-control" required="required" id="checkout">
+							<input type="date" name="returndate" class="form-control" required="required" id="checkout" value="<fmt:formatDate value="${rentcarVO.returndate}" pattern='yyyy-MM-dd'/>">
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>대여장소</label>
-							<input type="text" name="rentaddr" class="form-control" required="required" >							
+							<input type="text" name="rentaddr" class="form-control" required="required" value="${rentcarVO.rentaddr }">							
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>반납장소</label>
-							<input type="text" name="returnaddr" class="form-control" required="required" >					
+							<input type="text" name="returnaddr" class="form-control" required="required" value="${rentcarVO.returnaddr }">					
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>가격</label>
-							<input type="text" name="price" class="form-control" required="required" >					
+							<input type="text" name="price" class="form-control" required="required" value="${rentcarVO.price }">					
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>허용인원 수</label>
 							<select name="capacity" class="form-control"  required="required">
-								<option value="4">4명</option>
-								<option value="6">6명</option>
-								<option value="10">10명</option>
-								<option value="30">30명</option>
+								<option value="4"  ${rentcarVO.capacity=='4'?'selected':''}>4명</option>
+								<option value="6"  ${rentcarVO.capacity=='6'?'selected':''}>6명</option>
+								<option value="10" ${rentcarVO.capacity=='10'?'selected':''}>10명</option>
+								<option value="30" ${rentcarVO.capacity=='30'?'selected':''}>30명</option>
 							</select> 
 						</div>
 						<div class="form-group">
 							<label><span class="red">*</span>보험여부</label>
 							<select name="insurance" class="form-control" id="ldiv" required="required">
-								<option value="0">선택안함</option>
-								<option value="1">포함</option>
+								<option value="0" ${rentcarVO.insurance=='0'?'selected':''}>선택안함</option>
+								<option value="1" ${rentcarVO.insurance=='1'?'selected':''}>포함</option>
 							</select> 	
 						</div>
 						<div class="form-group">
 							<label>장소구분</label>
 							<select name="ldiv" class="form-control" id="ldiv" required="required">
-								<option value="0">해외</option>
-								<option value="1">국내</option>
+								<option value="0" ${rentcarVO.ldiv=='0'?'selected':''}>해외</option>
+								<option value="1" ${rentcarVO.ldiv=='0'?'selected':''}>국내</option>
 							</select> 
 						</div>
 					
-						<div class="box-footer">
-							<button type="submit" class="btn btn-primary">등록</button>
+						<div class="box-footer" style="clear:both;">
+							<button type="submit" class="btn btn-primary">수정</button> <br>
+						    <button type="button" class="btn btn-primary" id="btnReturnToList" style="margin-top:10px;">목록으로</button>
 						</div>
 					</div>
 				</form>

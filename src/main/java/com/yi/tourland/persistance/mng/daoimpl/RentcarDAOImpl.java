@@ -23,6 +23,10 @@ public class RentcarDAOImpl implements RentcarDAO {
 		sqlSession.insert(namespace+"insertRentcar",vo);
 
 	}
+	@Override
+	public RentcarVO readByNo(int no) {
+		return sqlSession.selectOne(namespace + "readByNo",no);
+	}
 
 	@Override
 	public List<RentcarVO> readByNoRentcarList(String cno) throws Exception {
@@ -60,7 +64,6 @@ public class RentcarDAOImpl implements RentcarDAO {
 
 	@Override
 	public int totalSearchCountRentcar(SearchCriteria cri) throws Exception {
-		return sqlSession.selectOne(namespace+"totalSearchCountRentcar");
+		return sqlSession.selectOne(namespace+"totalSearchCountRentcar",cri);
 	}
-
 }

@@ -42,561 +42,39 @@ h2 {
 .tourList:hover {
 	background-color: lightgrey;
 }
+.rentcarList:hover {
+	background-color: lightgrey;
+}
+#airTable th, #airTable td {
+	text-align : center;
+}
+#hotelTable th, #hotelTable td {
+	text-align : center;
+}
+#tourTable th, #tourTable td {
+	text-align : center;
+}
+#rentTable th, #rentTable td {
+	text-align : center;
+}
+#preview img {
+	height : 100px;
+}
+#first { color: maroon; font-weight: bold;}
+#bus { color: steelblue; font-weight: bold;}
+#eco { color: goldenrod; font-weight: bold;}
 </style>
-<script>
-	var div;
-	var page;
-	var searchType;
-	var keyword;
-	var makeDateStr = function(pdate) {
-		var date = new Date(pdate);
-		var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1)
-				: (date.getMonth() + 1);
-		var day = (date.getDate() + 1) < 10 ? "0" + (date.getDate() + 1)
-				: (date.getDate() + 1);
-		var dateStr = date.getFullYear() + "-" + month + "-" + day;
-		return dateStr;
-	}
-	var makeTimeStr = function(pdate) {
-		var date = new Date(pdate);
-		var hour = date.getHours() < 10?"0"+date.getHours():date.getHours();
-		var minute = date.getMinutes() < 10?"0"+date.getMinutes():date.getMinutes();
-		var second = date.getSeconds() < 10?"0"+date.getSeconds():date.getSeconds();
-		var dateStr = hour + ":" + minute + ":" + second;
-		return dateStr;
-	}
-	var getAirData = function(div, res) {
-		var no = $("<input type='hidden' name='air"+div+"No'>").val(res.vo.no);
-		var ddateStr = makeDateStr(res.vo.ddate);
-		var rdateStr = makeDateStr(res.vo.rdate);
-		if (div == 'Depature') {
-			//$(".result").eq(0).append("출발 : " + res.vo.no + " " + res.vo.ano + " "+ res.vo.dlocation + " " + res.vo.rlocation + " "+ ddateStr + " " + rdateStr + " " + res.vo.ldiv + " " + res.vo.capacity + " " + res.vo.seat + " "+ res.vo.price + " ");
-			$("form").append(no);
-		} else {
-			(".result").eq(0).append(
-					"도착 : " + res.vo.no + " " + res.vo.ano + " "
-							+ res.vo.dlocation + " " + res.vo.rlocation + " "
-							+ ddateStr + " " + rdateStr + " " + res.vo.ldiv
-							+ " " + res.vo.capacity + " " + res.vo.seat + " "
-							+ res.vo.price);
-			$("form").append(no);
-		}
-	}
-	var getHotelData = function(res) {
-		var no = $("<input type='hidden' name='hotelNo'>").val(res.vo.no);
-		var checkinDate = makeDateStr(res.vo.checkin);
-		var checkoutDate = makeDateStr(res.vo.checkout);
-		var roomtype = res.vo.roomtype=='N'?'노말':res.vo.roomtype=='D'?'디럭스':'스위트';
-		var ldiv = res.vo.ldiv=='1'?'해외':'국내';
-		var bookedup = res.vo.bookedup=='0'?'예약가능':'예약불가';
-		//$(".result").eq(1).append(res.vo.no + " " + res.vo.hname + " " + res.vo.haddr + " " + checkinDate + " " + checkoutDate + " " + res.vo.capacity + " " + res.vo.price + " " +res.vo.roomcapacity + " " + roomtype + " " + ldiv + " " + bookedup); 
-		$("form").append(no);
-	}
-	var getTourData = function(res) {
-		var no = $("<input type='hidden' name='tourNo'>").val(res.vo.no);
-		var startDateStr = makeDateStr(res.vo.startDate);
-		var endDateStr = makeDateStr(res.vo.endDate);
-		var etimeStr = makeTimeStr(res.vo.etime);
-		var ldiv = res.vo.ldiv=='1'?'해외':'국내';
-		//$(".result").eq(2).append(res.vo.no + " " + res.vo.tname + " " + res.vo.tlocation + " " + startDateStr + " " + endDateStr + " " + res.vo.taddr + " " + etimeStr + " " +res.vo.capacity + " " + res.vo.tprice + " " + ldiv); 
-		$("form").append(no);
-	}
-	var clickAir = function(no, div) {
-		$.ajax({
-			url : "flightList/" + no,
-			type : "get",
-			dataType : "json",
-			success : function(res) {
-				if (div == 'Depature') {
-					getAirData(div, res);
-					$("#flightDepature").modal("hide");
-					$('#flightDepature .modal-backdrop').remove();
-					$("#flightRending").modal("show");
-				} else {
-					getAirData(div, res);
-					$("#flightRending").modal("hide");
-					$('#flightRending .modal-backdrop').remove();
-				}
-
-			},
-			error : function(request, status, error) { // 결과 에러 콜백함수
-				console.log(error)
-			}
-		})
-	}
-	var airAjax = function(div, page, searchType, keyword) {
-		$
-				.ajax({
-					url : "flightList",
-					type : "get",
-					data : {
-						div : div,
-						page : page,
-						searchType : searchType,
-						keyword : keyword
-					},
-					dataType : "json",
-					success : function(res) { // 결과 성공 콜백함수
-						console.log(res);
-						if (div == "Depature") {
-							$("#flightDepature .flightList").remove();
-							$("#flightDepature .pagination").empty();
-						} else {
-							$("#flightRending .flightList").remove();
-							$("#flightRending .pagination").empty();
-						}
-						$(res.list)
-								.each(
-										function(i, obj) {
-											var td1 = $("<td>").html(obj.no);
-											var td2 = $("<td>").html(obj.ano);
-											var td3 = $("<td>").html(
-													obj.dlocation);
-											var td4 = $("<td>").html(
-													obj.rlocation);
-											var ddate = new Date(obj.ddate);
-											var ddateMonth = (ddate.getMonth() + 1) < 10 ? "0"
-													+ (ddate.getMonth() + 1)
-													: (ddate.getMonth() + 1);
-											var ddatedate = ddate.getDate() < 10 ? "0"
-													+ ddate.getDate()
-													: ddate.getDate();
-											var ddateStr = ddate.getFullYear()
-													+ "-" + ddateMonth + "-"
-													+ ddatedate;
-											var td5 = $("<td>").html(ddateStr);
-											var rdate = new Date(obj.rdate);
-											var rdateMonth = (rdate.getMonth() + 1) < 10 ? "0"
-													+ (rdate.getMonth() + 1)
-													: (rdate.getMonth() + 1);
-											var rdatedate = rdate.getDate() < 10 ? "0"
-													+ rdate.getDate()
-													: rdate.getDate();
-											var rdateStr = rdate.getFullYear()
-													+ "-" + rdateMonth + "-"
-													+ rdatedate;
-											var td6 = $("<td>").html(rdateStr);
-											var td7 = $("<td>").html(obj.ldiv);
-											var td8 = $("<td>").html(
-													obj.capacity);
-											var td9 = $("<td>").html(obj.seat);
-											var td10 = $("<td>")
-													.html(obj.price);
-											var tr = $(
-													"<tr class='flightList' data-no='"+obj.no+"'>")
-													.append(td1).append(td2)
-													.append(td3).append(td4)
-													.append(td5).append(td6)
-													.append(td7).append(td8)
-													.append(td9).append(td10);
-											div == "Depature" ? $(
-													"#flightDepature #table")
-													.append(tr) : $(
-													"#flightRending #table")
-													.append(tr);
-
-										});
-						var preva = $("<a id='prev'>").html("&laquo;");
-						var prevli = $("<li>").append(preva);
-						var nexta = $("<a id='next'>").html("&raquo;");
-						var nextli = $("<li>").append(nexta);
-						if (res.pageMaker.prev)
-							div == "Depature" ? $("#flightDepature .pagination")
-									.append(prevli)
-									: $("#flightRending .pagination").append(
-											prevli);
-						for (var i = res.pageMaker.startPage; i <= res.pageMaker.endPage; i++) {
-							var a = $("<a class='index' data-index='"+i+"'>")
-									.html(i);
-							var li = $("<li>").append(a);
-							if (res.pageMaker.cri.page == i) {
-								li.addClass("active");
-							}
-							div == "Depature" ? $("#flightDepature .pagination")
-									.append(li)
-									: $("#flightRending .pagination")
-											.append(li);
-						}
-						if (res.pageMaker.next)
-							div == "Depature" ? $("#flightDepature .pagination")
-									.append(nextli)
-									: $("#flightRending .pagination").append(
-											nextli);
-					},
-					error : function(request, status, error) { // 결과 에러 콜백함수
-						console.log(error)
-					}
-				});
-	}
-	var hotelAjax = function(page,searchType,keyword) {
-		$.ajax({
-			url : "hotelList",
-			type : "get",
-			data : {
-				page : page,
-				searchType : searchType,
-				keyword : keyword
-			},
-			dataType : "json",
-			success : function(res) { // 결과 성공 콜백함수
-				console.log(res)
-				$("#hotel .hotelList").remove();
-				$("#hotel .pagination").empty();
-				$(res.list).each(function(i,obj){
-					var td1 = $("<td>").html(obj.no);
-					var td2 = $("<td>").html(obj.hname);
-					var td3 = $("<td>").html(obj.haddr);
-					var checkinStr = makeDateStr(obj.checkin);
-					var checkoutStr = makeDateStr(obj.checkOut);
-					var td4 = $("<td>").html(checkinStr);
-					var td5 = $("<td>").html(checkoutStr);
-					var td6 = $("<td>").html(obj.capacity + "인");
-					var td7 = $("<td>").html(obj.price);
-					var td8 = $("<td>").html(obj.roomcapacity + "실");
-					var td9;
-					switch(obj.roomtype) {
-					case "N":
-						td9 = $("<td style='color : #5D5D5D;' id='n'>").html("노말");
-						break;
-					case "D":
-						td9 = $("<td style='color : #F29661;' id='d'>").html("디럭스");
-						break;
-					case "S":
-						td9 = $("<td style='color : #D941C5;' id='s'>").html("스위트");
-						break;
-					}
-					var td10 = obj.ldiv==1?$("<td>").html("해외"):$("<td>").html("국내");
-					var span = obj.bookedup==0?$("<span class='badge bg-red'>").html("예약가능"):$("<span class='badge bg-red'>").html("예약불가");
-					var td11 = $("<td>").append(span);
-					var tr = $("<tr class='hotelList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
-					$("#hotel #table").append(tr);
-				})
-				var prev = res.pageMaker.prev;
-				var next = res.pageMaker.next;
-				var prevA = $("<a id='prev'>").html("&laquo;");
-				var nextA = $("<a id='next'>").html("&raquo;");
-				var liPrev = $("<li>").append(prevA);
-				var liNext = $("<li>").append(nextA);
-				if(prev) $("#hotel .pagination").append(liPrev);
-				for(var i = res.pageMaker.startPage; i <= res.pageMaker.endPage; i++) {
-					var a = $("<a class='index' data-index='"+i+"'>").html(i);
-					var li = $("<li>").append(a);
-					if (res.pageMaker.cri.page == i) {
-						li.addClass("active");
-					}
-					$("#hotel .pagination").append(li);
-				}
-				if(next) $("#hotel .pagination").append(liNext);
-			},
-			error : function(request, status, error) { // 결과 에러 콜백함수
-				console.log(error)
-			}
-		})
-	}
-	var clickHotel = function(no) {
-		$.ajax({
-			url : "hotelList/" + no,
-			type : "get",
-			dataType : "json",
-			success : function(res) {
-				console.log(res);
-				$(".result").eq(0).empty();
-				getHotelData(res);
-				$("#hotel").modal("hide");
-				$('#hotel .modal-backdrop').remove();
-			},
-			error : function(request, status, error) { // 결과 에러 콜백함수
-				console.log(error)
-			}
-		})
-	}
-	var tourAjax = function(page,searchType,keyword) {
-		$.ajax({
-			url : "tourList",
-			type : "get",
-			data : {
-				page : page,
-				searchType : searchType,
-				keyword : keyword
-			},
-			dataType : "json",
-			success : function(res) { // 결과 성공 콜백함수
-				console.log(res)
-				$("#tour .tourList").remove();
-				$("#tour .pagination").empty();
-				$(res.list).each(function(i,obj){
-					var td1 = $("<td>").html(obj.no);
-					var td2 = $("<td>").html(obj.tname);
-					var td3 = $("<td>").html(obj.tlocation);
-					var startDateStr = makeDateStr(obj.startDate);
-					var endDateStr = makeDateStr(obj.endDate);
-					var etimeStr = makeTimeStr(obj.etime);
-					var td4 = $("<td>").html(startDateStr);
-					var td5 = $("<td>").html(endDateStr);
-					var td6 = $("<td>").html(obj.taddr);
-					var td7 = $("<td>").html(etimeStr);
-					var td8 = $("<td>").html(obj.capacity);
-					var td9 = $("<td>").html(obj.tprice);
-					var td10 = obj.ldiv==0?$("<td>").html("국내"):$("<td>").html("해외");
-					var tr = $("<tr class='tourList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
-					$("#tour #table").append(tr);
-				})
-				var prev = res.pageMaker.prev;
-				var next = res.pageMaker.next;
-				var prevA = $("<a id='prev'>").html("&laquo;");
-				var nextA = $("<a id='next'>").html("&raquo;");
-				var liPrev = $("<li>").append(prevA);
-				var liNext = $("<li>").append(nextA);
-				if(prev) $("#tour .pagination").append(liPrev);
-				for(var i = res.pageMaker.startPage; i <= res.pageMaker.endPage; i++) {
-					var a = $("<a class='index' data-index='"+i+"'>").html(i);
-					var li = $("<li>").append(a);
-					if (res.pageMaker.cri.page == i) {
-						li.addClass("active");
-					}
-					$("#tour .pagination").append(li);
-				}
-				if(next) $("#tour .pagination").append(liNext);
-			},
-			error : function(request, status, error) { // 결과 에러 콜백함수
-				console.log(error)
-			}
-		})
-	}
-	var clickTour = function(no) {
-		$.ajax({
-			url : "tourList/" + no,
-			type : "get",
-			dataType : "json",
-			success : function(res) {
-				console.log(res);
-				$(".result").eq(2).empty();
-				getTourData(res);
-				$("#tour").modal("hide");
-				$('#tour .modal-backdrop').remove();
-			},
-			error : function(request, status, error) { // 결과 에러 콜백함수
-				console.log(error)
-			}
-		})
-	}
-	$(function() {
-		//항공편 출발 다이얼로그
-		$(document).on(
-				"click",
-				"#flightDepature .index",
-				function() {
-					div = "Depature";
-					page = $(this).attr("data-index");
-					searchType = $(
-							"#flightDepature #searchType option:selected")
-							.val();
-					keyword = $("#flightDepature #keywordInput").val();
-					airAjax(div, page, searchType, keyword);
-				})
-		$(document).on(
-				"click",
-				"#flightDepature #prev",
-				function() {
-					div = "Depature";
-					page = Number($("#flightDepature .index").eq(0).attr(
-							"data-index")) - 1;
-					searchType = $(
-							"#flightDepature #searchType option:selected")
-							.val();
-					keyword = $("#flightDepature #keywordInput").val();
-					airAjax(div, page, searchType, keyword);
-				})
-		$(document).on(
-				"click",
-				"#flightDepature #next",
-				function() {
-					div = "Depature";
-					page = Number($("#flightDepature .index").eq(9).attr(
-							"data-index")) + 1;
-					searchType = $(
-							"#flightDepature #searchType option:selected")
-							.val();
-					keyword = $("#flightDepature #keywordInput").val();
-					airAjax(div, page, searchType, keyword);
-				})
-		$(document).on("click", "#flightDepature .flightList", function() {
-			var no = $(this).attr("data-no");
-			var div = "Depature";
-			clickAir(no, div);
-		})
-		$("#flightDepature #btnSearch").click(
-				function() {
-					div = "Depature";
-					page = $("#flightDepature .pagination").find(".active a")
-							.attr("data-index");
-					searchType = $(
-							"#flightDepature #searchType option:selected")
-							.val();
-					keyword = $("#flightDepature #keywordInput").val();
-					airAjax(div, page, searchType, keyword);
-				})
-		//항공편 도착 다이얼로그
-		$(document).on("click", "#flightRending .index", function() {
-			div = "Rending";
-			page = $(this).attr("data-index");
-			searchType = $("#flightRending #searchType option:selected").val();
-			keyword = $("#flightRending #keywordInput").val();
-			airAjax(div, page, searchType, keyword);
-		})
-		$(document)
-				.on(
-						"click",
-						"#flightRending #prev",
-						function() {
-							div = "Rending";
-							page = Number($("#flightRending .index").eq(0)
-									.attr("data-index")) - 1;
-							searchType = $(
-									"#flightRending #searchType option:selected")
-									.val();
-							keyword = $("#flightRending #keywordInput").val();
-							airAjax(div, page, searchType, keyword);
-						})
-		$(document)
-				.on(
-						"click",
-						"#flightRending #next",
-						function() {
-							div = "Rending";
-							page = Number($("#flightRending .index").eq(9)
-									.attr("data-index")) + 1;
-							searchType = $(
-									"#flightRending #searchType option:selected")
-									.val();
-							keyword = $("#flightRending #keywordInput").val();
-							airAjax(div, page, searchType, keyword);
-						})
-		$(document).on("click", "#flightRending .flightList", function() {
-			var no = $(this).attr("data-no");
-			var div = "Rending";
-			clickAir(no, div);
-		})
-		$("#flightRending #btnSearch")
-				.click(
-						function() {
-							div = "Depature";
-							page = $("#flightRending .pagination").find(
-									".active a").attr("data-index");
-							searchType = $(
-									"#flightRending #searchType option:selected")
-									.val();
-							keyword = $("#flightRending #keywordInput").val();
-							airAjax(div, page, searchType, keyword);
-						})
-		//호텔 다이얼로그
-		$(document).on("click", "#hotel .index", function() {
-			page = $(this).attr("data-index");
-			searchType = $("#hotel #searchType option:selected").val();
-			keyword = $("#hotel #keywordInput").val();
-			hotelAjax(page, searchType, keyword);
-		})
-		$(document)
-				.on(
-						"click",
-						"#hotel #prev",
-						function() {
-							page = Number($("#hotel .index").eq(0)
-									.attr("data-index")) - 1;
-							searchType = $(
-									"#hotel #searchType option:selected")
-									.val();
-							keyword = $("#hotel #keywordInput").val();
-							hotelAjax(page, searchType, keyword);
-						})
-		$(document)
-				.on(
-						"click",
-						"#hotel #next",
-						function() {
-							page = Number($("#hotel .index").eq(9)
-									.attr("data-index")) + 1;
-							searchType = $(
-									"#hotel #searchType option:selected")
-									.val();
-							keyword = $("#hotel #keywordInput").val();
-							hotelAjax(page, searchType, keyword);
-						})
-		$(document).on("click", "#hotel .hotelList", function() {
-			var no = $(this).attr("data-no");
-			clickHotel(no);
-		})
-		$("#hotel #btnSearch")
-				.click(
-						function() {
-							page = $("#hotel .pagination").find(
-									".active a").attr("data-index");
-							searchType = $(
-									"#hotel #searchType option:selected")
-									.val();
-							keyword = $("#hotel #keywordInput").val();
-							hotelAjax(page, searchType, keyword);
-						})
-		//투어 다이얼로그
-		$(document).on("click", "#tour .index", function() {
-			page = $(this).attr("data-index");
-			searchType = $("#tour #searchType option:selected").val();
-			keyword = $("#tour #keywordInput").val();
-			tourAjax(page, searchType, keyword);
-		})
-		$(document)
-				.on(
-						"click",
-						"#tour #prev",
-						function() {
-							page = Number($("#tour .index").eq(0)
-									.attr("data-index")) - 1;
-							searchType = $(
-									"#tour #searchType option:selected")
-									.val();
-							keyword = $("#tour #keywordInput").val();
-							tourAjax(page, searchType, keyword);
-						})
-		$(document)
-				.on(
-						"click",
-						"#tour #next",
-						function() {
-							page = Number($("#tour .index").eq(9)
-									.attr("data-index")) + 1;
-							searchType = $(
-									"#tour #searchType option:selected")
-									.val();
-							keyword = $("#tour #keywordInput").val();
-							tourAjax(page, searchType, keyword);
-						})
-		$(document).on("click", "#tour .tourList", function() {
-			var no = $(this).attr("data-no");
-			clickTour(no);
-		})
-		$("#tour #btnSearch")
-				.click(
-						function() {
-							page = $("#tour .pagination").find(
-									".active a").attr("data-index");
-							searchType = $(
-									"#tour #searchType option:selected")
-									.val();
-							keyword = $("#tour #keywordInput").val();
-							tourAjax(page, searchType, keyword);
-						})
-		//다이얼로그 호출
-		$("#addFlight").click(function() {
-			$("#flightDepature").modal("show");
-		})
-		$("#addHotel").click(function() {
-			$("#hotel").modal("show");
-		})
-		$("#addTour").click(function() {
-			$("#tour").modal("show");
-		})
-	})
-</script>
+<link
+	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
+	rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
+<link
+	href="${pageContext.request.contextPath}/resources/plugins/ckeditor/contents.css"
+	rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
+<%@include file="addProductForm_script.jsp" %>
 <body>
 	<div class="container">
 		<div class="row">
@@ -614,16 +92,24 @@ h2 {
 								<div class="container">
 									<button type="button" class="btn btn-primary"
 										 id="addFlight">항공편 추가</button>
-									<button type="button" class="btn btn-primary"
-										 id="showFlight">항공편 보기</button>
-									<!-- <select class="form-control" id="sel1">
-				    <option>KA301 ICN/CJU 4/1 09:00AM-10:15AM (E)</option>
-				    <option>KA301 ICN/CJU 4/1 09:00AM-10:15AM (E)</option>
-				    <option>KA301 ICN/CJU 4/1 09:00AM-10:15AM (E)</option>
-				    <option>KA301 ICN/CJU 4/1 09:00AM-10:15AM (E)</option>
-  					</select> -->
 								</div>
 							</div>
+						</div>
+						<div style="padding:20px;">
+							<table class="table table-bordered" id="airTable" style="width : 100%;">
+							<tr>  
+								<th>번호</th>
+								<th>항공기 번호</th>
+								<th>출발 지역</th>
+								<th>도착 지역</th>
+								<th>출발 일시</th>
+								<th>도착 일시</th>
+								<th>장소 구분</th>
+								<th>허용 인원</th>
+								<th>좌석</th>
+								<th>가격</th>
+							</tr>
+							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
@@ -632,51 +118,79 @@ h2 {
 									<div class="dropdown">
 										<button type="button" class="btn btn-primary" id="addHotel">호텔
 											추가</button>
-										<button type="button" class="btn btn-primary" id="showHotel">호텔
-											보기</button>
-										<!-- <select class="form-control" id="sel1">
-						    <option>Hidden Cliff 4/1 - 4/3 Normal</option>
-						    <option>Hidden Cliff 4/1 - 4/3 Normal</option>
-						    <option>Hidden Cliff 4/1 - 4/3 Normal</option>
-						    <option>Hidden Cliff 4/1 - 4/3 Normal</option>
-  							</select> -->
 									</div>
 								</div>
 							</div>
+						</div>
+						<div style="padding:20px;">
+							<table class="table table-bordered" id="hotelTable">
+								<tr>
+									<th>번호</th>
+									<th>호텔이름</th>
+									<th>호텔주소</th>
+									<th>체크인날짜</th>
+									<th>체크아웃날짜</th>
+									<th>허용인원수</th>
+									<th>가격(1박)</th>
+									<th>객실 수</th>
+									<th>객실타입</th>
+									<th>장소구분</th>
+									<th>예약 가능 여부</th>  
+								</tr>
+							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>현지 투어</label>
 								<div class="container">
 									<button type="button" class="btn btn-primary" id="addTour">현지투어 추가</button>
-									<button type="button" class="btn btn-primary" id="showTour">현지투어 보기</button>
-									<!-- <select class="form-control" id="sel1">
-							    <option>도쿄에서 한적한 공원을 찾고 있다면, 우에노 공원 4/10</option>
-							    <option>도쿄에서 한적한 공원을 찾고 있다면, 우에노 공원 4/10</option>
-							  	<option>도쿄에서 한적한 공원을 찾고 있다면, 우에노 공원 4/10</option>
-							   	<option>도쿄에서 한적한 공원을 찾고 있다면, 우에노 공원 4/10</option>
-  							</select> -->
 								</div>
 							</div>
+						</div>
+						<div style="padding:20px;">
+							<table class="table table-bordered" id="tourTable">
+								<tr>
+									<th>번호</th>
+									<th>투어제목</th>
+									<th>투어장소</th>
+									<th>시작일자</th>
+									<th>종료일자</th>
+									<th>주소</th>
+									<th>소요시간</th>
+									<th>허용인원</th>
+									<th>가격</th>
+									<th>장소구분</th>
+								</tr>
+							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>렌트카</label>
 								<div class="container">
 									<button type="button" class="btn btn-primary" id="addRent">렌트카 추가</button>
-									<button type="button" class="btn btn-primary" id="showRent">렌트카 보기</button>
-									<!-- <select class="form-control" id="sel1">
-								    <option>경차 4/1-4/3</option>
-								     <option>경차 4/1-4/3</option>
-								  	 <option>경차 4/1-4/3</option>
-								   <option>경차 4/1-4/3</option>
-	  							</select>  -->
 								</div>
 							</div>
 						</div>
+						<div style="padding:20px;">
+							<table class="table table-bordered" id="rentTable">
+								<tr>
+									<th>번호</th>
+									<th>차 종류</th>
+									<th>차 번호</th>
+									<th>대여 일자</th>
+									<th>반납 일자</th>
+									<th>대여 장소</th>
+									<th>반납 장소</th>
+									<th>가격</th>
+									<th>허용인원</th>
+									<th>보험여부</th>
+									<th>국내/해외</th>		
+								</tr>
+							</table>
+						</div>
 						<div class="group">
 							<div class="form-group">
-								<label>상품 번호</label> <input type="text" class="form-control">
+								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="1">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
@@ -688,22 +202,25 @@ h2 {
 								<label><span class="red">*</span>상품 설명</label>
 								<div class="container">
 									<button type="button" class="btn btn-primary" id="addDetail">상품설명 추가</button>
-									<button type="button" class="btn btn-primary" id="showDetail">상품설명 보기</button>
 								</div>
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 가격</label> <input
-									type="text" class="form-control">
+									type="text" class="form-control" value="0" id="price" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
 									type="text" class="form-control" id="datepicker">
 							</div>
-							<div class="form-group">
+						</div>
+						<div class="group">
+							<div class="form-group" style="width : 1000px;">
 								<label><span class="red">*</span>상품 사진</label> <input
-									type="file" class="form-control">
+									type="file" class="form-control" id="file">
+								<div id="preview" style="display : inline;">
+								</div>
 							</div>
 						</div>
 						<div class="group">
@@ -715,6 +232,7 @@ h2 {
 				</div>
 			</div>
 		</div>
+		
 	</div>
 	<div id="flightDepature" class="modal fade" role="dialog"
 		data-backdrop="static" data-keyboard="false">
@@ -733,9 +251,7 @@ h2 {
 								<option value="no">번호</option>
 								<option value="ano">항공기 번호</option>
 								<option value="dloca">출발 지역</option>
-								<option value="rloca">도착 지역</option>
 								<option value="ddate">출발 일시</option>
-								<option value="rdate">도착 일시</option>
 							</select> <input type="text" name="keyword" id="keywordInput">
 							<button id="btnSearch">Search</button>
 						</div>
@@ -752,24 +268,35 @@ h2 {
 									<th>허용 인원</th>
 									<th>좌석</th>
 									<th>가격</th>
-								</tr>
-								<c:forEach items="${flightListDepature}" var="f">
-									<tr class="flightList" data-no="${f.no}">
+								</tr>  
+								<c:forEach items="${flightListDepature }" var="f">   
+									<tr class='flightList' data-no="${f.no }">
 										<td>${f.no }</td>
 										<td>${f.ano }</td>
 										<td>${f.dlocation }</td>
 										<td>${f.rlocation }</td>
-										<td><fmt:formatDate value="${f.ddate }"
-												pattern="yyyy-MM-dd" /></td>
-										<td><fmt:formatDate value="${f.rdate }"
-												pattern="yyyy-MM-dd" /></td>
-										<td>${f.ldiv }</td>
+										<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+										<c:if test="${f.ldiv==0 }">
+											<td>해외</td>
+										</c:if>
+										<c:if test="${f.ldiv==1 }">
+											<td>국내</td>
+										</c:if>
 										<td>${f.capacity }</td>
-										<td>${f.seat }</td>
+										<c:if test="${f.seat =='F'}">
+											<td id="first">First-Class</td>
+										</c:if>
+										<c:if test="${f.seat =='B'}">
+											<td id="bus">Business-Class</td>
+										</c:if>
+										<c:if test="${f.seat =='E'}">
+											<td id="eco">Economy-Class</td>
+										</c:if>
 										<td>${f.price }</td>
 									</tr>
-								</c:forEach>
-							</table>
+								</c:forEach>   
+							</table>   
 						</div>
 						<div class="box-footer">
 							<div class="text-center">
@@ -813,9 +340,7 @@ h2 {
 								<option value="n">-----</option>
 								<option value="no">번호</option>
 								<option value="ano">항공기 번호</option>
-								<option value="dloca">출발 지역</option>
 								<option value="rloca">도착 지역</option>
-								<option value="ddate">출발 일시</option>
 								<option value="rdate">도착 일시</option>
 							</select> <input type="text" name="keyword" id="keywordInput">
 							<button id="btnSearch">Search</button>
@@ -833,23 +358,34 @@ h2 {
 									<th>허용 인원</th>
 									<th>좌석</th>
 									<th>가격</th>
-								</tr>
-								<c:forEach items="${flightListRending}" var="f">
-									<tr class="flightList" data-no="${f.no}">
+								</tr>  
+								<c:forEach items="${flightListRending }" var="f">   
+									<tr class='flightList' data-no="${f.no }">
 										<td>${f.no }</td>
 										<td>${f.ano }</td>
 										<td>${f.dlocation }</td>
 										<td>${f.rlocation }</td>
-										<td><fmt:formatDate value="${f.ddate }"
-												pattern="yyyy-MM-dd" /></td>
-										<td><fmt:formatDate value="${f.rdate }"
-												pattern="yyyy-MM-dd" /></td>
-										<td>${f.ldiv }</td>
+										<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+										<c:if test="${f.ldiv==0 }">
+											<td>해외</td>
+										</c:if>
+										<c:if test="${f.ldiv==1 }">
+											<td>국내</td>
+										</c:if>
 										<td>${f.capacity }</td>
-										<td>${f.seat }</td>
+										<c:if test="${f.seat =='F'}">
+											<td id="first">First-Class</td>
+										</c:if>
+										<c:if test="${f.seat =='B'}">
+											<td id="bus">Business-Class</td>
+										</c:if>
+										<c:if test="${f.seat =='E'}">
+											<td id="eco">Economy-Class</td>
+										</c:if>
 										<td>${f.price }</td>
 									</tr>
-								</c:forEach>
+								</c:forEach>   
 							</table>
 						</div>
 						<div class="box-footer">
@@ -1065,6 +601,107 @@ h2 {
 				</div>
 			</div>
 		</div>
+	</div>
+	<div id="rent" class="modal fade" role="dialog" data-backdrop="static"
+		data-keyboard="false">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">투어</h4>
+				</div>
+				<div class="modal-body">
+					<div class="box box-primary">
+						<div class="box-body">
+							<select name="searchType" id="searchType" style="width:200px; height: 25px;">
+								<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
+								<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
+								<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
+								<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>대여날짜</option>
+								<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
+								<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
+							</select>
+							<input type="text" name="keyword" id="keywordInput">
+							<button id="btnSearch">Search</button>
+						</div>
+						<div class="box-body">
+							<table class="table table-bordered" id="table">
+								<tr>
+									<th>번호</th>
+									<th>차 종류</th>
+									<th>차 번호</th>
+									<th>대여 일자</th>
+									<th>반납 일자</th>
+									<th>대여 장소</th>
+									<th>반납 장소</th>
+									<th>가격</th>
+									<th>허용인원</th>
+									<th>보험여부</th>
+									<th>국내/해외</th>		
+								</tr>
+								<c:forEach var="rentcar" items="${rentcarList}">
+								<tr class="rentcarList" data-no="${rentcar.no}">
+									<td>${rentcar.no}</td>
+									<td>${rentcar.cdiv}</td>
+									<td>${rentcar.cno}</td>
+									<td><fmt:formatDate value="${rentcar.rentddate}" pattern="yyyy-MM-dd "/></td>
+									<td><fmt:formatDate value="${rentcar.returndate}" pattern="yyyy-MM-dd "/></td>
+									<td>${rentcar.rentaddr}</td>
+									<td>${rentcar.returnaddr}</td>
+									<td>${rentcar.price}</td>
+									<td>${rentcar.capacity}</td>
+									<td>${rentcar.insurance}</td>
+									<td>${rentcar.ldiv == 0?'해외':'국내'}</td>
+								</tr>
+								</c:forEach>     
+							</table>      
+						</div>
+						<div class="box-footer">
+							<div class="text-center">
+								<ul class="pagination">
+									<c:if test="${pageMakerByRentcar.prev == true }">
+										<li><a id="prev">&laquo;</a></li>
+									</c:if>
+									<c:forEach begin="${pageMakerByRentcar.startPage }"
+										end="${pageMakerByRentcar.endPage }" var="idx">
+										<li class="${pageMakerByRentcar.cri.page == idx ?'active':''}"><a
+											class="index" data-index="${idx }">${idx }</a></li>
+									</c:forEach>
+									<c:if test="${pageMakerByRentcar.next == true }">
+										<li><a id="next">&raquo;</a></li>
+									</c:if>
+								</ul>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="modalAddBrandLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-lg">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                 <h4 class="modal-title" id="modalAddBrandLabel">상품 설명 추가</h4>
+	
+	            </div>
+	            <div class="modal-body">
+	                <form>
+	                    <textarea name="editor1" id="editor1"></textarea>
+	                </form>
+	            </div>
+	            <div class="modal-footer">
+	            	<button id="saveDetail" type="button" class="btn btn-primary">저장</button>
+	                <button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 </body>
 </html>

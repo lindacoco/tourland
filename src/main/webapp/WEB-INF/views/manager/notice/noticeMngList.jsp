@@ -2,9 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
 <style>
-	/* #opa { width: 100%; height: 100%; background: gray; opacity: 0.2; } */
+	table th, td { text-align: center;}
 </style>
-<!-- <div id="opa">dummy</div> -->
 <script>
 $(function(){
     
@@ -28,9 +27,9 @@ $(function(){
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType">
-						<option value="n">-----</option>
-						<option value="t">번호</option>
-						<option value="c">제목</option>
+						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
+						<option value="no" ${cri.searchType =='no'?'selected':''}>번호</option>
+						<option value="title" ${cri.searchType =='title'?'selected':''}>제목</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
@@ -49,7 +48,7 @@ $(function(){
 						<c:forEach items="${noticeList}" var="n">   
 							<tr>
 								<td>${n.no }</td>
-								<td><a href="${pageContext.request.contextPath }/noticeDetail?no=${n.no}">${n.title }</a></td>
+								<td><a href="${pageContext.request.contextPath }/noticeDetail?no=${n.no}&page=${cri.page}">${n.title }</a></td>
 								<td>${n.writer }</td>
 								<td><fmt:formatDate value="${n.regdate }" pattern ="yyyy-MM-dd"/></td>
 							</tr>
@@ -81,7 +80,7 @@ $(function(){
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
+		location.href = "noticeMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})

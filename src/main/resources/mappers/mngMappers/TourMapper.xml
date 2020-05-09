@@ -2,26 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mappers.mngMappers.TourMapper">
 <sql id="search">
-	<if test='searchType=="name"'>
-		where tname like CONCAT('%',#{keyword},'%')
-	</if>
-	<if test='searchType=="location"'>
-		where tlocation like CONCAT('%',#{keyword},'%')
-	</if>
-	<if test='searchType=="date"'>
-		where startDate = #{keyword}
-	</if>
-	<if test='searchType=="addr"'>
-		where taddr like CONCAT('%',#{keyword},'%')
-	</if>
-	<if test='searchType=="div"'>
-		<if test='keyword=="해외"'>
-			where ldiv = 1
+	<where>
+		pdiv = 0
+		<if test='searchType=="name"'>
+			and tname like CONCAT('%',#{keyword},'%')
 		</if>
-		<if test='keyword=="국내"'>
-			where ldiv = 0
+		<if test='searchType=="location"'>
+			and tlocation like CONCAT('%',#{keyword},'%')
 		</if>
-	</if>
+		<if test='searchType=="date"'>
+			and startDate = #{keyword}
+		</if>
+		<if test='searchType=="addr"'>
+			and taddr like CONCAT('%',#{keyword},'%')
+		</if>
+		<if test='searchType=="div"'>
+			<if test='keyword=="해외"'>
+				and ldiv = 1
+			</if>
+			<if test='keyword=="국내"'>
+				and ldiv = 0
+			</if>
+		</if>
+	</where>
 </sql>
 <select id="listPage" resultType="TourVO">
 	select * from tour <include refid="search"/> order by no desc limit #{pageStart},#{perPageNum}
