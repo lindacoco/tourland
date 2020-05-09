@@ -30,6 +30,11 @@ public class FlightDAOImpl implements FlightDAO {
 	public List<AirplaneVO> airplaneDomList(SearchCriteria cri) throws Exception {
 		return sqlSession.selectList(namespace + "airplaneDomList", cri);
 	}
+	//항공편 해외 리스트
+	@Override
+	public List<AirplaneVO> airplaneAbroadList(SearchCriteria cri) throws Exception {
+		return sqlSession.selectList(namespace + "airplaneAbroadList", cri);
+	}
 	//항공 전체 갯수
 	@Override   
 	public int totalCountAirplane(SearchCriteria cri) throws Exception {
@@ -75,5 +80,6 @@ public class FlightDAOImpl implements FlightDAO {
 	public void editAirplane(AirplaneVO vo) throws Exception {
 		sqlSession.update(namespace + "editAirplane", vo);
 	}
+
 
 }

@@ -6,8 +6,14 @@
 	.first { color: maroon; font-weight: bold;}
 	.bus { color: steelblue; font-weight: bold;}
 	.eco { color: goldenrod; font-weight: bold;}
+	#info { display: block;
+		    width: 500px;
+		    font-size: 12px; 
+		    text-indent: 15px; 
+		    color: #525252;
+		    font-weight: bold; }        
 </style>
-
+        
 <script>
 
 function getFormatDate(date){
@@ -19,7 +25,8 @@ function getFormatDate(date){
     return  year + '' + month + '' + day;
 }
 
-
+//국내 항공편만 검색하는 ajax
+//page를 넣으면 해당 페이지 출력
 function getDomList(page){
 	var searchType = "${cri.searchType}";
 	var keyword = "${cri.keyword}";
@@ -114,16 +121,140 @@ function getDomList(page){
 	})   
 }
 
-
+//국내 항공편 검색하는 버튼
 	$(function(){
 		$("#dom").click(function(){
+			alert("국내 항공편이 검색되었습니다.");
 			 getDomList(1); 
 		})
+//국내 항공편 검색되었을 때 아래쪽에 있는 페이지 번호 a 태그 부분
 		$(document).on("click", ".domList", function(){
 			var page = $(this).html();
 			getDomList(page);
 		})
+//해외 항공편 검색하는 버튼
+		$("#ab").click(function(){
+			alert("해외 항공편이 검색되었습니다.");
+			getAbroadList(1); 
+		})
+//해외 항공편 검색되었을 때 아래쪽에 있는 페이지 번호 a 태그 부분
+		$(document).on("click", ".abroadList", function(){
+			var page = $(this).html();
+			getAbroadList(page);
+		})
+//전체 리스트 보기
+		$("#listAll").click(function(){
+			alert("전체 리스트가 검색되었습니다.");
+			location.href = "${pageContext.request.contextPath}/flightMngList";
+		})
+//검색 버튼
+		$("#btnSearch").click(function(){
+			var searchType = $("#searchType").val();
+			var keyword = $("#keywordInput").val();
+			location.href = "flightMngList?searchType="+searchType+"&keyword="+keyword;
+			//searchBoardController의 listPage GET 으로 받음 
+			
+		})
+		
+		
+		
 	})
+	
+//해외 항공편만 검색하는 ajax
+//page를 넣으면 해당 페이지 출력
+	function getAbroadList(page){
+		var searchType = "${cri.searchType}";
+		var keyword = "${cri.keyword}";
+		$.ajax({   
+			url : "flightAbroadList/"+page,
+			type : "get", 
+			dataType : "json",
+			data : {searchType : searchType, keyword : keyword},
+			success: function(rs){  
+				 $(".forEachTr").remove();
+				 $(rs.list).each(function(i, obj) {
+					 var date1 = new Date(obj.ddate);
+					 var date2 = new Date(obj.rdate);
+					 
+					 var ddate = getFormatDate(date1);
+					 var rdate = getFormatDate(date2);
+					 
+					 $tr = $("<tr>").addClass("forEachTr");
+					 
+					 $td1 = $("<td>").html(obj.no);
+					 $td2 = $("<td>");
+					 $td3 = $("<td>").html(obj.dlocation);
+					 $td4 = $("<td>").html(obj.rlocation);
+					 $td5 = $("<td>").html(ddate);
+					 $td6 = $("<td>").html(rdate);
+					 if(obj.ldiv==0){
+						 $td7 = $("<td>해외</td>");
+					 }else {
+						 $td7 = $("<td>국내</td>");
+					 }
+					 $td8 = $("<td>").html(obj.capacity);
+					 if(obj.seat=='F'){
+						 $td9 = $("<td>").html("First-Class").addClass("first");
+					 }else if(obj.seat=='B'){
+						 $td9 = $("<td>").html("Business-Class").addClass("bus");
+					 }else {
+						 $td9 = $("<td>").html("Economy-Class").addClass("eco");
+					 }
+					 $td10 = $("<td>").html(obj.price);
+					 
+					 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no="+obj.no).html(obj.ano);
+					 
+					 $td2.append($a);
+					 $tr.append($td1);
+					 $tr.append($td2);
+					 $tr.append($td3);
+					 $tr.append($td4);
+					 $tr.append($td5);
+					 $tr.append($td6);
+					 $tr.append($td7);
+					 $tr.append($td8);
+					 $tr.append($td9);
+					 $tr.append($td10);
+					 
+					 $("table").append($tr);
+					 
+				}) 
+			 	$(".pagination").empty();
+					
+					if(rs.pageMaker.prev==true){
+						var $li1 = $("<li>");
+						var $a1 = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}" ).html("&laquo");
+						$li1.append($a1);
+					}
+					
+					
+					if(rs.pageMaker.next==true){
+						var $li3 = $("<li>");
+						var $a3 = $("<a>").attr("href", "flightMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}" ).html("&laquo");
+
+						$li3.append($a3);
+					}
+					
+					for(var j = rs.pageMaker.startPage; j<= rs.pageMaker.endPage; j++){
+						$li2 = $("<li>");
+						$a2 = $("<a>").html(j).addClass("abroadList");
+						if(j==rs.pageMaker.cri.page) {
+							$li2.addClass("active");
+						}
+						$li2.append($a2);
+						
+					
+					$(".pagination").append($li1);
+					$(".pagination").append($li2);
+					$(".pagination").append($li3);
+				}   
+			}   
+		})   
+	}	
+	
+    
+   
+
 </script>
 
 <div class="content">	
@@ -144,18 +275,17 @@ function getDomList(page){
 						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
 						<option value="no" ${cri.searchType =='no'?'selected':''}>번호</option>
 						<option value="ano" ${cri.searchType =='ano'?'selected':''}>항공기 번호</option>
-						<option value="dloca" ${cri.searchType =='dloca'?'selected':''}>출발 지역</option>
 						<option value="rloca" ${cri.searchType =='rloca'?'selected':''}>도착 지역</option>
-						<option value="ddate" ${cri.searchType =='ddate'?'selected':''}>출발 일시</option>
-						<option value="rdate" ${cri.searchType =='rdate'?'selected':''}>도착 일시</option>
 					</select>
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
+				<span id="info">* 도착 지역 : 제주(제주 공항), 베이징(베이징 공항), 도쿄(나리타 공항)</span>   
 				<div class="box-body">
 					<button type="button" class="btn btn-info">항공편 추가</button>
 					<button type="button" class="btn" id="dom">국내</button>
 					<button type="button" class="btn" id="ab">해외</button>
+					<button type="button" class="btn" id="listAll">전체 리스트 보기</button>
 				</div>
 				<div class="box-body">
 					<table class="table table-bordered">
@@ -174,7 +304,7 @@ function getDomList(page){
 						<c:forEach items="${flightList }" var="f">   
 							<tr class="forEachTr">
 								<td>${f.no }</td>
-								<td><a href="${pageContext.request.contextPath }/flightDetail?no=${f.no}">${f.ano }</a></td>
+								<td><a href="${pageContext.request.contextPath }/flightDetail?no=${f.no}&page=${cri.page}">${f.ano }</a></td>
 								<td>${f.dlocation }</td>
 								<td>${f.rlocation }</td>
 								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
