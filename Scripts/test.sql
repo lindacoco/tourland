@@ -27,6 +27,8 @@ select  count(no) from banner ;
 
 -- 팝업
 select  * from popup;
+
+
 -- 고객의 소리
 insert into custboard values
 (1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),

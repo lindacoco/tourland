@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -1156,7 +1160,7 @@ public class ManagerController {
     //팝업 설정하기
 		@ResponseBody
 		@RequestMapping(value = "setPopup/{no}/{numbering}", method = RequestMethod.GET)
-		public ResponseEntity<String> setPopup(@PathVariable("no") int no,@PathVariable("numbering") String numbering, Model model,SearchCriteria cri) throws Exception{
+		public ResponseEntity<String> setPopup(@PathVariable("no") int no,@PathVariable("numbering") String numbering, Model model,SearchCriteria cri, HttpServletResponse response) throws Exception{
 			ResponseEntity<String> entity = null;
 
 			try {
@@ -1174,6 +1178,15 @@ public class ManagerController {
 					PopupVO firstVO = popupService.readByNoPopup(no);
 					firstVO.setPosition("L");
 					popupService.updatePopup(firstVO);
+					//쿠키에 세팅할 날짜 계산
+					long settingDays = (firstVO.getEnddate().getTime()- firstVO.getStartdate().getTime());
+					long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
+				//	System.out.println(settingDays2);
+					Cookie cookie = new Cookie("popup1", firstVO.getPic());
+					cookie.setPath("/");
+					cookie.setMaxAge((int)(settingDays2*24*60*60));
+					response.addCookie(cookie);
+					
 					model.addAttribute("popup1",firstVO.getPic());
 					entity = new ResponseEntity<String>("success", HttpStatus.OK);
 				}
@@ -1182,11 +1195,18 @@ public class ManagerController {
 					if(rvo != null) {
 						rvo.setPosition(null);
 						popupService.updatePopup(rvo);
-						
+
 					}
 					PopupVO secondVO = popupService.readByNoPopup(no);
 					secondVO.setPosition("R");
 					popupService.updatePopup(secondVO);
+					long settingDays = (secondVO.getEnddate().getTime()- secondVO.getStartdate().getTime());
+					long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
+					Cookie cookie = new Cookie("popup2", secondVO.getPic());
+					cookie.setPath("/");
+					cookie.setMaxAge((int)(settingDays2*24*60*60));
+					response.addCookie(cookie);
+
 					model.addAttribute("popup2",secondVO.getPic());
 					entity = new ResponseEntity<String>("success", HttpStatus.OK);
 				}
