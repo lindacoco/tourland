@@ -17,7 +17,12 @@
 <!-- 유저아이디로 검색 -->
    <select id="readByIdUser" resultType="UserVO">
      select * from user
-     where userid = #{userid}
+     where userid = #{userid} 
+   </select> 
+   
+   <select id="readByPassUser" resultType="UserVO">
+     select * from user
+     where userpass = password(${userpass})
    </select> 
 
 

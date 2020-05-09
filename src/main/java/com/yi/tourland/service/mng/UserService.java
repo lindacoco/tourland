@@ -64,4 +64,8 @@ public class UserService {
 		return dao.readByIdUser(userid);
 	}
 	
+//	public UserVO readByPassUser(String userpass) throws Exception {
+//		return dao.readByPassUser(userpass);
+//	}
+	
 }

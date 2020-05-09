@@ -81,6 +81,8 @@ where hname like CONCAT('%','hidden','%');
 
 select * from user;
 
+select * from employee;
+
 -- 하나 --------------------------------------------------------------------------------------------
 
 SELECT * FROM notice;

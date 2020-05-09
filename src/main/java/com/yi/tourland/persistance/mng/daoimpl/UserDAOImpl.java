@@ -81,5 +81,10 @@ public class UserDAOImpl implements UserDAO{
 	public UserVO readByIdUser(String userid) throws Exception {
 		return sqlSession.selectOne(namespace+"readByIdUser",userid);
 	}
+
+//	@Override
+//	public UserVO readByPassUser(String userpass) throws Exception {
+//		return sqlSession.selectOne(namespace+"readByPassUser",userpass);
+//	}
    
 }
