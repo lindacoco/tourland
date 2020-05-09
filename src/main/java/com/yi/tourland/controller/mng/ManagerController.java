@@ -352,7 +352,28 @@ public class ManagerController {
 		return entity;
 	}
 	
-	
+	//항공 해외 검색 ajax
+	@RequestMapping(value="flightAbroadList/{page}", method= RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> abroadlistPage(@PathVariable("page") int page){
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			SearchCriteria cri = new SearchCriteria();
+			cri.setPage(page);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			int totalCount = flightService.totalCountAirplane(cri);
+			pageMaker.setTotalCount(totalCount);
+			List<AirplaneVO> list = flightService.airplaneAbroadList(cri);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}   
+		return entity;
+	}	
 	
 
 	// 직원관리리스트

@@ -9,10 +9,34 @@
 			where ano like concat('%',#{keyword},'%') 
 		</if>
 		<if test='searchType=="dloca"'>
-			where dlocation like concat('%',#{keyword},'%')
+			where dlocation like concat('%',#{keyword},'%') 
 		</if>
 		<if test='searchType=="rloca"'>
-			where rlocation like concat('%',#{keyword},'%')
+			<if test= 'keyword=="제주"'>
+				where rlocation like '%CJU%'
+			</if>
+			<if test= 'keyword=="CJU"'>
+				where rlocation like '%CJU%'
+			</if>
+			<if test= 'keyword=="베이징"'>
+				where rlocation like '%PEK%'
+			</if>
+			<if test= 'keyword=="중국"'>
+				where rlocation like '%PEK%'
+			</if>
+			<if test= 'keyword=="PEK"'>
+				where rlocation like '%PEK%'
+			</if>
+			<if test= 'keyword=="일본"'>
+				where rlocation like '%NRT%'
+			</if>
+			<if test= 'keyword=="나리타"'>
+				where rlocation like '%NRT%'
+			</if>
+			<if test= 'keyword=="NRT"'>
+				where rlocation like '%PEK%'
+			</if>
+			<!-- where rlocation like concat('%',#{keyword},'%') -->
 		</if>
 		<if test='searchType=="ddate"'>
 			where ddate = #{keyword}
@@ -46,8 +70,9 @@
 	</sql>
 	<!-- 항공 전체 리스트  -->
 	<select id="airplaneList" resultType="AirplaneVO">
-		select * from airplane order by no desc
-		<include refid="search"/>    
+		select * from airplane
+		<include refid="search"/>  
+		order by no desc   
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	<!-- 항공 국내만 -->
@@ -57,7 +82,13 @@
 		order by no desc
 		limit #{pageStart}, #{perPageNum}
 	</select>
-	
+	<!-- 항공 해외만 -->
+	<select id="airplaneAbroadList" resultType="AirplaneVO">
+		select * from airplane 
+		where ldiv = 0    
+		order by no desc
+		limit #{pageStart}, #{perPageNum}
+	</select>	
 	<select id="airplaneListByDepature" resultType="AirplaneVO">
 		select * from airplane where dlocation = 'ICN'
 		<include refid="searchDiv"/>
