@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
+
 <style>
 	table .table table-bordered th,td,th{
        text-align: center;
@@ -10,27 +11,7 @@
     }
 </style>
 <script>
-/*   $(function(){
-	  $("#dateForRent").datepicker({
-			 showOn: "both", 
-		     dateFormat: 'yy-mm-dd',
-		     onSelect: function(datetext) {
-			     var d = new Date(); // for now
-			     datetext = datetext;
-			     $('#date').val(datetext);
-		      }
-		    });
-		$("#pickSearch a").click(function(){
-			var date = $("#date").val();
-			if(date==""){
-				alert("날짜를 선택해주세요.");
-				return false;
-			}
-			
-		});
-	  
-	  
-  }) */
+
 </script>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
@@ -45,7 +26,6 @@
 						<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
 						<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
 						<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
-						<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>출발날짜</option>
 						<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
 						<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
 					</select>
@@ -57,8 +37,10 @@
 				</div>
 				<div class="box-body">
 				<p id="datePick">
-				<span><i class="far fa-calendar-alt"></i> 날짜별 검색</span> 
-				<span id="picker"><input type="text" id="dateForRent" name="date" placeholder="날짜를 선택하려면 클릭."></span>
+				<span><i class="far fa-calendar-alt"></i> 시작 날짜 </span> 
+				<span class="picker"><input type="date" class="datepicker" name="rentddate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+				<span><i class="far fa-calendar-alt"></i> ~  종료 날짜 </span> 
+				<span class="picker"><input type="date" class="datepicker" name="returndate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
 				<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
 			</p>
 					<table class="table table-bordered">
@@ -100,14 +82,14 @@
 					<div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/rentcarMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/rentcarMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/rentcarMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/rentcarMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/rentcarMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/rentcarMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -118,6 +100,15 @@
 </div>
 
 <script>
+ $("i.fas.fa-search").click(function(){
+	var rentddate = $("input[name='rentddate']").val();
+	var returndate = $("input[name='returndate']").val();
+	location.href = "${pageContext.request.contextPath}/rentcarMngList?searchType=rentDepartDate"+"&keyword="+rentddate+"&keyword2="+returndate;
+
+	//<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>출발날짜</option>
+ })
+ 
+
 $("#btnSearch").click(function(){
 	var searchType = $("#searchType").val();
 	var keyword = $("#keywordInput").val();
@@ -130,14 +121,6 @@ $("#btnRegister").click(function(){
 	location.href = "${pageContext.request.contextPath}/rentcarRegister";
 })
 
-/* //각 리스트를 클릭했을 때 디테일로 넘어가는 부분
-$(".rentcarList").click(function(){
-	var no = $(this).attr("data-click");
-	var searchType = "${cri.searchType}";
-	var keyword = "${cri.keyword}";
-	location.href = "${pageContext.request.contextPath}/rentcarDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
-	
-}) */
 $(".toRentcarDetail").click(function(){
 	var no = $(this).attr("data-click");
 	var searchType = "${cri.searchType}";
@@ -154,23 +137,6 @@ $(".delRentcar").click(function(){
 	}
 })
 
-$("#dateForRent").datepicker({
-	 showOn: "both", 
-     dateFormat: 'yy-mm-dd',
-     onSelect: function(datetext) {
-	     var d = new Date(); // for now
-	     datetext = datetext;
-	     $('#date').val(datetext);
-      }
-    });
-$("#pickSearch a").click(function(){
-	var date = $("#date").val();
-	if(date==""){
-		alert("날짜를 선택해주세요.");
-		return false;
-	}
-	
-});
 </script>
 
 <%@ include file="../../include/footer.jsp"%>

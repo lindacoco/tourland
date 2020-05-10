@@ -140,7 +140,7 @@
 	                        <p>1번 팝업</p>
 	                        <c:if test="${popup1 == null }">
 	                            <div id="previewPopup1">
-	                              <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event1.jpg" style="width:400px; height:400px;" id="popup1img">
 	                              <p class="popupClose" style="background:black;">
 						          <input type="checkbox" class="expireCK">
 						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
@@ -163,7 +163,7 @@
 		                   <p>2번 팝업</p>
 		                   <c:if test="${popup2 == null }">
 		                     <div id="previewPopup2">
-	                            <img src="${pageContext.request.contextPath}/resources/images/banner2.jpg" style="width:400px; height:400px;" id="popup2img">
+	                            <img src="${pageContext.request.contextPath}/resources/images/event2.jpg" style="width:400px; height:400px;" id="popup2img">
 	                              <p class="popupClose" style="background:black;">
 						          <input type="checkbox" class="expireCK">
 						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->

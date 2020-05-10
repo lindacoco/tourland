@@ -4,6 +4,7 @@ public class SearchCriteria extends Criteria {
 	private String searchType;
 	private String searchType2;
 	private String keyword;
+	private String keyword2;
 
 	public String getSearchType() {
 		return searchType;
@@ -28,11 +29,20 @@ public class SearchCriteria extends Criteria {
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
 	}
+	
+	public String getKeyword2() {
+		return keyword2;
+	}
+
+	public void setKeyword2(String keyword2) {
+		this.keyword2 = keyword2;
+	}
 
 	@Override
 	public String toString() {
-		return String.format(
-				"SearchCriteria [searchType=%s, searchType2=%s, keyword=%s, getPage()=%s, getPerPageNum()=%s]",
-				searchType, searchType2, keyword, getPage(), getPerPageNum());
+		return "SearchCriteria [searchType=" + searchType + ", searchType2=" + searchType2 + ", keyword=" + keyword
+				+ ", keyword2=" + keyword2 + "]";
 	}
+
+	
 }

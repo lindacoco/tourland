@@ -44,6 +44,10 @@
 		<if test='searchType=="rdate"'>
 			where rdate = #{keyword}
 		</if>
+		<if test='searchType=="date"'>
+			where ddate like concat('%',#{keyword},'%')  
+		</if>
+		
 	</sql>
 	<sql id="searchDiv">
 		<if test='searchType=="no"'>
@@ -86,6 +90,13 @@
 	<select id="airplaneAbroadList" resultType="AirplaneVO">
 		select * from airplane 
 		where ldiv = 0    
+		order by no desc
+		limit #{pageStart}, #{perPageNum}
+	</select>
+	<!-- 항공 날짜 검색 -->
+	<select id="airplaneDateSearchList" resultType="AirplaneVO">
+		select * from airplane 
+		where ddate like concat('%',#{date},'%')  
 		order by no desc
 		limit #{pageStart}, #{perPageNum}
 	</select>	

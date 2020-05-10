@@ -33,12 +33,6 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-<!-- 날짜선택 -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script> -->
 
 <meta charset="UTF-8">
 <title>AdminLTE 2 | Dashboard</title>
@@ -414,6 +408,7 @@
                 <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
                 <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
                 <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
+<<<<<<< HEAD
               </ul> --></li>
 					<li><a
 						href="${pageContext.request.contextPath }/reservationMgnList">
@@ -446,6 +441,37 @@
 					<li class="treeview"><a href="#"> <i class="fa fa-laptop"></i>
 							<span>이벤트 관리</span> <!--  <i class="fa fa-angle-left pull-right"></i> -->
 					</a> <!--    <ul class="treeview-menu">  
+              </ul> -->
+            </li>
+            <li>
+              <a href="${pageContext.request.contextPath }/reservationMgnList">
+                <i class="fa fa-th"></i> <span>예약 관리</span> <!-- <small class="label pull-right bg-green">new</small> --> <!-- new 글자뜨는거 -->
+              </a>
+            </li>
+            <li class="treeview">  
+              <a href="#">
+                <i class="fa fa-pie-chart"></i>     
+                <span>상품 관리</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+              
+                <li><a href="${pageContext.request.contextPath }/flightMngList"><i class="fa fa-circle-o"></i>항공 관리</a></li>
+                <%-- <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li> --%>
+                <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/rentcarMngList"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
+                 <li><a href="${pageContext.request.contextPath }/addProductForm"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
+              </ul>
+            </li>  
+            <li class="treeview">   
+              <a href="${pageContext.request.contextPath }/eventMngList">
+                <i class="fa fa-laptop"></i>    
+                <span>이벤트 관리</span>
+               <!--  <i class="fa fa-angle-left pull-right"></i> -->
+              </a>   
+           <!--    <ul class="treeview-menu">  
+>>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
                 <li><a href="../UI/general.html"><i class="fa fa-circle-o"></i> General</a></li>   
                 <li><a href="../UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>
                 <li><a href="../UI/buttons.html"><i class="fa fa-circle-o"></i> Buttons</a></li>
