@@ -11,9 +11,14 @@
 		    font-size: 12px; 
 		    text-indent: 15px; 
 		    color: #525252;
-		    font-weight: bold; }        
+		    font-weight: bold; }
+	#datepicker { width: 200px; }        
 </style>
-        
+<link
+	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
+	rel="stylesheet" type="text/css">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/plugins/datepicker/bootstrap-datepicker.js"></script>        
 <script>
 
 function getFormatDate(date){
@@ -123,6 +128,11 @@ function getDomList(page){
 
 //국내 항공편 검색하는 버튼
 	$(function(){
+		//datePicker
+		$("#datepicker").datepicker({
+			format : "yyyy-mm-dd",
+			autoclose : true
+		}).datepicker("setDate", 'now');
 		$("#dom").click(function(){
 			alert("국내 항공편이 검색되었습니다.");
 			 getDomList(1); 
@@ -280,7 +290,8 @@ function getDomList(page){
 					<input type="text" name="keyword" id="keywordInput">
 					<button id="btnSearch">Search</button>
 				</div>
-				<span id="info">* 도착 지역 : 제주(제주 공항), 베이징(베이징 공항), 도쿄(나리타 공항)</span>   
+				<span id="info">* 도착 지역 : 제주(제주 공항), 베이징(베이징 공항), 도쿄(나리타 공항)</span>  
+				<input type="text" class="form-control" id="datepicker"> 
 				<div class="box-body">
 					<button type="button" class="btn btn-info">항공편 추가</button>
 					<button type="button" class="btn" id="dom">국내</button>
