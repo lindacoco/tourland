@@ -9,6 +9,29 @@
     	background-color : lightgrey;
     }
 </style>
+<script>
+/*   $(function(){
+	  $("#dateForRent").datepicker({
+			 showOn: "both", 
+		     dateFormat: 'yy-mm-dd',
+		     onSelect: function(datetext) {
+			     var d = new Date(); // for now
+			     datetext = datetext;
+			     $('#date').val(datetext);
+		      }
+		    });
+		$("#pickSearch a").click(function(){
+			var date = $("#date").val();
+			if(date==""){
+				alert("날짜를 선택해주세요.");
+				return false;
+			}
+			
+		});
+	  
+	  
+  }) */
+</script>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
 	<div class="row">
@@ -33,6 +56,11 @@
 					<button id="btnRegister">렌트카 추가</button>
 				</div>
 				<div class="box-body">
+				<p id="datePick">
+				<span><i class="far fa-calendar-alt"></i> 날짜별 검색</span> 
+				<span id="picker"><input type="text" id="dateForRent" name="date" placeholder="날짜를 선택하려면 클릭."></span>
+				<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
+			</p>
 					<table class="table table-bordered">
 						<tr>
 							<th>번호</th>
@@ -126,7 +154,23 @@ $(".delRentcar").click(function(){
 	}
 })
 
-
+$("#dateForRent").datepicker({
+	 showOn: "both", 
+     dateFormat: 'yy-mm-dd',
+     onSelect: function(datetext) {
+	     var d = new Date(); // for now
+	     datetext = datetext;
+	     $('#date').val(datetext);
+      }
+    });
+$("#pickSearch a").click(function(){
+	var date = $("#date").val();
+	if(date==""){
+		alert("날짜를 선택해주세요.");
+		return false;
+	}
+	
+});
 </script>
 
 <%@ include file="../../include/footer.jsp"%>

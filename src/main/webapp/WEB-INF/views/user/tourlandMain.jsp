@@ -130,6 +130,7 @@
       position: relative;
       position: absolute;
       top: 150px;
+       display: none;
     }
     
     #popup2{
@@ -138,6 +139,10 @@
       text-align:center;
       width:560px;
       position: relative;
+      position: absolute;
+      top: 250px;
+      left:100px;
+      display: none;
     }
     
     #previewPopup1{
@@ -172,48 +177,93 @@
      margin-left:20px;
      width:30px;
    }
+   
 									      
 </style>
 <body>
 	<div id="container">
 	<%@ include file="../include/userHeader.jsp"%>
-	<script type="text/javascript">
+<script>
+
 	  $(function(){
+		  
+		  if($.cookie("popup1") != null ){ 
+		         $("#popup1").css("display","block"); 
+		      }
+		  
+		  if($.cookie("popup2") != null ){ 
+		         $("#popup2").css("display","block"); 
+		      }
+		 // alert($.cookie("exeptFor3days"));
+		  if($.cookie("exeptFor3days") == "none"){ 
+		         $("#popup1").css("display","none"); 
+		      }
+		  if($.cookie("exeptFor3days2") == "none"){ 
+		         $("#popup2").css("display","none"); 
+		      }
 		  //팝업 버튼 누르면 팝업창 사라지기 popup1
 		  $(".popupBtnClose").click(function(){
-			  $(this).parent().parent().parent().css("display","none");
-			  
-		  })
-	  
-	  
-	  
+			  if($(".expireCK").prop("checked") ==true ){
+	              $.cookie("exeptFor3days","none",{expires:3, path:"/"});
+		   }
+			 $(this).parent().parent().parent().css("display","none");
+	      })
+	     $(".popupBtnClose2").click(function(){
+			  if($(".expireCK2").prop("checked") ==true ){
+	              $.cookie("exeptFor3days2","none",{expires:3, path:"/"});
+		   }
+			 $(this).parent().parent().parent().css("display","none");
 	  })
-
-	</script>
+	  
+  })
+	  
+</script>
 	        <!-- 팝업 -->
-	         <div id="popup1" style=" margin-left:10%;">
-	                        <p>1번 팝업</p>
+	         <div id="popup1" style=" margin-left:10%;">  <!-- 1번 팝업 -->
 	                        <c:if test="${popup1 == null }">
 	                            <div id="previewPopup1">
 	                              <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:400px; height:400px;" id="popup1img">
 	                              <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK">
-							          <label id="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
 							          <button class="popupBtnClose"> 닫기 </button>
 						          </p>
 	                            </div>
 	                        </c:if>
 	                        <c:if test="${popup1 != null }">
 	                        <div id="previewPopup1">
-	                             <img src="displayFile/popup?filename=${popup1}" style="width:560px; height:200px;" id="popup1Img">
+	                             <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1Img">
 	                             <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK">
-							          <label id="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
 							          <button class="popupBtnClose"> 닫기 </button>
 						         </p>
 	                        </div>
 	                        </c:if>
-	                   </div>
+	          </div>
+	           <div id="popup2" style=" margin-left:10%;"> <!-- 2번팝업  -->
+	                        <c:if test="${popup2 == null }">
+	                            <div id="previewPopup2">
+	                              <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK2">
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose2"> 닫기 </button>
+						          </p>
+	                            </div>
+	                        </c:if>
+	                        <c:if test="${popup2 != null }">
+	                        <div id="previewPopup2">
+	                             <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup1Img">
+	                             <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK2">
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose2"> 닫기 </button>
+						         </p>
+	                        </div>
+	                        </c:if>
+	          </div>
+	          
 			<div id="mainBox">  
 				<section id="section1">
 					<div id="imgBox">

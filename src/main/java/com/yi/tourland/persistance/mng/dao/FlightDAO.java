@@ -1,6 +1,5 @@
 package com.yi.tourland.persistance.mng.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.yi.tourland.domain.SearchCriteria;
@@ -11,6 +10,8 @@ public interface FlightDAO {
 	public List<AirplaneVO> airplaneList(SearchCriteria cri) throws Exception;
 	//항공편 국내 리스트
 	public List<AirplaneVO> airplaneDomList(SearchCriteria cri) throws Exception;
+	//항공편 해외 리스트
+	public List<AirplaneVO> airplaneAbroadList(SearchCriteria cri) throws Exception;
 	public List<AirplaneVO> airplaneListByDepature(SearchCriteria cri) throws Exception;
 	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception;
 	//항공편 전체 숫자
