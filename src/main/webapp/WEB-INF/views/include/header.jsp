@@ -19,12 +19,6 @@
 <!-- 쿠키 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script> 
 
-<!-- 날짜선택 -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
-<script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script> -->
 
     <meta charset="UTF-8">
     <title>AdminLTE 2 | Dashboard</title>
@@ -407,7 +401,7 @@
               </ul>
             </li>  
             <li class="treeview">   
-              <a href="#">
+              <a href="${pageContext.request.contextPath }/eventMngList">
                 <i class="fa fa-laptop"></i>    
                 <span>이벤트 관리</span>
                <!--  <i class="fa fa-angle-left pull-right"></i> -->

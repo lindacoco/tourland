@@ -38,6 +38,7 @@ import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.DataListVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.EventVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
@@ -49,6 +50,7 @@ import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.CustBoardService;
 import com.yi.tourland.service.mng.EmployeeService;
+import com.yi.tourland.service.mng.EventService;
 import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
@@ -67,6 +69,9 @@ public class ManagerController {
 	
 	@Resource(name = "uploadPath2")
 	private String uploadPathPopup; // c:/tourland/upload/popup
+	
+	@Resource(name ="uploadPath3")
+	private String uploadPathEvent; //c:/tourland/upload/event
 
 	@Autowired
 	private TourService tourService;
@@ -90,6 +95,9 @@ public class ManagerController {
 
 	@Autowired
 	HotelService hotelService;
+	
+	@Autowired
+	EventService eventService;
 	
 	@Autowired
 	PopupService popupService;
@@ -919,8 +927,104 @@ public class ManagerController {
 			return "redirect:/rentcarMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
 		}
 
-	// 이벤트관리
+// 이벤트관리  -------------------------------------------------------------------------------
+	 @RequestMapping(value ="eventMngList", method = RequestMethod.GET)
+	 public String eventMngList(SearchCriteria cri, Model model) throws Exception {
+			cri.setPerPageNum(5);
+		    List<EventVO> eventList = eventService.listSearchCriteriaEvent(cri);
+		       
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(eventService.totalSearchCountEvent(cri));
+			model.addAttribute("cri", cri);
+			model.addAttribute("list", eventList);
+		    model.addAttribute("pageMaker", pageMaker);
 
+			return "/manager/event/eventMngList";
+	 }		
+	//이벤트 추가 
+	 @RequestMapping(value = "eventRegister", method = RequestMethod.GET)
+		public String eventRegister(SearchCriteria cri, Model model) {
+			int lastNo = 0;
+			try {
+				List<EventVO> eventList = eventService.listSearchCriteriaEvent(cri);
+				lastNo = eventList.get(0).getNo() + 1;
+			} catch (Exception e) {
+				lastNo = 1;
+			}
+
+			model.addAttribute("autoNo", lastNo); // 가장 나중 번호로 자동세팅
+
+			return "/manager/event/eventRegister";
+		}
+	 
+	 @RequestMapping(value = "eventRegister", method = RequestMethod.POST)
+		public String eventRegisterPost(EventVO vo, MultipartFile eventPic, Model model) throws Exception {
+
+			String savedName = UploadFileUtils.uploadFile(uploadPathEvent, eventPic.getOriginalFilename().replaceAll(" ", "_"),
+					eventPic.getBytes());
+			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+
+			vo.setPic(bigSizePic.replaceAll(" ", "_"));
+			eventService.insertEvent(vo);
+			return "redirect:/eventMngList";
+		}
+	 @RequestMapping(value = "eventDetailForm", method = RequestMethod.GET)
+		public String eventDetailForm(int no, SearchCriteria cri, Model model) throws Exception {
+		 EventVO vo = eventService.readByNoEvent(no);
+
+			model.addAttribute("eventVO", vo);
+			model.addAttribute("cri", cri);
+
+			return "/manager/event/eventDetailForm";
+		}
+		
+		@RequestMapping(value = "eventUpdate", method = RequestMethod.POST)
+		public String eventUpdate(EventVO vo, MultipartFile eventPic, Model model) throws Exception {
+		
+			if (eventPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
+				// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
+
+				File eventFile = new File(uploadPathEvent + vo.getPic());
+				eventFile.delete();
+
+				String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+				// System.out.println(smallSizePic);
+				File eventFile2 = new File(uploadPathEvent + smallSizePic);
+				eventFile2.delete();
+
+				// 수정 된 파일로 교체
+				String savedName = UploadFileUtils.uploadFile(uploadPathEvent, eventPic.getOriginalFilename(),
+						eventPic.getBytes());
+				String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+				
+				vo.setPic(bigSizePic);
+			}
+			eventService.updateEvent(vo);
+
+			return "redirect:/eventDetailForm?no=" + vo.getNo();
+
+		}
+	 //이벤트 삭제	
+		 @RequestMapping(value = "removeEvent", method = RequestMethod.GET)
+	     public String removeEvent(SearchCriteria cri, Model model, int no) throws Exception {
+			 EventVO vo = eventService.readByNoEvent(no);
+				if (vo.getPic() != null) {
+					// 폴더에 남은 사진들 먼저 지우기
+					File eventFile = new File(uploadPathEvent + vo.getPic());
+					eventFile.delete();
+
+					String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+
+					File eventFile2 = new File(uploadPathEvent + smallSizePic);
+					eventFile2.delete();
+				}
+
+				eventService.deleteEvent(no);
+
+				return "redirect:/eventMngList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword="
+						+ cri.getKeyword();
+			}
 // 게시판관리 -------------------------------------------------------------------------------------------------------------------------
 
 	// FAQ 관리
@@ -1314,6 +1418,10 @@ public class ManagerController {
         
         if(choice.equals("popup")) {
         	path = uploadPathPopup; 
+        }
+        
+        if(choice.contentEquals("event")) {
+        	path = uploadPathEvent; 
         }
 		// System.out.println("displayFile-----------"+ filename);
 		InputStream in = null;
