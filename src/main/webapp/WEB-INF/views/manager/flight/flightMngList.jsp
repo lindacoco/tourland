@@ -10,9 +10,12 @@
 		    width: 500px;
 		    font-size: 12px; 
 		    text-indent: 15px; 
-		    color: #525252;
+		    color: maroon;
 		    font-weight: bold; }
-	#datepicker { width: 200px; }        
+	#datepicker { width: 200px; }    
+	#searchType { width: 155px; height: 26px; }    
+	#dateSearch { display: block; width: 210px; float: left; }
+	#btnDateSearch { margin-top: 23px; }
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
@@ -165,7 +168,15 @@ function getDomList(page){
 			//searchBoardController의 listPage GET 으로 받음 
 			
 		})
-		
+//날짜 검색 버튼
+		$("#btnDateSearch").click(function(){
+			alert("선택한 날짜로 검색 되었습니다");
+			var searchType = "date";
+			var keyword = $("#datepicker").val();
+			location.href = "flightMngList?searchType="+searchType+"&keyword="+keyword;
+			//searchBoardController의 listPage GET 으로 받음 
+			
+		})		
 		
 		
 	})
@@ -261,8 +272,7 @@ function getDomList(page){
 			}   
 		})   
 	}	
-	
-    
+	    
    
 
 </script>
@@ -282,16 +292,19 @@ function getDomList(page){
 					4. 검색의 키워드
 				 -->
 					<select name="searchType" id="searchType">
-						<option value="n" ${cri.searchType ==null?'selected':''}>-----</option>
+						<option value="n" ${cri.searchType ==null?'selected':''}>선택하세요</option>
 						<option value="no" ${cri.searchType =='no'?'selected':''}>번호</option>
 						<option value="ano" ${cri.searchType =='ano'?'selected':''}>항공기 번호</option>
 						<option value="rloca" ${cri.searchType =='rloca'?'selected':''}>도착 지역</option>
 					</select>
-					<input type="text" name="keyword" id="keywordInput">
+					<input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력하세요">
 					<button id="btnSearch">Search</button>
 				</div>
 				<span id="info">* 도착 지역 : 제주(제주 공항), 베이징(베이징 공항), 도쿄(나리타 공항)</span>  
-				<input type="text" class="form-control" id="datepicker"> 
+				<div class="box-body">
+					<span id="dateSearch"><i class="far fa-calendar-alt"></i> 출발일 검색 <input type="text" class="form-control" id="datepicker"></span>
+					 <button id="btnDateSearch">Search</button> 
+				</div>
 				<div class="box-body">
 					<button type="button" class="btn btn-info">항공편 추가</button>
 					<button type="button" class="btn" id="dom">국내</button>
@@ -363,13 +376,6 @@ function getDomList(page){
 </div>
 
 <script>
-	$("#btnSearch").click(function(){
-		var searchType = $("#searchType").val();
-		var keyword = $("#keywordInput").val();
-		location.href = "listPage?searchType="+searchType+"&keyword="+keyword;
-		//searchBoardController의 listPage GET 으로 받음 
-		
-	})
 	
 	$("#btnRegister").click(function(){
 		location.href = "register";
