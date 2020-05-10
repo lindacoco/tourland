@@ -12,9 +12,8 @@ public class SampleInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		Object user = session.getAttribute("User");
-		Object manager = session.getAttribute("Manager");
-		if(user == null) {  //로그인 안 한 경우
+		Object object = session.getAttribute("User");
+		if(object == null) {  //로그인 안 한 경우
 			
 			response.sendRedirect(request.getContextPath() + "/user/loginForm");
 			

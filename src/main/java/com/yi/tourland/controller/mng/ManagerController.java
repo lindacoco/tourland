@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -41,6 +39,7 @@ import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.RentcarVO;
 import com.yi.tourland.domain.mng.TourVO;
@@ -53,6 +52,7 @@ import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.PlanBoardService;
 import com.yi.tourland.service.mng.PopupService;
 import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
@@ -102,6 +102,9 @@ public class ManagerController {
 
 	@Autowired
 	RentcarService rentcarService;
+	
+	@Autowired
+	PlanBoardService planBoardService;
 
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
@@ -1653,6 +1656,61 @@ public class ManagerController {
 		hotelService.deleteHotel(vo);
 		return "redirect:hotelMngList?page=" + cri.getPage() +"&searchType=" + cri.getSearchType()+"&keyword=" + cri.getKeyword();
 	}
-	// 장바구니
+	
+	// 상품 문의사항
+		@RequestMapping(value = "planBoardList", method = RequestMethod.GET)
+		public String planBoardList(SearchCriteria cri, Model model) throws Exception {
+			List<PlanBoardVO> list = planBoardService.listSearchCriteriaPlanBoard(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(planBoardService.totalSearchCountPlanBoard(cri) < 10 ? 10 : planBoardService.totalSearchCountPlanBoard(cri));
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("cri", cri);
+			return "/manager/board/planBoardList";
+		}
+
+		@RequestMapping(value = "planBoardRegister", method = RequestMethod.GET)
+		public String planBoardResgiter() throws SQLException {
+			return "/manager/board/planBoardRegister";
+		}
+
+		@RequestMapping(value = "planBoardRegister", method = RequestMethod.POST)
+		public String planBoardResgiterPost(PlanBoardVO vo) throws Exception {
+			planBoardService.insertPlanBoard(vo);
+			return "redirect:planBoardList";
+		}
+
+		@RequestMapping(value = "planBoardDetail", method = RequestMethod.GET)
+		public String planBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+			vo = planBoardService.readByNoPlanBoard(vo);
+			model.addAttribute("vo", vo);
+			model.addAttribute("cri", cri);
+			return "/manager/board/planBoardDetail";
+		}
+
+		@RequestMapping(value = "planBoardModify", method = RequestMethod.GET)
+		public String planBoardModify(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+			vo = planBoardService.readByNoPlanBoard(vo);
+			model.addAttribute("vo", vo);
+			model.addAttribute("cri", cri);
+			return "/manager/board/planBoardModify";
+		}
+
+		@RequestMapping(value = "planBoardModify", method = RequestMethod.POST)
+		public String planBoardModifyPost(PlanBoardVO vo, SearchCriteria cri) throws Exception {
+			planBoardService.updatePlanBoard(vo);
+			return "redirect:planBoardDetail?no=" + vo.getNo() + "&page=" + cri.getPage() + "&searchType=" + cri.getSearchType()
+					+ "&searchType2=" + cri.getSearchType2() + "&keyword=" + cri.getKeyword();
+		}
+
+		@RequestMapping(value = "planBoardDelete", method = RequestMethod.GET)
+		public String planBoardDelete(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+			planBoardService.deletePlanBoard(vo);
+			return "redirect:planBoardList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&searchType2="
+					+ cri.getSearchType2() + "&keyword=" + cri.getKeyword();
+		}
+
+		// 장바구니
 
 }

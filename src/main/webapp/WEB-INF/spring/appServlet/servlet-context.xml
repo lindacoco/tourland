@@ -41,4 +41,12 @@
 	     <beans:constructor-arg value="c:/tourland/upload/popup"></beans:constructor-arg>
 	</beans:bean>
 
+	<beans:bean id="sampleInterceptor" class="com.yi.tourland.interceptor.SampleInterceptor"/>
+	<interceptors>
+		<interceptor>
+			<mapping path=""/>
+			<beans:ref bean="sampleInterceptor"/>
+		</interceptor>
+	</interceptors>
+
 </beans:beans>

@@ -85,6 +85,8 @@ select * from user;
 
 select * from employee;
 
+select * from planboard;
+
 -- 하나 --------------------------------------------------------------------------------------------
 
 SELECT * FROM notice;
