@@ -18,6 +18,8 @@ select * from rentcar r order by no desc ;
 select * from rentcar r where ldiv =0  order by no desc ;
 -- 렌트카
 select count(no) from rentcar r ;
+select * from rentcar where rentddate=  '2020-04-01' between  returndate  = '2020-04-10';
+select * from rentcar where rentddate >=  '2020-04-01' and returndate  <= '2020-04-10';
 -- 배너
 select * from banner b2 ;
 select * from banner order by no desc limit 1, 3;
@@ -27,6 +29,10 @@ select  count(no) from banner ;
 
 -- 팝업
 select  * from popup;
+
+-- 이벤트
+select * from event;
+delete from event where no in(1,2,4);
 
 
 -- 고객의 소리
