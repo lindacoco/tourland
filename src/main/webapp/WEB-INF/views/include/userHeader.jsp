@@ -8,6 +8,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
+
 
 <style>
 
@@ -76,7 +79,7 @@
 				<ul>
 					<li><a href="#">고객센터</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">마이페이지</a></li>
-					<li><a href="#">회원가입</a></li>
+					<li><a href="${pageContext.request.contextPath }/tourlandRegister">회원가입</a></li>
 					<li><a href="${pageContext.request.contextPath }/loginForm" class="balance">로그인</a></li>
 					
 					<c:if test="${Manager!=null }">
