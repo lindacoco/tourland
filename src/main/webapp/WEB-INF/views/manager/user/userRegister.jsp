@@ -40,7 +40,8 @@
 			var userauth = $("input[name='userauth']").val();
 			var userid = $("input[name='userid']").val();
 			var userpass = $("input[name='userpass']").val();
-			var forCheckId = $("#forCheckId").val
+			var userpass2 = $("input[name='userpass2']").val();
+			var forCheckId = $("#forCheckId").val();
 
 			//이름 정규표현식
 			var nameReg = /^[가-힣]{2,5}$/; //네임은 2-5 한글
@@ -71,7 +72,7 @@
 		   
 		    //사원 비밀번호 정규 표현식, 회원 비밀번호 규칙과 동일함
 		    var pwdReg = /^[a-zA-Z0-9!@#%^&*]{4,15}/;
-			 if(pwdReg.test(userpass) == false){
+			 if(pwdReg.test(userpass) == false ){
 				 $("input[name='userpass']").next().css("display","inline");
 				 return false;
 		     }
@@ -106,6 +107,8 @@
 					if(res=="exist"){
 						$("input[name='userid']").next().next().next().css("display", "inline");
 						validId = false;
+					}else{
+						$("input[name='userid']").next().next().next().next().css("display", "inline");
 					}
 				}
 				 

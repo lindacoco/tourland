@@ -1,16 +1,26 @@
 package com.yi.tourland.controller.user;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.PopupVO;
+import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.CustBoardService;
@@ -99,6 +109,63 @@ public class CustomerController {
 		
 		return "/user/tourlandMain"; 
 	}
+	//투어랜드 회원가입
+	@RequestMapping(value="tourlandRegister", method=RequestMethod.GET)
+	public String tourlandRegister(SearchCriteria cri, UserVO vo, Model model) { 
+		int lastNo = 0;
+		int lastNo2 = 0;
+		try {
+			List<UserVO> userList = userService.listSearchCriteriaUser(cri, 0);
+			List<UserVO> secessuserList = userService.listSearchCriteriaUser(cri, 1);
+
+			lastNo = userList.get(0).getUserno();
+			lastNo2 = secessuserList.get(0).getUserno();
+			if (lastNo > lastNo2) {
+				model.addAttribute("autoNo", lastNo + 1);
+			} else {
+				model.addAttribute("autoNo", lastNo2 + 1);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+		return "/user/tourlandRegisterForm"; 
+	}
+	
+	@RequestMapping(value = "tourlandRegister", method = RequestMethod.POST)
+	public String tourlandRegisterPost(UserVO vo, RedirectAttributes rattr) throws Exception {
+		try{
+			userService.insertUser(vo);
+			rattr.addFlashAttribute("registerSuccess","aa");
+		}catch (Exception e) {
+		
+		}
+		return "redirect:loginForm"; 
+	}
+	// 아이디 존재유무 체크
+		@ResponseBody
+		@RequestMapping(value = "idCheck/{empid}", method = RequestMethod.GET)
+		public ResponseEntity<String> checkEmpId(@PathVariable("empid") String empid) {
+
+			ResponseEntity<String> entity = null;
+
+			try {
+				EmployeeVO voForIdCheck = employeeService.readByIdEmployee(empid);
+				UserVO voForIdCheck2 = userService.readByIdUser(empid); // 유저 테이블에서 아이디로 검색
+				if (voForIdCheck != null || voForIdCheck2 != null) {
+					entity = new ResponseEntity<String>("exist", HttpStatus.OK);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
+
+		}
+	
+	
 	//마이 페이지 - 내 정보 수정
 	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
 	public String tourlandMyInfoEdit() { 

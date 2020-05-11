@@ -559,7 +559,6 @@ public class ManagerController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			// 퇴사 사원이 없는 경우 오류가 뜨기에 시범 데이터 입력
 		}
 		return "/manager/user/userRegister";
 	}
