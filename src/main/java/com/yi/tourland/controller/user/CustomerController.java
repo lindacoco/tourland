@@ -114,6 +114,11 @@ public class CustomerController {
 	public String tourlandMyWishes() { 
 		return "/user/mypage/tourlandMyWishes"; 
 	}
+	//마이 페이지 - 내 쿠폰
+	@RequestMapping(value="tourlandMyCoupon", method=RequestMethod.GET)
+	public String tourlandMyCoupon() { 
+		return "/user/mypage/tourlandMyCoupon"; 
+	}
 	
 	//상품 세부 정보    
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
