@@ -3,8 +3,8 @@
 <mapper namespace="mappers.mngMappers.PlanBoardMapper">
 
   <insert id="insertPlanBoard" parameterType="PlanBoardVO"> 
-     insert into planboard(no, title, content, writer, regdate, lcate, mcate, answer) values
-     (#{no}, #{title}, #{content}, #{writer}, now(), #{lcate}, #{mcate}, #{answer},)
+     insert into planboard(title, content, writer, regdate, lcate, mcate, answer) values
+     (#{title}, #{content}, #{writer}, now(), #{lcate}, #{mcate}, #{answer},)
   </insert>
 
 
@@ -73,9 +73,5 @@
 	    <select id="totalSearchCountPlanBoard" resultType="int">
 	        select  count(no) from planboard
 		    <include refid="search"></include>  
-	    
 	    </select>
-
-
-	
 </mapper>

@@ -20,6 +20,11 @@
      select * from employee
      where empid = #{empid} 
    </select>
+   
+   <select id="readByIdPwEmployee" resultType="EmployeeVO">
+     select * from employee
+     where empid = #{empid} and emppass = password(#{emppass})
+   </select> 
 
 <!-- 사원 업데이트 -->
     <update id="updateEmployee" parameterType="EmployeeVO">

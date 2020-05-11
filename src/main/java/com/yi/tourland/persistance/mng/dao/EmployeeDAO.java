@@ -5,6 +5,7 @@ import java.util.List;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.UserVO;
 
 public interface EmployeeDAO {
 	 
@@ -19,6 +20,7 @@ public interface EmployeeDAO {
 	
 	//아이디 체크를 위해 생성
 	public EmployeeVO readByIdEmployee(String empid)throws Exception;
+	public EmployeeVO readByIdPwEmployee(String empid,String emppass)throws Exception;
 	// 리플 기능 필요한 곳에서
 	// public void updateReplyCnt(int amount, int bno)throws Exception;
 	

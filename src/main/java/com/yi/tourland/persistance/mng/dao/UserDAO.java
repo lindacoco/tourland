@@ -19,8 +19,10 @@ public interface UserDAO {
 	
 	
 	//아이디 중복체크
+	public UserVO readByIdPwUser(String userid,String userpass)throws Exception;
 	public UserVO readByIdUser(String userid)throws Exception;
 	//public UserVO readByPassUser(String userpass)throws Exception;
 	// 리플 기능 필요한 곳에서
 	// public void updateReplyCnt(int amount, int bno)throws Exception;
+	
 }

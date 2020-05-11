@@ -15,16 +15,15 @@
    </select> 
 
 <!-- 유저아이디로 검색 -->
-   <select id="readByIdUser" resultType="UserVO">
+   <select id="readByIdPwUser" resultType="UserVO">
      select * from user
-     where userid = #{userid} 
+     where userid = #{userid} and userpass = password(#{userpass})
    </select> 
    
-   <select id="readByPassUser" resultType="UserVO">
+    <select id="readByIdUser" resultType="UserVO">
      select * from user
-     where userpass = password(${userpass})
+     where userid = #{userid}
    </select> 
-
 
 <!-- 유저 정보 업데이트 -->
     <update id="updateUser" parameterType="UserVO">
