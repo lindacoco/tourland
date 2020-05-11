@@ -1848,7 +1848,7 @@ public class ManagerController {
 		@RequestMapping(value = "planBoardDetail", method = RequestMethod.GET)
 		public String planBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
 			vo = planBoardService.readByNoPlanBoard(vo);
-			model.addAttribute("vo", vo);
+			model.addAttribute("plan", vo);
 			model.addAttribute("cri", cri);
 			return "/manager/board/planBoardDetail";
 		}

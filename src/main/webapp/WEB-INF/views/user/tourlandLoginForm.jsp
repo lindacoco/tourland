@@ -116,30 +116,40 @@ section {
 		<div id="loginHead">
 			<h1>로그인</h1>
 			<p>새로운 세상, 투어랜드</p>
-			
 		</div>
 		<div id="loginBox">
 			<form action="loginForm" method="post">
-			 <c:if test="${registerSuccess !=null}">
+			<c:if test="${registerSuccess !=null}">
 			    <h2>가입 완료 되었습니다. 로그인 수행하여 주십시오.</h2>
 			</c:if>
 			<c:if test="${registerSuccess ==null}">
 			   <h2>투어랜드</h2>
 			</c:if>
-				<div id="loginInnerBox">
-					<div id="inputBox">
-						<input type="text" name="id" id="id" placeholder="아이디"> 
-						<input type="password" name="pass" id="pass" placeholder="비밀번호">
+					<div id="loginInnerBox">
+						<div id="inputBox">
+						<c:choose>
+							<c:when test="${UserStay!=null}">
+								<input type="text" name="id" id="id" placeholder="아이디" value="${UserStay.userid}"> 
+								<input type="password" name="pass" id="pass" placeholder="비밀번호" value="${UserStay.userpass}">
+							</c:when>
+							<c:when test="${EmpStay!=null}">
+								<input type="text" name="id" id="id" placeholder="아이디" value="${EmpStay.empid }"> 
+								<input type="password" name="pass" id="pass" placeholder="비밀번호" value="${EmpStay.emppass}">
+							</c:when>
+							<c:otherwise>
+								<input type="text" name="id" id="id" placeholder="아이디"> 
+								<input type="password" name="pass" id="pass" placeholder="비밀번호">
+							</c:otherwise>
+						</c:choose>
+						</div>
+						<div id="submitBox">
+							<input type="submit" value="로그인" style="cursor: pointer">
+						</div>
+						<c:if test="${error!=null }">
+							<p class="error">${error }</p>
+						</c:if>
 					</div>
-					<div id="submitBox">
-						<input type="submit" value="로그인" style="cursor: pointer">
-					</div>
-					<c:if test="${error!=null }">
-						<p class="error">${error }</p>
-					</c:if>
-				</div>
 			</form>
-
 			<div id="loginBtns">
 				<button id="join" style="cursor: pointer">회원가입</button>
 				<button id="findIDPW" style="cursor: pointer">아이디/비밀번호 찾기</button>

@@ -408,41 +408,8 @@
                 <li><a href="../layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
                 <li><a href="../layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
                 <li><a href="../layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-<<<<<<< HEAD
               </ul> --></li>
-					<li><a
-						href="${pageContext.request.contextPath }/reservationMgnList">
-							<i class="fa fa-th"></i> <span>예약 관리</span> <!-- <small class="label pull-right bg-green">new</small> -->
-							<!-- new 글자뜨는거 -->
-					</a></li>
-					<li class="treeview"><a href="#"> <i
-							class="fa fa-pie-chart"></i> <span>상품 관리</span> <i
-							class="fa fa-angle-left pull-right"></i>
-					</a>
-						<ul class="treeview-menu">
-
-							<li><a
-								href="${pageContext.request.contextPath }/flightMngList"><i
-									class="fa fa-circle-o"></i>항공 관리</a></li>
-							<%-- <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li> --%>
-							<li><a
-								href="${pageContext.request.contextPath }/hotelMngList"><i
-									class="fa fa-circle-o"></i>호텔 관리</a></li>
-							<li><a
-								href="${pageContext.request.contextPath }/tourMngList"><i
-									class="fa fa-circle-o"></i>현지 투어 관리</a></li>
-							<li><a
-								href="${pageContext.request.contextPath }/rentcarMngList"><i
-									class="fa fa-circle-o"></i> 렌트카 관리</a></li>
-							<li><a
-								href="${pageContext.request.contextPath }/addProductForm"><i
-									class="fa fa-circle-o text-red"></i>상품 목록</a></li>
-						</ul></li>
-					<li class="treeview"><a href="#"> <i class="fa fa-laptop"></i>
-							<span>이벤트 관리</span> <!--  <i class="fa fa-angle-left pull-right"></i> -->
-					</a> <!--    <ul class="treeview-menu">  
-              </ul> -->
-            </li>
+					
             <li>
               <a href="${pageContext.request.contextPath }/reservationMgnList">
                 <i class="fa fa-th"></i> <span>예약 관리</span> <!-- <small class="label pull-right bg-green">new</small> --> <!-- new 글자뜨는거 -->

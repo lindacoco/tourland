@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.persistance.mng.dao.EmployeeDAO;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO {
@@ -83,7 +84,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 		return sqlSession.selectOne(namespace+"readByIdEmployee",empid);
 	}
 
-	
+	@Override
+	public EmployeeVO readByIdPwEmployee(String empid, String emppass) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("empid", empid);
+		map.put("emppass", emppass);
+		return sqlSession.selectOne(namespace+"readByIdPwEmployee",map);
+	}
 	
 	
 

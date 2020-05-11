@@ -93,6 +93,16 @@ select * from employee;
 
 select * from planboard;
 
+insert into planboard(title, content, writer, regdate, lcate, mcate, answer)
+(select title, content, writer, regdate, lcate, mcate, answer from planboard);
+
+ select from user
+ where userpass = password('test');
+
+select count(no)
+from planboard;
+
+
 -- 하나 --------------------------------------------------------------------------------------------
 
 SELECT * FROM notice;

@@ -78,13 +78,16 @@ public class UserDAOImpl implements UserDAO{
 
 	//아이디 중복체크 위함 사원에서도 쓰임
 	@Override
+	public UserVO readByIdPwUser(String userid, String userpass) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("userpass", userpass);
+		return sqlSession.selectOne(namespace+"readByIdPwUser",map);
+	}
+
+	@Override
 	public UserVO readByIdUser(String userid) throws Exception {
 		return sqlSession.selectOne(namespace+"readByIdUser",userid);
 	}
 
-//	@Override
-//	public UserVO readByPassUser(String userpass) throws Exception {
-//		return sqlSession.selectOne(namespace+"readByPassUser",userpass);
-//	}
-   
 }

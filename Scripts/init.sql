@@ -148,6 +148,7 @@ ALTER TABLE tour.custboard
 		);
 
 -- 상품문의사항
+
 CREATE TABLE tour.planboard (
 	no      INT          NOT NULL COMMENT '번호', -- 번호
 	title   varchar(255) NULL     COMMENT '제목', -- 제목
@@ -160,12 +161,18 @@ CREATE TABLE tour.planboard (
 )
 COMMENT '상품문의사항';
 
+
 -- 상품문의사항
 ALTER TABLE tour.planboard
 	ADD CONSTRAINT PK_planboard -- 상품문의사항 기본키
 		PRIMARY KEY (
 			no -- 번호
 		);
+	
+ALTER TABLE tour.planboard
+MODIFY COLUMN no INT NOT NULL AUTO_INCREMENT COMMENT '번호';
+
+
 
 -- 상품
 CREATE TABLE tour.product (

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.persistance.mng.dao.EmployeeDAO;
 
 @Service
@@ -51,5 +52,8 @@ public class EmployeeService {
 	
 	public EmployeeVO readByIdEmployee(String empid) throws Exception {
 		return dao.readByIdEmployee(empid);
+	}
+	public EmployeeVO readByIdPwEmployee(String empid,String emppass) throws Exception {
+		return dao.readByIdPwEmployee(empid,emppass);
 	}
 }
