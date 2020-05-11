@@ -119,10 +119,151 @@
 									      border: 1px solid #c8c8c8;
 									      float: left; 
 									      margin: 20px 10px 10px 10px; }
+									      
+	/*팝업스타일 */
+	 #popup1{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+      height: 600px;
+      position: relative;
+      position: absolute;
+      top: 150px;
+       display: none;
+    }
+    
+    #popup2{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+      position: relative;
+      position: absolute;
+      top: 250px;
+      left:100px;
+      display: none;
+    }
+    
+    #previewPopup1{
+    width:400px;
+    box-shadow: 0 0 8px black;
+    position: absolute;
+    left:85px;
+    top:50px;
+  }
+  
+   #previewPopup2{
+    width:400px;
+    box-shadow: 0 0 8px black;
+    position: absolute;
+    left:85px;
+    top:50px;
+  }
+  
+   p.popupClose{
+     width:400px;
+     position: absolute;
+     top:400px;
+     left:0;
+     padding-bottom: 10px;
+     box-shadow: 0 0 8px black;
+   }
+   input.expireCK{
+     margin-right:10px;
+     margin-top:13px;
+   }
+   button.popupBtnClose{
+     margin-left:20px;
+     width:30px;
+   }
+   
+									      
 </style>
 <body>
 	<div id="container">
 	<%@ include file="../include/userHeader.jsp"%>
+<script>
+
+	  $(function(){
+		  
+		  if($.cookie("popup1") != null ){ 
+		         $("#popup1").css("display","block"); 
+		      }
+		  
+		  if($.cookie("popup2") != null ){ 
+		         $("#popup2").css("display","block"); 
+		      }
+		 // alert($.cookie("exeptFor3days"));
+		  if($.cookie("exeptFor3days") == "none"){ 
+		         $("#popup1").css("display","none"); 
+		      }
+		  if($.cookie("exeptFor3days2") == "none"){ 
+		         $("#popup2").css("display","none"); 
+		      }
+		  //팝업 버튼 누르면 팝업창 사라지기 popup1
+		  $(".popupBtnClose").click(function(){
+			  if($(".expireCK").prop("checked") ==true ){
+	              $.cookie("exeptFor3days","none",{expires:3, path:"/"});
+		   }
+			 $(this).parent().parent().parent().css("display","none");
+	      })
+	     $(".popupBtnClose2").click(function(){
+			  if($(".expireCK2").prop("checked") ==true ){
+	              $.cookie("exeptFor3days2","none",{expires:3, path:"/"});
+		   }
+			 $(this).parent().parent().parent().css("display","none");
+	  })
+	  
+  })
+	  
+</script>
+	        <!-- 팝업 -->
+	         <div id="popup1" style=" margin-left:10%;">  <!-- 1번 팝업 -->
+	                        <c:if test="${popup1 == null }">
+	                            <div id="previewPopup1">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event1.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK">
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose"> 닫기 </button>
+						          </p>
+	                            </div>
+	                        </c:if>
+	                        <c:if test="${popup1 != null }">
+	                        <div id="previewPopup1">
+	                             <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1Img">
+	                             <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK">
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose"> 닫기 </button>
+						         </p>
+	                        </div>
+	                        </c:if>
+	          </div>
+	           <div id="popup2" style=" margin-left:10%;"> <!-- 2번팝업  -->
+	                        <c:if test="${popup2 == null }">
+	                            <div id="previewPopup2">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event2.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK2">
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose2"> 닫기 </button>
+						          </p>
+	                            </div>
+	                        </c:if>
+	                        <c:if test="${popup2 != null }">
+	                        <div id="previewPopup2">
+	                             <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup1Img">
+	                             <p class="popupClose" style="background:black;">
+							          <input type="checkbox" class="expireCK2">
+							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <button class="popupBtnClose2"> 닫기 </button>
+						         </p>
+	                        </div>
+	                        </c:if>
+	          </div>
+	          
 			<div id="mainBox">  
 				<section id="section1">
 					<div id="imgBox">
@@ -260,11 +401,21 @@
 				
 				</section>
 				<section id="section4">
+				<c:if test="${banner1 ==null }">
 					<div class="bannerBox" id="banner1">
 						<h3>그리스 + 산토리니 5박 6일</h3>
 						<p>마지막 찬스, 서울 출발</p>
 						<img alt="" src="images/santo.jpg">
 					</div>
+				</c:if>
+				<c:if test="${banner1 !=null }">
+					<div class="bannerBox" id="banner1">
+						<h3>${banner1.title }</h3>
+						<p>${banner1.content }</p>
+						<img alt="" src="images/santo.jpg">
+					</div>
+				</c:if>
+				
 					<div class="bannerBox">
 						<h3>진짜 오사카를 만나다</h3>
 						<p>간사이 미니 패스, 대구 출발</p>

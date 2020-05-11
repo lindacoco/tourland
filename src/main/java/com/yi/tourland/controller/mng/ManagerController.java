@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +37,11 @@ import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.DataListVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.EventVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.ProductVO;
 import com.yi.tourland.domain.mng.RentcarVO;
@@ -48,10 +51,12 @@ import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.CustBoardService;
 import com.yi.tourland.service.mng.EmployeeService;
+import com.yi.tourland.service.mng.EventService;
 import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.PlanBoardService;
 import com.yi.tourland.service.mng.PopupService;
 import com.yi.tourland.service.mng.ProductService;
 import com.yi.tourland.service.mng.RentcarService;
@@ -61,16 +66,18 @@ import com.yi.tourland.util.UploadFileUtils;
 
 @Controller
 public class ManagerController {
-
-	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함
-	private String uploadPath; // c:/tourland/upload
-	
-	@Resource(name = "uploadPath2")
-	private String uploadPathPopup; // c:/tourland/upload/popup
-	
+	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함 private String
+	private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
+	 
+	@Resource(name = "uploadPath2") 
+	private String uploadPathPopup;
+	 
+	@Resource(name ="uploadPath3") 
+	private String uploadPathEvent;
+	 
 	@Resource(name = "uploadPathProduct")
 	private String uploadPathProduct; // c:/tourland/upload/product
-	
+	 
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -95,6 +102,9 @@ public class ManagerController {
 	HotelService hotelService;
 	
 	@Autowired
+	EventService eventService;
+	
+	@Autowired
 	PopupService popupService;
 
 	@Autowired
@@ -108,6 +118,9 @@ public class ManagerController {
 	
 	@Autowired
 	private ProductService productService;
+
+	@Autowired
+	PlanBoardService planBoardService;
 
 	// 예약관리
 	@RequestMapping(value = "reservMngList", method = RequestMethod.GET)
@@ -362,7 +375,28 @@ public class ManagerController {
 		return entity;
 	}
 	
-	
+	//항공 해외 검색 ajax
+	@RequestMapping(value="flightAbroadList/{page}", method= RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> abroadlistPage(@PathVariable("page") int page){
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			SearchCriteria cri = new SearchCriteria();
+			cri.setPage(page);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			int totalCount = flightService.totalCountAirplane(cri);
+			pageMaker.setTotalCount(totalCount);
+			List<AirplaneVO> list = flightService.airplaneAbroadList(cri);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker", pageMaker);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}   
+		return entity;
+	}	
 	
 
 	// 직원관리리스트
@@ -533,7 +567,6 @@ public class ManagerController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			// 퇴사 사원이 없는 경우 오류가 뜨기에 시범 데이터 입력
 		}
 		return "/manager/user/userRegister";
 	}
@@ -892,7 +925,7 @@ public class ManagerController {
 		model.addAttribute("cri", cri);
 		model.addAttribute("list", rentcarList);
 		model.addAttribute("pageMaker", pageMaker);
-
+		
 		return "/manager/rentcar/rentcarMngList";
 	}
 
@@ -954,8 +987,104 @@ public class ManagerController {
 			return "redirect:/rentcarMngList?page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
 		}
 
-	// 이벤트관리
+// 이벤트관리  -------------------------------------------------------------------------------
+	 @RequestMapping(value ="eventMngList", method = RequestMethod.GET)
+	 public String eventMngList(SearchCriteria cri, Model model) throws Exception {
+			cri.setPerPageNum(5);
+		    List<EventVO> eventList = eventService.listSearchCriteriaEvent(cri);
+		       
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(eventService.totalSearchCountEvent(cri));
+			model.addAttribute("cri", cri);
+			model.addAttribute("list", eventList);
+		    model.addAttribute("pageMaker", pageMaker);
 
+			return "/manager/event/eventMngList";
+	 }		
+	//이벤트 추가 
+	 @RequestMapping(value = "eventRegister", method = RequestMethod.GET)
+		public String eventRegister(SearchCriteria cri, Model model) {
+			int lastNo = 0;
+			try {
+				List<EventVO> eventList = eventService.listSearchCriteriaEvent(cri);
+				lastNo = eventList.get(0).getNo() + 1;
+			} catch (Exception e) {
+				lastNo = 1;
+			}
+
+			model.addAttribute("autoNo", lastNo); // 가장 나중 번호로 자동세팅
+
+			return "/manager/event/eventRegister";
+		}
+	 
+	 @RequestMapping(value = "eventRegister", method = RequestMethod.POST)
+		public String eventRegisterPost(EventVO vo, MultipartFile eventPic, Model model) throws Exception {
+
+			String savedName = UploadFileUtils.uploadFile(uploadPathEvent, eventPic.getOriginalFilename().replaceAll(" ", "_"),
+					eventPic.getBytes());
+			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+
+			vo.setPic(bigSizePic.replaceAll(" ", "_"));
+			eventService.insertEvent(vo);
+			return "redirect:/eventMngList";
+		}
+	 @RequestMapping(value = "eventDetailForm", method = RequestMethod.GET)
+		public String eventDetailForm(int no, SearchCriteria cri, Model model) throws Exception {
+		 EventVO vo = eventService.readByNoEvent(no);
+
+			model.addAttribute("eventVO", vo);
+			model.addAttribute("cri", cri);
+
+			return "/manager/event/eventDetailForm";
+		}
+		
+		@RequestMapping(value = "eventUpdate", method = RequestMethod.POST)
+		public String eventUpdate(EventVO vo, MultipartFile eventPic, Model model) throws Exception {
+		
+			if (eventPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
+				// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
+
+				File eventFile = new File(uploadPathEvent + vo.getPic());
+				eventFile.delete();
+
+				String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+				// System.out.println(smallSizePic);
+				File eventFile2 = new File(uploadPathEvent + smallSizePic);
+				eventFile2.delete();
+
+				// 수정 된 파일로 교체
+				String savedName = UploadFileUtils.uploadFile(uploadPathEvent, eventPic.getOriginalFilename(),
+						eventPic.getBytes());
+				String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+				
+				vo.setPic(bigSizePic);
+			}
+			eventService.updateEvent(vo);
+
+			return "redirect:/eventDetailForm?no=" + vo.getNo();
+
+		}
+	 //이벤트 삭제	
+		 @RequestMapping(value = "removeEvent", method = RequestMethod.GET)
+	     public String removeEvent(SearchCriteria cri, Model model, int no) throws Exception {
+			 EventVO vo = eventService.readByNoEvent(no);
+				if (vo.getPic() != null) {
+					// 폴더에 남은 사진들 먼저 지우기
+					File eventFile = new File(uploadPathEvent + vo.getPic());
+					eventFile.delete();
+
+					String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
+
+					File eventFile2 = new File(uploadPathEvent + smallSizePic);
+					eventFile2.delete();
+				}
+
+				eventService.deleteEvent(no);
+
+				return "redirect:/eventMngList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&keyword="
+						+ cri.getKeyword();
+			}
 // 게시판관리 -------------------------------------------------------------------------------------------------------------------------
 
 	// FAQ 관리
@@ -1096,6 +1225,15 @@ public class ManagerController {
 	public String popupMngList(SearchCriteria cri, Model model) throws Exception {
 		cri.setPerPageNum(5);
         List<PopupVO> popupList = popupService.listSearchCriteriaPopup(cri);
+        
+        PopupVO popup1 = popupService.setPopup("L");
+        if(popup1 != null) {
+        	model.addAttribute("popup1", popup1.getPic());
+        }
+        PopupVO popup2 = popupService.setPopup("R");
+        if(popup2 != null) {
+        	model.addAttribute("popup2", popup2.getPic());
+        }
        
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -1171,6 +1309,75 @@ public class ManagerController {
 		return "redirect:/popupDetailForm?no=" + vo.getNo();
 
 	}
+	//리스트에서 팝업 미리보기
+		@ResponseBody
+		@RequestMapping(value = "getPopupPicPath/{no}",produces = "application/text; charset=utf8" ,method = RequestMethod.GET)
+		public ResponseEntity<String> getPopupPicPath(@PathVariable("no") int no){
+
+			ResponseEntity<String> entity = null;
+			
+			try {
+				PopupVO vo = popupService.readByNoPopup(no);
+				if(vo !=null ) {
+				entity = new ResponseEntity<String>(vo.getPic(),HttpStatus.OK);
+				   }
+			}catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail",HttpStatus.BAD_REQUEST); //400에러
+					
+			}
+			return entity;
+			
+		}
+		
+    //팝업 설정하기
+		@ResponseBody
+		@RequestMapping(value = "setPopup/{no}/{numbering}", method = RequestMethod.GET)
+		public ResponseEntity<String> setPopup(@PathVariable("no") int no,@PathVariable("numbering") String numbering, Model model,SearchCriteria cri, HttpServletResponse response) throws Exception{
+			ResponseEntity<String> entity = null;
+
+			try {
+				//왼쪽배너부터
+				
+				if(numbering.equals("popup1")) {
+
+					PopupVO lvo = popupService.setPopup("L");
+					//System.out.println("lvo"+lvo);
+					if(lvo != null) {
+						lvo.setPosition(null);
+						popupService.updatePopup(lvo);
+						
+					}
+					PopupVO firstVO = popupService.readByNoPopup(no);
+					firstVO.setPosition("L");
+					popupService.updatePopup(firstVO);
+
+					model.addAttribute("popup1",firstVO.getPic());
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+				if(numbering.equals("popup2")) {
+					PopupVO rvo = popupService.setPopup("R");
+					if(rvo != null) {
+						rvo.setPosition(null);
+						popupService.updatePopup(rvo);
+
+					}
+					PopupVO secondVO = popupService.readByNoPopup(no);
+					secondVO.setPosition("R");
+					popupService.updatePopup(secondVO);
+
+					model.addAttribute("popup2",secondVO.getPic());
+					entity = new ResponseEntity<String>("success", HttpStatus.OK);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
+			
+		}
 	
 	//팝업삭제
      @RequestMapping(value = "removePopup", method = RequestMethod.GET)
@@ -1243,7 +1450,7 @@ public class ManagerController {
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
 	public String bannerRegisterPost(BannerVO vo, MultipartFile bannerPic, Model model) throws Exception {
 
-		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename().replaceAll(" ", "_"),
+		String savedName = UploadFileUtils.uploadFile(uploadPathBanner, bannerPic.getOriginalFilename().replaceAll(" ", "_"),
 				bannerPic.getBytes());
 		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
 		// 배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
@@ -1261,11 +1468,15 @@ public class ManagerController {
         String path = null;
         
         if(choice.equals("banner")) {
-        	path = uploadPath;
+        	path = uploadPathBanner;
         }
         
         if(choice.equals("popup")) {
         	path = uploadPathPopup; 
+        }
+        
+        if(choice.contentEquals("event")) {
+        	path = uploadPathEvent; 
         }
 		// System.out.println("displayFile-----------"+ filename);
 		InputStream in = null;
@@ -1316,16 +1527,16 @@ public class ManagerController {
 		if (bannerPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
 			// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
 
-			File bannerFile = new File(uploadPath + vo.getPic());
+			File bannerFile = new File(uploadPathBanner + vo.getPic());
 			bannerFile.delete();
 
 			String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
 			// System.out.println(smallSizePic);
-			File bannerFile2 = new File(uploadPath + smallSizePic);
+			File bannerFile2 = new File(uploadPathBanner + smallSizePic);
 			bannerFile2.delete();
 
 			// 수정 된 파일로 교체
-			String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename(),
+			String savedName = UploadFileUtils.uploadFile(uploadPathBanner, bannerPic.getOriginalFilename(),
 					bannerPic.getBytes());
 			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
 			// 배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
@@ -1344,12 +1555,12 @@ public class ManagerController {
 		BannerVO vo = bannerService.readByNoBanner(no);
 		if (vo.getPic() != null) {
 			// 폴더에 남은 사진들 먼저 지우기
-			File bannerFile = new File(uploadPath + vo.getPic());
+			File bannerFile = new File(uploadPathBanner + vo.getPic());
 			bannerFile.delete();
 
 			String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
 
-			File bannerFile2 = new File(uploadPath + smallSizePic);
+			File bannerFile2 = new File(uploadPathBanner + smallSizePic);
 			bannerFile2.delete();
 		}
 
@@ -1381,51 +1592,51 @@ public class ManagerController {
 		
 	}
 	//배너 설정하기 
-	@ResponseBody
-	@RequestMapping(value = "setBanner/{no}/{side}", method = RequestMethod.GET)
-	public ResponseEntity<String> setBanner(@PathVariable("no") int no,@PathVariable("side") String side, Model model,SearchCriteria cri) throws Exception{
-		ResponseEntity<String> entity = null;
+		@ResponseBody
+		@RequestMapping(value = "setBanner/{no}/{side}", method = RequestMethod.GET)
+		public ResponseEntity<String> setBanner(@PathVariable("no") int no,@PathVariable("side") String side, Model model,SearchCriteria cri) throws Exception{
+			ResponseEntity<String> entity = null;
 
-		try {
-			//왼쪽배너부터
+			try {
+				//왼쪽배너부터
+				
+				if(side.equals("left")) {
+
+					BannerVO lvo = bannerService.setBanner("L");
+					//System.out.println("lvo"+lvo);
+					if(lvo != null) {
+						lvo.setPosition(null);
+						bannerService.updateBanner(lvo);
+						
+					}
+					BannerVO leftVO = bannerService.readByNoBanner(no);
+					leftVO.setPosition("L");
+					bannerService.updateBanner(leftVO);
+					model.addAttribute("leftBanner",leftVO.getPic());
+					entity = new ResponseEntity<String>("leftSuccess", HttpStatus.OK);
+				}
+				if(side.equals("right")) {
+					BannerVO rvo = bannerService.setBanner("R");
+					if(rvo != null) {
+						rvo.setPosition(null);
+						bannerService.updateBanner(rvo);
+						
+					}
+					BannerVO rightVO = bannerService.readByNoBanner(no);
+					rightVO.setPosition("R");
+					bannerService.updateBanner(rightVO);
+					model.addAttribute("rightBanner",rightVO.getPic());
+					entity = new ResponseEntity<String>("rightSuccess", HttpStatus.OK);
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+
+			}
+			return entity;
 			
-			if(side.equals("left")) {
-
-				BannerVO lvo = bannerService.setBanner("L");
-				//System.out.println("lvo"+lvo);
-				if(lvo != null) {
-					lvo.setPosition(null);
-					bannerService.updateBanner(lvo);
-					
-				}
-				BannerVO leftVO = bannerService.readByNoBanner(no);
-				leftVO.setPosition("L");
-				bannerService.updateBanner(leftVO);
-				model.addAttribute("leftBanner",leftVO.getPic());
-				entity = new ResponseEntity<String>("leftSuccess", HttpStatus.OK);
-			}
-			if(side.equals("right")) {
-				BannerVO rvo = bannerService.setBanner("R");
-				if(rvo != null) {
-					rvo.setPosition(null);
-					bannerService.updateBanner(rvo);
-					
-				}
-				BannerVO rightVO = bannerService.readByNoBanner(no);
-				rightVO.setPosition("R");
-				bannerService.updateBanner(rightVO);
-				model.addAttribute("rightBanner",rightVO.getPic());
-				entity = new ResponseEntity<String>("rightSuccess", HttpStatus.OK);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
-
 		}
-		return entity;
-		
-	}
 		
 // 공지사항 관리 ------------------------------------------------------------------------------------------------------------------
 
@@ -1605,6 +1816,61 @@ public class ManagerController {
 		hotelService.deleteHotel(vo);
 		return "redirect:hotelMngList?page=" + cri.getPage() +"&searchType=" + cri.getSearchType()+"&keyword=" + cri.getKeyword();
 	}
-	// 장바구니
+	
+	// 상품 문의사항
+		@RequestMapping(value = "planBoardList", method = RequestMethod.GET)
+		public String planBoardList(SearchCriteria cri, Model model) throws Exception {
+			List<PlanBoardVO> list = planBoardService.listSearchCriteriaPlanBoard(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(planBoardService.totalSearchCountPlanBoard(cri) < 10 ? 10 : planBoardService.totalSearchCountPlanBoard(cri));
+			model.addAttribute("list", list);
+			model.addAttribute("pageMaker", pageMaker);
+			model.addAttribute("cri", cri);
+			return "/manager/board/planBoardList";
+		}
+
+		@RequestMapping(value = "planBoardRegister", method = RequestMethod.GET)
+		public String planBoardResgiter() throws SQLException {
+			return "/manager/board/planBoardRegister";
+		}
+
+		@RequestMapping(value = "planBoardRegister", method = RequestMethod.POST)
+		public String planBoardResgiterPost(PlanBoardVO vo) throws Exception {
+			planBoardService.insertPlanBoard(vo);
+			return "redirect:planBoardList";
+		}
+
+		@RequestMapping(value = "planBoardDetail", method = RequestMethod.GET)
+		public String planBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+			vo = planBoardService.readByNoPlanBoard(vo);
+			model.addAttribute("vo", vo);
+			model.addAttribute("cri", cri);
+			return "/manager/board/planBoardDetail";
+		}
+
+		@RequestMapping(value = "planBoardModify", method = RequestMethod.GET)
+		public String planBoardModify(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+			vo = planBoardService.readByNoPlanBoard(vo);
+			model.addAttribute("vo", vo);
+			model.addAttribute("cri", cri);
+			return "/manager/board/planBoardModify";
+		}
+
+		@RequestMapping(value = "planBoardModify", method = RequestMethod.POST)
+		public String planBoardModifyPost(PlanBoardVO vo, SearchCriteria cri) throws Exception {
+			planBoardService.updatePlanBoard(vo);
+			return "redirect:planBoardDetail?no=" + vo.getNo() + "&page=" + cri.getPage() + "&searchType=" + cri.getSearchType()
+					+ "&searchType2=" + cri.getSearchType2() + "&keyword=" + cri.getKeyword();
+		}
+
+		@RequestMapping(value = "planBoardDelete", method = RequestMethod.GET)
+		public String planBoardDelete(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+			planBoardService.deletePlanBoard(vo);
+			return "redirect:planBoardList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&searchType2="
+					+ cri.getSearchType2() + "&keyword=" + cri.getKeyword();
+		}
+
+		// 장바구니
 
 }

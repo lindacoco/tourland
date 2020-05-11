@@ -4,6 +4,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
+
+
 <style>
 
 /* /* 전체 */
@@ -63,25 +71,40 @@
 					   color: #fff;}
 	div#nav2 ul li#orange { width: 50px; background: #ff7f00;}
 	div#nav2 ul li.short { width: 50px;} 
-	
+	#userAuth{
+		position: absolute;
+   	 	top: 12px;
+    	left: 1068px;
+	}	
+	#managerAuth{
+		position: absolute;
+   	 	top: 12px;
+    	left: 995px;
+	}
 </style>
 
 <header>
 			<nav id="nav1">
 				<ul>
+				<c:if test="${User == null && Manager==null}">
 					<li><a href="#">고객센터</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">마이페이지</a></li>
-					<li><a href="#">회원가입</a></li>
+					<li><a href="${pageContext.request.contextPath }/tourlandRegister">회원가입</a></li>
 					<li><a href="${pageContext.request.contextPath }/loginForm" class="balance">로그인</a></li>
-					
-					<c:if test="${Manager!=null }">
+				</c:if>
+				<c:if test="${Manager!=null }">
+						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
+						<li><a href="#">고객센터</a></li>
+						<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">마이페이지</a></li>
 						<li id="manager"><a href="${pageContext.request.contextPath }/empMngList/0">관리자</a></li>
-						<p>${Manager}님! 반갑습니다.</p>
-					</c:if>
-					<c:if test="${User!=null }">
-						<p>${User}님! 반갑습니다.</p>
-					</c:if>
-					
+						<p id="managerAuth">[ ${Manager.name} ]님! 반갑습니다.</p>
+				</c:if>
+				<c:if test="${User!=null }">
+						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
+						<li><a href="#">고객센터</a></li>
+						<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">마이페이지</a></li>
+						<p id="userAuth">[ ${User} ]님! 반갑습니다.</p>
+				</c:if>
 				</ul>
 			</nav>
 			

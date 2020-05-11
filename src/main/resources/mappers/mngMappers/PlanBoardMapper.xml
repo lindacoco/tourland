@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.mngMappers.PlanBoardMapper">
+
+  <insert id="insertPlanBoard" parameterType="PlanBoardVO"> 
+     insert into planboard(no, title, content, writer, regdate, lcate, mcate, answer) values
+     (#{no}, #{title}, #{content}, #{writer}, now(), #{lcate}, #{mcate}, #{answer},)
+  </insert>
+
+
+
+   <select id="readByNoPlanBoard" resultType="PlanBoardVO">
+     select * from planboard
+     where no= #{no}
+   </select> 
+
+
+
+    <update id="updatePlanBoard" parameterType="planBoardVO">
+       update planboard  set 
+       title =#{title}, content=#{content}
+       where no=#{no}
+    </update> 
+
+
+   <delete id="deletePlanBoard">
+       delete from planboard 
+       where no= #{no}
+   </delete>
+
+
+    <select id="listCriteriaPlanBoard" resultType="planBoardVO">
+      select * from planboard order by no desc limit #{pageStart}, #{perPageNum}
+    </select>
+  
+
+    <select id="totalCountPlanBoard" resultType="int">
+       select  count(no) from planboard 
+    </select>
+
+
+ <sql id="search">
+	<if test='searchType!=null'>
+				<if test='!searchType.equals("")'>
+					where lcate = #{searchType}
+					<if test='!searchType2.equals("")'>
+						and mcate = #{searchType2}
+						<if test='!keyword.equals("")'>
+							and title like CONCAT('%',#{keyword},'%')
+						</if>
+					</if>
+					<if test='searchType2.equals("")'>
+						<if test='!keyword.equals("")'>
+							and title like CONCAT('%',#{keyword},'%')
+						</if>
+					</if>
+				</if>
+				<if test='searchType.equals("")'>
+					<if test='keyword!=null and !keyword.equals("")'>
+						where title like CONCAT('%',#{keyword},'%')
+					</if>
+				</if>
+			</if>
+ </sql>
+
+<!-- 검색으로 나타나는 리스트 부분 -->
+    <select id="listSearchCriteriaPlanBoard" resultType="planBoardVO">
+      select * from planboard
+      <include refid="search"></include>
+      order by no desc  limit #{pageStart}, #{perPageNum}
+    </select>
+	<!-- 검색한 결과 수  -->
+	    <select id="totalSearchCountPlanBoard" resultType="int">
+	        select  count(no) from planboard
+		    <include refid="search"></include>  
+	    
+	    </select>
+
+
+	
+</mapper>

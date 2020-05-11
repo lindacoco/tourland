@@ -35,9 +35,9 @@
 			margin-left: 10px;  }							  				  		
 </style>
 <body>
-	<%@ include file="../include/userHeader.jsp"%>		
+	<%@ include file="../../include/userHeader.jsp"%>		
 			<section>
-				<%@ include file="../include/userMyPageMenu.jsp"%>  
+				<%@ include file="../../include/userMyPageMenu.jsp"%>  
 				<div id="editProfile">
 				<h1>내 정보 수정</h1>
 				<span id="info">투어랜드는 고객님의 개인정보가 외부로 노출되지 않도록 항상 노력하고 있습니다.</span>
@@ -78,4 +78,4 @@
 					</form>
 				</div>
 			</section>
-				<%@ include file="../include/userFooter.jsp"%>
+				<%@ include file="../../include/userFooter.jsp"%>

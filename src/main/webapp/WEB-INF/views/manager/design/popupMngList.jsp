@@ -15,6 +15,57 @@
        height: 95px;
        vertical-align: middle;
     }
+    
+    #popup1{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+      height: 600px;
+      position: relative;
+    }
+    
+    #popup2{
+      margin-left:100px;
+      float:left;
+      text-align:center;
+      width:560px;
+      position: relative;
+    }
+    
+    #previewPopup1{
+    width:400px;
+    box-shadow: 0 0 8px black;
+    position: absolute;
+    left:85px;
+    top:50px;
+  }
+  
+   #previewPopup2{
+    width:400px;
+    box-shadow: 0 0 8px black;
+    position: absolute;
+    left:85px;
+    top:50px;
+  }
+  
+   p.popupClose{
+     width:400px;
+     position: absolute;
+     top:400px;
+     left:0;
+     padding:5px;
+     box-shadow: 0 0 8px black;
+   }
+   input.expireCK{
+     margin-right:10px;
+     margin-top:13px;
+   }
+   button.popupBtnClose{
+     margin-left:20px;
+   }
+
+
 </style>
 <!-- <div id="opa">dummy</div> -->
 <div class="content">	
@@ -42,12 +93,13 @@
 						<tr>
 							<th style="width:100px;">팝업 번호</th>
 							<th>썸네일</th>
-							<th style="width:20%">팝업명</th>
-							<th style="width:40%">팝업 설명</th>
-							<th>시작 날짜</th>
-							<th>종료 날짜</th>
+							<th style="width:15%">팝업명</th>
+							<th style="width:35%">팝업 설명</th>
+							<th style="width:8%">시작 날짜</th>
+							<th style="width:8%">종료 날짜</th>
 					        <th>상세보기</th>
-					        <th>팝업 미리보기</th>
+					        <th>1번 팝업 미리보기</th>
+					        <th>2번 팝업 미리보기</th>
 						</tr>     
 						<!-- 반복 돌면서 list가져오기 -->
 						<c:forEach var="popupList" items="${list}">
@@ -59,7 +111,8 @@
 						    <td><fmt:formatDate value="${popupList.startdate}" pattern="yyyy-MM-dd"/></td>
 						    <td><fmt:formatDate value="${popupList.enddate}" pattern="yyyy-MM-dd"/></td>
 						    <td><button style="background:lightskyblue; border:none;" class="toPopupDetail" data-click="${popupList.no }">상세보기</button></td>
-						    <td><input type="checkbox" class="popupCheckbox" value="${popupList.no }" ><button style="margin-left:25px; height: 23px;" class="setPopup" value="${popupList.no }">설정</button></td>
+						    <td><input type="checkbox" class="popup1Checkbox" value="${popupList.no }" ><button style="margin-left:25px; height: 23px;" class="setPopup1" value="${popupList.no }">설정</button></td>
+						    <td><input type="checkbox" class="popup2Checkbox" value="${popupList.no }" ><button style="margin-left:25px; height: 23px;" class="setPopup2" value="${popupList.no }">설정</button></td>
 						    </tr>
 						</c:forEach>	
 					</table>      
@@ -83,14 +136,52 @@
 	               </div>
 	               <div class="box-body" id="mainPopupPreview" >
 	                   <!-- 팝업 미리보기 -->
-	                    <div id="popupView" style=" margin-left:10%;">
-	               <%--     <c:if test="${ == null }">
-	                            <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:560px; height:200px;" id="bannerLeftImg">
+	                   <div id="popup1" style=" margin-left:10%;">
+	                        <p>1번 팝업</p>
+	                        <c:if test="${popup1 == null }">
+	                            <div id="previewPopup1">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event1.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <p class="popupClose" style="background:black;">
+						          <input type="checkbox" class="expireCK">
+						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
+						          <button class="popupBtnClose">닫기</button>
+						          </p>
+	                            </div>
 	                        </c:if>
-	                        <c:if test="${!= null }">
-	                        <img src="displayFile?filename=${leftBanner}" style="width:560px; height:200px;" id="bannerLeftImg">
-	                        </c:if> --%>
+	                        <c:if test="${popup1 != null }">
+	                        <div id="previewPopup1">
+	                        <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1Img">
+	                             <p class="popupClose" style="background:black;">
+						          <input type="checkbox" class="expireCK">
+						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
+						          <button class="popupBtnClose">닫기</button>
+						         </p>
+	                        </div>
+	                        </c:if>
 	                   </div>
+	                    <div id="popup2">
+		                   <p>2번 팝업</p>
+		                   <c:if test="${popup2 == null }">
+		                     <div id="previewPopup2">
+	                            <img src="${pageContext.request.contextPath}/resources/images/event2.jpg" style="width:400px; height:400px;" id="popup2img">
+	                              <p class="popupClose" style="background:black;">
+						          <input type="checkbox" class="expireCK">
+						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
+						          <button class="popupBtnClose">닫기</button>
+						          </p>
+						      </div>
+	                        </c:if>
+	                        <c:if test="${popup2 != null }">
+	                        <div id="previewPopup2">
+		                     <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup2img">
+		                      <p class="popupClose" style="background:black;">
+						          <input type="checkbox" class="expireCK">
+						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
+						          <button class="popupBtnClose">닫기</button>
+						       </p>
+		                    </div>
+		                   </c:if>
+	            		</div>
 	            		
 				   </div>
 	           </div>
@@ -120,23 +211,42 @@
 		location.href = "${pageContext.request.contextPath}/popupDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 	})
 	
-	//체크박스 체크를 하면 
-	$(".popupCheckbox").change(function(){
-		
-	
+	//팝업1 체크박스 체크를 하면 
+	$(".popup1Checkbox").change(function(){
+
 		if($(this).is(":checked")){
 
-		   var popupno = $(this).val();  //alert(bannerno);	
+		   var popupno = $(this).val();  //alert(popupno);	
 		 //ajax로 이미지 경로 받아오기 
 		 $.ajax({
-			url:"getPicPath/"+popupno,
+			url:"getPopupPicPath/"+popupno,
 			type:"get",
 			dataType:"text",
 			success:function(res){
 				console.log(res);
 				//alert(res);
 				if(res != "fail"){
-				 // 	$("#").attr("src","displayFile?filename="+res);  성공시 append로 만들어 넣을 것
+				     $("#popup1img").attr("src","displayFile/popup?filename="+res);
+				  }
+					
+				}
+			})
+		}
+	})
+	//팝업2 체크박스 체크를 하면 
+	$(".popup2Checkbox").change(function(){
+
+		if($(this).is(":checked")){
+		   var popupno = $(this).val();  //alert(popupno);	
+		 //ajax로 이미지 경로 받아오기 
+		 $.ajax({
+			url:"getPopupPicPath/"+popupno,
+			type:"get",
+			dataType:"text",
+			success:function(res){
+				console.log(res);
+				if(res != "fail"){
+				     $("#popup2img").attr("src","displayFile/popup?filename="+res);
 				  }
 					
 				}
@@ -147,10 +257,10 @@
 
 	
 	//설정 버튼을 누르면
-	$(".setPopup").click(function(){
+	$(".setPopup1").click(function(){
 		var no = $(this).val(); //alert(no);
 		$.ajax({
-			url:"setPopup/"+no,
+			url:"setPopup/"+no+"/popup1",
 			type:"get",
 			dataType:"text",
 			success:function(res){
@@ -164,6 +274,24 @@
 		})
 
 	})
+	$(".setPopup2").click(function(){
+		var no = $(this).val(); //alert(no);
+		$.ajax({
+			url:"setPopup/"+no+"/popup2",
+			type:"get",
+			dataType:"text",
+			success:function(res){
+				console.log(res);
+				
+				if(res == "success"){
+					alert("팝업설정이 완료되었습니다.");
+				}
+					
+			}
+		})
+
+	})
+
 
 	
 </script>

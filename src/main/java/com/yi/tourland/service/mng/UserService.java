@@ -42,7 +42,6 @@ public class UserService {
 
 	public List<UserVO> listCriteriaUser(Criteria cri, int usersecess) throws Exception {
 		return dao.listCriteriaUser(cri, usersecess);
-
 	}
 
 
@@ -63,5 +62,9 @@ public class UserService {
 	public UserVO readByIdUser(String userid) throws Exception {
 		return dao.readByIdUser(userid);
 	}
+	
+//	public UserVO readByPassUser(String userpass) throws Exception {
+//		return dao.readByPassUser(userpass);
+//	}
 	
 }

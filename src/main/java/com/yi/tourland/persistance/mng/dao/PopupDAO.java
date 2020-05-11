@@ -16,6 +16,6 @@ public interface PopupDAO {
 	public List<PopupVO> listSearchCriteriaPopup(SearchCriteria cri)throws Exception;
 	public int totalSearchCountPopup(SearchCriteria cri) throws Exception;
 
-	//팝업 설정하기
-    //public PopupVO setPopup(int isSetting) throws Exception;
+	//팝업 리스트 부르기 
+    public PopupVO setPopup(String position) throws Exception;
 }

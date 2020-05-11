@@ -38,6 +38,7 @@ section {
 	height: 100px;
 	margin: 0 auto;
 	padding-left: 80px;
+	position: relative;
 }
 
 #inputBox {
@@ -104,8 +105,9 @@ section {
 	font-weight: bold;
 }
 .error{
-	color:red;
-	
+    color: red;
+    position: absolute;
+    top: 62px;
 }
 </style>
 <body>
@@ -114,14 +116,20 @@ section {
 		<div id="loginHead">
 			<h1>로그인</h1>
 			<p>새로운 세상, 투어랜드</p>
+			
 		</div>
 		<div id="loginBox">
-			<form>
-				<h2>투어랜드</h2>
+			<form action="loginForm" method="post">
+			 <c:if test="${registerSuccess !=null}">
+			    <h2>가입 완료 되었습니다. 로그인 수행하여 주십시오.</h2>
+			</c:if>
+			<c:if test="${registerSuccess ==null}">
+			   <h2>투어랜드</h2>
+			</c:if>
 				<div id="loginInnerBox">
 					<div id="inputBox">
-						<input type="text" name="userid" id="userid" placeholder="투어랜드 아이디"> 
-						<input type="text" name="userpass" id="userpass" placeholder="투어랜드 비밀번호">
+						<input type="text" name="id" id="id" placeholder="아이디"> 
+						<input type="password" name="pass" id="pass" placeholder="비밀번호">
 					</div>
 					<div id="submitBox">
 						<input type="submit" value="로그인" style="cursor: pointer">

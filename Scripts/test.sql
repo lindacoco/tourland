@@ -15,8 +15,11 @@ select * from `user` u ;
 delete from `user` where userno = 7;
 insert into user values (6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),1);
 select * from rentcar r order by no desc ;
+select * from rentcar r where ldiv =0  order by no desc ;
 -- 렌트카
 select count(no) from rentcar r ;
+select * from rentcar where rentddate=  '2020-04-01' between  returndate  = '2020-04-10';
+select * from rentcar where rentddate >=  '2020-04-01' and returndate  <= '2020-04-10';
 -- 배너
 select * from banner b2 ;
 select * from banner order by no desc limit 1, 3;
@@ -26,6 +29,13 @@ select  count(no) from banner ;
 
 -- 팝업
 select  * from popup;
+delete from popup where position in ('R','L');
+delete from popup where no in (5,4);
+-- 이벤트
+select * from event;
+delete from event where no in(1,2,4);
+
+
 -- 고객의 소리
 insert into custboard values
 (1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
@@ -78,6 +88,10 @@ select * from hotel
 where hname like CONCAT('%','hidden','%');
 
 select * from user;
+
+select * from employee;
+
+select * from planboard;
 
 -- 하나 --------------------------------------------------------------------------------------------
 
