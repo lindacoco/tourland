@@ -150,7 +150,7 @@
 	                        </c:if>
 	                        <c:if test="${popup1 != null }">
 	                        <div id="previewPopup1">
-	                        <img src="displayFile/popup?filename=${popup1}" style="width:560px; height:200px;" id="popup1Img">
+	                        <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1Img">
 	                             <p class="popupClose" style="background:black;">
 						          <input type="checkbox" class="expireCK">
 						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
@@ -173,7 +173,7 @@
 	                        </c:if>
 	                        <c:if test="${popup2 != null }">
 	                        <div id="previewPopup2">
-		                     <img src="displayFile/popup?filename=${popup2}" style="width:560px; height:200px;" id="popup2Img">
+		                     <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup2img">
 		                      <p class="popupClose" style="background:black;">
 						          <input type="checkbox" class="expireCK">
 						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->
@@ -237,7 +237,6 @@
 	$(".popup2Checkbox").change(function(){
 
 		if($(this).is(":checked")){
-
 		   var popupno = $(this).val();  //alert(popupno);	
 		 //ajax로 이미지 경로 받아오기 
 		 $.ajax({

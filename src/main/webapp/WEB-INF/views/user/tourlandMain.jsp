@@ -401,11 +401,21 @@
 				
 				</section>
 				<section id="section4">
+				<c:if test="${banner1 ==null }">
 					<div class="bannerBox" id="banner1">
 						<h3>그리스 + 산토리니 5박 6일</h3>
 						<p>마지막 찬스, 서울 출발</p>
 						<img alt="" src="images/santo.jpg">
 					</div>
+				</c:if>
+				<c:if test="${banner1 !=null }">
+					<div class="bannerBox" id="banner1">
+						<h3>${banner1.title }</h3>
+						<p>${banner1.content }</p>
+						<img alt="" src="images/santo.jpg">
+					</div>
+				</c:if>
+				
 					<div class="bannerBox">
 						<h3>진짜 오사카를 만나다</h3>
 						<p>간사이 미니 패스, 대구 출발</p>

@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -63,15 +62,16 @@ import com.yi.tourland.util.UploadFileUtils;
 
 @Controller
 public class ManagerController {
+	
 
-	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함
-	private String uploadPath; // c:/tourland/upload
-	
-	@Resource(name = "uploadPath2")
-	private String uploadPathPopup; // c:/tourland/upload/popup
-	
-	@Resource(name ="uploadPath3")
-	private String uploadPathEvent; //c:/tourland/upload/event
+	 @Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함 private String
+	 private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
+	 
+	 @Resource(name = "uploadPath2") 
+	 private String uploadPathPopup;
+	 
+	 @Resource(name ="uploadPath3") 
+	 private String uploadPathEvent;
 
 	@Autowired
 	private TourService tourService;
@@ -1167,6 +1167,15 @@ public class ManagerController {
 	public String popupMngList(SearchCriteria cri, Model model) throws Exception {
 		cri.setPerPageNum(5);
         List<PopupVO> popupList = popupService.listSearchCriteriaPopup(cri);
+        
+        PopupVO popup1 = popupService.setPopup("L");
+        if(popup1 != null) {
+        	model.addAttribute("popup1", popup1.getPic());
+        }
+        PopupVO popup2 = popupService.setPopup("R");
+        if(popup2 != null) {
+        	model.addAttribute("popup2", popup2.getPic());
+        }
        
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -1284,14 +1293,7 @@ public class ManagerController {
 					PopupVO firstVO = popupService.readByNoPopup(no);
 					firstVO.setPosition("L");
 					popupService.updatePopup(firstVO);
-				/*
-				 * //쿠키에 세팅할 날짜 계산 long settingDays = (firstVO.getEnddate().getTime()-
-				 * firstVO.getStartdate().getTime()); long settingDays2 =
-				 * Math.abs(settingDays/(24*60*60*1000)); // System.out.println(settingDays2);
-				 * Cookie cookie = new Cookie("popup1", firstVO.getPic()); cookie.setPath("/");
-				 * cookie.setMaxAge((int)(settingDays2*24*60*60)); response.addCookie(cookie);
-				 */
-					
+
 					model.addAttribute("popup1",firstVO.getPic());
 					entity = new ResponseEntity<String>("success", HttpStatus.OK);
 				}
@@ -1305,13 +1307,7 @@ public class ManagerController {
 					PopupVO secondVO = popupService.readByNoPopup(no);
 					secondVO.setPosition("R");
 					popupService.updatePopup(secondVO);
-				/*
-				 * long settingDays = (secondVO.getEnddate().getTime()-
-				 * secondVO.getStartdate().getTime()); long settingDays2 =
-				 * Math.abs(settingDays/(24*60*60*1000)); Cookie cookie = new Cookie("popup2",
-				 * secondVO.getPic()); cookie.setPath("/");
-				 * cookie.setMaxAge((int)(settingDays2*24*60*60)); response.addCookie(cookie);
-				 */
+
 					model.addAttribute("popup2",secondVO.getPic());
 					entity = new ResponseEntity<String>("success", HttpStatus.OK);
 				}
@@ -1396,7 +1392,7 @@ public class ManagerController {
 	@RequestMapping(value = "bannerRegister", method = RequestMethod.POST)
 	public String bannerRegisterPost(BannerVO vo, MultipartFile bannerPic, Model model) throws Exception {
 
-		String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename().replaceAll(" ", "_"),
+		String savedName = UploadFileUtils.uploadFile(uploadPathBanner, bannerPic.getOriginalFilename().replaceAll(" ", "_"),
 				bannerPic.getBytes());
 		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
 		// 배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
@@ -1414,7 +1410,7 @@ public class ManagerController {
         String path = null;
         
         if(choice.equals("banner")) {
-        	path = uploadPath;
+        	path = uploadPathBanner;
         }
         
         if(choice.equals("popup")) {
@@ -1473,16 +1469,16 @@ public class ManagerController {
 		if (bannerPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
 			// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
 
-			File bannerFile = new File(uploadPath + vo.getPic());
+			File bannerFile = new File(uploadPathBanner + vo.getPic());
 			bannerFile.delete();
 
 			String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
 			// System.out.println(smallSizePic);
-			File bannerFile2 = new File(uploadPath + smallSizePic);
+			File bannerFile2 = new File(uploadPathBanner + smallSizePic);
 			bannerFile2.delete();
 
 			// 수정 된 파일로 교체
-			String savedName = UploadFileUtils.uploadFile(uploadPath, bannerPic.getOriginalFilename(),
+			String savedName = UploadFileUtils.uploadFile(uploadPathBanner, bannerPic.getOriginalFilename(),
 					bannerPic.getBytes());
 			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
 			// 배너기 때문에 썸네일 아닌 이미지 파일 이름으로 디비에 저장
@@ -1501,12 +1497,12 @@ public class ManagerController {
 		BannerVO vo = bannerService.readByNoBanner(no);
 		if (vo.getPic() != null) {
 			// 폴더에 남은 사진들 먼저 지우기
-			File bannerFile = new File(uploadPath + vo.getPic());
+			File bannerFile = new File(uploadPathBanner + vo.getPic());
 			bannerFile.delete();
 
 			String smallSizePic = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12); // 썸네일용 사진도
 
-			File bannerFile2 = new File(uploadPath + smallSizePic);
+			File bannerFile2 = new File(uploadPathBanner + smallSizePic);
 			bannerFile2.delete();
 		}
 
