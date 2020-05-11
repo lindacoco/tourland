@@ -71,21 +71,33 @@ public class CustomerController {
 	
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
-	public String tourlandMain(Model model, HttpServletRequest request) throws Exception {
+	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
 		//팝업 불러오기
-		Cookie[] cookies = request.getCookies();
-		if(cookies != null) {
-			for(int i =0; i<cookies.length; i++) {
-				Cookie coo = cookies[i];
-				if(coo.getName().equals("popup1")) {
-					model.addAttribute("popup1",coo.getValue());
-					System.out.println("팝1"+coo.getValue());
-				}if(coo.getName().equals("popup2")) {
-					model.addAttribute("popup2",coo.getValue());
-					System.out.println(coo.getValue());
-				}	
-			}
+
+	    PopupVO popup1 = popupService.setPopup("R");
+		if(popup1 != null) {
+	
+			long settingDays = (popup1.getEnddate().getTime()- popup1.getStartdate().getTime());
+			long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
+			Cookie cookie = new Cookie("popup1", popup1.getPic());
+			cookie.setPath("/");
+			cookie.setMaxAge((int)(settingDays2*24*60*60));
+			response.addCookie(cookie);
+			
+			model.addAttribute("popup1",popup1.getPic());
 		}
+		PopupVO popup2 = popupService.setPopup("L");
+		if(popup2 != null) {
+			long settingDays = (popup2.getEnddate().getTime()- popup2.getStartdate().getTime());
+			long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
+			Cookie cookie = new Cookie("popup2", popup2.getPic());
+			cookie.setPath("/");
+			cookie.setMaxAge((int)(settingDays2*24*60*60));
+			response.addCookie(cookie);
+			
+			model.addAttribute("popup2",popup2.getPic());
+		}
+		
 		return "/user/tourlandMain"; 
 	}
 	//마이 페이지 - 내 정보 수정
