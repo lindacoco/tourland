@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.yi.tourland.domain.SearchCriteria;
+import com.yi.tourland.domain.mng.BannerVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.UserVO;
@@ -83,7 +84,7 @@ public class CustomerController {
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
 		//팝업 불러오기
 
-	    PopupVO popup1 = popupService.setPopup("R");
+	    PopupVO popup1 = popupService.setPopup("L");
 		if(popup1 != null) {
 	
 			long settingDays = (popup1.getEnddate().getTime()- popup1.getStartdate().getTime());
@@ -95,7 +96,7 @@ public class CustomerController {
 			
 			model.addAttribute("popup1",popup1.getPic());
 		}
-		PopupVO popup2 = popupService.setPopup("L");
+		PopupVO popup2 = popupService.setPopup("R");
 		if(popup2 != null) {
 			long settingDays = (popup2.getEnddate().getTime()- popup2.getStartdate().getTime());
 			long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
@@ -105,6 +106,16 @@ public class CustomerController {
 			response.addCookie(cookie);
 			
 			model.addAttribute("popup2",popup2.getPic());
+		}
+		
+		//배너 불러오기
+		BannerVO banner1 = bannerService.setBanner("L");
+		if(banner1 != null) {
+			model.addAttribute("banner1",banner1);
+		}
+		BannerVO banner2 = bannerService.setBanner("R");
+		if(banner2 != null) {
+			model.addAttribute("banner2",banner2);
 		}
 		
 		return "/user/tourlandMain"; 
