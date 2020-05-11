@@ -109,4 +109,10 @@ public class CustomerController {
 	public String tourlandMyReserv() { 
 		return "/user/tourlandMyReserv"; 
 	}
+	
+	//상품 세부 정보    
+	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
+	public String tourlandProductDetail() { 
+		return "/user/product/tourlandProductDetail"; 
+	}
 }
