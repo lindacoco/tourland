@@ -54,7 +54,7 @@
 	       and cno like CONCAT('%',#{keyword},'%')
 	      </if>
 	      <if test="searchType=='rentDepartDate'.toString()">
-	       select * from rentcar where rentddate &gt;=  #{keyword} and returndate  &lt;= #{keyword2};
+	       and rentddate &gt;=  #{keyword} and returndate  &lt;= #{keyword2}
 	      </if>
 	      <if test="searchType=='rentDepartaddr'.toString()">
 	       and rentaddr like CONCAT('%',#{keyword},'%')

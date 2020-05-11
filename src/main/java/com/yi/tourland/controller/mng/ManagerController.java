@@ -680,7 +680,8 @@ public class ManagerController {
 		return "manager/product/productMngList";
 	}
 	@RequestMapping(value = "productDetail", method = RequestMethod.GET)
-	public String productDetail(ProductVO vo,SearchCriteria cri,Model model) throws SQLException {
+	public String productDetail(int no,ProductVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo.setPno(no);
 		vo = productService.productByNo(vo);
 		model.addAttribute("vo",vo);
 		model.addAttribute("cri",cri);
@@ -1477,6 +1478,9 @@ public class ManagerController {
         
         if(choice.contentEquals("event")) {
         	path = uploadPathEvent; 
+        }
+        if(choice.contentEquals("product")) {
+        	path = uploadPathProduct;
         }
 		// System.out.println("displayFile-----------"+ filename);
 		InputStream in = null;

@@ -4,7 +4,8 @@
 	var div;
 	var page;
 	var searchType;
-	var keyword;
+	var keyword="";
+	var keyword2="";
 	var price = 0;
 	var airAdd = [false,false];
 	var calExpireDate = function(date) {
@@ -83,7 +84,7 @@
 			td9 = $("<td style='color : #D941C5;' id='s'>").html("스위트");
 			break;
 		}
-		var td10 = res.vo.ldiv==1?$("<td>").html("해외"):$("<td>").html("국내");
+		var td10 = res.vo.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 		var span = res.vo.bookedup==0?$("<span class='badge bg-red'>").html("예약가능"):$("<span class='badge bg-red'>").html("예약불가");
 		var td11 = $("<td>").append(span);
 		var tr = $("<tr class='hotelList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
@@ -391,14 +392,15 @@
 			}
 		})
 	}
-	var rentAjax = function(page,searchType,keyword) {
+	var rentAjax = function(page,searchType,keyword,keyword2) {
 		$.ajax({
 			url : "rentList",
 			type : "get",
 			data : {
 				page : page,
 				searchType : searchType,
-				keyword : keyword
+				keyword : keyword,
+				keyword2 : keyword2
 			},
 			dataType : "json",
 			success : function(res) { // 결과 성공 콜백함수
@@ -682,9 +684,17 @@
 		//렌터카 다이얼로그
 		$(document).on("click", "#rent .index", function() {
 			page = $(this).attr("data-index");
-			searchType = $("#rent #searchType option:selected").val();
-			keyword = $("#rent #keywordInput").val();
-			rentAjax(page, searchType, keyword);
+			if($("#rent input[name='rentddate']").val()!="") {
+				searchType = "rentDepartDate";
+				keyword = $("#rent input[name='rentddate']").val();
+				keyword2 = $("#rent input[name='returndate']").val();
+			}
+			else {
+				searchType = $("#rent #searchType option:selected").val();
+				keyword = $("#rent #keywordInput").val();
+				keyword2 = "";
+			}
+			rentAjax(page, searchType, keyword,keyword2);
 		})
 		$(document)
 				.on(
@@ -693,11 +703,19 @@
 						function() {
 							page = Number($("#rent .index").eq(0)
 									.attr("data-index")) - 1;
-							searchType = $(
-									"#rent #searchType option:selected")
-									.val();
-							keyword = $("#rent #keywordInput").val();
-							rentAjax(page, searchType, keyword);
+							if($("#rent input[name='rentddate']").val()!="") {
+								searchType = "rentDepartDate";
+								keyword = $("#rent input[name='rentddate']").val();
+								keyword2 = $("#rent input[name='returndate']").val();
+							}
+							else {
+								searchType = $(
+								"#rent #searchType option:selected")
+								.val();
+								keyword = $("#rent #keywordInput").val();
+								keyword2 = "";
+							}
+							rentAjax(page, searchType, keyword,keyword2);
 						})
 		$(document)
 				.on(
@@ -706,11 +724,19 @@
 						function() {
 							page = Number($("#rent .index").eq(9)
 									.attr("data-index")) + 1;
-							searchType = $(
-									"#rent #searchType option:selected")
-									.val();
-							keyword = $("#rent #keywordInput").val();
-							rentAjax(page, searchType, keyword);
+							if($("#rent input[name='rentddate']").val()!="") {
+								searchType = "rentDepartDate";
+								keyword = $("#rent input[name='rentddate']").val();
+								keyword2 = $("#rent input[name='returndate']").val();
+							}
+							else {
+								searchType = $(
+								"#rent #searchType option:selected")
+								.val();
+								keyword = $("#rent #keywordInput").val();
+								keyword2 = "";
+							}
+							rentAjax(page, searchType, keyword,keyword2);
 						})
 		$(document).on("click", "#rent .rentcarList", function() {
 			var no = $(this).attr("data-no");
@@ -724,9 +750,14 @@
 							searchType = $(
 									"#rent #searchType option:selected")
 									.val();
-							keyword = $("#rent #keywordInput").val();
-							rentAjax(page, searchType, keyword);
+							keyword = $("#rent #keywordInput").val();		
+							rentAjax(page, searchType,keyword,"");
 						})
+		$("#rent i.fas.fa-search").click(function(){
+			keyword = $("#rent input[name='rentddate']").val();
+			keyword2 = $("#rent input[name='returndate']").val();
+			rentAjax(page, "rentDepartDate", keyword, keyword2);
+ 		})
 		//다이얼로그 호출
 		$("#addFlight").click(function() {
 			if(airAdd[0]&&airAdd[1]) {

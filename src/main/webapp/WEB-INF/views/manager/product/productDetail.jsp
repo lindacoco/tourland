@@ -64,27 +64,14 @@ h2 {
 #bus { color: steelblue; font-weight: bold;}
 #eco { color: goldenrod; font-weight: bold;}
 </style>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/ckeditor/contents.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
-<%@include file="addProductForm_script.jsp" %>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h2>상품 추가</h2>
+						<h2>상품 보기</h2>
 					</div>
-					<p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
-						<input type="hidden" name="pdiv" value="false"> 
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>항공</label>
@@ -104,6 +91,33 @@ h2 {
 								<th>좌석</th>
 								<th>가격</th>
 							</tr>
+							<c:forEach items="${vo.air}" var="f">   
+							<tr>
+								<td>${f.no }</td>
+								<td>${f.ano}</td>
+								<td>${f.dlocation }</td>
+								<td>${f.rlocation }</td>
+								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
+								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+								<c:if test="${f.ldiv==0 }">
+									<td>해외</td>
+								</c:if>
+								<c:if test="${f.ldiv==1 }">
+									<td>국내</td>
+								</c:if>
+								<td>${f.capacity }</td>
+								<c:if test="${f.seat =='F'}">
+									<td class="first">First-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='B'}">
+									<td class="bus">Business-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='E'}">
+									<td class="eco">Economy-Class</td>
+								</c:if>
+								<td>${f.price }</td>
+							</tr>
+							</c:forEach> 
 							</table>
 						</div>
 						<div class="group">
@@ -126,6 +140,46 @@ h2 {
 									<th>장소구분</th>
 									<th>예약 가능 여부</th>  
 								</tr>
+								<c:forEach var="hotel" items="${vo.hotel}" begin="0" end="0">
+									<tr>
+										<td>${hotel.no}</td>
+										<td>${hotel.hname }</td>
+										<td>${hotel.haddr }</td>
+										<td><fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${hotel.checkout}" pattern="yyyy-MM-dd"/></td>
+										<td>${hotel.capacity }<span>인</span></td>
+										<td>${hotel.price }</td>
+										<td>${hotel.roomcapacity }<span>실</span></td>
+	
+										<c:choose>
+											<c:when test="${hotel.roomtype=='N'}">
+												<td style="color:#5D5D5D;" id="n">노말</td>
+											</c:when>
+											<c:when test="${hotel.roomtype=='D'}">
+												<td style="color:#F29661;" id="d">디럭스</td>
+											</c:when>
+											<c:otherwise>
+												<td style="color:#D941C5;" id="s">스위트</td>
+											</c:otherwise>
+										</c:choose>
+										
+										<c:if test="${hotel.ldiv==0}">
+											<td>해외</td>
+										</c:if>
+										<c:if test="${hotel.ldiv == 1}">
+											<td>국내</td>
+										</c:if>
+										
+										<c:choose>
+											<c:when test="${hotel.bookedup == 0}">
+												<td><span class="badge bg-orange">예약가능</span></td>
+											</c:when>
+											<c:when test="${hotel.bookedup == 1}">
+												<td><span class="badge bg-blue">예약불가능</span></td>
+											</c:when>
+										</c:choose>
+									</tr>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="group">
@@ -147,6 +201,20 @@ h2 {
 									<th>가격</th>
 									<th>장소구분</th>
 								</tr>
+								<c:forEach var="tour" items="${vo.tour}">
+								<tr>
+									<td>${tour.no}</td>
+									<td>${tour.tname}</td>
+									<td>${tour.tlocation}</td>
+									<td><fmt:formatDate value="${tour.startDate}" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${tour.endDate}" pattern="yyyy-MM-dd"/></td>
+									<td>${tour.taddr}</td>
+									<td><fmt:formatDate value="${tour.etime}" pattern="HH:mm:ss"/></td>
+									<td>${tour.capacity}</td>
+									<td><fmt:formatNumber value="${tour.tprice}" pattern="###,###"/></td>
+									<td>${tour.ldiv?'해외':'국내'}</td>
+								</tr>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="group">
@@ -169,6 +237,21 @@ h2 {
 									<th>보험여부</th>
 									<th>국내/해외</th>		
 								</tr>
+								<c:forEach var="rentcarList" items="${vo.rentcar}">
+								<tr>
+									<td>${rentcarList.no}</td>
+									<td>${rentcarList.cdiv}</td>
+									<td>${rentcarList.cno}</td>
+									<td><fmt:formatDate value="${rentcarList.rentddate}" pattern="yyyy-MM-dd "/></td>
+									<td><fmt:formatDate value="${rentcarList.returndate}" pattern="yyyy-MM-dd "/></td>
+									<td>${rentcarList.rentaddr}</td>
+									<td>${rentcarList.returnaddr}</td>
+									<td>${rentcarList.price}</td>
+									<td>${rentcarList.capacity}</td>
+									<td>${rentcarList.insurance}</td>
+									<td>${rentcarList.ldiv == 0?'해외':'국내'}</td>
+								</tr>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="group">
@@ -177,15 +260,17 @@ h2 {
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
-									type="text" class="form-control" required="required" value="${vo.pname}">
+									type="text" class="form-control" required="required" value="${vo.pname}" readonly="readonly">
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 설명</label>
-								<div class="container">
-									<textarea>${vo.pcontent}</textarea>
-								</div>
+							</div>
+						</div>
+						<div class="group">
+							<div class="form-group" style="width : 100%;">
+								<!-- ${vo.pcontent} -->
 							</div>
 						</div>
 						<div class="group">
@@ -195,488 +280,25 @@ h2 {
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
-									type="text" class="form-control" id="pexpire" value='<fmt:formatDate value="${vo.pexpire}" pattern="yyyy-MM-dd"/>' readonly="readonly">
+									type="text" class="form-control" value='<fmt:formatDate value="${vo.pexpire}" pattern="yyyy-MM-dd"/>' readonly="readonly">
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group" style="width : 100%">
 								<label><span class="red">*</span>상품 사진</label>
-								<img src="displayFile?filename=${vo.pic}"> 
 							</div>
-						</div>
-				</div>
-			</div>
-		</div>
-		
-	</div>
-	<div id="flightDepature" class="modal fade" role="dialog"
-		data-backdrop="static" data-keyboard="false">
-		<div class="modal-dialog modal-lg">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">항공편 출발</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box box-primary">
-						<div class="box-body">
-							<select name="searchType" id="searchType">
-								<option value="n">-----</option>
-								<option value="no">번호</option>
-								<option value="ano">항공기 번호</option>
-								<option value="dloca">출발 지역</option>
-								<option value="ddate">출발 일시</option>
-							</select> <input type="text" name="keyword" id="keywordInput">
-							<button id="btnSearch">Search</button>
-						</div>
-						<div class="box-body">
-							<table class="table table-bordered" id="table">
-								<tr>
-									<th>번호</th>
-									<th>항공기 번호</th>
-									<th>출발 지역</th>
-									<th>도착 지역</th>
-									<th>출발 일시</th>
-									<th>도착 일시</th>
-									<th>장소 구분</th>
-									<th>허용 인원</th>
-									<th>좌석</th>
-									<th>가격</th>
-								</tr>  
-								<c:forEach items="${flightListDepature }" var="f">   
-									<tr class='flightList' data-no="${f.no }">
-										<td>${f.no }</td>
-										<td>${f.ano }</td>
-										<td>${f.dlocation }</td>
-										<td>${f.rlocation }</td>
-										<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
-										<c:if test="${f.ldiv==0 }">
-											<td>해외</td>
-										</c:if>
-										<c:if test="${f.ldiv==1 }">
-											<td>국내</td>
-										</c:if>
-										<td>${f.capacity }</td>
-										<c:if test="${f.seat =='F'}">
-											<td id="first">First-Class</td>
-										</c:if>
-										<c:if test="${f.seat =='B'}">
-											<td id="bus">Business-Class</td>
-										</c:if>
-										<c:if test="${f.seat =='E'}">
-											<td id="eco">Economy-Class</td>
-										</c:if>
-										<td>${f.price }</td>
-									</tr>
-								</c:forEach>   
-							</table>   
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByFlightDepature.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByFlightDepature.startPage }"
-										end="${pageMakerByFlightDepature.endPage }" var="idx">
-										<li
-											class="${pageMakerByFlightDepature.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByFlightDepature.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="flightRending" class="modal fade" role="dialog"
-		data-backdrop="static" data-keyboard="false">
-		<div class="modal-dialog modal-lg">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">항공편 도착</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box box-primary">
-						<div class="box-body">
-							<select name="searchType" id="searchType">
-								<option value="n">-----</option>
-								<option value="no">번호</option>
-								<option value="ano">항공기 번호</option>
-								<option value="rloca">도착 지역</option>
-								<option value="rdate">도착 일시</option>
-							</select> <input type="text" name="keyword" id="keywordInput">
-							<button id="btnSearch">Search</button>
-						</div>
-						<div class="box-body">
-							<table class="table table-bordered" id="table">
-								<tr>
-									<th>번호</th>
-									<th>항공기 번호</th>
-									<th>출발 지역</th>
-									<th>도착 지역</th>
-									<th>출발 일시</th>
-									<th>도착 일시</th>
-									<th>장소 구분</th>
-									<th>허용 인원</th>
-									<th>좌석</th>
-									<th>가격</th>
-								</tr>  
-								<c:forEach items="${flightListRending }" var="f">   
-									<tr class='flightList' data-no="${f.no }">
-										<td>${f.no }</td>
-										<td>${f.ano }</td>
-										<td>${f.dlocation }</td>
-										<td>${f.rlocation }</td>
-										<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
-										<c:if test="${f.ldiv==0 }">
-											<td>해외</td>
-										</c:if>
-										<c:if test="${f.ldiv==1 }">
-											<td>국내</td>
-										</c:if>
-										<td>${f.capacity }</td>
-										<c:if test="${f.seat =='F'}">
-											<td id="first">First-Class</td>
-										</c:if>
-										<c:if test="${f.seat =='B'}">
-											<td id="bus">Business-Class</td>
-										</c:if>
-										<c:if test="${f.seat =='E'}">
-											<td id="eco">Economy-Class</td>
-										</c:if>
-										<td>${f.price }</td>
-									</tr>
-								</c:forEach>   
-							</table>
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByFlightRending.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByFlightRending.startPage }"
-										end="${pageMakerByFlightRending.endPage }" var="idx">
-										<li
-											class="${pageMakerByFlightRending.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByFlightRending.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="hotel" class="modal fade" role="dialog" data-backdrop="static"
-		data-keyboard="false">
-		<div class="modal-dialog modal-lg">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">호텔</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box box-primary">
-						<div class="box-body">
-							<select name="searchType" id="searchType">
-								<option value="total"
-									${cri.searchType == 'null'? 'selected':'' }>전체</option>
-								<option value="n" ${cri.searchType == 'n'? 'selected':'' }>호텔이름</option>
-								<option value="a" ${cri.searchType == 'a'? 'selected':'' }>호텔주소</option>
-								<option value="b" ${cri.searchType == 'b'? 'selected':'' }>객실체크여부</option>
-							</select> <input type="text" name="keyword" id="keywordInput"
-								value="${cri.keyword}">
-							<button id="btnSearch">검색</button>
-						</div>
-						<div class="box-body">
-							<table class="table table-bordered" id="table">
-								<tr>
-									<th>번호</th>
-									<th>호텔이름</th>
-									<th>호텔주소</th>
-									<th>체크인날짜</th>
-									<th>체크아웃날짜</th>
-									<th>허용인원수</th>
-									<th>가격(1박)</th>
-									<th>객실 수</th>
-									<th>객실타입</th>
-									<th>장소구분</th>
-									<th>예약 가능 여부</th>  
-								</tr>
-								<c:forEach var="hotel" items="${hotelList}">
-									<tr class="hotelList" data-no="${hotel.no}">
-										<td>${hotel.no }</td>
-										<td>${hotel.hname }</td>
-										<td>${hotel.haddr }</td>
-										<td><fmt:formatDate value="${hotel.checkin}"
-												pattern="yyyy-MM-dd" /></td>
-										<td><fmt:formatDate value="${hotel.checkout}"
-												pattern="yyyy-MM-dd" /></td>
-										<td>${hotel.capacity }<span>인</span></td>
-										<td>${hotel.price }</td>
-										<td>${hotel.roomcapacity }<span>실</span></td>
-
-										<c:choose>
-											<c:when test="${hotel.roomtype=='N'}">
-												<td style="color: #5D5D5D;" id="n">노말</td>
-											</c:when>
-											<c:when test="${hotel.roomtype=='D'}">
-												<td style="color: #F29661;" id="d">디럭스</td>
-											</c:when>
-											<c:otherwise>
-												<td style="color: #D941C5;" id="s">스위트</td>
-											</c:otherwise>
-										</c:choose>
-
-										<c:if test="${hotel.ldiv==0}">
-											<td>해외</td>
-										</c:if>
-										<c:if test="${hotel.ldiv==1}">
-											<td>국내</td>
-										</c:if>
-										<c:choose>
-											<c:when test="${hotel.bookedup == 0}">
-												<td><span class="badge bg-red">예약가능</span></td>
-											</c:when>
-											<c:when test="${hotel.bookedup == 1}">
-												<td><span class="badge bg-blue">예약불가능</span></td>
-											</c:when>
-										</c:choose>
-									</tr>
-								</c:forEach>
-							</table>
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByHotel.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByHotel.startPage }"
-										end="${pageMakerByHotel.endPage }" var="idx">
-										<li class="${pageMakerByHotel.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByHotel.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-						</div>
+					   </div>
+					   <div style="width : 100%;">
+							<img src="displayFile/product?filename=${vo.pic}" style="width : 90%; margin : 10px;"> 
+					   </div>
+					   <div class="box-footer" style="text-align : center;">
+						<button class="btn btn-warning" id="mod">수정</button>
+						<button class="btn btn-danger" id="del">삭제</button>
+						<button class="btn btn-primary" id="return">돌아가기</button>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div id="tour" class="modal fade" role="dialog" data-backdrop="static"
-		data-keyboard="false">
-		<div class="modal-dialog modal-lg">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">투어</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box box-primary">
-						<div class="box-body">
-							<select name="searchType" id="searchType">
-								<option value="N">----------</option>
-								<option value="name">투어이름</option>
-								<option value="location">투어지역</option>
-								<option value="date">날짜</option>
-								<option value="addr">주소</option>
-								<option value="div">장소구분</option>
-							</select> <input type="text" name="keyword" id="keywordInput">
-							<button id="btnSearch">Search</button>
-						</div>
-						<div class="box-body">
-							<table class="table table-bordered" id="table">
-								<tr>
-									<th>번호</th>
-									<th>투어제목</th>
-									<th>투어장소</th>
-									<th>시작일자</th>
-									<th>종료일자</th>
-									<th>주소</th>
-									<th>소요시간</th>
-									<th>허용인원</th>
-									<th>가격</th>
-									<th>장소구분</th>
-								</tr>
-								<c:forEach var="tour" items="${tourList}">
-									<tr class="tourList" data-no="${tour.no}">
-										<td>${tour.no}</td>
-										<td>${tour.tname}</td>
-										<td>${tour.tlocation}</td>
-										<td><fmt:formatDate value="${tour.startDate}"
-												pattern="yyyy-MM-dd" /></td>
-										<td><fmt:formatDate value="${tour.endDate}"
-												pattern="yyyy-MM-dd" /></td>
-										<td>${tour.taddr}</td>
-										<td><fmt:formatDate value="${tour.etime}"
-												pattern="HH:mm:ss" /></td>
-										<td>${tour.capacity}</td>
-										<td><fmt:formatNumber value="${tour.tprice}"
-												pattern="###,###" /></td>
-										<td>${tour.ldiv?'해외':'국내'}</td>
-									</tr>
-								</c:forEach>
-							</table>
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByTour.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByTour.startPage }"
-										end="${pageMakerByTour.endPage }" var="idx">
-										<li class="${pageMakerByTour.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByTour.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="rent" class="modal fade" role="dialog" data-backdrop="static"
-		data-keyboard="false">
-		<div class="modal-dialog modal-lg">
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">투어</h4>
-				</div>
-				<div class="modal-body">
-					<div class="box box-primary">
-						<div class="box-body">
-							<select name="searchType" id="searchType" style="width:200px; height: 25px;">
-								<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
-								<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
-								<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
-								<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>대여날짜</option>
-								<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
-								<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
-							</select>
-							<input type="text" name="keyword" id="keywordInput">
-							<button id="btnSearch">Search</button>
-						</div>
-						<div class="box-body">
-							<table class="table table-bordered" id="table">
-								<tr>
-									<th>번호</th>
-									<th>차 종류</th>
-									<th>차 번호</th>
-									<th>대여 일자</th>
-									<th>반납 일자</th>
-									<th>대여 장소</th>
-									<th>반납 장소</th>
-									<th>가격</th>
-									<th>허용인원</th>
-									<th>보험여부</th>
-									<th>국내/해외</th>		
-								</tr>
-								<c:forEach var="rentcar" items="${rentcarList}">
-								<tr class="rentcarList" data-no="${rentcar.no}">
-									<td>${rentcar.no}</td>
-									<td>${rentcar.cdiv}</td>
-									<td>${rentcar.cno}</td>
-									<td><fmt:formatDate value="${rentcar.rentddate}" pattern="yyyy-MM-dd "/></td>
-									<td><fmt:formatDate value="${rentcar.returndate}" pattern="yyyy-MM-dd "/></td>
-									<td>${rentcar.rentaddr}</td>
-									<td>${rentcar.returnaddr}</td>
-									<td>${rentcar.price}</td>
-									<td>${rentcar.capacity}</td>
-									<td>${rentcar.insurance}</td>
-									<td>${rentcar.ldiv == 0?'해외':'국내'}</td>
-								</tr>
-								</c:forEach>     
-							</table>      
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByRentcar.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByRentcar.startPage }"
-										end="${pageMakerByRentcar.endPage }" var="idx">
-										<li class="${pageMakerByRentcar.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByRentcar.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-default"
-								data-dismiss="modal">Close</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="modalAddBrandLabel" aria-hidden="true">
-	    <div class="modal-dialog modal-lg">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                 <h4 class="modal-title" id="modalAddBrandLabel">상품 설명 추가</h4>
-	
-	            </div>
-	            <div class="modal-body">
-	                <form>
-	                    <textarea name="ckeditor" id="detail"></textarea>
-	                </form>
-	            </div>
-	            <div class="modal-footer">
-	            	<button id="saveDetail" type="button" class="btn btn-primary">저장</button>
-	                <button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
-	            </div>
-	        </div>
-	    </div>
+		</div>	
 	</div>
 </body>
 </html>

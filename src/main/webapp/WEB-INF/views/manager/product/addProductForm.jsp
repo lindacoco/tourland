@@ -620,7 +620,6 @@ h2 {
 								<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
 								<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
 								<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
-								<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>대여날짜</option>
 								<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
 								<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
 							</select>
@@ -628,6 +627,13 @@ h2 {
 							<button id="btnSearch">Search</button>
 						</div>
 						<div class="box-body">
+							<p id="datePick">
+								<span><i class="far fa-calendar-alt"></i> 시작 날짜 </span> 
+								<span class="picker"><input type="date" class="datepicker" name="rentddate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+								<span><i class="far fa-calendar-alt"></i> ~  종료 날짜 </span> 
+								<span class="picker"><input type="date" class="datepicker" name="returndate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+								<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
+							</p>
 							<table class="table table-bordered" id="table">
 								<tr>
 									<th>번호</th>
