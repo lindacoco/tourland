@@ -222,7 +222,7 @@
 	         <div id="popup1" style=" margin-left:10%;">  <!-- 1번 팝업 -->
 	                        <c:if test="${popup1 == null }">
 	                            <div id="previewPopup1">
-	                              <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event1.jpg" style="width:400px; height:400px;" id="popup1img">
 	                              <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK">
 							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
@@ -244,7 +244,7 @@
 	           <div id="popup2" style=" margin-left:10%;"> <!-- 2번팝업  -->
 	                        <c:if test="${popup2 == null }">
 	                            <div id="previewPopup2">
-	                              <img src="${pageContext.request.contextPath}/resources/images/banner.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event2.jpg" style="width:400px; height:400px;" id="popup1img">
 	                              <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK2">
 							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
@@ -401,11 +401,21 @@
 				
 				</section>
 				<section id="section4">
+				<c:if test="${banner1 ==null }">
 					<div class="bannerBox" id="banner1">
 						<h3>그리스 + 산토리니 5박 6일</h3>
 						<p>마지막 찬스, 서울 출발</p>
 						<img alt="" src="images/santo.jpg">
 					</div>
+				</c:if>
+				<c:if test="${banner1 !=null }">
+					<div class="bannerBox" id="banner1">
+						<h3>${banner1.title }</h3>
+						<p>${banner1.content }</p>
+						<img alt="" src="images/santo.jpg">
+					</div>
+				</c:if>
+				
 					<div class="bannerBox">
 						<h3>진짜 오사카를 만나다</h3>
 						<p>간사이 미니 패스, 대구 출발</p>

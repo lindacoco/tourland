@@ -29,7 +29,8 @@ select  count(no) from banner ;
 
 -- 팝업
 select  * from popup;
-
+delete from popup where position in ('R','L');
+delete from popup where no in (5,4);
 -- 이벤트
 select * from event;
 delete from event where no in(1,2,4);

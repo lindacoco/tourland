@@ -119,7 +119,12 @@ section {
 		</div>
 		<div id="loginBox">
 			<form action="loginForm" method="post">
-				<h2>투어랜드</h2>
+			<c:if test="${registerSuccess !=null}">
+			    <h2>가입 완료 되었습니다. 로그인 수행하여 주십시오.</h2>
+			</c:if>
+			<c:if test="${registerSuccess ==null}">
+			   <h2>투어랜드</h2>
+			</c:if>
 					<div id="loginInnerBox">
 						<div id="inputBox">
 						<c:choose>
@@ -145,7 +150,6 @@ section {
 						</c:if>
 					</div>
 			</form>
-
 			<div id="loginBtns">
 				<button id="join" style="cursor: pointer">회원가입</button>
 				<button id="findIDPW" style="cursor: pointer">아이디/비밀번호 찾기</button>

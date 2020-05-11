@@ -16,6 +16,7 @@
 	#searchType { width: 155px; height: 26px; }    
 	#dateSearch { display: block; width: 210px; float: left; }
 	#btnDateSearch { margin-top: 23px; }
+	#detailInfo { color: red;  font-size: 13px; }    
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
@@ -300,7 +301,7 @@ function getDomList(page){
 					<input type="text" name="keyword" id="keywordInput" placeholder="검색어를 입력하세요">
 					<button id="btnSearch">Search</button>
 				</div>
-				<span id="info">* 도착 지역 : 제주(제주 공항), 베이징(베이징 공항), 도쿄(나리타 공항)</span>  
+				<p id="info"> <i class="fas fa-info-circle"> 도착 지역 : 제주(제주 공항), 베이징(베이징 공항), 도쿄(나리타 공항)</i></p>  
 				<div class="box-body">
 					<span id="dateSearch"><i class="far fa-calendar-alt"></i> 출발일 검색 <input type="text" class="form-control" id="datepicker"></span>
 					 <button id="btnDateSearch">Search</button> 
@@ -311,7 +312,9 @@ function getDomList(page){
 					<button type="button" class="btn" id="ab">해외</button>
 					<button type="button" class="btn" id="listAll">전체 리스트 보기</button>
 				</div>
+				
 				<div class="box-body">
+				<p><i class="fas fa-info-circle" id="detailInfo"> 항공편을 클릭하면 해당 항공편의 출발/도착편을 함께 확인하실 수 있습니다.</i></p>
 					<table class="table table-bordered">
 						<tr>
 							<th>번호</th>
