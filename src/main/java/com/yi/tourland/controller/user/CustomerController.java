@@ -186,7 +186,11 @@ public class CustomerController {
 	public String tourlandMyCoupon() { 
 		return "/user/mypage/tourlandMyCoupon"; 
 	}
-	
+	//상품 리스트   (일본 패키지)
+	@RequestMapping(value="tourlandProductJPList", method=RequestMethod.GET)
+	public String tourlandProductJPList() { 
+		return "/user/product/tourlandProductJPList"; 
+	}	
 	//상품 세부 정보    
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
 	public String tourlandProductDetail() { 
