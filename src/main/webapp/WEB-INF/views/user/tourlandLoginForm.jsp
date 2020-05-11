@@ -116,10 +116,16 @@ section {
 		<div id="loginHead">
 			<h1>로그인</h1>
 			<p>새로운 세상, 투어랜드</p>
+			
 		</div>
 		<div id="loginBox">
 			<form action="loginForm" method="post">
-				<h2>투어랜드</h2>
+			 <c:if test="${registerSuccess !=null}">
+			    <h2>가입 완료 되었습니다. 로그인 수행하여 주십시오.</h2>
+			</c:if>
+			<c:if test="${registerSuccess ==null}">
+			   <h2>투어랜드</h2>
+			</c:if>
 				<div id="loginInnerBox">
 					<div id="inputBox">
 						<input type="text" name="id" id="id" placeholder="아이디"> 
