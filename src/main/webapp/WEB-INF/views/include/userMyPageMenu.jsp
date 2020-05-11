@@ -17,9 +17,9 @@
 </style>    
 <nav>
 	<ul>
-		<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">내 예약 현황</a></li>
 		<li><a href="${pageContext.request.contextPath }/tourlandMyInfoEdit">내 정보 수정</a></li>
-		<li><a href="#">장바구니</a></li>
+		<li><a href="${pageContext.request.contextPath }/tourlandMyReserv">내 예약 현황</a></li>
+		<li><a href="${pageContext.request.contextPath }/tourlandMyWishes">장바구니</a></li>
 		<li><a href="#">내 쿠폰</a></li>
 	</ul>
 </nav>

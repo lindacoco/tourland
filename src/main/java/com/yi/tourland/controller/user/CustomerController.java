@@ -102,12 +102,17 @@ public class CustomerController {
 	//마이 페이지 - 내 정보 수정
 	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
 	public String tourlandMyInfoEdit() { 
-		return "/user/tourlandMyInfoEdit"; 
+		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
 	//마이 페이지 - 내 예약 현황
 	@RequestMapping(value="tourlandMyReserv", method=RequestMethod.GET)
 	public String tourlandMyReserv() { 
-		return "/user/tourlandMyReserv"; 
+		return "/user/mypage/tourlandMyReserv"; 
+	}
+	//마이 페이지 - 내 예약 현황
+	@RequestMapping(value="tourlandMyWishes", method=RequestMethod.GET)
+	public String tourlandMyWishes() { 
+		return "/user/mypage/tourlandMyWishes"; 
 	}
 	
 	//상품 세부 정보    
