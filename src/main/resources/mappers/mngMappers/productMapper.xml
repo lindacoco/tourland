@@ -18,73 +18,73 @@
 		insert into prentstatus values(#{p.pno},#{r.no})
 	</insert>
 	<resultMap type="ProductVO" id="product">
-		<id property="pno" column="p.pno"/>
-		<result property="pname" column="p.pname"/>
-		<result property="pcontent" column="p.pcontent"/>
-		<result property="pexpire" column="p.pexpire"/>
-		<result property="pprice" column="p.pprice"/>
-		<result property="pic" column="p.ppic"/>
-		<result property="pdiv" column="p.pdiv"/>
-		<collection property="air" ofType="AirplaneVO" javaType="list" column="p.pno">
-			<id property="no" column="a2.no"/>
-			<result property="ano" column="a2.ano"/>
-			<result property="dlocation" column="a2.dlocation"/>
-			<result property="rlocation" column="a2.rlocation"/>
-			<result property="ddate" column="a2.ddate"/>
-			<result property="rdate" column="a2.rdate"/>
-			<result property="capacity" column="a2.capacity"/>
-			<result property="seat" column="a2.seat"/>
-			<result property="price" column="a2.price"/>
-			<result property="pdiv" column="a2.pdiv"/>
+		<id property="pno" column="pno"/>
+		<result property="pname" column="pname"/>
+		<result property="pcontent" column="pcontent"/>
+		<result property="pexpire" column="pexpire"/>
+		<result property="pprice" column="pprice"/>
+		<result property="pic" column="ppic"/>
+		<result property="pdiv" column="pdiv"/>
+		<collection property="air" ofType="AirplaneVO">
+			<result property="no" column="a2no"/>
+			<result property="ano" column="ano"/>
+			<result property="dlocation" column="dlocation"/>
+			<result property="rlocation" column="rlocation"/>
+			<result property="ddate" column="ddate"/>
+			<result property="rdate" column="rdate"/>
+			<result property="capacity" column="capacity"/>
+			<result property="seat" column="seat"/>
+			<result property="price" column="price"/>
+			<result property="pdiv" column="pdiv"/>
 		</collection>
-		<collection property="hotel" ofType="HotelVO" javaType="list" column="p.pno">
-			<id property="no" column="h2.no"/>
-			<result property="hname" column="h2.hname"/>
-			<result property="haddr" column="h2.haddr"/>
-			<result property="checkin" column="h2.checkin"/>
-			<result property="checkout" column="h2.checkout"/>
-			<result property="capacity" column="h2.capacity"/>
-			<result property="price" column="h2.price"/>
-			<result property="roomcapacity" column="h2.roomcapacity"/>
-			<result property="roomtype" column="h2.roomtype"/>
-			<result property="ldiv" column="h2.ldiv"/>
-			<result property="bookedup" column="h2.bookedup"/>
-			<result property="pdiv" column="h2.pdiv"/> 
+		<collection property="hotel" ofType="HotelVO">
+			<result property="no" column="h2no"/>
+			<result property="hname" column="hname"/>
+			<result property="haddr" column="haddr"/>
+			<result property="checkin" column="checkin"/>
+			<result property="checkout" column="checkout"/>
+			<result property="capacity" column="capacity"/>
+			<result property="price" column="price"/>
+			<result property="roomcapacity" column="roomcapacity"/>
+			<result property="roomtype" column="roomtype"/>
+			<result property="ldiv" column="ldiv"/>
+			<result property="bookedup" column="bookedup"/>
+			<result property="pdiv" column="pdiv"/> 
 		</collection>
-		<collection property="tour" ofType="TourVO" javaType="list" column="p.pno">
-			<id property="no" column="t2.no"/>
-			<result property="tname" column="t2.tname"/>
-			<result property="tlocation" column="t2.tlocation"/>
-			<result property="startDate" column="t2.startdate"/>
-			<result property="endDate" column="t2.enddate"/>
-			<result property="taddr" column="t2.taddr"/>
-			<result property="etime" column="t2.etime"/>
-			<result property="capacity" column="t2.capacity"/>
-			<result property="tprice" column="t2.tprice"/>
-			<result property="ldiv" column="t2.ldiv"/>
-			<result property="pdiv" column="t2.pdiv"/> 
+		<collection property="tour" ofType="TourVO">
+			<result property="no" column="t2no"/>
+			<result property="tname" column="tname"/>
+			<result property="tlocation" column="tlocation"/>
+			<result property="startDate" column="startdate"/>
+			<result property="endDate" column="enddate"/>
+			<result property="taddr" column="taddr"/>
+			<result property="etime" column="etime"/>
+			<result property="capacity" column="capacity"/>
+			<result property="tprice" column="tprice"/>
+			<result property="ldiv" column="ldiv"/>
+			<result property="pdiv" column="pdiv"/> 
 		</collection>
-		<collection property="rentcar" ofType="RentcarVO" javaType="list" column="p.pno">
-			<id property="no" column="r2.no"/>
-			<result property="cdiv" column="r2.cdiv"/>
-			<result property="cno" column="r2.cno"/>
-			<result property="rentddate" column="r2.rentddate"/>
-			<result property="returndate" column="r2.returndate"/>
-			<result property="rentaddr" column="r2.rentaddr"/>
-			<result property="returnaddr" column="r2.returnaddr"/>
-			<result property="price" column="r2.price"/>
-			<result property="capacity" column="r2.capacity"/>
-			<result property="insurance" column="r2.insurance"/>
-			<result property="ldiv" column="r2.ldiv"/>
-			<result property="pdiv" column="r2.pdiv"/>
+		<collection property="rentcar" ofType="RentcarVO">
+			<id property="no" column="r2no"/>
+			<result property="cdiv" column="cdiv"/>
+			<result property="cno" column="cno"/>
+			<result property="rentddate" column="rentddate"/>
+			<result property="returndate" column="returndate"/>
+			<result property="rentaddr" column="rentaddr"/>
+			<result property="returnaddr" column="returnaddr"/>
+			<result property="price" column="price"/>
+			<result property="capacity" column="capacity"/>
+			<result property="insurance" column="insurance"/>
+			<result property="ldiv" column="ldiv"/>
+			<result property="pdiv" column="pdiv"/>
 		</collection>
 	</resultMap>
 	<sql id="select">
 		select p.pno,p.pname,p.pcontent,p.pexpire,p.pprice,p.ppic,p.pdiv,
-	   	a2.no,a2.ano,a2.dlocation,a2.rlocation,a2.ddate,a2.rdate,a2.ldiv,a2.capacity,a2.seat,a2.price,a2.pdiv, 
-	   	h2.no,h2.hname,h2.haddr,h2.checkin,h2.checkout,h2.capacity,h2.price,h2.roomcapacity,h2.roomtype,h2.ldiv,h2.bookedup,h2.pdiv,
-	  	t2.no,t2.tname,t2.tlocation,t2.startdate,t2.enddate,t2.taddr,t2.etime,t2.capacity,t2.tprice,t2.ldiv,t2.pdiv,
-	   	r2.no,r2.cdiv,r2.cno,r2.rentddate,r2.returndate,r2.rentaddr,r2.returnaddr,r2.price,r2.capacity,r2.insurance,r2.ldiv,r2.pdiv 
+	   	a2.no as a2no,a2.ano,a2.dlocation,a2.rlocation,a2.ddate,a2.rdate,a2.ldiv,a2.capacity,a2.seat,a2.price,a2.pdiv, 
+	   	h2.no as h2no,h2.hname,h2.haddr,h2.checkin,h2.checkout,h2.capacity,h2.price,h2.roomcapacity,h2.roomtype,h2.ldiv,h2.bookedup,h2.pdiv,
+	  	t2.no as t2no,t2.tname,t2.tlocation,t2.startdate,t2.enddate,t2.taddr,t2.etime,t2.capacity,t2.tprice,t2.ldiv,t2.pdiv,
+	   	r2.no as r2no,r2.cdiv,r2.cno,r2.rentddate,r2.returndate,r2.rentaddr,r2.returnaddr,r2.price,r2.capacity,r2.insurance,r2.ldiv,r2.pdiv 
 		from product p join pairstatus a on p.pno = a.pno join airplane a2 on a.ano = a2.no
 							 	join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no
 							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no

@@ -40,5 +40,8 @@
     <beans:bean id="uploadPath2" class="java.lang.String">
 	     <beans:constructor-arg value="c:/tourland/upload/popup"></beans:constructor-arg>
 	</beans:bean>
+	<beans:bean id="uploadPathProduct" class="java.lang.String">
+	     <beans:constructor-arg value="c:/tourland/upload/product"></beans:constructor-arg>
+	</beans:bean>
 
 </beans:beans>

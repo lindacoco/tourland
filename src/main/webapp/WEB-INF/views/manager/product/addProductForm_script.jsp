@@ -7,6 +7,14 @@
 	var keyword;
 	var price = 0;
 	var airAdd = [false,false];
+	var calExpireDate = function(date) {
+		var objDate = new Date(date);
+		var dateDiff = new Date(objDate.getFullYear(),objDate.getMonth(),(objDate.getDate() -3));
+		var month = (dateDiff.getMonth() + 1) < 10 ? "0" + (dateDiff.getMonth() + 1) : (dateDiff.getMonth() + 1);
+		var day = dateDiff.getDate() < 10 ? "0" + dateDiff.getDate() : dateDiff.getDate();
+		var dateStr = dateDiff.getFullYear() + "-" + month + "-" + day;
+		return dateStr;
+	}
 	var makeDateStr = function(pdate) {
 		var date = new Date(pdate);
 		var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
@@ -22,7 +30,7 @@
 		var dateStr = hour + ":" + minute + ":" + second;
 		return dateStr;
 	}
-	var getAirData = function(div, res) {
+	var getAirData = function(res) {
 		var no = $("<input type='hidden' name='airNo'>").val(res.vo.no);
 		var td1 = $("<td>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.ano);
@@ -133,13 +141,15 @@
 			dataType : "json",
 			success : function(res) {
 				if (div == 'Depature') {
-					getAirData(div, res);
+					var expireDate = calExpireDate(res.vo.ddate);
+					$("#pexpire").val(expireDate);
+					getAirData(res);
 					airAdd[0] = true;
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
 					$("#flightRending").modal("show");
 				} else {
-					getAirData(div, res);
+					getAirData(res);
 					airAdd[1] = true;
 					$("#flightRending").modal("hide");
 					$('#flightRending .modal-backdrop').remove();
@@ -268,7 +278,7 @@
 						td9 = $("<td style='color : #D941C5;' id='s'>").html("스위트");
 						break;
 					}
-					var td10 = obj.ldiv==1?$("<td>").html("해외"):$("<td>").html("국내");
+					var td10 = obj.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 					var span = obj.bookedup==0?$("<span class='badge bg-red'>").html("예약가능"):$("<span class='badge bg-red'>").html("예약불가");
 					var td11 = $("<td>").append(span);
 					var tr = $("<tr class='hotelList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
@@ -465,10 +475,6 @@
 				}
 			})
 		})
-		$("#datepicker").datepicker({
-			format : "yyyy-mm-dd",
-			autoclose : true
-		}).datepicker("setDate", 'now');
 		//항공편 출발 다이얼로그
 		$(document).on(
 				"click",
@@ -746,9 +752,11 @@
 		})
 		$("#addDetail").click(function(){
 			$("#detail").modal("show");
-		})
+		}) 
 		//ckeditor
-		CKEDITOR.replace('editor1');
+		CKEDITOR.replace( 'ckeditor', {
+			filebrowserImageUploadUrl: '/'    
+		});
 		$.fn.modal.Constructor.prototype.enforceFocus = function () {
 		    modal_this = this
 		    $(document).on('focusin.modal', function (e) {
@@ -761,6 +769,7 @@
 		    })
 		};
 		$("#saveDetail").click(function(){
+			$("#pcontent").val($("#detail").html());
 			alert("저장되었습니다");
 		})
 	})

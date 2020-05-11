@@ -67,19 +67,6 @@ public class ProductDaoTest {
 	public void test06productByNo() throws SQLException {
 		ProductVO pvo = new ProductVO(1);
 		pvo = dao.productByNo(pvo);
-		System.out.println(pvo);
-		for(AirplaneVO vo : pvo.getAir()) {
-			System.out.println(vo);
-		}
-		for(HotelVO vo : pvo.getHotel()) {
-			System.out.println(vo);
-		}
-		for(TourVO vo : pvo.getTour()) {
-			System.out.println(vo);
-		}
-		for(RentcarVO vo : pvo.getRentcar()) {
-			System.out.println(vo);
-		}
 	}
 
 	@Test
@@ -87,18 +74,6 @@ public class ProductDaoTest {
 		List<ProductVO> list = dao.productListPage(new SearchCriteria());
 		for(ProductVO pvo : list) {
 			System.out.println(pvo);
-			for(AirplaneVO vo : pvo.getAir()) {
-				System.out.println(vo);
-			}
-			for(HotelVO vo : pvo.getHotel()) {
-				System.out.println(vo);
-			}
-			for(TourVO vo : pvo.getTour()) {
-				System.out.println(vo);
-			}
-			for(RentcarVO vo : pvo.getRentcar()) {
-				System.out.println(vo);
-			}
 		}
 	}
 	@Test
@@ -146,32 +121,25 @@ public class ProductDaoTest {
 	@Test
 	public void test14deletepAirStatus() throws SQLException {
 		ProductVO pvo = new ProductVO(1);
-		AirplaneVO avo = new AirplaneVO();
-		avo.setNo(3);
-		dao.deletepAirStatus(pvo, avo);
+		dao.deletepAirStatus(pvo);
 	}
 
 	@Test
 	public void test15deletepHotelStatus() throws SQLException {
 		ProductVO pvo = new ProductVO(1);
-		HotelVO hvo = new HotelVO();
-		hvo.setNo(2);
-		dao.deletepHotelStatus(pvo, hvo);
+		dao.deletepHotelStatus(pvo);
 	}
 
 	@Test
 	public void test16deletepTourStatus() throws SQLException {
 		ProductVO pvo = new ProductVO(1);
-		TourVO tvo = new TourVO(2);
-		dao.deletepTourStatus(pvo, tvo);
+		dao.deletepTourStatus(pvo);
 	}
 
 	@Test
 	public void test17deletepRentStatus() throws SQLException {
 		ProductVO pvo = new ProductVO(1);
-		RentcarVO rvo = new RentcarVO();
-		rvo.setNo(2);
-		dao.deletepRentStatus(pvo, rvo);
+		dao.deletepRentStatus(pvo);
 	
 	}
 

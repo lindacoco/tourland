@@ -84,20 +84,14 @@ h2 {
 						<h2>상품 추가</h2>
 					</div>
 					<p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
-					<form class="form-inline" action="addProductForm" method="post"
-						enctype="multipart/form-data">
 						<input type="hidden" name="pdiv" value="false"> 
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>항공</label>
-								<div class="container">
-									<button type="button" class="btn btn-primary"
-										 id="addFlight">항공편 추가</button>
-								</div>
 							</div>
 						</div>
 						<div style="padding:20px;">
-							<table class="table table-bordered" id="airTable" style="width : 100%;">
+							<table class="table table-bordered" style="width : 100%;">
 							<tr>  
 								<th>번호</th>
 								<th>항공기 번호</th>
@@ -115,16 +109,10 @@ h2 {
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>호텔</label>
-								<div class="container">
-									<div class="dropdown">
-										<button type="button" class="btn btn-primary" id="addHotel">호텔
-											추가</button>
-									</div>
-								</div>
 							</div>
 						</div>
 						<div style="padding:20px;">
-							<table class="table table-bordered" id="hotelTable">
+							<table class="table table-bordered" style="width : 100%;">
 								<tr>
 									<th>번호</th>
 									<th>호텔이름</th>
@@ -143,13 +131,10 @@ h2 {
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>현지 투어</label>
-								<div class="container">
-									<button type="button" class="btn btn-primary" id="addTour">현지투어 추가</button>
-								</div>
 							</div>
 						</div>
 						<div style="padding:20px;">
-							<table class="table table-bordered" id="tourTable">
+							<table class="table table-bordered" style="width : 100%;">
 								<tr>
 									<th>번호</th>
 									<th>투어제목</th>
@@ -167,13 +152,10 @@ h2 {
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>렌트카</label>
-								<div class="container">
-									<button type="button" class="btn btn-primary" id="addRent">렌트카 추가</button>
-								</div>
 							</div>
 						</div>
 						<div style="padding:20px;">
-							<table class="table table-bordered" id="rentTable">
+							<table class="table table-bordered" style="width : 100%;">
 								<tr>
 									<th>번호</th>
 									<th>차 종류</th>
@@ -191,46 +173,37 @@ h2 {
 						</div>
 						<div class="group">
 							<div class="form-group">
-								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="${size}" name="pno">
+								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="${vo.pno}">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
-									type="text" class="form-control" name="pname" required="required">
+									type="text" class="form-control" required="required" value="${vo.pname}">
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 설명</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="addDetail">상품설명 추가</button>
-									<input type="hidden" name="pcontent" id="pcontent">
+									<textarea>${vo.pcontent}</textarea>
 								</div>
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 가격</label> <input
-									type="text" class="form-control" value="0" id="price" readonly="readonly" name="pprice">
+									type="text" class="form-control" value="${vo.pprice}" readonly="readonly">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
-									type="text" class="form-control" id="pexpire" name="pexpire" readonly="readonly">
+									type="text" class="form-control" id="pexpire" value='<fmt:formatDate value="${vo.pexpire}" pattern="yyyy-MM-dd"/>' readonly="readonly">
 							</div>
 						</div>
 						<div class="group">
-							<div class="form-group" style="width : 1000px;">
-								<label><span class="red">*</span>상품 사진</label> <input
-									type="file" class="form-control" id="file" name="file">
-								<div id="preview" style="display : inline;">
-								</div>
+							<div class="form-group" style="width : 100%">
+								<label><span class="red">*</span>상품 사진</label>
+								<img src="displayFile?filename=${vo.pic}"> 
 							</div>
 						</div>
-						<div class="group">
-							<div class="form-group">
-								<button type="submit" class="btn btn-default">추가</button>
-							</div>
-						</div>
-					</form>
 				</div>
 			</div>
 		</div>
