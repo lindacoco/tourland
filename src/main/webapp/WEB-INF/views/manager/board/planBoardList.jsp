@@ -68,14 +68,14 @@
 							<th>답변상태</th>
 						</tr>
 						<c:forEach var="planBoard" items="${list}">
-						<tr class="planBoardList" data-no="${planBoard.no}">
+						<tr class="planBoardList" data-no="${planBoard.no}" data-respond="${planBoard.respond}">
 							<td>${planBoard.no}</td>
 							<td>${planBoard.title}</td>
-							<td>${planBoard.lcate eq 'D'?'국내패키지상품':planBoard.lcate eq 'I'?'해외패키지상품':planBoard.lcate eq 'R'?'상품 예약 및 결제':'회원혜택안내'}</td>
-							<td>${planBoard.mcate eq 'P'?'여행상품':planBoard.mcate eq 'V'?'여권 및 비자':planBoard.mcate eq 'T'?'환율':planBoard.mcate eq 'J'?'제주여행':faq.mcate eq 'B'?'예약 및 취소':planBoard.mcate eq 'R'?'결제 및 환불':planBoard.mcate eq 'C'?'쿠폰 및 이벤트':'기타'}</td>
+							<td>${faq.lcate eq 'D'?'국내패키지상품':faq.lcate eq 'I'?'해외패키지상품':faq.lcate eq 'R'?'상품 예약 및 결제':'회원혜택안내'}</td>
+							<td>${faq.mcate eq 'P'?'여행상품':faq.mcate eq 'V'?'여권 및 비자':faq.mcate eq 'T'?'환율':faq.mcate eq 'J'?'제주여행':faq.mcate eq 'B'?'예약 및 취소':faq.mcate eq 'R'?'결제 및 환불':faq.mcate eq 'C'?'쿠폰 및 이벤트':'기타'}</td>
 							<td>${planBoard.writer}</td>
 							<td><fmt:formatDate value="${planBoard.regdate}" pattern="yyyy-MM-dd"/></td>
-							<c:if test="${planBoard.answer==0 }">
+							<c:if test="${planBoard.answer==0}">
 								<td><span class="badge bg-orange">답변미완료</span></td>
 							</c:if>
 							<c:if test="${planBoard.answer==1 }">
@@ -163,10 +163,16 @@ var fixSearchTypeAndKeyword = function() {
 	
 		$(".planBoardList").click(function() {
 		var no = $(this).attr("data-no");
+		var respond=$(this).attr("data-respond");
+		var page =	"${cri.page}"; 
 		var searchType = "${cri.searchType}";
 		var searchType2 = "${cri.searchType2}";
 		var keyword = "${cri.keyword}";
-		location.href = "planBoardDetail?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+		if(respond==null || respond==""){
+			location.href = "planBoardDetail?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+		}else{
+			location.href = "planBoardModify?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword+"&respond="+respond;
+		}
 	})
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType option:selected").val();

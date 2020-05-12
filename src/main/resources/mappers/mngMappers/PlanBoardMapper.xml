@@ -19,14 +19,15 @@
 
     <update id="updatePlanBoard" parameterType="planBoardVO">
        update planboard set 
-       respond=#{respond}
+       respond=#{respond},answer=#{answer}
        where no=#{no}
     </update> 
 
 
    <delete id="deletePlanBoard">
-       delete from planboard 
-       where no= #{no}
+       update planboard set 
+       respond=null, answer=0
+       where no=#{no}
    </delete>
 
 

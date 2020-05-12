@@ -308,7 +308,7 @@ public class CustomerController {
 	
 	@RequestMapping(value = "tourlandProductBoardDetail", method = RequestMethod.GET)
 	public String tourlandProductBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
-		vo = planBoardService.readByNoPlanBoard(vo);
+		vo = planBoardService.readByVoPlanBoard(vo);
 		model.addAttribute("plan", vo);
 		model.addAttribute("cri", cri);
 		return "/user/board/tourlandProductBoardDetail";
