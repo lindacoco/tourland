@@ -66,12 +66,8 @@ h2 {
 }
 
 #preview img {
-<<<<<<< HEAD
-	height: 100px;
-=======
 	width : 100px;
 	height : 100px;
->>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
 }
 
 #first {
@@ -88,17 +84,10 @@ h2 {
 	color: goldenrod;
 	font-weight: bold;
 }
+body {
+	margin : 0;
+}
 </style>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/ckeditor/contents.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
 <%@include file="addProductForm_script.jsp"%>
 <body>
 	<div class="container">
@@ -234,14 +223,6 @@ h2 {
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 설명</label>
-
-								<div class="container">
-									<button type="button" class="btn btn-primary" id="addDetail">상품설명
-										추가</button>
-									<input type="hidden" name="pcontent" id="pcontent">
-								</div>
-
-
 							</div>
 						</div>
 						<div>
@@ -381,16 +362,6 @@ h2 {
 				<div class="modal-body">
 					<div class="box box-primary">
 						<div class="box-body">
-							<select name="searchType" id="searchType">
-								<option value="n">-----</option>
-								<option value="no">번호</option>
-								<option value="ano">항공기 번호</option>
-								<option value="rloca">도착 지역</option>
-								<option value="rdate">도착 일시</option>
-							</select> <input type="text" name="keyword" id="keywordInput">
-							<button id="btnSearch">Search</button>
-						</div>
-						<div class="box-body">
 							<table class="table table-bordered" id="table">
 								<tr>
 									<th>번호</th>
@@ -434,24 +405,6 @@ h2 {
 									</tr>
 								</c:forEach>
 							</table>
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByFlightRending.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByFlightRending.startPage }"
-										end="${pageMakerByFlightRending.endPage }" var="idx">
-										<li
-											class="${pageMakerByFlightRending.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByFlightRending.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -749,31 +702,6 @@ h2 {
 			</div>
 		</div>
 	</div>
-<<<<<<< HEAD
-	<div class="modal fade" id="detail" tabindex="-1" role="dialog"
-		aria-labelledby="modalAddBrandLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="modalAddBrandLabel">상품 설명 추가</h4>
-
-				</div>
-				<div class="modal-body">
-					<form>
-						<textarea name="ckeditor" id="detail"></textarea>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button id="saveDetail" type="button" class="btn btn-primary">저장</button>
-					<button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
-				</div>
-			</div>
-		</div>
-	</div>
-=======
->>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
 </body>
 </html>
 <%@ include file="../../include/footer.jsp"%>

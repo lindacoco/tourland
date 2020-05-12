@@ -63,17 +63,10 @@ h2 {
 #first { color: maroon; font-weight: bold;}
 #bus { color: steelblue; font-weight: bold;}
 #eco { color: goldenrod; font-weight: bold;}
+body {
+	margin : 0;
+}
 </style>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/ckeditor/contents.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
 <%@include file="productModifyForm_script.jsp" %>
 <body>
 	<div class="container">

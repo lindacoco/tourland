@@ -13,11 +13,11 @@ public interface FlightDAO {
 	//항공편 해외 리스트
 	public List<AirplaneVO> airplaneAbroadList(SearchCriteria cri) throws Exception;
 	public List<AirplaneVO> airplaneListByDepature(SearchCriteria cri) throws Exception;
-	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception;
+	public List<AirplaneVO> airplaneListByRending(AirplaneVO vo) throws Exception;
 	//항공편 전체 숫자
 	public int totalCountAirplane(SearchCriteria cri) throws Exception;
 	public int totalCountAirplaneByDepature(SearchCriteria cri) throws Exception;
-	public int totalCountAirplaneByRending(SearchCriteria cri) throws Exception;
+	public int totalCountAirplaneByRending(AirplaneVO vo) throws Exception;
 	//항공 번호로 검색
 	public AirplaneVO airplaneByNo(AirplaneVO vo) throws Exception;
 	//항공 추가

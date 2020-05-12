@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 	.table th,td {
 		text-align: center;
@@ -47,9 +48,7 @@
 						<tr>
 							<th>번호</th>
 							<th>상품제목</th>
-							<th>출발일자</th>
-							<th>도착일자</th>
-							<th>여행기간</th>
+							<th>항공편명</th>
 							<th>호텔상품</th>
 							<th>투어상품</th>
 							<th>렌트카상품</th>
@@ -62,31 +61,20 @@
 							<td>${product.pname}</td>
 							<td>
 								<c:forEach var="air" items="${product.air}" begin="0" end="0">
-									<fmt:formatDate value="${air.ddate}" pattern="yyyy-MM-dd"/>
-									<c:set var="ddate" value="${air.ddate.time}"/>
+									${air.ano}
 								</c:forEach>
 							</td>
 							<td>
-								<c:forEach var="air" items="${product.air}" begin="1" end="1">
-									<fmt:formatDate value="${air.rdate}" pattern="yyyy-MM-dd"/>
-									<c:set var="rdate" value="${air.rdate.time}"/>
-								</c:forEach>
-							</td>
-							<td>
-								<c:set value="${(rdate-ddate)/(1000*60*60*24)}" var="dateDiff"/>
-								<fmt:formatNumber value='${dateDiff-(dateDiff%1)+1}' type='number'/>
-							</td>
-							<td>
-								<c:forEach var="hotel" items="${product.hotel}" begin="0" end="0">
+								<c:forEach var="hotel" items="${product.hotel}">
 									<p>
 										${hotel.hname}
 									</p>
 								</c:forEach>
 							</td>
 							<td>
-								<c:forEach var="tour" items="${product.tour}">
+								<c:forEach var="tour" items="${product.tour}" begin="0" end="0">
 									<p>
-										${tour.tname}
+										${tour.tname}외 ${fn:length(product.tour)}종
 									</p>
 								</c:forEach>
 							</td>
