@@ -25,6 +25,9 @@ insert into custboard values
 (2,'상품이 다양하면 좋겠어요','좀더 많았으면..','장도롱',now(),password(111)),
 (3,'차은우 가이드님 칭찬합니다','존잘!!','박열무',now(),password(111));
 
+-- 팝업
+desc popup ;
+
 -- 현서 렌트카 ----------------------------------------------------------------------------------------------
 DESC rentcar;
 load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/rentcar.csv'

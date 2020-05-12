@@ -221,6 +221,13 @@ public class CustomerController {
 		return "/user/product/tourlandProductDetail"; 
 	}
 	
+	//이벤트 --------------------------------------------------------------------------------------
+	@RequestMapping(value="tourlandEventList", method=RequestMethod.GET)
+	public String tourlandEventList() { 
+		return "/user/event/eventList"; 
+	}
+	
+	
 	//게시판 ---------------------------------------------------------------------------------------
 	
 	//공지사항
