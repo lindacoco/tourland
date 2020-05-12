@@ -1,6 +1,8 @@
 package com.yi.tourland.persistance.mng.daoimpl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +61,16 @@ public class EventDAOImpl implements EventDAO {
 	@Override
 	public int totalSearchCountEvent(SearchCriteria cri) throws Exception {
 		return sqlSession.selectOne(namespace+"totalSearchCountEvent",cri);
+	}
+
+	@Override
+	public List<EventVO> eventListDependsTime(String times) {
+		
+		  Map<String, String> map= new HashMap<String, String>();
+		  map.put("times",times);
+		  System.out.println(map);
+		 
+		return sqlSession.selectList(namespace+"eventListDependsTime",map);
 	}
 
 }

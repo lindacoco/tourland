@@ -23,6 +23,7 @@ import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.EventVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.PlanBoardVO;
@@ -32,6 +33,7 @@ import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.CustBoardService;
 import com.yi.tourland.service.mng.EmployeeService;
+import com.yi.tourland.service.mng.EventService;
 import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
@@ -73,6 +75,9 @@ public class CustomerController {
 
 	@Autowired
 	HotelService hotelService;
+	
+	@Autowired
+	EventService eventService;
 	
 	@Autowired
 	PopupService popupService;
@@ -222,8 +227,25 @@ public class CustomerController {
 	}
 	
 	//이벤트 --------------------------------------------------------------------------------------
-	@RequestMapping(value="tourlandEventList", method=RequestMethod.GET)
-	public String tourlandEventList() { 
+	@RequestMapping(value="tourlandEventList/{times}", method=RequestMethod.GET)
+	public String tourlandEventList(@PathVariable("times") String times, Model model) { 
+		
+		if(times.equals("ingEvent")) {
+			List<EventVO> list = eventService.eventListDependsTime(times);
+			model.addAttribute("eventList",list);
+			System.out.println(list);
+		}
+		if(times.equals("commingEvent")) {
+			List<EventVO> list = eventService.eventListDependsTime(times);
+			model.addAttribute("eventList",list);
+			System.out.println(list);
+		}
+		if(times.equals("expiredEvent")) {
+			List<EventVO> list = eventService.eventListDependsTime(times);
+			model.addAttribute("eventList",list);
+		}
+		
+		
 		return "/user/event/eventList"; 
 	}
 	
