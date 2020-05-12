@@ -114,7 +114,7 @@ from planboard;
 -- 하나 --------------------------------------------------------------------------------------------
 
 SELECT * FROM notice;
-select count(*) from notice; 
+select count(*) from airplane; 
 select * from coupon;
 select * from airplane;
 
