@@ -101,6 +101,13 @@ insert into planboard(title, content, writer, regdate, lcate, mcate, answer)
 select count(no)
 from planboard;
 
+insert into planboard(title, content, writer, regdate, lcate, mcate, answer) values
+ ('test','test','test',now(),'D','P',0);
+
+       update planboard  set 
+       title ='test11', content='test11', respond='답변'
+       where no=6;
+
 
 -- 하나 --------------------------------------------------------------------------------------------
 

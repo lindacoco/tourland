@@ -157,7 +157,8 @@ CREATE TABLE tour.planboard (
 	regdate TIMESTAMP    NULL     DEFAULT now() COMMENT '작성일자', -- 작성일자
 	lcate   CHAR(1)      NULL     COMMENT '대분류', -- 대분류
 	mcate   CHAR(1)      NULL     COMMENT '중분류', -- 중분류
-	answer  tinyint(1)   NULL     COMMENT '답변상태' -- 답변상태
+	answer  tinyint(1)   NULL     COMMENT '답변상태', -- 답변상태
+	respond LONGTEXT     NULL     COMMENT '답변내용' -- 답변
 )
 COMMENT '상품문의사항';
 

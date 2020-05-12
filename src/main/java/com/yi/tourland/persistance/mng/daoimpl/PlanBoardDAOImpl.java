@@ -25,8 +25,8 @@ public class PlanBoardDAOImpl implements PlanBoardDAO {
 	}
 
 	@Override
-	public PlanBoardVO readByNoPlanBoard(PlanBoardVO vo) throws Exception {
-		return sqlSession.selectOne(namespace+"readByNoPlanBoard", vo);
+	public PlanBoardVO readByVoPlanBoard(PlanBoardVO vo) throws Exception {
+		return sqlSession.selectOne(namespace+"readByVoPlanBoard", vo);
 
 	}
 
@@ -64,6 +64,11 @@ public class PlanBoardDAOImpl implements PlanBoardDAO {
 	public int totalSearchCountPlanBoard(SearchCriteria cri) throws Exception {
 		return sqlSession.selectOne(namespace+"totalSearchCountPlanBoard",cri);
 
+	}
+
+	@Override
+	public PlanBoardVO readByNoPlanBoard(int no) throws Exception {
+		return sqlSession.selectOne(namespace+"readByNoPlanBoard", no);
 	}
 
 }

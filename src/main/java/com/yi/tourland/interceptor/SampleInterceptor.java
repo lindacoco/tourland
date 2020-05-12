@@ -12,11 +12,9 @@ public class SampleInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		HttpSession session = request.getSession();
-		Object object = session.getAttribute("User");
+		Object object = session.getAttribute("Auth");
 		if(object == null) {  //로그인 안 한 경우
-			
 			response.sendRedirect(request.getContextPath() + "/user/loginForm");
-			
 			return false; //기존 컨트롤러에 진입을 막는다
 		}
 		return true;

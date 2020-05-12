@@ -4,21 +4,22 @@
 
   <insert id="insertPlanBoard" parameterType="PlanBoardVO"> 
      insert into planboard(title, content, writer, regdate, lcate, mcate, answer) values
-     (#{title}, #{content}, #{writer}, now(), #{lcate}, #{mcate}, #{answer},)
+     (#{title}, #{content}, #{writer}, now(), #{lcate}, #{mcate}, #{answer})
   </insert>
 
-
-
-   <select id="readByNoPlanBoard" resultType="PlanBoardVO">
+   <select id="readByVoPlanBoard" resultType="PlanBoardVO">
+     select * from planboard
+     where no= #{no}
+   </select> 
+   
+      <select id="readByNoPlanBoard" resultType="PlanBoardVO">
      select * from planboard
      where no= #{no}
    </select> 
 
-
-
     <update id="updatePlanBoard" parameterType="planBoardVO">
-       update planboard  set 
-       title =#{title}, content=#{content}
+       update planboard set 
+       respond=#{respond}
        where no=#{no}
     </update> 
 

@@ -36,33 +36,53 @@ h2 {
 .flightList:hover {
 	background-color: lightgrey;
 }
+
 .hotelList:hover {
 	background-color: lightgrey;
 }
+
 .tourList:hover {
 	background-color: lightgrey;
 }
+
 .rentcarList:hover {
 	background-color: lightgrey;
 }
+
 #airTable th, #airTable td {
-	text-align : center;
+	text-align: center;
 }
+
 #hotelTable th, #hotelTable td {
-	text-align : center;
+	text-align: center;
 }
+
 #tourTable th, #tourTable td {
-	text-align : center;
+	text-align: center;
 }
+
 #rentTable th, #rentTable td {
-	text-align : center;
+	text-align: center;
 }
+
 #preview img {
-	height : 100px;
+	height: 100px;
 }
-#first { color: maroon; font-weight: bold;}
-#bus { color: steelblue; font-weight: bold;}
-#eco { color: goldenrod; font-weight: bold;}
+
+#first {
+	color: maroon;
+	font-weight: bold;
+}
+
+#bus {
+	color: steelblue;
+	font-weight: bold;
+}
+
+#eco {
+	color: goldenrod;
+	font-weight: bold;
+}
 </style>
 <link
 	href="${pageContext.request.contextPath}/resources/plugins/datepicker/datepicker3.css"
@@ -74,7 +94,7 @@ h2 {
 	rel="stylesheet" type="text/css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
-<%@include file="addProductForm_script.jsp" %>
+<%@include file="addProductForm_script.jsp"%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -86,30 +106,31 @@ h2 {
 					<p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
 					<form class="form-inline" action="addProductForm" method="post"
 						enctype="multipart/form-data">
-						<input type="hidden" name="pdiv" value="false"> 
+						<input type="hidden" name="pdiv" value="false">
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>항공</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary"
-										 id="addFlight">항공편 추가</button>
+									<button type="button" class="btn btn-primary" id="addFlight">항공편
+										추가</button>
 								</div>
 							</div>
 						</div>
-						<div style="padding:20px;">
-							<table class="table table-bordered" id="airTable" style="width : 100%;">
-							<tr>  
-								<th>번호</th>
-								<th>항공기 번호</th>
-								<th>출발 지역</th>
-								<th>도착 지역</th>
-								<th>출발 일시</th>
-								<th>도착 일시</th>
-								<th>장소 구분</th>
-								<th>허용 인원</th>
-								<th>좌석</th>
-								<th>가격</th>
-							</tr>
+						<div style="padding: 20px;">
+							<table class="table table-bordered" id="airTable"
+								style="width: 100%;">
+								<tr>
+									<th>번호</th>
+									<th>항공기 번호</th>
+									<th>출발 지역</th>
+									<th>도착 지역</th>
+									<th>출발 일시</th>
+									<th>도착 일시</th>
+									<th>장소 구분</th>
+									<th>허용 인원</th>
+									<th>좌석</th>
+									<th>가격</th>
+								</tr>
 							</table>
 						</div>
 						<div class="group">
@@ -123,7 +144,7 @@ h2 {
 								</div>
 							</div>
 						</div>
-						<div style="padding:20px;">
+						<div style="padding: 20px;">
 							<table class="table table-bordered" id="hotelTable">
 								<tr>
 									<th>번호</th>
@@ -136,7 +157,7 @@ h2 {
 									<th>객실 수</th>
 									<th>객실타입</th>
 									<th>장소구분</th>
-									<th>예약 가능 여부</th>  
+									<th>예약 가능 여부</th>
 								</tr>
 							</table>
 						</div>
@@ -144,11 +165,12 @@ h2 {
 							<div class="form-group">
 								<label><span class="red">*</span>현지 투어</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="addTour">현지투어 추가</button>
+									<button type="button" class="btn btn-primary" id="addTour">현지투어
+										추가</button>
 								</div>
 							</div>
 						</div>
-						<div style="padding:20px;">
+						<div style="padding: 20px;">
 							<table class="table table-bordered" id="tourTable">
 								<tr>
 									<th>번호</th>
@@ -168,11 +190,12 @@ h2 {
 							<div class="form-group">
 								<label><span class="red">*</span>렌트카</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="addRent">렌트카 추가</button>
+									<button type="button" class="btn btn-primary" id="addRent">렌트카
+										추가</button>
 								</div>
 							</div>
 						</div>
-						<div style="padding:20px;">
+						<div style="padding: 20px;">
 							<table class="table table-bordered" id="rentTable">
 								<tr>
 									<th>번호</th>
@@ -185,24 +208,27 @@ h2 {
 									<th>가격</th>
 									<th>허용인원</th>
 									<th>보험여부</th>
-									<th>국내/해외</th>		
+									<th>국내/해외</th>
 								</tr>
 							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
-								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="${size}" name="pno">
+								<label>상품 번호</label> <input type="text" class="form-control"
+									readonly="readonly" value="${size}" name="pno">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
-									type="text" class="form-control" name="pname" required="required">
+									type="text" class="form-control" name="pname"
+									required="required">
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 설명</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="addDetail">상품설명 추가</button>
+									<button type="button" class="btn btn-primary" id="addDetail">상품설명
+										추가</button>
 									<input type="hidden" name="pcontent" id="pcontent">
 								</div>
 							</div>
@@ -210,19 +236,20 @@ h2 {
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 가격</label> <input
-									type="text" class="form-control" value="0" id="price" readonly="readonly" name="pprice">
+									type="text" class="form-control" value="0" id="price"
+									readonly="readonly" name="pprice">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
-									type="text" class="form-control" id="pexpire" name="pexpire" readonly="readonly">
+									type="text" class="form-control" id="pexpire" name="pexpire"
+									readonly="readonly">
 							</div>
 						</div>
 						<div class="group">
-							<div class="form-group" style="width : 1000px;">
+							<div class="form-group" style="width: 1000px;">
 								<label><span class="red">*</span>상품 사진</label> <input
 									type="file" class="form-control" id="file" name="file">
-								<div id="preview" style="display : inline;">
-								</div>
+								<div id="preview" style="display: inline;"></div>
 							</div>
 						</div>
 						<div class="group">
@@ -234,7 +261,7 @@ h2 {
 				</div>
 			</div>
 		</div>
-		
+
 	</div>
 	<div id="flightDepature" class="modal fade" role="dialog"
 		data-backdrop="static" data-keyboard="false">
@@ -270,15 +297,17 @@ h2 {
 									<th>허용 인원</th>
 									<th>좌석</th>
 									<th>가격</th>
-								</tr>  
-								<c:forEach items="${flightListDepature }" var="f">   
+								</tr>
+								<c:forEach items="${flightListDepature }" var="f">
 									<tr class='flightList' data-no="${f.no }">
 										<td>${f.no }</td>
 										<td>${f.ano }</td>
 										<td>${f.dlocation }</td>
 										<td>${f.rlocation }</td>
-										<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${f.ddate }"
+												pattern="yyyy-MM-dd" /></td>
+										<td><fmt:formatDate value="${f.rdate }"
+												pattern="yyyy-MM-dd" /></td>
 										<c:if test="${f.ldiv==0 }">
 											<td>해외</td>
 										</c:if>
@@ -297,8 +326,8 @@ h2 {
 										</c:if>
 										<td>${f.price }</td>
 									</tr>
-								</c:forEach>   
-							</table>   
+								</c:forEach>
+							</table>
 						</div>
 						<div class="box-footer">
 							<div class="text-center">
@@ -360,15 +389,17 @@ h2 {
 									<th>허용 인원</th>
 									<th>좌석</th>
 									<th>가격</th>
-								</tr>  
-								<c:forEach items="${flightListRending }" var="f">   
+								</tr>
+								<c:forEach items="${flightListRending }" var="f">
 									<tr class='flightList' data-no="${f.no }">
 										<td>${f.no }</td>
 										<td>${f.ano }</td>
 										<td>${f.dlocation }</td>
 										<td>${f.rlocation }</td>
-										<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${f.ddate }"
+												pattern="yyyy-MM-dd" /></td>
+										<td><fmt:formatDate value="${f.rdate }"
+												pattern="yyyy-MM-dd" /></td>
 										<c:if test="${f.ldiv==0 }">
 											<td>해외</td>
 										</c:if>
@@ -387,7 +418,7 @@ h2 {
 										</c:if>
 										<td>${f.price }</td>
 									</tr>
-								</c:forEach>   
+								</c:forEach>
 							</table>
 						</div>
 						<div class="box-footer">
@@ -430,10 +461,13 @@ h2 {
 						<div class="box-body">
 							<select name="searchType" id="searchType">
 								<option value="total"
-									${cri.searchType == 'null'? 'selected':'' }>전체</option>
-								<option value="n" ${cri.searchType == 'n'? 'selected':'' }>호텔이름</option>
-								<option value="a" ${cri.searchType == 'a'? 'selected':'' }>호텔주소</option>
-								<option value="b" ${cri.searchType == 'b'? 'selected':'' }>객실체크여부</option>
+									${cri.searchType == 'total'? 'selected':'' }>전체</option>
+								<option value="hname"
+									${cri.searchType == 'hname'? 'selected':'' }>호텔이름</option>
+								<option value="haddr"
+									${cri.searchType == 'haddr'? 'selected':'' }>호텔주소</option>
+								<option value="bookedup"
+									${cri.searchType == 'bookedup'? 'selected':'' }>객실체크여부</option>
 							</select> <input type="text" name="keyword" id="keywordInput"
 								value="${cri.keyword}">
 							<button id="btnSearch">검색</button>
@@ -451,7 +485,7 @@ h2 {
 									<th>객실 수</th>
 									<th>객실타입</th>
 									<th>장소구분</th>
-									<th>예약 가능 여부</th>  
+									<th>예약 가능 여부</th>
 								</tr>
 								<c:forEach var="hotel" items="${hotelList}">
 									<tr class="hotelList" data-no="${hotel.no}">
@@ -616,23 +650,31 @@ h2 {
 				<div class="modal-body">
 					<div class="box box-primary">
 						<div class="box-body">
-							<select name="searchType" id="searchType" style="width:200px; height: 25px;">
+							<select name="searchType" id="searchType"
+								style="width: 200px; height: 25px;">
 								<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
-								<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
-								<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
-								<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
-								<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
-							</select>
-							<input type="text" name="keyword" id="keywordInput">
+								<option value="rentcarType"
+									${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
+								<option value="rentcarCno"
+									${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
+								<option value="rentDepartaddr"
+									${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납
+									장소</option>
+								<option value="rentLDiv"
+									${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
+							</select> <input type="text" name="keyword" id="keywordInput">
 							<button id="btnSearch">Search</button>
 						</div>
 						<div class="box-body">
 							<p id="datePick">
-								<span><i class="far fa-calendar-alt"></i> 시작 날짜 </span> 
-								<span class="picker"><input type="date" class="datepicker" name="rentddate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
-								<span><i class="far fa-calendar-alt"></i> ~  종료 날짜 </span> 
-								<span class="picker"><input type="date" class="datepicker" name="returndate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
-								<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
+								<span><i class="far fa-calendar-alt"></i> 시작 날짜 </span> <span
+									class="picker"><input type="date" class="datepicker"
+									name="rentddate" placeholder="날짜를 선택하려면 클릭."
+									style="height: 30px;"></span> <span><i
+									class="far fa-calendar-alt"></i> ~ 종료 날짜 </span> <span class="picker"><input
+									type="date" class="datepicker" name="returndate"
+									placeholder="날짜를 선택하려면 클릭." style="height: 30px;"></span> <span
+									id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
 							</p>
 							<table class="table table-bordered" id="table">
 								<tr>
@@ -646,24 +688,26 @@ h2 {
 									<th>가격</th>
 									<th>허용인원</th>
 									<th>보험여부</th>
-									<th>국내/해외</th>		
+									<th>국내/해외</th>
 								</tr>
 								<c:forEach var="rentcar" items="${rentcarList}">
-								<tr class="rentcarList" data-no="${rentcar.no}">
-									<td>${rentcar.no}</td>
-									<td>${rentcar.cdiv}</td>
-									<td>${rentcar.cno}</td>
-									<td><fmt:formatDate value="${rentcar.rentddate}" pattern="yyyy-MM-dd "/></td>
-									<td><fmt:formatDate value="${rentcar.returndate}" pattern="yyyy-MM-dd "/></td>
-									<td>${rentcar.rentaddr}</td>
-									<td>${rentcar.returnaddr}</td>
-									<td>${rentcar.price}</td>
-									<td>${rentcar.capacity}</td>
-									<td>${rentcar.insurance}</td>
-									<td>${rentcar.ldiv == 0?'해외':'국내'}</td>
-								</tr>
-								</c:forEach>     
-							</table>      
+									<tr class="rentcarList" data-no="${rentcar.no}">
+										<td>${rentcar.no}</td>
+										<td>${rentcar.cdiv}</td>
+										<td>${rentcar.cno}</td>
+										<td><fmt:formatDate value="${rentcar.rentddate}"
+												pattern="yyyy-MM-dd " /></td>
+										<td><fmt:formatDate value="${rentcar.returndate}"
+												pattern="yyyy-MM-dd " /></td>
+										<td>${rentcar.rentaddr}</td>
+										<td>${rentcar.returnaddr}</td>
+										<td>${rentcar.price}</td>
+										<td>${rentcar.capacity}</td>
+										<td>${rentcar.insurance}</td>
+										<td>${rentcar.ldiv == 0?'해외':'국내'}</td>
+									</tr>
+								</c:forEach>
+							</table>
 						</div>
 						<div class="box-footer">
 							<div class="text-center">
@@ -691,25 +735,27 @@ h2 {
 			</div>
 		</div>
 	</div>
-	<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="modalAddBrandLabel" aria-hidden="true">
-	    <div class="modal-dialog modal-lg">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	                 <h4 class="modal-title" id="modalAddBrandLabel">상품 설명 추가</h4>
-	
-	            </div>
-	            <div class="modal-body">
-	                <form>
-	                    <textarea name="ckeditor" id="detail"></textarea>
-	                </form>
-	            </div>
-	            <div class="modal-footer">
-	            	<button id="saveDetail" type="button" class="btn btn-primary">저장</button>
-	                <button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
-	            </div>
-	        </div>
-	    </div>
+	<div class="modal fade" id="detail" tabindex="-1" role="dialog"
+		aria-labelledby="modalAddBrandLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="modalAddBrandLabel">상품 설명 추가</h4>
+
+				</div>
+				<div class="modal-body">
+					<form>
+						<textarea name="ckeditor" id="detail"></textarea>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button id="saveDetail" type="button" class="btn btn-primary">저장</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">나가기</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>
