@@ -52,8 +52,8 @@ public class FlightDAOImpl implements FlightDAO {
 	}
 
 	@Override
-	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception {
-		return sqlSession.selectList(namespace + "airplaneListByRending",cri);
+	public List<AirplaneVO> airplaneListByRending(AirplaneVO vo) throws Exception {
+		return sqlSession.selectList(namespace + "airplaneListByRending",vo);
 	}
 
 	@Override
@@ -62,8 +62,8 @@ public class FlightDAOImpl implements FlightDAO {
 	}
 
 	@Override
-	public int totalCountAirplaneByRending(SearchCriteria cri) throws Exception {
-		return sqlSession.selectOne(namespace + "totalCountAirplaneByRending", cri);
+	public int totalCountAirplaneByRending(AirplaneVO vo) throws Exception {
+		return sqlSession.selectOne(namespace + "totalCountAirplaneByRending", vo);
 	}
 	//항공 추가
 	@Override

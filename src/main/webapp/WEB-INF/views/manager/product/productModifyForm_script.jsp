@@ -154,6 +154,7 @@
 					airAdd[0] = true;
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
+					airAjax("Rending", res.vo.no+1, "", "");
 					$("#flightRending").modal("show");
 				} else {
 					getAirData(res);

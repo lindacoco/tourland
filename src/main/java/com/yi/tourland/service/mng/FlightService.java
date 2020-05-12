@@ -29,8 +29,8 @@ public class FlightService {
 	public List<AirplaneVO> airplaneListByDepature(SearchCriteria cri) throws Exception{
 		return dao.airplaneListByDepature(cri);
 	}
-	public List<AirplaneVO> airplaneListByRending(SearchCriteria cri) throws Exception{
-		return dao.airplaneListByRending(cri);
+	public List<AirplaneVO> airplaneListByRending(AirplaneVO vo) throws Exception{
+		return dao.airplaneListByRending(vo);
 	}
 	//항공편 전체 숫자
 	public int totalCountAirplane (SearchCriteria cri) throws Exception {
@@ -39,8 +39,8 @@ public class FlightService {
 	public int totalCountAirplaneByDepature (SearchCriteria cri) throws Exception {
 		return dao.totalCountAirplaneByDepature(cri);
 	}
-	public int totalCountAirplaneByRending (SearchCriteria cri) throws Exception {
-		return dao.totalCountAirplaneByRending(cri);
+	public int totalCountAirplaneByRending (AirplaneVO vo) throws Exception {
+		return dao.totalCountAirplaneByRending(vo);
 	}
 	//항공편 번호로 검색
 	public AirplaneVO airplaneByNo(AirplaneVO vo) throws Exception {

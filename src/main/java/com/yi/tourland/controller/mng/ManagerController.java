@@ -598,19 +598,15 @@ public class ManagerController {
 
 	// 상품관리
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
-	public String addProductFormGet(SearchCriteria cri, Model model) throws Exception {
+	public String addProductFormGet(SearchCriteria cri,Model model) throws Exception {
 		List<ProductVO> list = productService.listPage(cri);
 		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
-		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
 		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
 		List<TourVO> tourList = tourService.listPage(cri);
 		List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
 		PageMaker pageMakerByFlightDepature = new PageMaker();
 		pageMakerByFlightDepature.setCri(cri);
 		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
-		PageMaker pageMakerByFlightRending = new PageMaker();
-		pageMakerByFlightRending.setCri(cri);
-		pageMakerByFlightRending.setTotalCount(flightService.totalCountAirplaneByRending(cri));
 		PageMaker pageMakerByHotel = new PageMaker();
 		pageMakerByHotel.setCri(cri);
 		pageMakerByHotel.setTotalCount(hotelService.totalSearchCountHotel(cri));
@@ -622,8 +618,6 @@ public class ManagerController {
 		pageMakerByRentcar.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
 		model.addAttribute("flightListDepature",flightListDepature);
 		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
-		model.addAttribute("flightListRending",flightListRending);
-		model.addAttribute("pageMakerByFlightRending",pageMakerByFlightRending);
 		model.addAttribute("hotelList",hotelList);
 		model.addAttribute("pageMakerByHotel",pageMakerByHotel);
 		model.addAttribute("tourList",tourList);
@@ -692,16 +686,12 @@ public class ManagerController {
 		vo.setPno(no);
 		vo = productService.productByNo(vo);
 		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
-		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
 		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
 		List<TourVO> tourList = tourService.listPage(cri);
 		List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
 		PageMaker pageMakerByFlightDepature = new PageMaker();
 		pageMakerByFlightDepature.setCri(cri);
 		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
-		PageMaker pageMakerByFlightRending = new PageMaker();
-		pageMakerByFlightRending.setCri(cri);
-		pageMakerByFlightRending.setTotalCount(flightService.totalCountAirplaneByRending(cri));
 		PageMaker pageMakerByHotel = new PageMaker();
 		pageMakerByHotel.setCri(cri);
 		pageMakerByHotel.setTotalCount(hotelService.totalSearchCountHotel(cri));
@@ -713,8 +703,6 @@ public class ManagerController {
 		pageMakerByRentcar.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
 		model.addAttribute("flightListDepature",flightListDepature);
 		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
-		model.addAttribute("flightListRending",flightListRending);
-		model.addAttribute("pageMakerByFlightRending",pageMakerByFlightRending);
 		model.addAttribute("hotelList",hotelList);
 		model.addAttribute("pageMakerByHotel",pageMakerByHotel);
 		model.addAttribute("tourList",tourList);
@@ -788,7 +776,7 @@ public class ManagerController {
 
 	@ResponseBody
 	@RequestMapping(value = "flightList", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> flightList(String div, SearchCriteria cri, Model model) {
+	public ResponseEntity<Map<String, Object>> flightList(String div, AirplaneVO vo, SearchCriteria cri, Model model) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		Map<String, Object> map = new HashMap<>();
 		if (div.equals("Depature")) {
@@ -806,12 +794,9 @@ public class ManagerController {
 			}
 		} else if (div.equals("Rending")) {
 			try {
-				List<AirplaneVO> flightList = flightService.airplaneListByRending(cri);
-				PageMaker pageMaker = new PageMaker();
-				pageMaker.setCri(cri);
-				pageMaker.setTotalCount(flightService.totalCountAirplaneByRending(cri));
+				vo = new AirplaneVO(cri.getPage());
+				List<AirplaneVO> flightList = flightService.airplaneListByRending(vo);
 				map.put("list", flightList);
-				map.put("pageMaker", pageMaker);
 				entity = new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -1585,7 +1570,9 @@ public class ManagerController {
 		try {
 			
 	//		System.out.println("path=="+path);
-			if(choice.contentEquals("productSmall")) filename = filename.substring(0, 12) + "s_" + filename.substring(12);
+			if(choice.contentEquals("productSmall")) {
+				if(filename!="") filename = filename.substring(0, 12) + "s_" + filename.substring(12);
+			}
 			in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
 			String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
 			MediaType mType = null;
