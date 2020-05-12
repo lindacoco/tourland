@@ -150,7 +150,7 @@
 	                        </c:if>
 	                        <c:if test="${popup1 != null }">
 	                        <div id="previewPopup1">
-	                        <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1Img">
+	                        <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1img">
 	                             <p class="popupClose" style="background:black;">
 						          <input type="checkbox" class="expireCK">
 						          <label id="expireCK" style="color:white">3일동안 이 창열지 않기</label> <!-- for -->

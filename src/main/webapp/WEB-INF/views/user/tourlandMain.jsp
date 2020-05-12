@@ -183,6 +183,9 @@
 <body>
 	<div id="container">
 	<%@ include file="../include/userHeader.jsp"%>
+<!-- 쿠키 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script>
 
 	  $(function(){
@@ -412,15 +415,23 @@
 					<div class="bannerBox" id="banner1">
 						<h3>${banner1.title }</h3>
 						<p>${banner1.content }</p>
-						<img alt="" src="images/santo.jpg">
+						<img alt="" src="displayFile/banner?filename=${banner1.pic}">
 					</div>
 				</c:if>
-				
+				<c:if test="${banner2 ==null }">
 					<div class="bannerBox">
 						<h3>진짜 오사카를 만나다</h3>
 						<p>간사이 미니 패스, 대구 출발</p>
 						<img alt="" src="images/osaka.jpg">
 					</div>
+				</c:if>
+				<c:if test="${banner2 !=null }">
+					<div class="bannerBox">
+						<h3>${banner2.title }</h3>
+						<p>${banner2.content }</p>
+						<img alt="" src="displayFile/banner?filename=${banner2.pic}">
+					</div>
+				</c:if>
 				</section>
 				
 				<section id="section5">
@@ -437,10 +448,10 @@
 					</div>
 					
 					<div id="shortcutBtns" class="infoBox">
-						<a href="#">여행 질문과 답변</a>
-						<a href="#">FAQ</a>
-						<a href="#">고객의 소리</a>
-						<a href="#">상품 문의사항</a>
+						<a href="${pageContext.request.contextPath }/tourlandBoardNotice">공지사항</a>
+						<a href="${pageContext.request.contextPath }/tourlandBoardFAQ">FAQ</a>
+						<a href="${pageContext.request.contextPath }/tourlandCustBoard">고객의 소리</a>
+						<a href="${pageContext.request.contextPath }/tourlandProductBoard">상품 문의사항</a>
 					</div>
 				</section>
 				
