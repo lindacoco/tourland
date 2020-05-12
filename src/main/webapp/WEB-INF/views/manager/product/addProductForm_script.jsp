@@ -4,9 +4,18 @@
 	var div;
 	var page;
 	var searchType;
-	var keyword;
+	var keyword="";
+	var keyword2="";
 	var price = 0;
 	var airAdd = [false,false];
+	var calExpireDate = function(date) {
+		var objDate = new Date(date);
+		var dateDiff = new Date(objDate.getFullYear(),objDate.getMonth(),(objDate.getDate() -3));
+		var month = (dateDiff.getMonth() + 1) < 10 ? "0" + (dateDiff.getMonth() + 1) : (dateDiff.getMonth() + 1);
+		var day = dateDiff.getDate() < 10 ? "0" + dateDiff.getDate() : dateDiff.getDate();
+		var dateStr = dateDiff.getFullYear() + "-" + month + "-" + day;
+		return dateStr;
+	}
 	var makeDateStr = function(pdate) {
 		var date = new Date(pdate);
 		var month = (date.getMonth() + 1) < 10 ? "0" + (date.getMonth() + 1) : (date.getMonth() + 1);
@@ -22,7 +31,7 @@
 		var dateStr = hour + ":" + minute + ":" + second;
 		return dateStr;
 	}
-	var getAirData = function(div, res) {
+	var getAirData = function(res) {
 		var no = $("<input type='hidden' name='airNo'>").val(res.vo.no);
 		var td1 = $("<td>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.ano);
@@ -75,7 +84,7 @@
 			td9 = $("<td style='color : #D941C5;' id='s'>").html("스위트");
 			break;
 		}
-		var td10 = res.vo.ldiv==1?$("<td>").html("해외"):$("<td>").html("국내");
+		var td10 = res.vo.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 		var span = res.vo.bookedup==0?$("<span class='badge bg-red'>").html("예약가능"):$("<span class='badge bg-red'>").html("예약불가");
 		var td11 = $("<td>").append(span);
 		var tr = $("<tr class='hotelList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
@@ -133,13 +142,15 @@
 			dataType : "json",
 			success : function(res) {
 				if (div == 'Depature') {
-					getAirData(div, res);
+					var expireDate = calExpireDate(res.vo.ddate);
+					$("#pexpire").val(expireDate);
+					getAirData(res);
 					airAdd[0] = true;
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
 					$("#flightRending").modal("show");
 				} else {
-					getAirData(div, res);
+					getAirData(res);
 					airAdd[1] = true;
 					$("#flightRending").modal("hide");
 					$('#flightRending .modal-backdrop').remove();
@@ -268,7 +279,7 @@
 						td9 = $("<td style='color : #D941C5;' id='s'>").html("스위트");
 						break;
 					}
-					var td10 = obj.ldiv==1?$("<td>").html("해외"):$("<td>").html("국내");
+					var td10 = obj.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 					var span = obj.bookedup==0?$("<span class='badge bg-red'>").html("예약가능"):$("<span class='badge bg-red'>").html("예약불가");
 					var td11 = $("<td>").append(span);
 					var tr = $("<tr class='hotelList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
@@ -381,14 +392,15 @@
 			}
 		})
 	}
-	var rentAjax = function(page,searchType,keyword) {
+	var rentAjax = function(page,searchType,keyword,keyword2) {
 		$.ajax({
 			url : "rentList",
 			type : "get",
 			data : {
 				page : page,
 				searchType : searchType,
-				keyword : keyword
+				keyword : keyword,
+				keyword2 : keyword2
 			},
 			dataType : "json",
 			success : function(res) { // 결과 성공 콜백함수
@@ -465,10 +477,6 @@
 				}
 			})
 		})
-		$("#datepicker").datepicker({
-			format : "yyyy-mm-dd",
-			autoclose : true
-		}).datepicker("setDate", 'now');
 		//항공편 출발 다이얼로그
 		$(document).on(
 				"click",
@@ -676,9 +684,17 @@
 		//렌터카 다이얼로그
 		$(document).on("click", "#rent .index", function() {
 			page = $(this).attr("data-index");
-			searchType = $("#rent #searchType option:selected").val();
-			keyword = $("#rent #keywordInput").val();
-			rentAjax(page, searchType, keyword);
+			if($("#rent input[name='rentddate']").val()!="") {
+				searchType = "rentDepartDate";
+				keyword = $("#rent input[name='rentddate']").val();
+				keyword2 = $("#rent input[name='returndate']").val();
+			}
+			else {
+				searchType = $("#rent #searchType option:selected").val();
+				keyword = $("#rent #keywordInput").val();
+				keyword2 = "";
+			}
+			rentAjax(page, searchType, keyword,keyword2);
 		})
 		$(document)
 				.on(
@@ -687,11 +703,19 @@
 						function() {
 							page = Number($("#rent .index").eq(0)
 									.attr("data-index")) - 1;
-							searchType = $(
-									"#rent #searchType option:selected")
-									.val();
-							keyword = $("#rent #keywordInput").val();
-							rentAjax(page, searchType, keyword);
+							if($("#rent input[name='rentddate']").val()!="") {
+								searchType = "rentDepartDate";
+								keyword = $("#rent input[name='rentddate']").val();
+								keyword2 = $("#rent input[name='returndate']").val();
+							}
+							else {
+								searchType = $(
+								"#rent #searchType option:selected")
+								.val();
+								keyword = $("#rent #keywordInput").val();
+								keyword2 = "";
+							}
+							rentAjax(page, searchType, keyword,keyword2);
 						})
 		$(document)
 				.on(
@@ -700,11 +724,19 @@
 						function() {
 							page = Number($("#rent .index").eq(9)
 									.attr("data-index")) + 1;
-							searchType = $(
-									"#rent #searchType option:selected")
-									.val();
-							keyword = $("#rent #keywordInput").val();
-							rentAjax(page, searchType, keyword);
+							if($("#rent input[name='rentddate']").val()!="") {
+								searchType = "rentDepartDate";
+								keyword = $("#rent input[name='rentddate']").val();
+								keyword2 = $("#rent input[name='returndate']").val();
+							}
+							else {
+								searchType = $(
+								"#rent #searchType option:selected")
+								.val();
+								keyword = $("#rent #keywordInput").val();
+								keyword2 = "";
+							}
+							rentAjax(page, searchType, keyword,keyword2);
 						})
 		$(document).on("click", "#rent .rentcarList", function() {
 			var no = $(this).attr("data-no");
@@ -718,9 +750,14 @@
 							searchType = $(
 									"#rent #searchType option:selected")
 									.val();
-							keyword = $("#rent #keywordInput").val();
-							rentAjax(page, searchType, keyword);
+							keyword = $("#rent #keywordInput").val();		
+							rentAjax(page, searchType,keyword,"");
 						})
+		$("#rent i.fas.fa-search").click(function(){
+			keyword = $("#rent input[name='rentddate']").val();
+			keyword2 = $("#rent input[name='returndate']").val();
+			rentAjax(page, "rentDepartDate", keyword, keyword2);
+ 		})
 		//다이얼로그 호출
 		$("#addFlight").click(function() {
 			if(airAdd[0]&&airAdd[1]) {
@@ -746,9 +783,11 @@
 		})
 		$("#addDetail").click(function(){
 			$("#detail").modal("show");
-		})
+		}) 
 		//ckeditor
-		CKEDITOR.replace('editor1');
+		CKEDITOR.replace( 'ckeditor', {
+			filebrowserImageUploadUrl: '/'    
+		});
 		$.fn.modal.Constructor.prototype.enforceFocus = function () {
 		    modal_this = this
 		    $(document).on('focusin.modal', function (e) {
@@ -761,6 +800,7 @@
 		    })
 		};
 		$("#saveDetail").click(function(){
+			$("#pcontent").val($("#detail").html());
 			alert("저장되었습니다");
 		})
 	})

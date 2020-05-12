@@ -2,9 +2,11 @@ package com.yi.tourland.controller.mng;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +43,7 @@ import com.yi.tourland.domain.mng.HotelVO;
 import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
+import com.yi.tourland.domain.mng.ProductVO;
 import com.yi.tourland.domain.mng.RentcarVO;
 import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
@@ -55,6 +58,7 @@ import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
 import com.yi.tourland.service.mng.PlanBoardService;
 import com.yi.tourland.service.mng.PopupService;
+import com.yi.tourland.service.mng.ProductService;
 import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
@@ -62,17 +66,18 @@ import com.yi.tourland.util.UploadFileUtils;
 
 @Controller
 public class ManagerController {
-	
-
-	 @Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함 private String
-	 private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
+	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함 private String
+	private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
 	 
-	 @Resource(name = "uploadPath2") 
-	 private String uploadPathPopup;
+	@Resource(name = "uploadPath2") 
+	private String uploadPathPopup;
 	 
-	 @Resource(name ="uploadPath3") 
-	 private String uploadPathEvent;
-
+	@Resource(name ="uploadPath3") 
+	private String uploadPathEvent;
+	 
+	@Resource(name = "uploadPathProduct")
+	private String uploadPathProduct; // c:/tourland/upload/product
+	 
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -111,6 +116,9 @@ public class ManagerController {
 	@Autowired
 	RentcarService rentcarService;
 	
+	@Autowired
+	private ProductService productService;
+
 	@Autowired
 	PlanBoardService planBoardService;
 
@@ -591,6 +599,7 @@ public class ManagerController {
 	// 상품관리
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
 	public String addProductFormGet(SearchCriteria cri, Model model) throws Exception {
+		List<ProductVO> list = productService.listPage(cri);
 		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
 		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
 		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
@@ -621,12 +630,62 @@ public class ManagerController {
 		model.addAttribute("pageMakerByTour",pageMakerByTour);
 		model.addAttribute("rentcarList",rentcarList);
 		model.addAttribute("pageMakerByRentcar",pageMakerByRentcar);
+		model.addAttribute("size",list.size()+1);
 		return "/manager/product/addProductForm";
 	}
 
 	@RequestMapping(value = "addProductForm", method = RequestMethod.POST)
-	public String addProductFormPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo) {
-		return "redirect:productMgnList";
+	public String addProductFormPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo, ProductVO vo, MultipartFile file) throws SQLException, IOException {
+		List<AirplaneVO> air = new ArrayList<>();
+		List<HotelVO> hotel = new ArrayList<>();
+		List<TourVO> tour = new ArrayList<>();
+		List<RentcarVO> rentcar = new ArrayList<>();
+		for(int no : airNo) {
+			AirplaneVO avo = new AirplaneVO(no);
+			air.add(avo);
+		}
+		for(int no : hotelNo) {
+			HotelVO hvo = new HotelVO(no);
+			hotel.add(hvo);
+		}
+		for(int no : tourNo) {
+			TourVO hvo = new TourVO(no);
+			tour.add(hvo);
+		}
+		for(int no : rentcarNo) {
+			RentcarVO rvo = new RentcarVO(no);
+			rentcar.add(rvo);
+		}
+		vo.setAir(air);
+		vo.setHotel(hotel);
+		vo.setTour(tour);
+		vo.setRentcar(rentcar);
+		File filePath = new File("uploadPathProduct");
+		if(!filePath.exists()) filePath.mkdir();
+		String savedName = UploadFileUtils.uploadFile(uploadPathProduct, file.getOriginalFilename().replaceAll(" ", "_"),
+				file.getBytes());
+		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+		vo.setPic(bigSizePic.replaceAll(" ", "_"));
+		productService.insertProduct(vo);
+		return "redirect:productMngList";
+	}
+	@RequestMapping(value = "productMngList", method = RequestMethod.GET)
+	public String productMngList(SearchCriteria cri,Model model) throws SQLException {
+		List<ProductVO> list = productService.listPage(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.totalCountBySearchProduct(cri));
+		model.addAttribute("list",list);
+		model.addAttribute("pageMaker",pageMaker);
+		return "manager/product/productMngList";
+	}
+	@RequestMapping(value = "productDetail", method = RequestMethod.GET)
+	public String productDetail(int no,ProductVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo.setPno(no);
+		vo = productService.productByNo(vo);
+		model.addAttribute("vo",vo);
+		model.addAttribute("cri",cri);
+		return "manager/product/productDetail";
 	}
 
 	@ResponseBody
@@ -1419,6 +1478,9 @@ public class ManagerController {
         
         if(choice.contentEquals("event")) {
         	path = uploadPathEvent; 
+        }
+        if(choice.contentEquals("product")) {
+        	path = uploadPathProduct;
         }
 		// System.out.println("displayFile-----------"+ filename);
 		InputStream in = null;

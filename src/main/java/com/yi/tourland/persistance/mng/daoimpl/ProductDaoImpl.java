@@ -115,38 +115,26 @@ public class ProductDaoImpl implements ProductDao {
 	}
 	
 	@Override
-	public void deletepAirStatus(ProductVO pvo, AirplaneVO avo) throws SQLException {
-		Map<String,Object> map = new HashMap<>();
-		map.put("p", pvo);
-		map.put("a", avo);
-		sqlSession.delete(namespace + "deletepAirStatus",map);
+	public void deletepAirStatus(ProductVO pvo) throws SQLException {
+		sqlSession.delete(namespace + "deletepAirStatus",pvo);
 		
 	}
 
 	@Override
-	public void deletepHotelStatus(ProductVO pvo, HotelVO hvo) throws SQLException {
-		Map<String,Object> map = new HashMap<>();
-		map.put("p", pvo);
-		map.put("h", hvo);
-		sqlSession.delete(namespace + "deletepHotelStatus",map);
+	public void deletepHotelStatus(ProductVO pvo) throws SQLException {
+		sqlSession.delete(namespace + "deletepHotelStatus",pvo);
 		
 	}
 
 	@Override
-	public void deletepTourStatus(ProductVO pvo, TourVO tvo) throws SQLException {
-		Map<String,Object> map = new HashMap<>();
-		map.put("p", pvo);
-		map.put("t", tvo);
-		sqlSession.delete(namespace + "deletepTourStatus",map);
+	public void deletepTourStatus(ProductVO pvo) throws SQLException {
+		sqlSession.delete(namespace + "deletepTourStatus",pvo);
 		
 	}
 
 	@Override
-	public void deletepRentStatus(ProductVO pvo, RentcarVO rvo) throws SQLException {
-		Map<String,Object> map = new HashMap<>();
-		map.put("p", pvo);
-		map.put("r", rvo);
-		sqlSession.delete(namespace + "deletepRentStatus",map);
+	public void deletepRentStatus(ProductVO pvo) throws SQLException {
+		sqlSession.delete(namespace + "deletepRentStatus",pvo);
 		
 	}
 

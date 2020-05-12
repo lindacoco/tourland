@@ -86,6 +86,7 @@ h2 {
 					<p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
 					<form class="form-inline" action="addProductForm" method="post"
 						enctype="multipart/form-data">
+						<input type="hidden" name="pdiv" value="false"> 
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>항공</label>
@@ -190,11 +191,11 @@ h2 {
 						</div>
 						<div class="group">
 							<div class="form-group">
-								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="1">
+								<label>상품 번호</label> <input type="text" class="form-control" readonly="readonly" value="${size}" name="pno">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
-									type="text" class="form-control">
+									type="text" class="form-control" name="pname" required="required">
 							</div>
 						</div>
 						<div class="group">
@@ -202,23 +203,24 @@ h2 {
 								<label><span class="red">*</span>상품 설명</label>
 								<div class="container">
 									<button type="button" class="btn btn-primary" id="addDetail">상품설명 추가</button>
+									<input type="hidden" name="pcontent" id="pcontent">
 								</div>
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 가격</label> <input
-									type="text" class="form-control" value="0" id="price" readonly="readonly">
+									type="text" class="form-control" value="0" id="price" readonly="readonly" name="pprice">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
-									type="text" class="form-control" id="datepicker">
+									type="text" class="form-control" id="pexpire" name="pexpire" readonly="readonly">
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group" style="width : 1000px;">
 								<label><span class="red">*</span>상품 사진</label> <input
-									type="file" class="form-control" id="file">
+									type="file" class="form-control" id="file" name="file">
 								<div id="preview" style="display : inline;">
 								</div>
 							</div>
@@ -476,10 +478,10 @@ h2 {
 											</c:otherwise>
 										</c:choose>
 
-										<c:if test="${hotel.ldiv==1}">
+										<c:if test="${hotel.ldiv==0}">
 											<td>해외</td>
 										</c:if>
-										<c:if test="${hotel.ldiv == 0}">
+										<c:if test="${hotel.ldiv==1}">
 											<td>국내</td>
 										</c:if>
 										<c:choose>
@@ -618,7 +620,6 @@ h2 {
 								<option value="N" ${cri.searchType ==null?'selected':''}>----------</option>
 								<option value="rentcarType" ${cri.searchType =='rentcarType'?'selected':''}>차종류</option>
 								<option value="rentcarCno" ${cri.searchType =='rentcarCno'?'selected':''}>차번호</option>
-								<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>대여날짜</option>
 								<option value="rentDepartaddr" ${cri.searchType =='rentDepartaddr'?'selected':''}>대여,반납 장소</option>
 								<option value="rentLDiv" ${cri.searchType =='rentLDiv'?'selected':''}>장소구분(국내/해외)</option>
 							</select>
@@ -626,6 +627,13 @@ h2 {
 							<button id="btnSearch">Search</button>
 						</div>
 						<div class="box-body">
+							<p id="datePick">
+								<span><i class="far fa-calendar-alt"></i> 시작 날짜 </span> 
+								<span class="picker"><input type="date" class="datepicker" name="rentddate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+								<span><i class="far fa-calendar-alt"></i> ~  종료 날짜 </span> 
+								<span class="picker"><input type="date" class="datepicker" name="returndate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+								<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
+							</p>
 							<table class="table table-bordered" id="table">
 								<tr>
 									<th>번호</th>
@@ -693,7 +701,7 @@ h2 {
 	            </div>
 	            <div class="modal-body">
 	                <form>
-	                    <textarea name="editor1" id="editor1"></textarea>
+	                    <textarea name="ckeditor" id="detail"></textarea>
 	                </form>
 	            </div>
 	            <div class="modal-footer">

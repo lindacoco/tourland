@@ -29,9 +29,7 @@
 
 <script
 	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-<!-- 쿠키 -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 
 
 <meta charset="UTF-8">
@@ -428,7 +426,7 @@
                 <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
                 <li><a href="${pageContext.request.contextPath }/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
                 <li><a href="${pageContext.request.contextPath }/rentcarMngList"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
-                 <li><a href="${pageContext.request.contextPath }/addProductForm"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
+                 <li><a href="${pageContext.request.contextPath }/productMngList"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
               </ul>
             </li>  
             <li class="treeview">   

@@ -30,7 +30,6 @@ select  count(no) from banner ;
 -- 팝업
 select  * from popup;
 delete from popup where position in ('R','L');
-delete from popup where no in (5,4);
 -- 이벤트
 select * from event;
 delete from event where no in(1,2,4);
@@ -63,8 +62,7 @@ select p.pno,p.pname,p.pcontent,p.pexpire,p.pprice,p.ppic,p.pdiv,
 	from product p join pairstatus a on p.pno = a.pno join airplane a2 on a.ano = a2.no
 							 	join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no
 							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no
-							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no
-		where p.pno = 1;
+							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no;
 desc pairstatus;
 desc prentstatus;
 select * from product;

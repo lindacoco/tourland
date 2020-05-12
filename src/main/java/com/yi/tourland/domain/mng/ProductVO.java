@@ -122,8 +122,8 @@ public class ProductVO {
 	@Override
 	public String toString() {
 		return String.format(
-				"productVO [pno=%s, pname=%s, pcontent=%s, pexire=%s, pprice=%s, pic=%s, air=%s, hotel=%s, tour=%s, rentcar=%s]",
-				pno, pname, pcontent, pexpire, pprice, pic, air, hotel, tour, rentcar);
+				"productVO [pno=%s, pname=%s, pcontent=%s, pexire=%s, pprice=%s, pic=%s, pdiv=%s, air=%s, hotel=%s, tour=%s, rentcar=%s]",
+				pno, pname, pcontent, pexpire, pprice, pic, pdiv, air, hotel, tour, rentcar);
 	}
 	
 }

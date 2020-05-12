@@ -22,6 +22,14 @@ public class RentcarVO {
 	private int ldiv;
 	private int pdiv;
 
+	public RentcarVO() {
+		
+	}
+	
+	public RentcarVO(int no) {
+		this.no = no;
+	}
+
 	public int getNo() {
 		return no;
 	}

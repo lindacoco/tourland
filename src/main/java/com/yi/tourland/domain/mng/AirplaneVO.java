@@ -21,6 +21,14 @@ public class AirplaneVO {
 	private int price;
 	private int pdiv;
 	
+	public AirplaneVO() {
+		
+	}
+	
+	public AirplaneVO(int no) {
+		this.no = no;
+	}
+
 	public int getNo() {
 		return no;
 	}

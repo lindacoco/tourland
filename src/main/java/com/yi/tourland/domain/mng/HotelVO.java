@@ -20,6 +20,11 @@ public class HotelVO {
 	public HotelVO() {
 		//기본생성자
 	}
+	
+	public HotelVO(int no) {
+		this.no = no;
+	}
+
 	public HotelVO(int no, String hname, String haddr, Date checkin, Date checkout, int capacity, int price,
 			int roomcapacity, String roomtype, String ldiv, int bookedup) {
 		super();
