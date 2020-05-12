@@ -25,6 +25,7 @@ import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.NoticeVO;
+import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
@@ -35,7 +36,9 @@ import com.yi.tourland.service.mng.FaqService;
 import com.yi.tourland.service.mng.FlightService;
 import com.yi.tourland.service.mng.HotelService;
 import com.yi.tourland.service.mng.NoticeService;
+import com.yi.tourland.service.mng.PlanBoardService;
 import com.yi.tourland.service.mng.PopupService;
+import com.yi.tourland.service.mng.ProductService;
 import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
@@ -83,6 +86,11 @@ public class CustomerController {
 	@Autowired
 	RentcarService rentcarService;
 	
+	@Autowired
+	private ProductService productService;
+
+	@Autowired
+	PlanBoardService planBoardService;
 	
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
@@ -227,9 +235,20 @@ public class CustomerController {
 		model.addAttribute("cri", cri);
 		return "/user/board/tourlandBoardNotice"; 
 	}
+	
+	// 공지사항 상세페이지
+		@RequestMapping(value = "tourlandBoardNoticeDetail", method = RequestMethod.GET)
+		public String tourlandBoardNoticeDetail(int no, SearchCriteria cri, Model model) throws Exception {
+			NoticeVO notice = noticeService.readNoticeByNo(no);
+			model.addAttribute("notice", notice);
+			model.addAttribute("cri", cri);
+			return "/user/board/tourlandBoardNoticeDetail";
+		}
+	
 	//FAQ
 	@RequestMapping(value="tourlandBoardFAQ", method=RequestMethod.GET)
 	public String tourlandBoardFAQ(SearchCriteria cri, Model model) throws SQLException {
+		cri.setPerPageNum(7);
 		List<FaqVO> list = faqService.listPage(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -256,12 +275,38 @@ public class CustomerController {
 		
 		return "/user/board/tourlandCustBoard"; 
 	}
+	@RequestMapping(value = "tourlandCustBoardDetail", method = RequestMethod.GET)
+	public String tourlandCustBoardDetail(int no, SearchCriteria cri, Model model) throws Exception {
+		CustBoardVO vo = custBoardService.readByNoCustBoard(no);
+
+		model.addAttribute("custBoardVO", vo);
+		model.addAttribute("cri", cri);
+
+		return "/user/board/tourlandCustBoardDetail";
+	}
+	
 	
 	//상품문의 사항
 	@RequestMapping(value="tourlandProductBoard", method=RequestMethod.GET)
-	public String tourlandProductBoard() { 
+	public String tourlandProductBoard(SearchCriteria cri, Model model) throws Exception { 
+		List<PlanBoardVO> list = planBoardService.listSearchCriteriaPlanBoard(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(planBoardService.totalSearchCountPlanBoard(cri) < 10 ? 10 : planBoardService.totalSearchCountPlanBoard(cri));
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri", cri);
 		return "/user/board/tourlandProductBoard"; 
 	}
+	
+	@RequestMapping(value = "tourlandProductBoardDetail", method = RequestMethod.GET)
+	public String tourlandProductBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+		vo = planBoardService.readByNoPlanBoard(vo);
+		model.addAttribute("plan", vo);
+		model.addAttribute("cri", cri);
+		return "/user/board/tourlandProductBoardDetail";
+	}
+
 	
 	//Footer
 	//찾아 오시는 길
@@ -269,5 +314,5 @@ public class CustomerController {
 	public String tourlandMap() { 
 		return "/user/footer/tourlandMap"; 
 	}
-	
+
 }

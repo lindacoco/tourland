@@ -31,7 +31,7 @@
 							<th class="nono">번호</th>
 							<th class="thTitle">제목</th>
 							<th>작성자</th>
-							<th>작성 일자</th>
+							<th class="lastTh">작성 일자</th>
 
 						</tr>
 						<c:forEach var="custBoardList" items="${list}">
@@ -74,7 +74,7 @@
 		var no = $(this).attr("data-click");
 		var searchType = "${cri.searchType}";
 		var keyword = "${cri.keyword}";
-		location.href = "${pageContext.request.contextPath}/custBoardDetail?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/tourlandCustBoardDetail?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
 	})
 </script>
