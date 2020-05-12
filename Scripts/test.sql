@@ -30,7 +30,6 @@ select  count(no) from banner ;
 -- 팝업
 select  * from popup;
 delete from popup where position in ('R','L');
-delete from popup where no in (5,4);
 -- 이벤트
 select * from event;
 delete from event where no in(1,2,4);
@@ -39,8 +38,8 @@ delete from event where no in(1,2,4);
 -- 고객의 소리
 insert into custboard values
 (1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
-(2,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
-(3,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111));
+(2,'상품이 다양하면 좋겠어요','좀더 많았으면..','장도롱',now(),password(111)),
+(3,'차은우 가이드님 칭찬합니다','존잘!!','박열무',now(),password(111));
 select * from custboard ;
 desc custboard ;
 delete from custboard where no = 3;

@@ -7,14 +7,16 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
 
+
 <style>
 	/* 본문 */
 	div#mainBox { width: 1200px;
-				  margin: 0 auto; }
+				  margin: 0 auto; }    
 	
 	
 	/* 메인1 (사진 3개 있는 부분) */
@@ -35,18 +37,24 @@
 	section#section2 h2 { height: 40px;
 						  border-bottom: 1px solid #696969; 
 						  margin-bottom: 10px; }					   
-	section#section2 .divBox { width:160px;	
+	section#section2 .divBox { width:200px;	
 							   float: left; 
-							   padding: 15px 0;}
+							   padding: 15px 0;
+							   margin-left: 15px;}
+	.divBox select { width: 200px; height: 34px; margin-top: 20px;}	
+	#datePick { margin-top: 30px;}		
+	.datepicker { width: 180px;  }			       
 	section#section2 #inOutDiv { margin-left: 40px; }						   
 	section#section2 #dateDiv { width: 220px; }
 	section#section2 #searchDivBtn { text-align: center;
 								     line-height: 130px;
-								     margin-left: 70px;  }
+								     margin-left: 70px;
+								     margin-top:20px;  }
 	section#section2 #searchDivBtn button { width: 150px;
 											height: 30px; 
 											background: #ff7f00;
-											border: none; }								     
+											border: none; 
+											 }								     
 								     
 	/* 메인3 (특가 상품들 있는 부분) */
 	section#section3 { height: 600px;  margin-top: 30px; }
@@ -183,6 +191,10 @@
 <body>
 	<div id="container">
 	<%@ include file="../include/userHeader.jsp"%>
+<!-- 쿠키 -->
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 <script>
 
 	  $(function(){
@@ -218,7 +230,7 @@
   })
 	  
 </script>
-	        <!-- 팝업 -->
+	        <!-- 팝업 -->   
 	         <div id="popup1" style=" margin-left:10%;">  <!-- 1번 팝업 -->
 	                        <c:if test="${popup1 == null }">
 	                            <div id="previewPopup1">
@@ -280,7 +292,7 @@
 				</section>
 				
 				<section id="section2">
-					<div id="inOutDiv" class="divBox">
+					<!-- <div id="inOutDiv" class="divBox">
 						<h2>구분</h2>
 						<p><input type="radio" name="out" >해외</p>
 						<p><input type="radio" name="in" >국내</p>
@@ -291,34 +303,53 @@
 						<p><input type="radio" name="in" >호텔</p>
 						<p><input type="radio" name="in" >현지 투어</p>
 						<p><input type="radio" name="in" >렌트카</p>
-					</div>
+					</div> -->
 					<div id="fromDiv" class="divBox">
 						<h2>출발지</h2>
 						<select>
 							<option>선택</option>
-							<option>서울</option>
-							<option>부산</option>
-							<option>대구</option>
+							<option>인천</option>
 						</select>
 					</div>
 					<div id="toDiv" class="divBox">
 						<h2>도착지</h2>
 						<select>
 							<option>선택</option>
+							<option>제주</option>
 							<option>일본</option>
-							<option>동남아</option>
 							<option>중국</option>
-							<option>홍콩/마카오/대만</option>
-							<option>유럽</option>
-							<option>미주</option>
-							<option>괌/사이판</option>
+						</select>
+					</div>
+					<div id="toDiv" class="divBox">
+						<h2>인원</h2>
+						<select>
+							<option>선택</option>
+							<option>성인 2명</option>
+							<option>성인 3명</option>
+							<option>성인 4명</option>
+							<option>성인 5명</option>
+							<option>성인 6명</option>
+							<option>성인 7명</option>
+							<option>성인 8명</option>
+							<option>성인 9명</option>
+							<option>성인 10명</option>
+							<option>성인 11명</option>
+							<option>성인 12명</option>
+							<option>성인 13명</option>
+							<option>성인 14명</option>
+							<option>성인 15명</option>
+							<option>성인 16명</option>
+							<option>성인 17명</option>
+							<option>성인 18명</option>
+							<option>성인 19명</option>
+							<option>성인 20명</option>
 						</select>
 					</div>
 					<div id="dateDiv" class="divBox">
 						<h2>출발 날짜</h2>
 						<p id="datePick">
-							<span><i class="far fa-calendar-alt"></i> 날짜별 검색</span> 
-							<span id="picker"><input type="text" id="date" name="date" placeholder="날짜를 선택하려면 클릭하세요."></span>
+							<!-- <span><i class="far fa-calendar-alt"></i> 날짜별 검색</span>  -->
+							<span id="picker"><input type="date" class="datepicker" name="rentddate" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
 							<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
 						</p>
 					</div>
@@ -412,15 +443,23 @@
 					<div class="bannerBox" id="banner1">
 						<h3>${banner1.title }</h3>
 						<p>${banner1.content }</p>
-						<img alt="" src="images/santo.jpg">
+						<img alt="" src="displayFile/banner?filename=${banner1.pic}">
 					</div>
 				</c:if>
-				
+				<c:if test="${banner2 ==null }">
 					<div class="bannerBox">
 						<h3>진짜 오사카를 만나다</h3>
 						<p>간사이 미니 패스, 대구 출발</p>
 						<img alt="" src="images/osaka.jpg">
 					</div>
+				</c:if>
+				<c:if test="${banner2 !=null }">
+					<div class="bannerBox">
+						<h3>${banner2.title }</h3>
+						<p>${banner2.content }</p>
+						<img alt="" src="displayFile/banner?filename=${banner2.pic}">
+					</div>
+				</c:if>
 				</section>
 				
 				<section id="section5">
@@ -437,10 +476,10 @@
 					</div>
 					
 					<div id="shortcutBtns" class="infoBox">
-						<a href="#">여행 질문과 답변</a>
-						<a href="#">FAQ</a>
-						<a href="#">고객의 소리</a>
-						<a href="#">상품 문의사항</a>
+						<a href="${pageContext.request.contextPath }/tourlandBoardNotice">공지사항</a>
+						<a href="${pageContext.request.contextPath }/tourlandBoardFAQ">FAQ</a>
+						<a href="${pageContext.request.contextPath }/tourlandCustBoard">고객의 소리</a>
+						<a href="${pageContext.request.contextPath }/tourlandProductBoard">상품 문의사항</a>
 					</div>
 				</section>
 				

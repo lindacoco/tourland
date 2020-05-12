@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+/* 본문 */
+	section div#myreserv { width:1000px; height: 100%; 
+							  margin-left: 200px;
+							 }
+	section div#myreserv h1 { width: 200px;
+								 height: 30px;  
+							     padding: 20px;
+							     border-bottom: 1px solid #929292; }							  
+		
+	#info { font-size: 13px; color: #929292; 
+			margin-left: 10px;  }	
+			
+	table#reserv { width: 950px;  
+				   border-collapse: collapse; 
+				   margin: 40px; 
+				   font-size: 14px; }
+	table#reserv th, tr, td { border-bottom: 1px solid gray;
+						     text-align: center; 
+						     height: 40px;
+						     }
+	table#reserv th { background: seashell; height: 40px; }						     		
+	table#reserv img { width: 100px; height: 70px; padding: 5px; }
+	.red { font-weight: bold;  color: maroon; }
+	.blue button { width: 80px; height: 25px; border: none; background: steelblue; color: #fff;   }		
+
+	
+	#searchType{
+	  width: 150px;
+	  height: 30px;
+	}
+	#keywordInput{
+	   width: 200px;
+	   height: 25px;
+	}
+	#btnSearch{
+	   width:50px;
+	   height: 30px;
+	}
+	
+	#searchDiv{
+	  width: 100%;
+	  margin: 30px 0 10px 40px;
+	}
+	.text-center{
+	  text-align:center;
+	}
+	
+	table#reserv th.nono{
+	  border-top-left-radius: 15px;
+	  width: 80px;
+	  height: 50px;
+	}
+	table#reserv th.lastTh{
+	  border-top-right-radius: 15px;
+
+	}
+	
+	table#reserv th.thTitle{
+	  width: 600px;
+	  height: 50px;
+	}
+	
+	
+/* 디테일 페이지 */
+#detailDiv{
+    width: 800px;
+    margin-left:230px;
+  }
+  #datailUl{
+   margin-top:30px;
+   background: seashell;
+   height: 40px;
+   font-size: small;
+  }
+  #datailUl li{
+    float:left;
+    margin-left: 30px;
+    line-height: 40px;
+  }
+  
+  #datailUl li.detailLi{
+    width: 500px;
+    text-align: center;
+  }
+  
+  #datailRealContent{
+    width: 700px;
+    margin:0 auto;
+    margin-top:30px;
+  }
+  
+  #detailComment{
+    margin-top: 30px;
+  }
+
+	

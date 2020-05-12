@@ -29,9 +29,7 @@
 
 <script
 	src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-<!-- 쿠키 -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
 
 
 <meta charset="UTF-8">

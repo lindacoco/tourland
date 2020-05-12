@@ -17,7 +17,7 @@
 					<li><a href="#">회사소개</a></li>
 					<li><a href="#">제휴 및 광고 문의</a></li>
 					<li><a href="#">여행 약관</a></li>
-					<li><a href="#">찾아오시는 길</a></
+					<li><a href="${pageContext.request.contextPath }/tourlandMap">찾아오시는 길</a></
 				</ul>
 			</div>
 			<div id="comInfo">
