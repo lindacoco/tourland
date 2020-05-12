@@ -8,6 +8,12 @@
 	var keyword2="";
 	var price = 0;
 	var airAdd = [false,false];
+	var checkAir = function() {
+		var nowAir = $(".flightList").length;
+		for(var i=0;i<nowAir;i++) {
+			airAdd[i] = true;
+		}
+	}
 	var calExpireDate = function(date) {
 		var objDate = new Date(date);
 		var dateDiff = new Date(objDate.getFullYear(),objDate.getMonth(),(objDate.getDate() -3));
@@ -109,7 +115,7 @@
 		var td7 = $("<td>").html(etimeStr);
 		var td8 = $("<td>").html(res.vo.capacity);
 		var td9 = $("<td>").html(res.vo.tprice);
-		var td10 = res.vo.ldiv==0?$("<td>").html("국내"):$("<td>").html("해외");
+		var td10 = res.vo.ldiv?$("<td>").html("국내"):$("<td>").html("해외");
 		var tr = $("<tr class='tourList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
 		$("#tourTable").append(tr);
 		price += Number(res.vo.tprice);
@@ -350,7 +356,7 @@
 					var td7 = $("<td>").html(etimeStr);
 					var td8 = $("<td>").html(obj.capacity);
 					var td9 = $("<td>").html(obj.tprice);
-					var td10 = obj.ldiv==0?$("<td>").html("국내"):$("<td>").html("해외");
+					var td10 = obj.ldiv?$("<td>").html("국내"):$("<td>").html("해외");
 					var tr = $("<tr class='tourList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
 					$("#tour #table").append(tr);
 				})
@@ -760,29 +766,78 @@
 			rentAjax(page, "rentDepartDate", keyword, keyword2);
  		})
 		//다이얼로그 호출
-		$("#addFlight").click(function() {
+		$("#modFlight").click(function() {
+			checkAir();
 			if(airAdd[0]&&airAdd[1]) {
-				if(confirm("기존의 출도착 항공편이 추가되어있습니다 다시 추가하시겠습니까?")) {
+				if(confirm("출발 항공기편을 수정하시겠습니까?")) {
 					airAdd[0] = false;
 					airAdd[1] = false;
-					$("#totalFlight .flightList").empty();
+					$("#airTable .flightList").remove();
 					$("#flightDepature").modal("show");
 				}
+				else if(confirm("도착 항공기편을 수정하시겠습니까?")) {
+					airAdd[0] = true;
+					airAdd[1] = false;
+					$("#airTable .flightList").eq(1).remove();
+					$("#flightRending").modal("show");
+				}
+				else {
+					alert("취소 되었습니다");
+				}
 			}
-			else if(!airAdd[0]&&!airAdd[1]) {
+			else {
+				$("#airTable .flightList").remove();
 				$("#flightDepature").modal("show");
 			}
 		})
-		$("#addHotel").click(function() {
-			$("#hotel").modal("show");
+		$("#modHotel").click(function() {
+			if($("#hotelTable .hotelList").length>0) {
+				if(confirm("호텔을 새로 등록하시겠습니까?")) {
+					$("#hotelTable .hotelList").remove();
+					$("#hotel").modal("show");
+				}
+				else {
+					alert("기존에서 추가합니다");
+					$("#hotel").modal("show");
+				}
+			}
+			else {
+				$("#hotel").modal("show");
+			}		
+			
+			
 		})
-		$("#addTour").click(function() {
-			$("#tour").modal("show");
+		$("#modTour").click(function() {
+			if($("#tourTable .tourList").length>0) {
+				if(confirm("현지투어를 새로 등록하시겠습니까?")) {
+					$("#tourTable .tourList").remove();
+					$("#tour").modal("show");
+				}
+				else {
+					alert("기존에서 추가합니다");
+					$("#tour").modal("show");
+				}
+			}
+			else {
+				$("#tour").modal("show");
+			}
 		})
-		$("#addRent").click(function() {
-			$("#rent").modal("show");
+		$("#modRent").click(function() {
+			if($("#rentTable .rentcarList").length>0) {
+				if(confirm("렌트카를 새로 등록하시겠습니까?")) {
+					$("#rentTable .rentcarList").remove();
+					$("#rent").modal("show");
+				}
+				else {
+					alert("기존에서 추가합니다");
+					$("#rent").modal("show");
+				}
+			}
+			else {
+				$("#rent").modal("show");
+			}
 		})
-		$("#addDetail").click(function(){
+		$("#modDetail").click(function(){
 			$("#detail").modal("show");
 		}) 
 		//ckeditor

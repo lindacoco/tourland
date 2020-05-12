@@ -121,7 +121,6 @@
 		</div>
 	</div>
 </div>
-
 <script>
 	var curPage = ${pageMaker.cri.page};
 	var fixSearchTypeAndKeyword = function() {

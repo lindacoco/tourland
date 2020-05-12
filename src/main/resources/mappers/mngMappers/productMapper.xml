@@ -35,6 +35,7 @@
 			<result property="capacity" column="capacity"/>
 			<result property="seat" column="seat"/>
 			<result property="price" column="price"/>
+			<result property="ldiv" column="ldiv"/>
 			<result property="pdiv" column="pdiv"/>
 		</collection>
 		<collection property="hotel" ofType="HotelVO">
@@ -117,16 +118,16 @@
 		update prentstatus set rno = #{r.no} where pno = #{p.pno}
 	</update>
 	<delete id="deletepAirStatus">
-		delete from pairstatus where pno = #{p.pno}
+		delete from pairstatus where pno = #{pno} 
 	</delete>
 	<delete id="deletepHotelStatus">
-		delete from photelstatus where pno = #{p.pno}
+		delete from photelstatus where pno = #{pno}
 	</delete>
 	<delete id="deletepTourStatus">
-		delete from ptourstatus where pno = #{p.pno}
+		delete from ptourstatus where pno = #{pno}
 	</delete>
 	<delete id="deletepRentStatus">
-		delete from prentstatus where pno = #{p.pno}
+		delete from prentstatus where pno = #{pno}
 	</delete>
 	<delete id="deleteProduct">
 		delete from product where pno = #{pno}

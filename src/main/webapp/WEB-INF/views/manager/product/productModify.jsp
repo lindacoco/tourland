@@ -58,7 +58,6 @@ h2 {
 	text-align : center;
 }
 #preview img {
-	width : 100px;
 	height : 100px;
 }
 #first { color: maroon; font-weight: bold;}
@@ -75,17 +74,17 @@ h2 {
 	rel="stylesheet" type="text/css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
-<%@include file="addProductForm_script.jsp" %>
+<%@include file="productModifyForm_script.jsp" %>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="box box-primary">
 					<div class="box-header">
-						<h2>상품 추가</h2>
+						<h2>상품 수정</h2>
 					</div>
 					<p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
-					<form class="form-inline" action="addProductForm" method="post"
+					<form class="form-inline" action="productModify" method="post"
 						enctype="multipart/form-data">
 						<input type="hidden" name="pdiv" value="false"> 
 						<div class="group">
@@ -93,7 +92,7 @@ h2 {
 								<label><span class="red">*</span>항공</label>
 								<div class="container">
 									<button type="button" class="btn btn-primary"
-										 id="addFlight">항공편 추가</button>
+										 id="modFlight">항공편 수정</button>
 								</div>
 							</div>
 						</div>
@@ -111,6 +110,28 @@ h2 {
 								<th>좌석</th>
 								<th>가격</th>
 							</tr>
+							<c:forEach items="${vo.air}" var="f">     
+							<tr class="flightList">
+								<td>${f.no }</td>
+								<td>${f.ano}</td>
+								<td>${f.dlocation }</td>
+								<td>${f.rlocation }</td>
+								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
+								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
+								<td>${f.ldiv==1?'국내':'해외'}</td>
+								<td>${f.capacity }</td>
+								<c:if test="${f.seat =='F'}">
+									<td id="first">First-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='B'}">
+									<td id="bus">Business-Class</td>
+								</c:if>
+								<c:if test="${f.seat =='E'}">
+									<td id="eco">Economy-Class</td>
+								</c:if>
+								<td>${f.price }</td>
+							</tr>
+							</c:forEach> 
 							</table>
 						</div>
 						<div class="group">
@@ -118,8 +139,8 @@ h2 {
 								<label><span class="red">*</span>호텔</label>
 								<div class="container">
 									<div class="dropdown">
-										<button type="button" class="btn btn-primary" id="addHotel">호텔
-											추가</button>
+										<button type="button" class="btn btn-primary" id="modHotel">호텔
+											수정</button>
 									</div>
 								</div>
 							</div>
@@ -139,13 +160,53 @@ h2 {
 									<th>장소구분</th>
 									<th>예약 가능 여부</th>  
 								</tr>
+								<c:forEach var="hotel" items="${vo.hotel}" begin="0" end="0">
+									<tr class="hotelList">
+										<td>${hotel.no}</td>
+										<td>${hotel.hname }</td>
+										<td>${hotel.haddr }</td>
+										<td><fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/></td>
+										<td><fmt:formatDate value="${hotel.checkout}" pattern="yyyy-MM-dd"/></td>
+										<td>${hotel.capacity }<span>인</span></td>
+										<td>${hotel.price }</td>
+										<td>${hotel.roomcapacity }<span>실</span></td>
+	
+										<c:choose>
+											<c:when test="${hotel.roomtype=='N'}">
+												<td style="color:#5D5D5D;" id="n">노말</td>
+											</c:when>
+											<c:when test="${hotel.roomtype=='D'}">
+												<td style="color:#F29661;" id="d">디럭스</td>
+											</c:when>
+											<c:otherwise>
+												<td style="color:#D941C5;" id="s">스위트</td>
+											</c:otherwise>
+										</c:choose>
+										
+										<c:if test="${hotel.ldiv==0}">
+											<td>해외</td>
+										</c:if>
+										<c:if test="${hotel.ldiv == 1}">
+											<td>국내</td>
+										</c:if>
+										
+										<c:choose>
+											<c:when test="${hotel.bookedup == 0}">
+												<td><span class="badge bg-orange">예약가능</span></td>
+											</c:when>
+											<c:when test="${hotel.bookedup == 1}">
+												<td><span class="badge bg-blue">예약불가능</span></td>
+											</c:when>
+										</c:choose>
+									</tr>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>현지 투어</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="addTour">현지투어 추가</button>
+									<button type="button" class="btn btn-primary" id="modTour">현지투어 수정</button>
 								</div>
 							</div>
 						</div>
@@ -163,13 +224,27 @@ h2 {
 									<th>가격</th>
 									<th>장소구분</th>
 								</tr>
+								<c:forEach var="tour" items="${vo.tour}">
+								<tr class="tourList">
+									<td>${tour.no}</td>
+									<td>${tour.tname}</td>
+									<td>${tour.tlocation}</td>
+									<td><fmt:formatDate value="${tour.startDate}" pattern="yyyy-MM-dd"/></td>
+									<td><fmt:formatDate value="${tour.endDate}" pattern="yyyy-MM-dd"/></td>
+									<td>${tour.taddr}</td>
+									<td><fmt:formatDate value="${tour.etime}" pattern="HH:mm:ss"/></td>
+									<td>${tour.capacity}</td>
+									<td><fmt:formatNumber value="${tour.tprice}" pattern="###,###"/></td>
+									<td>${tour.ldiv?'국내':'해외'}</td>
+								</tr>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>렌트카</label>
 								<div class="container">
-									<button type="button" class="btn btn-primary" id="addRent">렌트카 추가</button>
+									<button type="button" class="btn btn-primary" id="modRent">렌트카 수정</button>
 								</div>
 							</div>
 						</div>
@@ -188,16 +263,31 @@ h2 {
 									<th>보험여부</th>
 									<th>국내/해외</th>		
 								</tr>
+								<c:forEach var="rentcarList" items="${vo.rentcar}">
+								<tr class="rentcarList">
+									<td>${rentcarList.no}</td>
+									<td>${rentcarList.cdiv}</td>
+									<td>${rentcarList.cno}</td>
+									<td><fmt:formatDate value="${rentcarList.rentddate}" pattern="yyyy-MM-dd "/></td>
+									<td><fmt:formatDate value="${rentcarList.returndate}" pattern="yyyy-MM-dd "/></td>
+									<td>${rentcarList.rentaddr}</td>
+									<td>${rentcarList.returnaddr}</td>
+									<td>${rentcarList.price}</td>
+									<td>${rentcarList.capacity}</td>
+									<td>${rentcarList.insurance}</td>
+									<td>${rentcarList.ldiv == 0?'해외':'국내'}</td>
+								</tr>
+								</c:forEach>
 							</table>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 번호</label> 
-								<input type="text" class="form-control" readonly="readonly" value="${size}" name="pno">
+								<input type="text" class="form-control" readonly="readonly" value="${vo.pno}" name="pno">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
-									type="text" class="form-control" name="pname" required="required">
+									type="text" class="form-control" name="pname" value="${vo.pname}" required="required">
 							</div>
 						</div>
 						<div class="group">
@@ -206,16 +296,16 @@ h2 {
 							</div>
 						</div>
 						<div>
-							<textarea name="pcontent" rows="80" id="detail"></textarea>
+							<textarea name="pcontent" rows="80" id="detail">${vo.pcontent}</textarea>
 						</div>
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 가격</label> <input
-									type="text" class="form-control" value="0" id="price" readonly="readonly" name="pprice">
+									type="text" class="form-control" value="${vo.pprice}" id="price" readonly="readonly" name="pprice">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
-									type="text" class="form-control" id="pexpire" name="pexpire" readonly="readonly">
+									type="text" class="form-control" id="pexpire" name="pexpire" value='<fmt:formatDate value="${vo.pexpire}" pattern="yyyy-MM-dd"/>' readonly="readonly">
 							</div>
 						</div>
 						<div class="group">
@@ -223,19 +313,19 @@ h2 {
 								<label><span class="red">*</span>상품 사진</label> <input
 									type="file" class="form-control" id="file" name="file">
 								<div id="preview" style="display : inline;">
+									<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;"> 
 								</div>
 							</div>
 						</div>
 						<div class="group">
 							<div class="form-group">
-								<button type="submit" class="btn btn-default">추가</button>
+								<button type="submit" class="btn btn-default">수정</button>
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
-		</div>
-		
+		</div>	
 	</div>
 	<div id="flightDepature" class="modal fade" role="dialog"
 		data-backdrop="static" data-keyboard="false">
@@ -574,7 +664,7 @@ h2 {
 										<td>${tour.capacity}</td>
 										<td><fmt:formatNumber value="${tour.tprice}"
 												pattern="###,###" /></td>
-										<td>${tour.ldiv?'해외':'국내'}</td>
+										<td>${tour.ldiv?'국내':'해외'}</td>
 									</tr>
 								</c:forEach>
 							</table>
