@@ -262,4 +262,12 @@ public class CustomerController {
 	public String tourlandProductBoard() { 
 		return "/user/board/tourlandProductBoard"; 
 	}
+	
+	//Footer
+	//찾아 오시는 길
+	@RequestMapping(value="tourlandMap", method=RequestMethod.GET)
+	public String tourlandMap() { 
+		return "/user/footer/tourlandMap"; 
+	}
+	
 }
