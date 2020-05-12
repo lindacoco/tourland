@@ -8,7 +8,8 @@ import com.yi.tourland.domain.mng.PlanBoardVO;
 
 public interface PlanBoardDAO {
 	public void insertPlanBoard(PlanBoardVO vo) throws Exception;
-	public PlanBoardVO readByNoPlanBoard(PlanBoardVO vo)throws Exception;
+	public PlanBoardVO readByVoPlanBoard(PlanBoardVO vo)throws Exception;
+	public PlanBoardVO readByNoPlanBoard(int no)throws Exception;
 	public void updatePlanBoard(PlanBoardVO vo)throws Exception;
 	public void deletePlanBoard(PlanBoardVO vo)throws Exception;
 	public List<PlanBoardVO> listCriteriaPlanBoard(Criteria cri)throws Exception;

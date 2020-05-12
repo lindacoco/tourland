@@ -58,14 +58,15 @@ public class LoginController {
 			/* if(dbEmp.getEmppass().equals(empVO.getEmppass())==false) { */ //원래라면 이렇게 비교하지만 password로 쌓여져있으니까
 			if(dbEmpIdPw==null) {
 				model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-				model.addAttribute("EmpStay", empVO);
+				model.addAttribute("EmpStay", empVO); //정보 다 가지고 있는거
 				return "/user/tourlandLoginForm";
 			}
 			//전부 다 맞는 경우(직원)
 			Map<String, Object> map = new HashMap<>();
 			map.put("name", dbEmpIdPw.getEmpname());
 			map.put("right", dbEmpIdPw.getEmpauth());
-			session.setAttribute("Manager",map);  
+			session.setAttribute("Manager",map);
+			session.setAttribute("Auth", empVO);
 			return "redirect:/";
 			
 		//회원아이디가 있는 경우
@@ -87,6 +88,7 @@ public class LoginController {
 
 			//전부 다 맞는 경우(회원)
 			session.setAttribute("User",dbUserId.getUsername());
+			session.setAttribute("Auth", userVO); //정보 다 가지고 있는거
 			return "redirect:/";
 			
 		//아이디가 없는 경우	(직원,회원)

@@ -22,8 +22,12 @@ public class PlanBoardService {
 	}
 
 	
-	public PlanBoardVO readByNoPlanBoard(PlanBoardVO vo) throws Exception {
-		return dao.readByNoPlanBoard(vo);
+	public PlanBoardVO readByVoPlanBoard(PlanBoardVO vo) throws Exception {
+		return dao.readByVoPlanBoard(vo);
+	}
+	
+	public PlanBoardVO readByNoPlanBoard(int no) throws Exception {
+		return dao.readByNoPlanBoard(no);
 	}
 
 
