@@ -230,7 +230,7 @@
   })
 	  
 </script>
-	        <!-- 팝업 -->
+	        <!-- 팝업 -->   
 	         <div id="popup1" style=" margin-left:10%;">  <!-- 1번 팝업 -->
 	                        <c:if test="${popup1 == null }">
 	                            <div id="previewPopup1">

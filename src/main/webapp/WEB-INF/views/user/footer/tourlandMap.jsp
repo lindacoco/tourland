@@ -28,7 +28,7 @@
 								 height: 30px;  
 							     padding: 20px;
 							     border-bottom: 1px solid #929292; }							  
-	#info { font-size: 13px; color: #929292; 
+	#info { font-size: 13px; color: #929292;   
 			margin-left: 10px;  }	  
 	div#mapImgBox { width: 400px; height: 600px; float: left; margin-left: 40px;  }
 	div#mapImgBox img { width: 100%; height: 400px;  }	
