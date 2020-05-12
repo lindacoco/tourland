@@ -64,6 +64,41 @@ h2 {
 #bus { color: steelblue; font-weight: bold;}
 #eco { color: goldenrod; font-weight: bold;}
 </style>
+<script>
+$(function(){
+	$("#mod").click(function(){
+		var no = "${vo.pno}";
+		var page =	"${cri.page}";
+		var searchType = "${cri.searchType}";
+		var searchType2 = "${cri.searchType2}";
+		var keyword = "${cri.keyword}";
+		location.href = "productModify?no="+no+"&page="+page+"&searchType="+searchType+"&keyword="+keyword;
+	})
+	$("#del").click(function(){
+		if(!confirm("정말 삭제하시겠습니까?")) {
+			alert("삭제가 취소되었습니다");
+			return false;
+		}
+		var no = "${vo.pno}";
+		var page =	"${cri.page}";
+		var searchType = "${cri.searchType}";
+		var searchType2 = "${cri.searchType2}";
+		var keyword = "${cri.keyword}";
+		location.href = "productDelete?no="+no+"&page="+page+"&searchType="+searchType+"&keyword="+keyword;
+	})
+	$("#return").click(function() {
+		var page =	"${cri.page}";
+		var searchType = "${cri.searchType}";
+		var searchType2 = "${cri.searchType2}";
+		var keyword = "${cri.keyword}";
+		location.href = "productMngList?page="+page+"&searchType="+searchType+"&keyword="+keyword;
+	})
+	$("#detail").css("border","1px solid black").css("padding","20px").css("width","95%");
+	$("#detail").find("img").css("width","1000px").css("display","block");
+	$("#detail").find("h2").css("border-bottom","none").css("overflow","hidden");
+	$("#detail").find("table").css("width","100%");
+})
+</script>
 <body>
 	<div class="container">
 		<div class="row">
@@ -269,8 +304,8 @@ h2 {
 							</div>
 						</div>
 						<div class="group">
-							<div class="form-group" style="width : 100%;">
-								<!-- ${vo.pcontent} -->
+							<div class="form-group" style="width : 100%;" id="detail">
+								${vo.pcontent}
 							</div>
 						</div>
 						<div class="group">
@@ -292,10 +327,10 @@ h2 {
 							<img src="displayFile/product?filename=${vo.pic}" style="width : 90%; margin : 10px;"> 
 					   </div>
 					   <div class="box-footer" style="text-align : center;">
-						<button class="btn btn-warning" id="mod">수정</button>
-						<button class="btn btn-danger" id="del">삭제</button>
-						<button class="btn btn-primary" id="return">돌아가기</button>
-					</div>
+							<button class="btn btn-warning" id="mod">수정</button>
+							<button class="btn btn-danger" id="del">삭제</button>
+							<button class="btn btn-primary" id="return">돌아가기</button>
+						</div>
 				</div>
 			</div>
 		</div>	

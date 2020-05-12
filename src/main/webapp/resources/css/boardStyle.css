@@ -16,11 +16,11 @@
 				   border-collapse: collapse; 
 				   margin: 40px; 
 				   font-size: 14px; }
-	table#reserv th, tr, td { border: 1px solid gray;
+	table#reserv th, tr, td { border-bottom: 1px solid gray;
 						     text-align: center; 
 						     height: 40px;
 						     }
-	table#reserv th { background: #b5ae87; height: 40px; }						     		
+	table#reserv th { background: seashell; height: 40px; }						     		
 	table#reserv img { width: 100px; height: 70px; padding: 5px; }
 	.red { font-weight: bold;  color: maroon; }
 	.blue button { width: 80px; height: 25px; border: none; background: steelblue; color: #fff;   }		
@@ -48,11 +48,51 @@
 	}
 	
 	table#reserv th.nono{
+	  border-top-left-radius: 15px;
 	  width: 80px;
 	  height: 50px;
+	}
+	table#reserv th.lastTh{
+	  border-top-right-radius: 15px;
+
 	}
 	
 	table#reserv th.thTitle{
 	  width: 600px;
 	  height: 50px;
 	}
+	
+	
+/* 디테일 페이지 */
+#detailDiv{
+    width: 800px;
+    margin-left:230px;
+  }
+  #datailUl{
+   margin-top:30px;
+   background: seashell;
+   height: 40px;
+   font-size: small;
+  }
+  #datailUl li{
+    float:left;
+    margin-left: 30px;
+    line-height: 40px;
+  }
+  
+  #datailUl li.detailLi{
+    width: 500px;
+    text-align: center;
+  }
+  
+  #datailRealContent{
+    width: 700px;
+    margin:0 auto;
+    margin-top:30px;
+  }
+  
+  #detailComment{
+    margin-top: 30px;
+  }
+
+	

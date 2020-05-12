@@ -8,7 +8,14 @@
 <link href="${pageContext.request.contextPath }/resources/css/paging.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath }/resources/css/boardStyle.css" rel="stylesheet" type="text/css" />
 </head>
-
+<style>
+  .FAQContent{
+    width: 100%;
+    height: auto;
+    display:none; 
+    margin-bottom:10px;
+  }
+</style>
 <body>   
 	<%@ include file="../../include/userHeader.jsp"%>
 		<section>
@@ -35,14 +42,23 @@
 							<th class="thTitle">제목</th>
 							<th>대분류</th>
 							<th>분류</th>
+							<th class="lastTh">펼쳐보기</th>
 						</tr>
 						<c:forEach var="faq" items="${list}">
 						<tr class="faqList" data-no="${faq.no}">
 							<td class="nono">${faq.no}</td>
-							<td class="thTitle">${faq.title}</td>
+							<td class="thTitle" style="margin-top:15px;"><i class="fab fa-quora"></i>  ${faq.title}
+									<div class="FAQContent">
+									<br><br>
+										<i class="fas fa-bullhorn"></i>   ${faq.content }
+									</div>
+							</td>
 							<td>${faq.lcate eq 'D'?'국내패키지상품':faq.lcate eq 'I'?'해외패키지상품':faq.lcate eq 'R'?'상품 예약 및 결제':'회원혜택안내'}</td>
 							<td>${faq.mcate eq 'P'?'여행상품':faq.mcate eq 'V'?'여권 및 비자':faq.mcate eq 'T'?'환율':faq.mcate eq 'J'?'제주여행':faq.mcate eq 'B'?'예약 및 취소':faq.mcate eq 'R'?'결제 및 환불':faq.mcate eq 'C'?'쿠폰 및 이벤트':'기타'}</td>
+						    <td><i class="fas fa-angle-down"></i></td> 
+						    
 						</tr>
+						
 						</c:forEach>   
 					</table>
 					 <div class='text-center'>
@@ -113,12 +129,10 @@
 		})
 		$("#keywordInput").val(keyword);
 	};
-	$(".faqList").click(function() {
+	$(document).on("click",".faqList",function(){
+		$(".FAQContent").css("display","none");
 		var no = $(this).attr("data-no");
-		var searchType = "${cri.searchType}";
-		var searchType2 = "${cri.searchType2}";
-		var keyword = "${cri.keyword}";
-		location.href = "tourlandBoardFAQ?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+		$(this).children().children(".FAQContent").css("display","block");
 	})
 	$("#searchType").change(function() {
 		$("#searchType2").empty();

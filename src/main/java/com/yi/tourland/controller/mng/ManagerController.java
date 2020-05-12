@@ -687,6 +687,104 @@ public class ManagerController {
 		model.addAttribute("cri",cri);
 		return "manager/product/productDetail";
 	}
+	@RequestMapping(value = "productModify", method = RequestMethod.GET)
+	public String productModiftyGet(int no,ProductVO vo,SearchCriteria cri,Model model) throws Exception {
+		vo.setPno(no);
+		vo = productService.productByNo(vo);
+		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
+		List<AirplaneVO> flightListRending = flightService.airplaneListByRending(cri);
+		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
+		List<TourVO> tourList = tourService.listPage(cri);
+		List<RentcarVO> rentcarList = rentcarService.listSearchCriteriaRentcar(cri);
+		PageMaker pageMakerByFlightDepature = new PageMaker();
+		pageMakerByFlightDepature.setCri(cri);
+		pageMakerByFlightDepature.setTotalCount(flightService.totalCountAirplaneByDepature(cri));
+		PageMaker pageMakerByFlightRending = new PageMaker();
+		pageMakerByFlightRending.setCri(cri);
+		pageMakerByFlightRending.setTotalCount(flightService.totalCountAirplaneByRending(cri));
+		PageMaker pageMakerByHotel = new PageMaker();
+		pageMakerByHotel.setCri(cri);
+		pageMakerByHotel.setTotalCount(hotelService.totalSearchCountHotel(cri));
+		PageMaker pageMakerByTour = new PageMaker();
+		pageMakerByTour.setCri(cri);
+		pageMakerByTour.setTotalCount(tourService.totalCountBySearchCriteria(cri));
+		PageMaker pageMakerByRentcar = new PageMaker();
+		pageMakerByRentcar.setCri(cri);
+		pageMakerByRentcar.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+		model.addAttribute("flightListDepature",flightListDepature);
+		model.addAttribute("pageMakerByFlightDepature",pageMakerByFlightDepature);
+		model.addAttribute("flightListRending",flightListRending);
+		model.addAttribute("pageMakerByFlightRending",pageMakerByFlightRending);
+		model.addAttribute("hotelList",hotelList);
+		model.addAttribute("pageMakerByHotel",pageMakerByHotel);
+		model.addAttribute("tourList",tourList);
+		model.addAttribute("pageMakerByTour",pageMakerByTour);
+		model.addAttribute("rentcarList",rentcarList);
+		model.addAttribute("pageMakerByRentcar",pageMakerByRentcar);
+		model.addAttribute("vo",vo);
+		model.addAttribute("cri",cri);
+		return "manager/product/productModify";
+	}
+	@RequestMapping(value = "productModify", method = RequestMethod.POST)
+	public String productModifyPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo, ProductVO vo, MultipartFile file, SearchCriteria cri,Model model) throws Exception {
+		int pno = vo.getPno();
+		ProductVO delProd = new ProductVO(pno);
+		productService.deleteProduct(delProd);
+		if (vo.getPic() != null) {
+			File pBig = new File(uploadPathProduct + vo.getPic());
+			pBig.delete();
+			String updatePath = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12);
+			File pSmall = new File(uploadPathProduct + updatePath);
+			pSmall.delete();
+		}
+		List<AirplaneVO> air = new ArrayList<>();
+		List<HotelVO> hotel = new ArrayList<>();
+		List<TourVO> tour = new ArrayList<>();
+		List<RentcarVO> rentcar = new ArrayList<>();
+		for(int no : airNo) {
+			AirplaneVO avo = new AirplaneVO(no);
+			air.add(avo);
+		}
+		for(int no : hotelNo) {
+			HotelVO hvo = new HotelVO(no);
+			hotel.add(hvo);
+		}
+		for(int no : tourNo) {
+			TourVO hvo = new TourVO(no);
+			tour.add(hvo);
+		}
+		for(int no : rentcarNo) {
+			RentcarVO rvo = new RentcarVO(no);
+			rentcar.add(rvo);
+		}
+		vo.setAir(air);
+		vo.setHotel(hotel);
+		vo.setTour(tour);
+		vo.setRentcar(rentcar);
+		File filePath = new File("uploadPathProduct");
+		if(!filePath.exists()) filePath.mkdir();
+		String savedName = UploadFileUtils.uploadFile(uploadPathProduct, file.getOriginalFilename().replaceAll(" ", "_"),
+				file.getBytes());
+		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+		vo.setPic(bigSizePic.replaceAll(" ", "_"));
+		productService.insertProduct(vo);
+		return "redirect:productDetail?no="+vo.getPno()+"&page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
+	}
+	@RequestMapping(value = "productDelete", method = RequestMethod.GET)
+	public String productDelete(int no,ProductVO vo,SearchCriteria cri,Model model) throws SQLException {
+		vo.setPno(no);
+		vo = productService.productByNo(vo);
+		if (vo.getPic() != null) {
+			File pBig = new File(uploadPathProduct + vo.getPic());
+			pBig.delete();
+			String updatePath = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12);
+			File pSmall = new File(uploadPathProduct + updatePath);
+			pSmall.delete();
+		}
+		productService.deleteProduct(vo);
+		model.addAttribute("cri",cri);
+		return "redirect:productMngList";
+	}
 
 	@ResponseBody
 	@RequestMapping(value = "flightList", method = RequestMethod.GET)
@@ -1479,7 +1577,7 @@ public class ManagerController {
         if(choice.contentEquals("event")) {
         	path = uploadPathEvent; 
         }
-        if(choice.contentEquals("product")) {
+        if(choice.contentEquals("product") || choice.contentEquals("productSmall")) {
         	path = uploadPathProduct;
         }
 		// System.out.println("displayFile-----------"+ filename);
@@ -1487,6 +1585,7 @@ public class ManagerController {
 		try {
 			
 	//		System.out.println("path=="+path);
+			if(choice.contentEquals("productSmall")) filename = filename.substring(0, 12) + "s_" + filename.substring(12);
 			in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
 			String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
 			MediaType mType = null;
