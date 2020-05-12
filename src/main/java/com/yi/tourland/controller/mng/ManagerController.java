@@ -1570,7 +1570,9 @@ public class ManagerController {
 		try {
 			
 	//		System.out.println("path=="+path);
-			if(choice.contentEquals("productSmall")) filename = filename.substring(0, 12) + "s_" + filename.substring(12);
+			if(choice.contentEquals("productSmall")) {
+				if(filename!="") filename = filename.substring(0, 12) + "s_" + filename.substring(12);
+			}
 			in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
 			String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
 			MediaType mType = null;

@@ -243,7 +243,7 @@ body {
 						<div class="group">
 							<div class="form-group" style="width: 1000px;">
 								<label><span class="red">*</span>상품 사진</label> <input
-									type="file" class="form-control" id="file" name="file">
+									type="file" class="form-control" id="file" name="file" required="required">
 								<div id="preview" style="display: inline;"></div>
 							</div>
 						</div>

@@ -74,7 +74,7 @@
 							<td>
 								<c:forEach var="tour" items="${product.tour}" begin="0" end="0">
 									<p>
-										${tour.tname}외 ${fn:length(product.tour)}종
+										${fn:length(product.tour)}가지 투어
 									</p>
 								</c:forEach>
 							</td>

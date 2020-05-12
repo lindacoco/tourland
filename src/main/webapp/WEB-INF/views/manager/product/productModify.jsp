@@ -105,7 +105,7 @@ body {
 							</tr>
 							<c:forEach items="${vo.air}" var="f">     
 							<tr class="flightList">
-								<td>${f.no }</td>
+								<td>${f.no }<input type="hidden" name="airNo" value="${f.no}"></td>
 								<td>${f.ano}</td>
 								<td>${f.dlocation }</td>
 								<td>${f.rlocation }</td>
@@ -155,7 +155,7 @@ body {
 								</tr>
 								<c:forEach var="hotel" items="${vo.hotel}" begin="0" end="0">
 									<tr class="hotelList">
-										<td>${hotel.no}</td>
+										<td>${hotel.no}<input type="hidden" name="hotelNo" value="${hotel.no}"></td>
 										<td>${hotel.hname }</td>
 										<td>${hotel.haddr }</td>
 										<td><fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/></td>
@@ -219,7 +219,7 @@ body {
 								</tr>
 								<c:forEach var="tour" items="${vo.tour}">
 								<tr class="tourList">
-									<td>${tour.no}</td>
+									<td>${tour.no}<input type="hidden" name="tourNo" value="${tour.no}"></td>
 									<td>${tour.tname}</td>
 									<td>${tour.tlocation}</td>
 									<td><fmt:formatDate value="${tour.startDate}" pattern="yyyy-MM-dd"/></td>
@@ -258,7 +258,7 @@ body {
 								</tr>
 								<c:forEach var="rentcarList" items="${vo.rentcar}">
 								<tr class="rentcarList">
-									<td>${rentcarList.no}</td>
+									<td>${rentcarList.no}<input type="hidden" name="rentcarNo" value="${rentcarList.no}"></td>
 									<td>${rentcarList.cdiv}</td>
 									<td>${rentcarList.cno}</td>
 									<td><fmt:formatDate value="${rentcarList.rentddate}" pattern="yyyy-MM-dd "/></td>
@@ -306,7 +306,9 @@ body {
 								<label><span class="red">*</span>상품 사진</label> <input
 									type="file" class="form-control" id="file" name="file">
 								<div id="preview" style="display : inline;">
-									<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;"> 
+									<c:if test="${vo.pic!=null}">
+										<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;"> 
+									</c:if>
 								</div>
 							</div>
 						</div>

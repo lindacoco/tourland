@@ -91,7 +91,9 @@
 		$("#hotelTable").append(tr);
 		var iDate = new Date(res.vo.checkin);
 		var oDate = new Date(res.vo.checkout);
-		var dateDiff = oDate.getDate() - iDate.getDate();
+		var newDate = new Date();
+		newDate.setDate(oDate.getDate()-iDate.getDate());
+		var dateDiff = newDate.getDate();
 		price += Number(res.vo.price * dateDiff);
 		$("#price").val(price);
 	}
@@ -109,7 +111,7 @@
 		var td7 = $("<td>").html(etimeStr);
 		var td8 = $("<td>").html(res.vo.capacity);
 		var td9 = $("<td>").html(res.vo.tprice);
-		var td10 = res.vo.ldiv==0?$("<td>").html("국내"):$("<td>").html("해외");
+		var td10 = res.vo.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 		var tr = $("<tr class='tourList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
 		$("#tourTable").append(tr);
 		price += Number(res.vo.tprice);
@@ -351,7 +353,7 @@
 					var td7 = $("<td>").html(etimeStr);
 					var td8 = $("<td>").html(obj.capacity);
 					var td9 = $("<td>").html(obj.tprice);
-					var td10 = obj.ldiv==0?$("<td>").html("국내"):$("<td>").html("해외");
+					var td10 = obj.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 					var tr = $("<tr class='tourList' data-no='"+obj.no+"'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
 					$("#tour #table").append(tr);
 				})

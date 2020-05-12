@@ -32,7 +32,7 @@
 			<result property="rlocation" column="rlocation"/>
 			<result property="ddate" column="ddate"/>
 			<result property="rdate" column="rdate"/>
-			<result property="capacity" column="capacity"/>
+			<result property="capacity" column="a2capacity"/>
 			<result property="seat" column="seat"/>
 			<result property="price" column="price"/>
 			<result property="ldiv" column="ldiv"/>
@@ -44,7 +44,7 @@
 			<result property="haddr" column="haddr"/>
 			<result property="checkin" column="checkin"/>
 			<result property="checkout" column="checkout"/>
-			<result property="capacity" column="capacity"/>
+			<result property="capacity" column="h2capacity"/>
 			<result property="price" column="price"/>
 			<result property="roomcapacity" column="roomcapacity"/>
 			<result property="roomtype" column="roomtype"/>
@@ -60,7 +60,7 @@
 			<result property="endDate" column="enddate"/>
 			<result property="taddr" column="taddr"/>
 			<result property="etime" column="etime"/>
-			<result property="capacity" column="capacity"/>
+			<result property="capacity" column="t2capacity"/>
 			<result property="tprice" column="tprice"/>
 			<result property="ldiv" column="ldiv"/>
 			<result property="pdiv" column="pdiv"/> 
@@ -74,7 +74,7 @@
 			<result property="rentaddr" column="rentaddr"/>
 			<result property="returnaddr" column="returnaddr"/>
 			<result property="price" column="price"/>
-			<result property="capacity" column="capacity"/>
+			<result property="capacity" column="r2capacity"/>
 			<result property="insurance" column="insurance"/>
 			<result property="ldiv" column="ldiv"/>
 			<result property="pdiv" column="pdiv"/>
