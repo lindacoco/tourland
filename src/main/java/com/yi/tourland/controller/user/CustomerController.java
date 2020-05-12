@@ -1,5 +1,6 @@
 package com.yi.tourland.controller.user;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,9 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
+import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
+import com.yi.tourland.domain.mng.FaqVO;
+import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
@@ -202,5 +207,55 @@ public class CustomerController {
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
 	public String tourlandProductDetail() { 
 		return "/user/product/tourlandProductDetail"; 
+	}
+	
+	//게시판 ---------------------------------------------------------------------------------------
+	
+	//공지사항
+	@RequestMapping(value="tourlandBoardNotice", method=RequestMethod.GET)
+	public String tourlandBoardNotice(SearchCriteria cri, Model model) throws Exception { 
+		List<NoticeVO> noticeList = noticeService.noticeList(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(noticeService.totalCountNotice(cri));
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri", cri);
+		return "/user/board/tourlandBoardNotice"; 
+	}
+	//FAQ
+	@RequestMapping(value="tourlandBoardFAQ", method=RequestMethod.GET)
+	public String tourlandBoardFAQ(SearchCriteria cri, Model model) throws SQLException {
+		List<FaqVO> list = faqService.listPage(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(faqService.totalCount(cri) < 10 ? 10 : faqService.totalCount(cri));
+		model.addAttribute("list", list);
+		model.addAttribute("pageMaker", pageMaker);
+		model.addAttribute("cri", cri);
+		return "/user/board/tourlandBoardFAQ"; 
+	}
+	
+	//고객의 소리
+	@RequestMapping(value="tourlandCustBoard", method=RequestMethod.GET)
+	public String tourlandCustBoard(SearchCriteria cri, Model model) throws Exception { 
+		cri.setPerPageNum(5);
+		List<CustBoardVO> custBoardList = custBoardService.listSearchCriteriaCustBoard(cri);
+
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(custBoardService.totalSearchCountCustBoard(cri));
+
+		model.addAttribute("cri", cri);
+		model.addAttribute("list", custBoardList);
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/user/board/tourlandCustBoard"; 
+	}
+	
+	//상품문의 사항
+	@RequestMapping(value="tourlandProductBoard", method=RequestMethod.GET)
+	public String tourlandProductBoard() { 
+		return "/user/board/tourlandProductBoard"; 
 	}
 }
