@@ -30,12 +30,12 @@
 							<th class="nono">번호</th>
 							<th class="thTitle">제목</th>
 							<th>작성자</th>
-							<th>작성일자</th>
+							<th class="lastTh">작성일자</th>
 						</tr>  
 						<c:forEach items="${noticeList}" var="n">   
 							<tr>
 								<td class="nono">${n.no }</td>
-								<td class="thTitle"><a href="${pageContext.request.contextPath }/noticeDetail?no=${n.no}&page=${cri.page}">${n.title }</a></td>
+								<td class="thTitle"><a href="${pageContext.request.contextPath }/tourlandBoardNoticeDetail?no=${n.no}&page=${cri.page}" style="text-decoration: none;">${n.title }</a></td>
 								<td>${n.writer }</td>
 								<td><fmt:formatDate value="${n.regdate }" pattern ="yyyy-MM-dd"/></td>
 							</tr>

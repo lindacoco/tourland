@@ -17,6 +17,14 @@ insert into user values
 (5,'지민서','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'), 1),
 (6,'테스트','1991-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'user',password('test'), 0);
 
+
+-- 고객의 소리
+desc custboard ;
+insert into custboard values
+(1,'홈페이지 이용이 너무 어려워요','좀더 편했으면 좋겠음','장초코',now(),password(111)),
+(2,'상품이 다양하면 좋겠어요','좀더 많았으면..','장도롱',now(),password(111)),
+(3,'차은우 가이드님 칭찬합니다','존잘!!','박열무',now(),password(111));
+
 -- 현서 렌트카 ----------------------------------------------------------------------------------------------
 DESC rentcar;
 load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/rentcar.csv'
