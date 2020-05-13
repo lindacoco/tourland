@@ -271,11 +271,10 @@ body {
 					<div class="box box-primary">
 						<div class="box-body">
 							<select name="searchType" id="searchType">
-								<option value="n">-----</option>
+								<option value="n">선택하세요</option>
 								<option value="no">번호</option>
 								<option value="ano">항공기 번호</option>
-								<option value="dloca">출발 지역</option>
-								<option value="ddate">출발 일시</option>
+								<option value="rloca">도착 지역</option>
 							</select> <input type="text" name="keyword" id="keywordInput">
 							<button id="btnSearch">Search</button>
 						</div>

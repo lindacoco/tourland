@@ -213,32 +213,23 @@
 							div == "Depature" ? $("#flightDepature #table").append(tr) 
 												: $("#flightRending #table").append(tr);
 										});
-						var preva = $("<a id='prev'>").html("&laquo;");
-						var prevli = $("<li>").append(preva);
-						var nexta = $("<a id='next'>").html("&raquo;");
-						var nextli = $("<li>").append(nexta);
-						if (res.pageMaker.prev)
-							div == "Depature" ? $("#flightDepature .pagination")
-									.append(prevli)
-									: $("#flightRending .pagination").append(
-											prevli);
-						for (var i = res.pageMaker.startPage; i <= res.pageMaker.endPage; i++) {
-							var a = $("<a class='index' data-index='"+i+"'>")
-									.html(i);
-							var li = $("<li>").append(a);
-							if (res.pageMaker.cri.page == i) {
-								li.addClass("active");
+						if(div=="Depature") {
+							var preva = $("<a id='prev'>").html("&laquo;");
+							var prevli = $("<li>").append(preva);
+							var nexta = $("<a id='next'>").html("&raquo;");
+							var nextli = $("<li>").append(nexta);
+							if (res.pageMaker.prev) $("#flightDepature .pagination").append(prevli);
+							for (var i = res.pageMaker.startPage; i <= res.pageMaker.endPage; i++) {
+								var a = $("<a class='index' data-index='"+i+"'>")
+										.html(i);
+								var li = $("<li>").append(a);
+								if (res.pageMaker.cri.page == i) {
+									li.addClass("active");
+								}
+								$("#flightDepature .pagination").append(li);
 							}
-							div == "Depature" ? $("#flightDepature .pagination")
-									.append(li)
-									: $("#flightRending .pagination")
-											.append(li);
+							if (res.pageMaker.next) $("#flightDepature .pagination").append(nextli);
 						}
-						if (res.pageMaker.next)
-							div == "Depature" ? $("#flightDepature .pagination")
-									.append(nextli)
-									: $("#flightRending .pagination").append(
-											nextli);
 					},
 					error : function(request, status, error) { // 결과 에러 콜백함수
 						console.log(error)
@@ -787,7 +778,19 @@
 		})
 		$("#addDetail").click(function(){
 			$("#detail").modal("show");
-		}) 
+		})
+		$(document).on("click","#airTable .flightList",function(){
+			if(confirm("삭제하시겠습니까?")) $(this).remove();
+		})
+		$(document).on("click","#hotelTable .hotelList",function(){
+			if(confirm("삭제하시겠습니까?")) $(this).remove();
+		})
+		$(document).on("click","#tourTable .tourList",function(){
+			if(confirm("삭제하시겠습니까?")) $(this).remove();
+		})
+		$(document).on("click","#rentTable .rentcarList",function(){
+			if(confirm("삭제하시겠습니까?")) $(this).remove();
+		})
 		//ckeditor
 		CKEDITOR.replace('pcontent');
 		CKEDITOR.config.height = '50em';
