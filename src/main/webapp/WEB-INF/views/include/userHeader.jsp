@@ -111,7 +111,7 @@
 			
 					<div id="main">
 						<div id="reward">
-							<a href="#"><img src="images/reward.png"></a>
+							<a href="#"><img src="${pageContext.request.contextPath }/resources/images/reward.png"></a>
 						</div>
 						<div id="logo">
 							<h1><a href="${pageContext.request.contextPath }/tourlandMain">투어 랜드</a></h1>    

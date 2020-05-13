@@ -18,7 +18,7 @@
 	#eventPageP{
 	  position: absolute;
 	  top:430px;
-	  left:520px;
+	  left:470px;
 	  font-size: 60px;
 	  font-weight:bold;
 	  color:white;
@@ -27,16 +27,22 @@
 	div.eventBox{
 	  width:330px;
 	  float:left;
-	  margin: 30px 0 30px 0;
+	  margin: 30px 0 70px 0;
 	  text-align: center;
 	  font-weight: bolder;
 	}
 	div.eventBox img{
-	  width:300px;
+	  width:200px;
+	  height: 200px;
 	}
-	
-	#evenIng{
-	background:mistyrose; width:200px; text-align: center; height: 40px; line-height: 40px; margin-left:15px;
+	#eventMainDiv{
+	 clear:both;
+	}
+	.event3{
+	cursor: pointer;
+	float:left;
+	margin:30px 0 50px 100px;
+	width:200px; text-align: center; height: 40px; line-height: 40px; margin-left:100px; border-radius: 20px;
 	}
 	
 </style>
@@ -46,25 +52,56 @@
 			<img src="${pageContext.request.contextPath }/resources/images/eventPage.jpg" style="width:100%; height:550px;">
 			<p id="eventPageP">TOURLAND BIG EVENT</p>
 	   </div>
-	       
+	   
 			<section id="eventSection">
-			<p id="evenIng">진행중 이벤트</p>	
-			
-			<c:forEach var="eventList" items="${eventList }">
-			<div class="eventBox" data-click="1">
-				<img src="${pageContext.request.contextPath }/resources/images/banner2.jpg">
-				<p>${eventList.title }</p>
-		    </div>
-		    </c:forEach>
-			</section>
+			<p class="event3" id="inging">진행중 이벤트</p>
+			<p class="event3" id="comecome">다가올 이벤트</p>	
+			<p class="event3" id="donedone">종료된 이벤트</p>
+			<div id="eventMainDiv"> 
+				<c:forEach var="eventList" items="${eventList }">
+				<div class="eventBox" data-click="1">
+					<img src="${pageContext.request.contextPath}/resources/images/event${eventList.pic }" class="eventImgs">
+					<p>${eventList.title }</p>
+			    </div>
+			    </c:forEach>
+			</div>    
+	  </section>
 	<%@ include file="../../include/userFooter.jsp"%>
 </body>
 
 <script>
 	$(function(){
+		//보내는 값에 따라 css변경
+		var eventSentence = "${mistyrose}";
+		if(eventSentence == "inging"){
+			$("#inging").css("background","mistyrose");
+		}
+		
+		if(eventSentence == "comecome"){
+			$("#comecome").css("background","mistyrose");
+		}
+		
+		if(eventSentence == "donedone"){
+			$("#donedone").css("background","mistyrose");
+		}
+
 		$(".pkgReservBtn").click(function(){
 			location.href="${pageContext.request.contextPath}/tourlandProductDetail";
-		})   
+		}) 
+		
+     //진행중 이벤트 = 새로고침 느낌
+	 $(".event3").eq(0).click(function(){
+		 location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+	 })	
+	 // 다가올 이벤트
+	 $(".event3").eq(1).click(function(){
+		 location.href="${pageContext.request.contextPath}/tourlandEventList/commingEvent";
+	 })
+	 
+	 //지난 이벤트 
+	 $(".event3").eq(2).click(function(){
+		 location.href="${pageContext.request.contextPath}/tourlandEventList/expiredEvent";
+	  })
 	})
 </script>   
 </html>

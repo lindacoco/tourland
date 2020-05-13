@@ -1,5 +1,7 @@
 package com.yi.tourland.controller.user;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -7,8 +9,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -96,6 +101,7 @@ public class CustomerController {
 
 	@Autowired
 	PlanBoardService planBoardService;
+		
 	
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
@@ -229,19 +235,27 @@ public class CustomerController {
 	//이벤트 --------------------------------------------------------------------------------------
 	@RequestMapping(value="tourlandEventList/{times}", method=RequestMethod.GET)
 	public String tourlandEventList(@PathVariable("times") String times, Model model) { 
-		
+		String aaaaa= "";
+				
 		if(times.equals("ingEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
+			System.out.println(list);
 			model.addAttribute("eventList",list);
+			aaaaa= "inging";
+			model.addAttribute("mistyrose",aaaaa);
 			System.out.println(list);
 		}
 		if(times.equals("commingEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
 			model.addAttribute("eventList",list);
+			aaaaa= "comecome";
+			model.addAttribute("mistyrose",aaaaa);
 			System.out.println(list);
 		}
 		if(times.equals("expiredEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
+			aaaaa= "donedone";
+			model.addAttribute("mistyrose",aaaaa);
 			model.addAttribute("eventList",list);
 		}
 		
