@@ -111,7 +111,7 @@
 			
 					<div id="main">
 						<div id="reward">
-							<a href="#"><img src="images/reward.png"></a>
+							<a href="#"><img src="${pageContext.request.contextPath }/resources/images/reward.png"></a>
 						</div>
 						<div id="logo">
 							<h1><a href="${pageContext.request.contextPath }/tourlandMain">투어 랜드</a></h1>    
@@ -128,7 +128,7 @@
 							<li><a href="${pageContext.request.contextPath }/tourlandProductJPList">일본 패키지</a></li>
 							<li><a href="#">중국 패키지</a></li>
 							<li><a href="#">우리끼리</a></li>
-							<li class="short"><a href="${pageContext.request.contextPath }/tourlandEventList">이벤트</a></li>
+							<li class="short"><a href="${pageContext.request.contextPath }/tourlandEventList/ingEvent">이벤트</a></li>
 						</ul>
 					</div>
 			</header>
