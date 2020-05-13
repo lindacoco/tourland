@@ -175,7 +175,7 @@ $(function(){
 									<th>장소구분</th>
 									<th>예약 가능 여부</th>  
 								</tr>
-								<c:forEach var="hotel" items="${vo.hotel}" begin="0" end="0">
+								<c:forEach var="hotel" items="${vo.hotel}">
 									<tr>
 										<td>${hotel.no}</td>
 										<td>${hotel.hname }</td>

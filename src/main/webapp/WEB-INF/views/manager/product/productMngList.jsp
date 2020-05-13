@@ -60,7 +60,7 @@
 							<td>${product.pno}</td>
 							<td>${product.pname}</td>
 							<td>
-								<c:forEach var="air" items="${product.air}" begin="0" end="0">
+								<c:forEach var="air" items="${product.air}">
 									${air.ano}
 								</c:forEach>
 							</td>
@@ -72,9 +72,9 @@
 								</c:forEach>
 							</td>
 							<td>
-								<c:forEach var="tour" items="${product.tour}" begin="0" end="0">
+								<c:forEach var="tour" items="${product.tour}">
 									<p>
-										${fn:length(product.tour)}가지 투어
+										${tour.tname}
 									</p>
 								</c:forEach>
 							</td>
