@@ -1921,15 +1921,16 @@ public class ManagerController {
 		}
 		
 		@RequestMapping(value = "planBoardDetail", method = RequestMethod.GET)
-		public String planBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model) throws Exception {
+		public String planBoardDetail(PlanBoardVO vo, SearchCriteria cri, Model model,String respond) throws Exception {
 			vo = planBoardService.readByVoPlanBoard(vo);
 			model.addAttribute("vo", vo);
 			model.addAttribute("cri", cri);
+			model.addAttribute("respond", respond);
 			return "/manager/board/planBoardDetail";
 		}
 
-		@RequestMapping(value = "planBoardModify", method = RequestMethod.GET)
-		public String planBoardModify(PlanBoardVO vo, SearchCriteria cri, Model model,int no,String respond ) throws Exception {
+		@RequestMapping(value = "planBoardModify", produces = "application/text; charset=utf8", method = RequestMethod.GET)
+		public String planBoardModify(PlanBoardVO vo, SearchCriteria cri, Model model,int no, String respond) throws Exception {
 			vo = planBoardService.readByNoPlanBoard(no);
 			vo.setRespond(respond);
 			vo.setAnswer(1);
@@ -1939,11 +1940,34 @@ public class ManagerController {
 			return "/manager/board/planBoardModify";
 		}
 		
+		@ResponseBody
+		@RequestMapping(value = "planBoardModifyApi", produces = "application/text; charset=utf8", method = RequestMethod.GET)
+		public ResponseEntity<String> planBoardModifyAjax(PlanBoardVO vo, SearchCriteria cri, Model model,int no, String respond, String respondText) throws Exception {
+			ResponseEntity<String> entity = null;
+			System.out.println(respondText);
+			System.out.println(no);
+			try {
+				vo = planBoardService.readByNoPlanBoard(no);
+				vo.setRespond(respondText);
+				vo.setAnswer(1);
+				planBoardService.updatePlanBoard(vo);
+				entity = new ResponseEntity<String>(respondText, HttpStatus.OK);
+				
+			}catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			}
+			model.addAttribute("vo", vo);
+			model.addAttribute("cri", cri);
+			model.addAttribute("return", respondText);
+			return entity;
+		}
+		
 		@RequestMapping(value = "planBoardDelete", method = RequestMethod.GET)
 		public String planBoardDelete(PlanBoardVO vo, SearchCriteria cri, Model model,int no) throws Exception {
 			vo=planBoardService.readByNoPlanBoard(no);
 			planBoardService.deletePlanBoard(vo);
-			return "redirect:planBoardList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&searchType2="
+			return "redirect:planBoardDetail?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&searchType2="
 					+ cri.getSearchType2() + "&keyword=" + cri.getKeyword();
 		}
 

@@ -8,7 +8,7 @@
 	#small div{
 	float: left;
     margin: 30px 30px;
-    width: 264px;
+    width: 255px;
 	}
 	#goList{
     width: 100px;
@@ -30,18 +30,42 @@
 			var keyword = "${cri.keyword}";
 			location.href = "planBoardList?page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 		})
-		$(document).on("click","btnUpdate",function(){
-			
+		
+		$(document).on("click","#btnModSave",function(){
+			var text = $(this).parent().prev().find("#text").val();
+			var json = {"respondText":text};
+			var no = $("#dataNo").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/planBoardModifyApi?no="+no,
+				type:"get",
+				data:json,
+				dataType:"text",
+				success:function(res){
+					console.log(res);
+					if(res=="SUCCESS"){
+						alert("수정을 완료했습니다.");
+						$("#modifyModal").modal("hide");
+						
+					}
+				}
+			})	
 		})
-		$(document).on("click","btnDelete",function(){
+
+		$(document).on("click","#btnDelete",function(){
+			var no = "${vo.no}";
 			var page =	"${cri.page}";
 			var searchType = "${cri.searchType}";
 			var searchType2 = "${cri.searchType2}";
 			var keyword = "${cri.keyword}";
-			location.href = "planBoardDelete?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+			var res = confirm("답변을 삭제하시겠습니까?");
+			if(res){
+				alert("답변 삭제가 완료되었습니다.");
+				location.href = "planBoardDelete?no="+no+"&page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
+			}
 		})
 	})
 </script>
+
 <div class="content">
 	<div class="row">
 		<div class="col-sm-12">
@@ -52,6 +76,7 @@
 				</div>
 				<div class="box-body">
 					<div class="form-group">
+						<input type="hidden" name="no" value="${vo.no }" class="form-control" id="dataNo">
 						<label>제목</label>
 						<input type="text" name="title" class="form-control" value="${vo.title}" readonly="readonly">
 					</div>
@@ -99,14 +124,36 @@
 					<label>작성자</label>
 					<input type="text" class="form-control" value="${Manager.name}" id="respondWriter" name="respondWriter" readonly="readonly">
 					<label>답변</label>
-					<textarea rows="5" cols="30" class="form-control" id="respond" name="respond" readonly="readonly">${vo.respond }</textarea>
+					<textarea rows="5" cols="30" class="form-control" id="respond" name="respond" readonly="readonly">${vo.respond}</textarea>
 				</div>
 				<div class="box-footer point">
-					<button class="btn btn-primary" id="btnUpdate">수정</button>
+					<button class="btn btn-primary" id="btnUpdate" data-toggle="modal" data-target="#modifyModal">수정</button>
 					<button class="btn btn-danger" id="btnDelete">삭제</button>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+
+<div id="modifyModal" class="modal modal-primary fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal">&times;</button>
+           <h4 class="modal-title">${Manager.name}</h4>
+          
+        </div>
+        <div class="modal-body">
+           <p>
+             <input type="text" id="text" class="form-control" value="${vo.respond }">
+           </p>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-info" id="btnModSave">수정</button>
+        </div>
+      </div>
+   </div>
+</div>
+
 <%@ include file="../../include/footer.jsp"%>

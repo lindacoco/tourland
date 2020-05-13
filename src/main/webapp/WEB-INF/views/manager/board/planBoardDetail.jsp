@@ -98,7 +98,7 @@
 					</div>
 					<div class="form-group">
 						<label>답변여부</label>
-						<input type="text" readonly="readonly" value="${vo.answer=='0'? '답변미완료':'답변완료'}" class="form-control" style="width:200px;">
+						<input type="text" readonly="readonly" value="${vo.answer=='0'? '답변미완료':'답변완료'}" class="form-control" style="width:200px;" >
 					</div>
 				</div>
 				</div>
