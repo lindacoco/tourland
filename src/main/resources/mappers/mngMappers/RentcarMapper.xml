@@ -53,7 +53,7 @@
 	      <if test="searchType=='rentcarCno'.toString()">
 	       and cno like CONCAT('%',#{keyword},'%')
 	      </if>
-	      <if test="searchType.equals('rentDepartDate'.toString())">
+	      <if test='searchType=="rentDepartDate"'>
 	       and rentddate =  #{keyword} and returndate = #{keyword2}
 	      </if>
 	      <if test="searchType=='rentDepartaddr'.toString()">
