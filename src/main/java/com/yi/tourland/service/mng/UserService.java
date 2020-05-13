@@ -66,4 +66,12 @@ public class UserService {
 	public UserVO readByIdPwUser(String userid,String userpass) throws Exception {
 		return dao.readByIdPwUser(userid,userpass);
 	}
+	
+	//태원
+	public List<UserVO> listSearchCriteriaPaymentUser(SearchCriteria cri) throws Exception {
+		return dao.listSearchCriteriaPaymentUser(cri);
+	}
+	public int totalSearchCountPaymentUser(SearchCriteria cri) throws Exception {
+		return dao.totalSearchCountPaymentUser(cri);
+	}
 }

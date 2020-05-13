@@ -544,7 +544,7 @@
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
               </ul> --></li>
 					<li><a
-						href="${pageContext.request.contextPath }/resources/documentation/index.html"><i
+						href="${pageContext.request.contextPath }/paymentList"><i
 							class="fa fa-book"></i> <span>결제 관리</span></a></li>
 					<li><a
 						href="${pageContext.request.contextPath }/resources/documentation/index.html"><i

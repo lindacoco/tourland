@@ -113,6 +113,7 @@ select * from user;
 select * from employee;
 
 select * from planboard;
+
 select * from hotel;
 
 insert into planboard(title, content, writer, regdate, lcate, mcate, answer,respond)
@@ -125,11 +126,11 @@ select count(no)
 from planboard;
 
 insert into planboard(title, content, writer, regdate, lcate, mcate, answer) values
- ('test','test','test',now(),'D','P',0);
+('test','test','test',now(),'D','P',0);
 
-       update planboard  set 
-       title ='test11', content='test11', respond='답변'
-       where no=6;
+update planboard  set 
+title ='test11', content='test11', respond='답변'
+where no=6;
 
 select p.pno,p.pname,p.content
 
