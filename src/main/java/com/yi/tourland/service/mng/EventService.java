@@ -21,7 +21,6 @@ public class EventService {
 
 	}
 
-	
 	public EventVO readByNoEvent(int no) throws Exception {
 		return dao.readByNoEvent(no);
 	}
@@ -56,5 +55,9 @@ public class EventService {
 	
 	public int totalSearchCountEvent(SearchCriteria cri) throws Exception {
 		return dao.totalSearchCountEvent(cri);
+	}
+	
+	public List<EventVO> eventListDependsTime(String times) {
+		return dao.eventListDependsTime(times);
 	}
 }

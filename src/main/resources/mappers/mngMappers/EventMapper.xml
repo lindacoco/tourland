@@ -64,7 +64,28 @@
 	    </select>
 
 
-
+   <sql id="timeDepends">
+      <where>
+         <if test="times =='ingEvent'.toString()">
+            and startdate &lt;= now() and enddate &gt;= now()
+         </if>
+         <if test="times.equals('commingEvent'.toString())">
+            and startdate &gt; now() 
+         </if>
+         <if test="times.equals('expiredEvent'.toString())">
+            and enddate &lt; now() 
+         </if>
+      
+      </where>
+   </sql>
+<!-- 타임에 따른 이벤트 목록-->
+   <select id="eventListDependsTime" resultType="EventVO">
+      select * from event
+      <include refid="timeDepends"/>
+      order by no desc
+   </select>
+   
+   
 
 
 

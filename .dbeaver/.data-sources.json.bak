@@ -1,7 +1,7 @@
 {
 	"folders": {},
 	"connections": {
-		"mysql5-171bb78757e-5b6ebaa62c04fd4e": {
+		"mysql5-172088f6c36-19bd681d3685d44a": {
 			"provider": "mysql",
 			"driver": "mysql5",
 			"name": "MySQL - localhost",
@@ -12,39 +12,7 @@
 				"port": "3306",
 				"url": "jdbc:mysql://localhost:3306/",
 				"home": "C:\\Program Files\\MySQL\\MySQL Server 5.7",
-				"type": "dev"
-			}
-		},
-		"mysql5-171bb79a832-6b39a9507b46462e": {
-			"provider": "mysql",
-			"driver": "mysql5",
-			"name": "MySQL - tour",
-			"save-password": true,
-			"read-only": false,
-			"configuration": {
-				"host": "localhost",
-				"port": "3306",
-				"database": "tour",
-				"url": "jdbc:mysql://localhost:3306/tour",
-				"home": "C:\\Program Files\\MySQL\\MySQL Server 5.7",
-				"type": "dev"
-			}
-		},
-		"mysql5-17206c1a6fd-7bc187968ccaef03": {
-			"provider": "mysql",
-			"driver": "mysql5",
-			"name": "MySQL - test",
-			"save-password": true,
-			"show-system-objects": true,
-			"read-only": false,
-			"configuration": {
-				"host": "192.168.141.128",
-				"port": "3306",
-				"database": "test",
-				"url": "jdbc:mysql://192.168.141.128:3306/test",
-				"home": "C:\\Program Files\\MySQL\\MySQL Server 5.7",
 				"type": "dev",
-				"auth-model": "native",
 				"handlers": {}
 			}
 		}

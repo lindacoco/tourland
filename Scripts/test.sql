@@ -32,6 +32,12 @@ select  * from popup;
 delete from popup where position in ('R','L');
 -- 이벤트
 select * from event;
+-- 다가올 이벤트
+select * from event where startdate > now() ;
+-- 진행중인 이벤트
+select * from event where startdate <= now() and enddate >= now();
+-- 종료된 이벤트
+select * from event where enddate < now() ;
 delete from event where no in(1,2,4);
 
 
