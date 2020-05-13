@@ -714,16 +714,18 @@ public class ManagerController {
 		return "manager/product/productModify";
 	}
 	@RequestMapping(value = "productModify", method = RequestMethod.POST)
-	public String productModifyPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo, ProductVO vo, MultipartFile file, SearchCriteria cri,Model model) throws Exception {
+	public String productModifyPost(int[] airNo, int[] hotelNo, int[] tourNo, int[] rentcarNo, ProductVO vo, MultipartFile file, SearchCriteria cri,String originalPic,Model model) throws Exception {
 		int pno = vo.getPno();
 		ProductVO delProd = new ProductVO(pno);
 		productService.deleteProduct(delProd);
-		if (vo.getPic() != null) {
+		System.out.println(file.getSize());
+		System.out.println(vo.getPic());
+		if (file.getSize()>0 && vo.getPic()!=null) {
 			File pBig = new File(uploadPathProduct + vo.getPic());
-			pBig.delete();
+			if(pBig.exists()) pBig.delete();
 			String updatePath = vo.getPic().substring(0, 12) + "s_" + vo.getPic().substring(12);
 			File pSmall = new File(uploadPathProduct + updatePath);
-			pSmall.delete();
+			if(pSmall.exists()) pSmall.delete();
 		}
 		List<AirplaneVO> air = new ArrayList<>();
 		List<HotelVO> hotel = new ArrayList<>();
@@ -749,12 +751,17 @@ public class ManagerController {
 		vo.setHotel(hotel);
 		vo.setTour(tour);
 		vo.setRentcar(rentcar);
-		File filePath = new File("uploadPathProduct");
-		if(!filePath.exists()) filePath.mkdir();
-		String savedName = UploadFileUtils.uploadFile(uploadPathProduct, file.getOriginalFilename().replaceAll(" ", "_"),
-				file.getBytes());
-		String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
-		vo.setPic(bigSizePic.replaceAll(" ", "_"));
+		if(file.getSize()>0 && vo.getPic()==null) {
+			File filePath = new File("uploadPathProduct");
+			if(!filePath.exists()) filePath.mkdir();
+			String savedName = UploadFileUtils.uploadFile(uploadPathProduct, file.getOriginalFilename().replaceAll(" ", "_"),
+					file.getBytes());
+			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
+			vo.setPic(bigSizePic.replaceAll(" ", "_"));
+		}
+		else {
+			vo.setPic(originalPic);
+		}
 		productService.insertProduct(vo);
 		return "redirect:productDetail?no="+vo.getPno()+"&page="+cri.getPage()+"&searchType="+cri.getSearchType()+"&keyword="+cri.getKeyword();
 	}
