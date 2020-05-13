@@ -63,7 +63,7 @@
 						    <td>${eventList.no }</td>
 						    <td><img src="displayFile/event?filename=${eventList.pic }" style="width:95px; height:95px;" ></td>
 						    <td>${eventList.title }</td>
-						    <td>${eventList.content }</td>
+						    <td>상세보기에서 확인하세요</td>
 						    <td><fmt:formatDate value="${eventList.startdate}" pattern="yyyy-MM-dd"/></td>
 						    <td><fmt:formatDate value="${eventList.enddate}" pattern="yyyy-MM-dd"/></td>
 						    <td><button style="background:lightskyblue; border:none;" class="toEventDetail" data-click="${eventList.no }">상세보기</button></td>

@@ -12,7 +12,20 @@
 </style>
 <script>
 	$(function(){
-
+		CKEDITOR.replace('content');
+		CKEDITOR.config.width = '90em';
+		CKEDITOR.config.height = '50em';
+		$.fn.modal.Constructor.prototype.enforceFocus = function () {
+		    modal_this = this
+		    $(document).on('focusin.modal', function (e) {
+		        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+		        // add whatever conditions you need here:
+		        &&
+		        !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+		            modal_this.$element.focus()
+		        }
+		    })
+		};
 	})
 </script>
 <div class="content">
@@ -26,16 +39,25 @@
 					<div class="box-body">
 						<div class="form-group">
 							<label>이벤트 번호</label>
-							<input type="hidden" name ="pic" value="${eventVO.pic }">
-							<input type="text" name="no" class="form-control" value="${eventVO.no }" readonly="readonly">
+							<input type="hidden" name ="no" value="${eventVO.no}">
+							<input type="hidden" name ="pic" value="${eventVO.pic}">
+							<p>${eventVO.no }</p>
 						</div>
 						<div class="form-group">
 							<label>이벤트 타이틀</label>
-							<input type="text" name="title" class="form-control" value="${eventVO.title }">
+							<input type="text" name="title" class="form-control" value="${eventVO.title }" style="width:1080px;">
 						</div>
 						<div class="form-group">
 							<label>이벤트 설명(내용)</label>
-							<textarea rows="15" cols="30" placeholder="내용을 입력하세요" name="content" class="form-control" required="required">${eventVO.content}</textarea>
+						    <textarea name="content" rows="80" id="detail">${eventVO.content}</textarea>
+						</div>
+						<div class="form-group">
+							<label>시작 날짜</label>
+							<input type="date" name="startdate" class="form-control" style="width:200px;" value="<fmt:formatDate value='${eventVO.startdate}' pattern="yyyy-MM-dd"/>" required="required">
+						</div>
+						<div class="form-group">
+							<label>종료 날짜</label>
+							<input type="date" name="enddate" class="form-control" style="width:200px;" required="required" value="<fmt:formatDate value='${eventVO.enddate}' pattern="yyyy-MM-dd"/>">
 						</div>
 						<div class="form-group">
 							<label>저장된 사진</label>

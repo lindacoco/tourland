@@ -916,6 +916,7 @@ public class ManagerController {
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
 			pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
+		
 			map.put("list", rentList);
 			map.put("pageMaker", pageMaker);
 			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
@@ -1012,7 +1013,12 @@ public class ManagerController {
 		pageMaker.setTotalCount(rentcarService.totalSearchCountRentcar(cri));
 		
 	//	System.out.println(rentcarService.totalSearchCountRentcar(cri));
-
+		System.out.println("리스트 사이즈"+rentcarList.size());
+		for(RentcarVO rentcar: rentcarList) {
+			  System.out.println("렌트"+rentcar.getRentddate());
+			  System.out.println("리턴"+rentcar.getReturndate());
+			  
+		}
 		model.addAttribute("cri", cri);
 		model.addAttribute("list", rentcarList);
 		model.addAttribute("pageMaker", pageMaker);
@@ -1111,7 +1117,6 @@ public class ManagerController {
 	 
 	 @RequestMapping(value = "eventRegister", method = RequestMethod.POST)
 		public String eventRegisterPost(EventVO vo, MultipartFile eventPic, Model model) throws Exception {
-
 			String savedName = UploadFileUtils.uploadFile(uploadPathEvent, eventPic.getOriginalFilename().replaceAll(" ", "_"),
 					eventPic.getBytes());
 			String bigSizePic = savedName.substring(0, 12) + savedName.substring(14);
@@ -1132,7 +1137,7 @@ public class ManagerController {
 		
 		@RequestMapping(value = "eventUpdate", method = RequestMethod.POST)
 		public String eventUpdate(EventVO vo, MultipartFile eventPic, Model model) throws Exception {
-		
+		     System.out.println(vo);
 			if (eventPic.getBytes().length != 0) { // 새로 첨부한 파일이 있다면
 				// 원래 vo가 가진 pic의 네임으로 폴더에 저장된 사진들 지우기
 
