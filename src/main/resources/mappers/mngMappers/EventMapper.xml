@@ -66,13 +66,13 @@
 
    <sql id="timeDepends">
       <where>
-         <if test="times =='ingEvent'.toString()">
+         <if test="times =='ingEvent'">
             and startdate &lt;= now() and enddate &gt;= now()
          </if>
-         <if test="times.equals('commingEvent'.toString())">
+         <if test="times=='commingEvent'">
             and startdate &gt; now() 
          </if>
-         <if test="times.equals('expiredEvent'.toString())">
+         <if test="times=='expiredEvent'">
             and enddate &lt; now() 
          </if>
       
