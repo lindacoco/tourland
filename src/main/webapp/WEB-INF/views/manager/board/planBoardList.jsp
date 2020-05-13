@@ -71,8 +71,8 @@
 						<tr class="planBoardList" data-no="${planBoard.no}" data-respond="${planBoard.respond}">
 							<td>${planBoard.no}</td>
 							<td>${planBoard.title}</td>
-							<td>${faq.lcate eq 'D'?'국내패키지상품':faq.lcate eq 'I'?'해외패키지상품':faq.lcate eq 'R'?'상품 예약 및 결제':'회원혜택안내'}</td>
-							<td>${faq.mcate eq 'P'?'여행상품':faq.mcate eq 'V'?'여권 및 비자':faq.mcate eq 'T'?'환율':faq.mcate eq 'J'?'제주여행':faq.mcate eq 'B'?'예약 및 취소':faq.mcate eq 'R'?'결제 및 환불':faq.mcate eq 'C'?'쿠폰 및 이벤트':'기타'}</td>
+							<td>${planBoard.lcate eq 'D'?'국내패키지상품':planBoard.lcate eq 'I'?'해외패키지상품':planBoard.lcate eq 'R'?'상품 예약 및 결제':'회원혜택안내'}</td>
+							<td>${planBoard.mcate eq 'P'?'여행상품':planBoard.mcate eq 'V'?'여권 및 비자':planBoard.mcate eq 'T'?'환율':planBoard.mcate eq 'J'?'제주여행':planBoard.mcate eq 'B'?'예약 및 취소':planBoard.mcate eq 'R'?'결제 및 환불':planBoard.mcate eq 'C'?'쿠폰 및 이벤트':'기타'}</td>
 							<td>${planBoard.writer}</td>
 							<td><fmt:formatDate value="${planBoard.regdate}" pattern="yyyy-MM-dd"/></td>
 							<c:if test="${planBoard.answer==0}">

@@ -100,9 +100,10 @@ select * from user;
 select * from employee;
 
 select * from planboard;
+select * from hotel;
 
-insert into planboard(title, content, writer, regdate, lcate, mcate, answer)
-(select title, content, writer, regdate, lcate, mcate, answer from planboard);
+insert into planboard(title, content, writer, regdate, lcate, mcate, answer,respond)
+(select title, content, writer, regdate, lcate, mcate, answer,respond from planboard);
 
  select from user
  where userpass = password('test');
