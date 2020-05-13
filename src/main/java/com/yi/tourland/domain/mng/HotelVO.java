@@ -4,11 +4,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class HotelVO {
 	private int no; // 호텔번호 .기본키
 	private String hname; // 호텔이름
 	private String haddr; // 호텔의 주소
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkin; // 체크인날짜
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date checkout; // 체크아웃날짜
 	private int capacity; // 허용인원수
 	private int price; // 룸 가격

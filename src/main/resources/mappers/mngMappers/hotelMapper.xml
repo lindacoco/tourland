@@ -52,6 +52,10 @@
 				where bookedup = 1
 			</if>
 		</if>
+		<if test='searchType=="checkDate"'>
+	       where checkin =  #{keyword} and checkout = #{keyword2}
+	     </if>
+		
 	</sql>
 	
 	<select id="listSearchHotel" resultType="HotelVO">

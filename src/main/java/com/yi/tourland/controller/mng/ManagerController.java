@@ -1986,17 +1986,10 @@ public class ManagerController {
 		
 		//결제 관리
 		
-//		@RequestMapping(value = "paymentList", method = RequestMethod.GET)
-//		public String paymentList(SearchCriteria cri, Model model) throws Exception {
-//			List<> list = planBoardService.listSearchCriteriaPlanBoard(cri);
-//			PageMaker pageMaker = new PageMaker();
-//			pageMaker.setCri(cri);
-//			pageMaker.setTotalCount(planBoardService.totalSearchCountPlanBoard(cri) < 10 ? 10 : planBoardService.totalSearchCountPlanBoard(cri));
-//			model.addAttribute("list", list);
-//			model.addAttribute("pageMaker", pageMaker);
-//			model.addAttribute("cri", cri);
-//			return "/manager/board/planBoardList";
-//		}
-		
+		@RequestMapping(value = "paymentList", method = RequestMethod.GET)
+		public String paymentList(SearchCriteria cri, Model model) throws Exception {
+			return "/manager/payment/paymentList";
+		}
 
+	
 }

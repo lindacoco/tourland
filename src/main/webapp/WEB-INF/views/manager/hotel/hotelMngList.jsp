@@ -35,6 +35,13 @@
 					<button id="btnRegister">호텔상품 추가</button>
 				</div>
 				<div class="box-body">
+			<p id="datePick">
+				<span><i class="far fa-calendar-alt"></i> 체크인 </span> 
+				<span class="picker"><input type="date" class="datepicker" name="checkin" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+				<span><i class="far fa-calendar-alt"></i> ~  체크아웃 </span> 
+				<span class="picker"><input type="date" class="datepicker" name="checkout" placeholder="날짜를 선택하려면 클릭." style="height:30px;"></span>
+				<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
+			</p>
 					<table class="table table-bordered" id="listTable">
 						<tr>
 							<th>번호</th>
@@ -114,6 +121,12 @@
 	</div>
 </div>
 <script>
+$("i.fas.fa-search").click(function(){
+	var checkin = $("input[name='checkin']").val();
+	var checkout = $("input[name='checkout']").val();
+	location.href = "${pageContext.request.contextPath}/hotelMngList?searchType=checkDate"+"&keyword="+checkin+"&keyword2="+checkout;
+ })
+ 
 var keywordChange = function() {
 	
 	var searchType = "${cri.searchType}";

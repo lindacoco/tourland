@@ -38,7 +38,8 @@ select * from event where startdate > now() ;
 select * from event where startdate <= now() and enddate >= now();
 -- 종료된 이벤트
 select * from event where enddate < now() ;
-delete from event where no in(3);
+delete from event ;
+
 insert into event (no,title,content,pic,startdate,enddate ) values
 (6,	'이벤트1','이벤트1','/2020/05/13/89d3198a-d27f-4a83-8a80-48b4e4c8e714_ddddd.jpg','2020-05-10','2020-06-19'),
 (7,	'이벤트2','이벤트2','/2020/05/13/a6a92948-ea66-46a6-8236-6b6120191d2f_주석_2020-05-04_144946.jpg','2020-05-10','2020-06-19'),
@@ -195,6 +196,7 @@ select * from user;
 select * from employee;
 
 select * from planboard;
+
 select * from hotel;
 
 insert into planboard(title, content, writer, regdate, lcate, mcate, answer,respond)
@@ -207,11 +209,11 @@ select count(no)
 from planboard;
 
 insert into planboard(title, content, writer, regdate, lcate, mcate, answer) values
- ('test','test','test',now(),'D','P',0);
+('test','test','test',now(),'D','P',0);
 
-       update planboard  set 
-       title ='test11', content='test11', respond='답변'
-       where no=6;
+update planboard  set 
+title ='test11', content='test11', respond='답변'
+where no=6;
 
 select p.pno,p.pname,p.content
 

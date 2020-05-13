@@ -90,4 +90,14 @@ public class UserDAOImpl implements UserDAO{
 		return sqlSession.selectOne(namespace+"readByIdUser",userid);
 	}
 
+	@Override
+	public List<UserVO> listSearchCriteriaPaymentUser(SearchCriteria cri) throws Exception {
+		return sqlSession.selectList(namespace+"listSearchCriteriaPaymentUser",cri);
+	}
+
+	@Override
+	public int totalSearchCountPaymentUser(SearchCriteria cri) throws Exception {
+		return sqlSession.selectOne(namespace+"totalSearchCountPaymentUser",cri);
+	}
+
 }
