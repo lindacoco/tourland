@@ -3,11 +3,11 @@
 <%@ include file="../../include/header.jsp"%>
 <style>
   #previewDiv{
-    height: 500px;
+    height: 350px;
   }
   .previewImg{
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
   }
     [type="date"] {
 	background: #fff
@@ -24,7 +24,20 @@
 </style>
 <script>
 	$(function(){
-
+		CKEDITOR.replace('content');
+		CKEDITOR.config.width = '90em';
+		CKEDITOR.config.height = '50em';
+		$.fn.modal.Constructor.prototype.enforceFocus = function () {
+		    modal_this = this
+		    $(document).on('focusin.modal', function (e) {
+		        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
+		        // add whatever conditions you need here:
+		        &&
+		        !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
+		            modal_this.$element.focus()
+		        }
+		    })
+		};
 	})
 </script>
 <div class="content">
@@ -43,22 +56,23 @@
 						</div>
 						<div class="form-group">
 							<label>이벤트 타이틀</label>
-							<input type="text" name="title" class="form-control" style="width:70%;">
+							<input type="text" name="title" class="form-control" style="width:1080px;">
 						</div>
+							<!-- ckeditor -->
 						<div class="form-group">
 							<label>이벤트 내용</label>
-							<textarea rows="15" cols="30" placeholder="내용을 입력하세요" name="content" class="form-control" required="required" style="width:70%;"></textarea>
+						    <textarea name="content" rows="80" id="detail"></textarea>
 						</div>
 						<div class="form-group">
 							<label>시작 날짜</label>
-							<input type="date" name="startdate" class="form-control" style="width:200px;">
+							<input type="date" name="startdate" class="form-control" style="width:200px;" required="required">
 						</div>
 						<div class="form-group">
 							<label>종료 날짜</label>
-							<input type="date" name="enddate" class="form-control" style="width:200px;">
+							<input type="date" name="enddate" class="form-control" style="width:200px;" required="required">
 						</div>
 						<div class="form-group">
-							<label>사진</label>
+							<label>메인 사진</label>
 							<input type="file" name="eventPic" id="file" required="required">
 						</div>
 						<div class="form-group" id="previewDiv">

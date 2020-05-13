@@ -242,20 +242,17 @@ public class CustomerController {
 			model.addAttribute("eventList",list);
 			aaaaa= "inging";
 			model.addAttribute("mistyrose",aaaaa);
-			System.out.println(list);
 		}
 		if(times.equals("commingEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
 			model.addAttribute("eventList",list);
 			aaaaa= "comecome";
 			model.addAttribute("mistyrose",aaaaa);
-			System.out.println(list);
 		}
 		if(times.equals("expiredEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
 			aaaaa= "donedone";
 			model.addAttribute("mistyrose",aaaaa);
-			model.addAttribute("eventList",list);
 		}
 		
 		

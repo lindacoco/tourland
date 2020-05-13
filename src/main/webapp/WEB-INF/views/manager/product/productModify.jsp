@@ -153,7 +153,7 @@ body {
 									<th>장소구분</th>
 									<th>예약 가능 여부</th>  
 								</tr>
-								<c:forEach var="hotel" items="${vo.hotel}" begin="0" end="0">
+								<c:forEach var="hotel" items="${vo.hotel}">
 									<tr class="hotelList">
 										<td>${hotel.no}<input type="hidden" name="hotelNo" value="${hotel.no}"></td>
 										<td>${hotel.hname }</td>
@@ -307,7 +307,8 @@ body {
 									type="file" class="form-control" id="file" name="file">
 								<div id="preview" style="display : inline;">
 									<c:if test="${vo.pic!=null}">
-										<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;"> 
+										<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;">
+										<input type="hidden" name="originalPic" value="${vo.pic}">
 									</c:if>
 								</div>
 							</div>
@@ -335,11 +336,10 @@ body {
 					<div class="box box-primary">
 						<div class="box-body">
 							<select name="searchType" id="searchType">
-								<option value="n">-----</option>
+								<option value="n">선택하세요</option>
 								<option value="no">번호</option>
 								<option value="ano">항공기 번호</option>
-								<option value="dloca">출발 지역</option>
-								<option value="ddate">출발 일시</option>
+								<option value="rloca">도착 지역</option>
 							</select> <input type="text" name="keyword" id="keywordInput">
 							<button id="btnSearch">Search</button>
 						</div>
@@ -424,16 +424,6 @@ body {
 				<div class="modal-body">
 					<div class="box box-primary">
 						<div class="box-body">
-							<select name="searchType" id="searchType">
-								<option value="n">-----</option>
-								<option value="no">번호</option>
-								<option value="ano">항공기 번호</option>
-								<option value="rloca">도착 지역</option>
-								<option value="rdate">도착 일시</option>
-							</select> <input type="text" name="keyword" id="keywordInput">
-							<button id="btnSearch">Search</button>
-						</div>
-						<div class="box-body">
 							<table class="table table-bordered" id="table">
 								<tr>
 									<th>번호</th>
@@ -475,24 +465,6 @@ body {
 									</tr>
 								</c:forEach>   
 							</table>
-						</div>
-						<div class="box-footer">
-							<div class="text-center">
-								<ul class="pagination">
-									<c:if test="${pageMakerByFlightRending.prev == true }">
-										<li><a id="prev">&laquo;</a></li>
-									</c:if>
-									<c:forEach begin="${pageMakerByFlightRending.startPage }"
-										end="${pageMakerByFlightRending.endPage }" var="idx">
-										<li
-											class="${pageMakerByFlightRending.cri.page == idx ?'active':''}"><a
-											class="index" data-index="${idx }">${idx }</a></li>
-									</c:forEach>
-									<c:if test="${pageMakerByFlightRending.next == true }">
-										<li><a id="next">&raquo;</a></li>
-									</c:if>
-								</ul>
-							</div>
 						</div>
 					</div>
 				</div>

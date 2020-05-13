@@ -39,6 +39,7 @@ public class ProductService {
 			dao.insertpTourStatus(pvo, tvo);
 		}
 		for(RentcarVO rvo : pvo.getRentcar()) {
+			System.out.println(rvo.getNo());
 			dao.insertpRentcarStatus(pvo, rvo);
 		}	
 	}

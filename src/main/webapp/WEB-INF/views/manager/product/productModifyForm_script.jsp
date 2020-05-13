@@ -98,7 +98,7 @@
 		var iDate = new Date(res.vo.checkin);
 		var oDate = new Date(res.vo.checkout);
 		var dateDiff = oDate.getDate() - iDate.getDate();
-		price += Number(res.vo.price * dateDiff);
+		price += Number(res.vo.price * dateDiff * res.vo.roomcapacity);
 		$("#price").val(price);
 	}
 	var getTourData = function(res) {
