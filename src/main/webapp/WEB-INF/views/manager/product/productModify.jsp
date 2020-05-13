@@ -307,7 +307,8 @@ body {
 									type="file" class="form-control" id="file" name="file">
 								<div id="preview" style="display : inline;">
 									<c:if test="${vo.pic!=null}">
-										<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;"> 
+										<img src="displayFile/productSmall?filename=${vo.pic}" style="margin : 10px;">
+										<input type="hidden" value="${vo.pic}" name="file"> 
 									</c:if>
 								</div>
 							</div>
