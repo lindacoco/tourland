@@ -239,7 +239,6 @@ public class CustomerController {
 				
 		if(times.equals("ingEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
-			System.out.println(list);
 			model.addAttribute("eventList",list);
 			aaaaa= "inging";
 			model.addAttribute("mistyrose",aaaaa);

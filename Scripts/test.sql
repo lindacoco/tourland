@@ -31,15 +31,18 @@ select  count(no) from banner ;
 select  * from popup;
 delete from popup where position in ('R','L');
 -- 이벤트
-select * from event;
+select * from event order by no desc;
 -- 다가올 이벤트
 select * from event where startdate > now() ;
 -- 진행중인 이벤트
 select * from event where startdate <= now() and enddate >= now();
 -- 종료된 이벤트
 select * from event where enddate < now() ;
-delete from event where no in(1,2,4);
-
+delete from event where no in(3);
+insert into event (no,title,content,pic,startdate,enddate ) values
+(6,	'이벤트1','이벤트1','/2020/05/13/89d3198a-d27f-4a83-8a80-48b4e4c8e714_ddddd.jpg','2020-05-10','2020-06-19'),
+(7,	'이벤트2','이벤트2','/2020/05/13/a6a92948-ea66-46a6-8236-6b6120191d2f_주석_2020-05-04_144946.jpg','2020-05-10','2020-06-19'),
+(8,	'이벤트3','이벤트3','/2020/05/13/055bc95a-75b2-4489-96bc-5afc2285cd1e_dafadfasdf.jpg','2020-05-10','2020-06-19');
 
 -- 고객의 소리
 insert into custboard values
