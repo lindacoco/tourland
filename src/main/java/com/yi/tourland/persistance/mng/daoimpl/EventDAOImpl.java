@@ -68,7 +68,6 @@ public class EventDAOImpl implements EventDAO {
 		
 		  Map<String, String> map= new HashMap<String, String>();
 		  map.put("times",times);
-		  System.out.println(map);
 		 
 		return sqlSession.selectList(namespace+"eventListDependsTime",map);
 	}

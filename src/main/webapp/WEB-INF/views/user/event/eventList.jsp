@@ -60,7 +60,7 @@
 			<div id="eventMainDiv"> 
 				<c:forEach var="eventList" items="${eventList }">
 				<div class="eventBox" data-click="1">
-					<img src="${pageContext.request.contextPath}/resources/images/event${eventList.pic }" class="eventImgs">
+					<img src="displayFile/event?filename=${eventList.pic }" class="eventImgs">
 					<p>${eventList.title }</p>
 			    </div>
 			    </c:forEach>
