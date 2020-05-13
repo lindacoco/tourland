@@ -30,21 +30,7 @@
 			var keyword = "${cri.keyword}";
 			location.href = "planBoardList?page="+page+"&searchType="+searchType+"&searchType2="+searchType2+"&keyword="+keyword;
 		})
-		
-/*  		function pageReturn(){
-			var no = ${vo.no};
-			var respond = ${vo.respond};
-			$.ajax({
-				url : "${pageContext.request.contextPath}/planBoardModifyApi?no="+no,
-				type : "get",
-				dataType : "json",
-				success:function(res){
-					console.log(res);
-					
-				}
-			})
-		}  */
-		
+
 		$(document).on("click","#btnModSave",function(){
 			var text = $(this).parent().prev().find("#text").val();
 			var json = {"respondText":text};
@@ -56,10 +42,8 @@
 				dataType:"text",
 				success:function(res){
 					console.log(res);
-					
+					$("#respond").val(text);
 					$("#modifyModal").modal("hide"); 
-					//$('#modifyModal .modal-backdrop').remove();
-					//$(".modal-backdrop").remove();
 					$("#modifyModal .close").click();
 					alert("수정을 완료했습니다.");
 					
