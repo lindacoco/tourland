@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <style>
 	/* FOOTER */								      
-	footer div#footerList { background: gray; height: 50px; }
+	footer div#footerList { background: gray; height: 50px; clear:both;}
 	#footerList ul { width: 600px; margin: 0 auto; }
 	#footerList ul li { width: 25%; list-style: none; float: left;text-align: center;  }	
 	#footerList ul li a{ line-height: 50px;}

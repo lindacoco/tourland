@@ -102,7 +102,8 @@
 	</select>	
 	<select id="airplaneListByDepature" resultType="AirplaneVO">
 		select * from airplane where dlocation = 'ICN'
-		<include refid="searchDiv"/>
+		<include refid="searchDiv"/> 
+		order by no desc
 		limit #{pageStart}, #{perPageNum}
 	</select>
 	<select id="airplaneListByRending" resultType="AirplaneVO">
