@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -1942,16 +1943,14 @@ public class ManagerController {
 		
 		@ResponseBody
 		@RequestMapping(value = "planBoardModifyApi", produces = "application/text; charset=utf8", method = RequestMethod.GET)
-		public ResponseEntity<String> planBoardModifyAjax(PlanBoardVO vo, SearchCriteria cri, Model model,int no, String respond, String respondText) throws Exception {
+		public ResponseEntity<String> planBoardModifyAjax(PlanBoardVO vo, SearchCriteria cri, Model model,int no, String respondText) throws Exception {
 			ResponseEntity<String> entity = null;
-			System.out.println(respondText);
-			System.out.println(no);
 			try {
 				vo = planBoardService.readByNoPlanBoard(no);
 				vo.setRespond(respondText);
 				vo.setAnswer(1);
 				planBoardService.updatePlanBoard(vo);
-				entity = new ResponseEntity<String>(respondText, HttpStatus.OK);
+				entity = new ResponseEntity<String>(respondText, HttpStatus.OK);  
 				
 			}catch (Exception e) {
 				e.printStackTrace();
@@ -1959,7 +1958,7 @@ public class ManagerController {
 			}
 			model.addAttribute("vo", vo);
 			model.addAttribute("cri", cri);
-			model.addAttribute("return", respondText);
+			model.addAttribute("entity", entity);
 			return entity;
 		}
 		
@@ -1967,10 +1966,25 @@ public class ManagerController {
 		public String planBoardDelete(PlanBoardVO vo, SearchCriteria cri, Model model,int no) throws Exception {
 			vo=planBoardService.readByNoPlanBoard(no);
 			planBoardService.deletePlanBoard(vo);
-			return "redirect:planBoardDetail?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&searchType2="
+			return "redirect:planBoardList?page=" + cri.getPage() + "&searchType=" + cri.getSearchType() + "&searchType2="
 					+ cri.getSearchType2() + "&keyword=" + cri.getKeyword();
 		}
 
-		// 장바구니
+		
+		
+		//결제 관리
+		
+//		@RequestMapping(value = "paymentList", method = RequestMethod.GET)
+//		public String paymentList(SearchCriteria cri, Model model) throws Exception {
+//			List<> list = planBoardService.listSearchCriteriaPlanBoard(cri);
+//			PageMaker pageMaker = new PageMaker();
+//			pageMaker.setCri(cri);
+//			pageMaker.setTotalCount(planBoardService.totalSearchCountPlanBoard(cri) < 10 ? 10 : planBoardService.totalSearchCountPlanBoard(cri));
+//			model.addAttribute("list", list);
+//			model.addAttribute("pageMaker", pageMaker);
+//			model.addAttribute("cri", cri);
+//			return "/manager/board/planBoardList";
+//		}
+		
 
 }

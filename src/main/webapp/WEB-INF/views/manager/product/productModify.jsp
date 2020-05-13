@@ -515,11 +515,10 @@ body {
 					<div class="box box-primary">
 						<div class="box-body">
 							<select name="searchType" id="searchType">
-								<option value="total"
-									${cri.searchType == 'null'? 'selected':'' }>전체</option>
-								<option value="n" ${cri.searchType == 'n'? 'selected':'' }>호텔이름</option>
-								<option value="a" ${cri.searchType == 'a'? 'selected':'' }>호텔주소</option>
-								<option value="b" ${cri.searchType == 'b'? 'selected':'' }>객실체크여부</option>
+								<option value="total" ${cri.searchType == 'total'? 'selected':'' }>전체</option>
+								<option value="hname" ${cri.searchType == 'hname'? 'selected':'' }>호텔이름</option>
+								<option value="haddr" ${cri.searchType == 'haddr'? 'selected':'' }>호텔주소</option>
+								<option value="bookedup" ${cri.searchType == 'bookedup'? 'selected':'' }>객실체크여부</option>
 							</select> <input type="text" name="keyword" id="keywordInput"
 								value="${cri.keyword}">
 							<button id="btnSearch">검색</button>

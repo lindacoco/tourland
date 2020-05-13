@@ -127,6 +127,7 @@ insert into planboard(title, content, writer, regdate, lcate, mcate, answer) val
        title ='test11', content='test11', respond='답변'
        where no=6;
 
+select p.pno,p.pname,p.content
 
 -- 하나 --------------------------------------------------------------------------------------------
 
