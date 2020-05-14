@@ -67,13 +67,13 @@ import com.yi.tourland.util.UploadFileUtils;
 
 @Controller
 public class ManagerController {
-	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함 private String
+	@Resource(name = "uploadPathBanner") // 서블릿컨텍스트의 id값과 일치해야함 private String
 	private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
 	 
-	@Resource(name = "uploadPath2") 
+	@Resource(name = "uploadPathPopup") 
 	private String uploadPathPopup;
 	 
-	@Resource(name ="uploadPath3") 
+	@Resource(name ="uploadPathEvent") 
 	private String uploadPathEvent;
 	 
 	@Resource(name = "uploadPathProduct")
