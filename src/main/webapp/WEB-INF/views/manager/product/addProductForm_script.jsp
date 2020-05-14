@@ -43,13 +43,13 @@
 		var td6 = $("<td>").html(rdateStr);
 		var ldiv = res.vo.ldiv==0?'해외':'국내';
 		var td7 = $("<td>").html(ldiv);
-		var td8 = $("<td>").html(res.vo.capacity);
+		var td8 = $("<td id='acapacity' data-capacity='"+res.vo.capacity+"'>").html(res.vo.capacity);
 		var td9 = res.vo.seat=='F'?
 				$("<td id='first'>").html('First-Class') :
 					res.vo.seat=='B'?
 				$("<td id='bus'>").html('Business-Class') :
 					$("<td id='eco'>").html('economy');
-		var td10 = $("<td>").html(res.vo.price);
+		var td10 = $("<td id='aprice' data-price='"+res.vo.price+"'>").html(res.vo.price);
 		var tr = $("<tr class='flightList'>")
 					.append(td1).append(td2)
 					.append(td3).append(td4)
@@ -57,21 +57,26 @@
 					.append(td7).append(td8)
 					.append(td9).append(td10);
 		$("#airTable").append(tr);
-		price += Number(res.vo.price);
+		price += Number(res.vo.price * res.vo.capacity);
 		$("#price").val(price);
 	}
 	var getHotelData = function(res) {
+		var iDate = new Date(res.vo.checkin);
+		var oDate = new Date(res.vo.checkout);
+		var newDate = new Date();
+		newDate.setDate(oDate.getDate()-iDate.getDate());
+		var dateDiff = newDate.getDate();
 		var no = $("<input type='hidden' name='hotelNo'>").val(res.vo.no);
-		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td1 = $("<td id='dateDiff' data-dateDiff='"+dateDiff+"'>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.hname);
 		var td3 = $("<td>").html(res.vo.haddr);
 		var checkinStr = makeDateStr(res.vo.checkin);
 		var checkoutStr = makeDateStr(res.vo.checkout);
 		var td4 = $("<td>").html(checkinStr);
 		var td5 = $("<td>").html(checkoutStr);
-		var td6 = $("<td>").html(res.vo.capacity + "인");
-		var td7 = $("<td>").html(res.vo.price);
-		var td8 = $("<td>").html(res.vo.roomcapacity + "실");
+		var td6 = $("<td id='hcapacity' data-capacity='"+res.vo.capacity+"'>").html(res.vo.capacity + "인");
+		var td7 = $("<td id='hprice' data-price='"+res.vo.price+"'>").html(res.vo.price);
+		var td8 = $("<td id='hrcapacity' data-roomcapacity='"+res.vo.roomcapacity+"'>").html(res.vo.roomcapacity + "실");
 		var td9;
 		switch(res.vo.roomtype) {
 		case "N":
@@ -89,12 +94,7 @@
 		var td11 = $("<td>").append(span);
 		var tr = $("<tr class='hotelList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10).append(td11);
 		$("#hotelTable").append(tr);
-		var iDate = new Date(res.vo.checkin);
-		var oDate = new Date(res.vo.checkout);
-		var newDate = new Date();
-		newDate.setDate(oDate.getDate()-iDate.getDate());
-		var dateDiff = newDate.getDate();
-		price += Number(res.vo.price * dateDiff * res.vo.roomcapacity);
+		price += Number(res.vo.price * dateDiff * res.vo.roomcapacity * res.vo.capacity);
 		$("#price").val(price);
 	}
 	var getTourData = function(res) {
@@ -109,12 +109,13 @@
 		var td5 = $("<td>").html(endDateStr);
 		var td6 = $("<td>").html(res.vo.taddr);
 		var td7 = $("<td>").html(etimeStr);
-		var td8 = $("<td>").html(res.vo.capacity);
-		var td9 = $("<td>").html(res.vo.tprice);
+		var td8 = $("<td id='tcapacity' data-capacity='"+res.vo.capacity+"'>").html(res.vo.capacity);
+		var td9 = $("<td id='tprice' data-price='"+res.vo.tprice+"'>").html(res.vo.tprice);
 		var td10 = res.vo.ldiv==0?$("<td>").html("해외"):$("<td>").html("국내");
 		var tr = $("<tr class='tourList'>").append(td1).append(td2).append(td3).append(td4).append(td5).append(td6).append(td7).append(td8).append(td9).append(td10);
 		$("#tourTable").append(tr);
-		price += Number(res.vo.tprice);
+		price += Number(res.vo.tprice * res.vo.capacity);
+		$("#price").val(price);
 	}
 	var getRentData = function(res) {
 		var no = $("<input type='hidden' name='rentcarNo'>").val(res.vo.no);
@@ -127,7 +128,7 @@
 		var td5 = $("<td>").html(returnDate);
 		var td6 = $("<td>").html(res.vo.rentaddr);
 		var td7 = $("<td>").html(res.vo.returnaddr);
-		var td8 = $("<td>").html(res.vo.price);
+		var td8 = $("<td id='rprice' data-price='"+res.vo.price+"'>").html(res.vo.price);
 		var td9 = $("<td>").html(res.vo.capacity);
 		var td10 = $("<td>").html(res.vo.insurance);
 		var ldiv = res.vo.ldiv==0?'해외':'국내';
@@ -780,16 +781,41 @@
 			$("#detail").modal("show");
 		})
 		$(document).on("click","#airTable .flightList",function(){
-			if(confirm("삭제하시겠습니까?")) $(this).remove();
+			if(confirm("삭제하시겠습니까?")) {
+				var acapacity = Number($(this).find("#acapacity").attr("data-capacity"));
+				var aprice = Number($(this).find("#aprice").attr("data-price"));
+				price -= (acapacity * aprice);
+				$("#price").val(price);
+				$(this).remove();	
+			}
 		})
 		$(document).on("click","#hotelTable .hotelList",function(){
-			if(confirm("삭제하시겠습니까?")) $(this).remove();
+			if(confirm("삭제하시겠습니까?")) {
+				var hcapacity = Number($(this).find("#hcapacity").attr("data-capacity"));
+				var hprice = Number($(this).find("#hprice").attr("data-price"));
+				var hrcapacity = Number($(this).find("#hrcapacity").attr("data-roomcapacity"));
+				var dateDiff = Number($(this).find("#dateDiff").attr("data-dateDiff"));
+				price -= (hcapacity * hprice * hrcapacity * dateDiff);
+				$("#price").val(price);
+				$(this).remove();
+			}
 		})
 		$(document).on("click","#tourTable .tourList",function(){
-			if(confirm("삭제하시겠습니까?")) $(this).remove();
+			if(confirm("삭제하시겠습니까?")) {
+				var tcapacity = Number($(this).find("#tcapacity").attr("data-capacity"));
+				var tprice = Number($(this).find("#tprice").attr("data-price"));
+				price -= (tcapacity * tprice);
+				$("#price").val(price);
+				$(this).remove();
+			}
 		})
 		$(document).on("click","#rentTable .rentcarList",function(){
-			if(confirm("삭제하시겠습니까?")) $(this).remove();
+			if(confirm("삭제하시겠습니까?")) {
+				var rprice = Number($(this).find("#rprice").attr("data-price"));
+				price -= rprice;
+				$("#price").val(price);
+				$(this).remove();
+			}
 		})
 		//ckeditor
 		CKEDITOR.replace('pcontent');

@@ -60,6 +60,44 @@ FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
 IGNORE 1 lines;
+
+#상품 테이블 CSV 테스트용(연결 테이블 까지 포함)
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/product.csv'  
+INTO TABLE product
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
+
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/pairstatus.csv'  
+INTO TABLE pairstatus
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
+
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/photelstatus.csv'  
+INTO TABLE photelstatus
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
+
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/ptourstatus.csv'  
+INTO TABLE ptourstatus
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
+
+LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/prentstatus.csv'  
+INTO TABLE prentstatus
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 lines;
+#여기까지
+
 -- 태원 ---------------------------------------------------------------------------------------------------
 
 -- 호텔
