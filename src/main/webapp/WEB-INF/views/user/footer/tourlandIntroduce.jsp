@@ -5,10 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="../../include/userHeader.jsp"%>
 </head>
 <style>    
 	/* 본문 */
-	section { width: 1200px; height: 800px; margin: 0 auto;}
+	section#introSection { width: 1200px; height: 1000px; margin: 0 auto;}
 	section nav { width: 200px; 
 				  background: #f4f4f4;
 				  height: 100%;
@@ -20,7 +21,7 @@
 						  line-height: 30px; }
 	section nav ul li:hover { background: #ff7f00; }						  				  	
 	
-	section div#myreserv { width:1000px; height: 100%; 
+	section div#myreserv { width:1000px; height: 1000px; 
 							  margin-left: 200px;
 							 }
 	div#mapHeaderWrap {   margin-bottom: 50px; }							 							 	
@@ -49,32 +50,42 @@
 	.yel { color: goldenrod; }	
 	
 	
-	section nav ul li:last-child {
+	section nav ul li:nth-child(1) {
 	 background: mistyrose;
-}	    
+   }	    
+    #introBox{
+      margin-left:40px;
+      width:100%;
+      height: 100%; text-align: center;
+    }
+    #introBox ul{
+      margin-bottom: 20px;
+    } 
+   #introBox ul li{
+      margin-left:35px;
+      display: list-item;
+   }
+   span.needBlank{
+      margin-left:15px;
+   }
 </style>
 <body>   
-	<%@ include file="../../include/userHeader.jsp"%>
-		<section>
+	
+		<section id="introSection">
 		<%@ include file="../../include/userFooterMenu.jsp"%>   
 				<div id="myreserv">
 					<div id="mapHeaderWrap">
-						<h1>찾아오시는 길</h1>
-						<span id="info">투어랜드로 오시는 길</span>
+						<h1>회사소개</h1>
+						<span id="info">투어랜드를 소개합니다.</span>
 					</div>
-					<div id="mapImgBox">
-						<img src="${pageContext.request.contextPath}/resources/images/tourlandBuilding.jpg">
-					</div>
-					<div id="mapInfoBox">
-						<p id="mapTitle"><i class="fas fa-map-marker-alt"></i>대구 본점</p>
-						<p id="mapAddr">대구시 달서구 서구 222</p>
-						
-					<div id="mapBtnBox">
-						<a href="https://www.google.com/maps/place/(%EC%A3%BC)%EC%98%81%EB%82%A8%EC%9D%B8%EC%9E%AC%EA%B5%90%EC%9C%A1%EC%9B%90/@35.8605453,128.5549223,17z/data=!3m1!4b1!4m5!3m4!1s0x3565e462e0b47b7d:0x2479044e92eb2993!8m2!3d35.860541!4d128.557111"><span class="blue">G</span><span class="red">o</span><span class="yel">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span> 지도 보기</a>
-					</div>
+					<div id="introBox">
+					   <img src="${pageContext.request.contextPath }/resources/images/introductionpage.jpg">
+					   <p style="margin-top:30px;">투어랜드는 고객님과의 관계를 가장 최우선으로 생각합니다.</p>
+					   <p>고객님들의 여행이 최고의 기억으로 남을 수 있도록 최선을 다하겠습니다.</p>
+					   <p>궁금한 점이 있으시면 365일 24시간 운영하는 투어랜드 고객센터로 문의주세요.</p>
 					</div>
 				</div>
-		
+		     
 		</section>
 		
 		<%@ include file="../../include/userFooter.jsp"%>

@@ -59,8 +59,8 @@
 			<p class="event3" id="donedone">종료된 이벤트</p>
 			<div id="eventMainDiv"> 
 				<c:forEach var="eventList" items="${eventList }">
-				<div class="eventBox" data-click="1">
-					<img src="displayFile/event?filename=${eventList.pic }" class="eventImgs">
+				<div class="eventBox" data-click="${eventList.no }">
+					<img src="${pageContext.request.contextPath}/displayFile/event?filename=${eventList.pic}" class="eventImgs">
 					<p>${eventList.title }</p>
 			    </div>
 			    </c:forEach>
@@ -101,6 +101,12 @@
 	 //지난 이벤트 
 	 $(".event3").eq(2).click(function(){
 		 location.href="${pageContext.request.contextPath}/tourlandEventList/expiredEvent";
+	  })
+	  
+	  //각각의 이벤트를 클릭할 때 상세페이지로 이동
+	  $(".eventBox").click(function(){
+		  var no = $(this).attr("data-click");
+		  location.href="${pageContext.request.contextPath}/eventDetailPage?no="+no;
 	  })
 	})
 </script>   

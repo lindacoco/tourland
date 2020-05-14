@@ -241,14 +241,16 @@
 					}
 				});
 	}
-	var hotelAjax = function(page,searchType,keyword) {
+	var hotelAjax = function(page,searchType,keyword,keyword2,keyword3) {
 		$.ajax({
 			url : "hotelList",
 			type : "get",
 			data : {
 				page : page,
 				searchType : searchType,
-				keyword : keyword
+				keyword : keyword,
+				keyword2 : keyword2,
+				keyword3 : keyword3
 			},
 			dataType : "json",
 			success : function(res) { // 결과 성공 콜백함수
@@ -543,65 +545,17 @@
 					keyword = $("#flightDepature #keywordInput").val();
 					airAjax(div, page, searchType, keyword);
 				})
-		//항공편 도착 다이얼로그
-		$(document).on("click", "#flightRending .index", function() {
-			div = "Rending";
-			page = $(this).attr("data-index");
-			searchType = $("#flightRending #searchType option:selected").val();
-			keyword = $("#flightRending #keywordInput").val();
-			airAjax(div, page, searchType, keyword);
-		})
-		$(document)
-				.on(
-						"click",
-						"#flightRending #prev",
-						function() {
-							div = "Rending";
-							page = Number($("#flightRending .index").eq(0)
-									.attr("data-index")) - 1;
-							searchType = $(
-									"#flightRending #searchType option:selected")
-									.val();
-							keyword = $("#flightRending #keywordInput").val();
-							airAjax(div, page, searchType, keyword);
-						})
-		$(document)
-				.on(
-						"click",
-						"#flightRending #next",
-						function() {
-							div = "Rending";
-							page = Number($("#flightRending .index").eq(9)
-									.attr("data-index")) + 1;
-							searchType = $(
-									"#flightRending #searchType option:selected")
-									.val();
-							keyword = $("#flightRending #keywordInput").val();
-							airAjax(div, page, searchType, keyword);
-						})
 		$(document).on("click", "#flightRending .flightList", function() {
 			var no = $(this).attr("data-no");
 			var div = "Rending";
 			clickAir(no, div);
 		})
-		$("#flightRending #btnSearch")
-				.click(
-						function() {
-							div = "Depature";
-							page = $("#flightRending .pagination").find(
-									".active a").attr("data-index");
-							searchType = $(
-									"#flightRending #searchType option:selected")
-									.val();
-							keyword = $("#flightRending #keywordInput").val();
-							airAjax(div, page, searchType, keyword);
-						})
 		//호텔 다이얼로그
 		$(document).on("click", "#hotel .index", function() {
 			page = $(this).attr("data-index");
 			searchType = $("#hotel #searchType option:selected").val();
 			keyword = $("#hotel #keywordInput").val();
-			hotelAjax(page, searchType, keyword);
+			hotelAjax(page, searchType, keyword,"","");
 		})
 		$(document)
 				.on(
@@ -614,7 +568,7 @@
 									"#hotel #searchType option:selected")
 									.val();
 							keyword = $("#hotel #keywordInput").val();
-							hotelAjax(page, searchType, keyword);
+							hotelAjax(page, searchType, keyword,"","");
 						})
 		$(document)
 				.on(
@@ -627,7 +581,7 @@
 									"#hotel #searchType option:selected")
 									.val();
 							keyword = $("#hotel #keywordInput").val();
-							hotelAjax(page, searchType, keyword);
+							hotelAjax(page, searchType, keyword,"","");
 						})
 		$(document).on("click", "#hotel .hotelList", function() {
 			var no = $(this).attr("data-no");
@@ -642,8 +596,15 @@
 									"#hotel #searchType option:selected")
 									.val();
 							keyword = $("#hotel #keywordInput").val();
-							hotelAjax(page, searchType, keyword);
+							hotelAjax(page, searchType, keyword,"","");
 						})
+		$("#pickSearch").click(function(){
+			page = 1
+			keyword = $("#hotel #keywordInput").val();
+			keyword2 = $("input[name='checkin']").val();
+			keyword3 = $("input[name='checkout']").val();
+			hotelAjax(page, "checkDate", keyword, keyword2, keyword3);
+ 		})
 		//투어 다이얼로그
 		$(document).on("click", "#tour .index", function() {
 			page = $(this).attr("data-index");

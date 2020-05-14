@@ -3,7 +3,6 @@ package com.yi.tourland.controller.user;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -48,12 +47,7 @@ import com.yi.tourland.service.mng.UserService;
 
 @Controller
 public class CustomerController {
-	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함
-	private String uploadPath; // c:/tourland/upload
 	
-	@Resource(name = "uploadPath2")
-	private String uploadPathPopup; // c:/tourland/upload/popup
-
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -265,6 +259,7 @@ public class CustomerController {
 		}
 		if(times.equals("expiredEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
+			model.addAttribute("eventList",list);
 			aaaaa= "donedone";
 			model.addAttribute("mistyrose",aaaaa);
 		}
@@ -272,6 +267,16 @@ public class CustomerController {
 		
 		return "/user/event/eventList"; 
 	}
+	
+	//이벤트 상세 페이지
+	 @RequestMapping(value = "eventDetailPage", method = RequestMethod.GET)
+		public String eventDetailPage(int no, SearchCriteria cri, Model model) throws Exception {
+		 EventVO vo = eventService.readByNoEvent(no);
+			model.addAttribute("eventVO", vo);
+			model.addAttribute("cri", cri);
+
+			return "/user/event/eventDetailPage";
+		}
 	
 	
 	//게시판 ---------------------------------------------------------------------------------------
@@ -366,6 +371,23 @@ public class CustomerController {
 	@RequestMapping(value="tourlandMap", method=RequestMethod.GET)
 	public String tourlandMap() { 
 		return "/user/footer/tourlandMap"; 
+	}
+	
+	@RequestMapping(value="tourlandAgreement", method=RequestMethod.GET)
+	public String tourlandAgreement() { 
+		return "/user/footer/tourlandAgreement"; 
+	}
+	
+	//회사소개
+	@RequestMapping(value="tourlandIntroduce", method=RequestMethod.GET)
+	public String tourlandIntroduce() { 
+		return "/user/footer/tourlandIntroduce"; 
+	}
+	
+	//제휴페이지
+	@RequestMapping(value="tourlandAdvertising", method=RequestMethod.GET)
+	public String tourlandAdvertising() { 
+		return "/user/footer/tourlandAdvertising"; 
 	}
 
 }
