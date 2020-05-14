@@ -545,6 +545,11 @@
 					keyword = $("#flightDepature #keywordInput").val();
 					airAjax(div, page, searchType, keyword);
 				})
+		$(document).on("click", "#flightRending .flightList", function() {
+			var no = $(this).attr("data-no");
+			var div = "Rending";
+			clickAir(no, div);
+		})
 		//호텔 다이얼로그
 		$(document).on("click", "#hotel .index", function() {
 			page = $(this).attr("data-index");
