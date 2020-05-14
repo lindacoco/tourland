@@ -70,4 +70,7 @@ public class ProductService {
 	public int totalCountBySearchProduct(SearchCriteria cri) throws SQLException {
 		return dao.totalCountBySearchProduct(cri);
 	}
+	public int totalCountProduct() throws SQLException {
+		return dao.totalCountProduct();
+	}
 }

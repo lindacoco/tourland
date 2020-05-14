@@ -142,4 +142,9 @@ public class ProductDaoImpl implements ProductDao {
 	public void deleteProduct(ProductVO vo) throws SQLException {
 		sqlSession.delete(namespace + "deleteProduct",vo);
 	}
+
+	@Override
+	public int totalCountProduct() throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCountProduct");
+	}
 }
