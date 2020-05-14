@@ -359,5 +359,10 @@ public class CustomerController {
 	public String tourlandMap() { 
 		return "/user/footer/tourlandMap"; 
 	}
+	
+	@RequestMapping(value="tourlandAgreement", method=RequestMethod.GET)
+	public String tourlandAgreement() { 
+		return "/user/footer/tourlandAgreement"; 
+	}
 
 }

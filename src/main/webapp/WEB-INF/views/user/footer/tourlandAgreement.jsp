@@ -49,9 +49,14 @@
 	.yel { color: goldenrod; }	
 	
 	
-	section nav ul li:last-child {
+	section nav ul li:nth-child(3) {
 	 background: mistyrose;
-}	    
+   }	    
+    #agreementBox{
+      width:100%;
+      height: auto;
+    }
+
 </style>
 <body>   
 	<%@ include file="../../include/userHeader.jsp"%>
@@ -59,19 +64,15 @@
 		<%@ include file="../../include/userFooterMenu.jsp"%>   
 				<div id="myreserv">
 					<div id="mapHeaderWrap">
-						<h1>찾아오시는 길</h1>
-						<span id="info">투어랜드로 오시는 길</span>
+						<h1>이용약관</h1>
+						<span id="info">상세항목을 확인해주세요</span>
 					</div>
-					<div id="mapImgBox">
-						<img src="${pageContext.request.contextPath}/resources/images/tourlandBuilding.jpg">
-					</div>
-					<div id="mapInfoBox">
-						<p id="mapTitle"><i class="fas fa-map-marker-alt"></i>대구 본점</p>
-						<p id="mapAddr">대구시 달서구 서구 222</p>
+					<div id="agreementBox">
+					<h3>제1조 (목적)</h3>
+						<ul>
+						  <li></li>
 						
-					<div id="mapBtnBox">
-						<a href="https://www.google.com/maps/place/(%EC%A3%BC)%EC%98%81%EB%82%A8%EC%9D%B8%EC%9E%AC%EA%B5%90%EC%9C%A1%EC%9B%90/@35.8605453,128.5549223,17z/data=!3m1!4b1!4m5!3m4!1s0x3565e462e0b47b7d:0x2479044e92eb2993!8m2!3d35.860541!4d128.557111"><span class="blue">G</span><span class="red">o</span><span class="yel">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span> 지도 보기</a>
-					</div>
+						</ul>
 					</div>
 				</div>
 		
