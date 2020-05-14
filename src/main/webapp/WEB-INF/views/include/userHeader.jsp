@@ -88,7 +88,7 @@
 			<nav id="nav1">
 				<ul>
 				<c:if test="${User == null && Manager==null}">
-					<li><a href="${pageContext.request.contextPath }/tourlandBoardFAQ">고객센터</a></li>
+					<li><a href="${pageContext.request.contextPath }/tourlandBoardNotice">고객센터</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandMyInfoEdit">마이페이지</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandRegister">회원가입</a></li>
 					<li><a href="${pageContext.request.contextPath }/loginForm" class="balance">로그인</a></li>

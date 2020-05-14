@@ -199,6 +199,8 @@ select * from planboard;
 
 select * from hotel;
 
+select * from user;
+
 insert into planboard(title, content, writer, regdate, lcate, mcate, answer,respond)
 (select title, content, writer, regdate, lcate, mcate, answer,respond from planboard);
 

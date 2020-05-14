@@ -1,19 +1,14 @@
 package com.yi.tourland.controller.user;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,12 +47,7 @@ import com.yi.tourland.service.mng.UserService;
 
 @Controller
 public class CustomerController {
-	@Resource(name = "uploadPath") // 서블릿컨텍스트의 id값과 일치해야함
-	private String uploadPath; // c:/tourland/upload
 	
-	@Resource(name = "uploadPath2")
-	private String uploadPathPopup; // c:/tourland/upload/popup
-
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -203,10 +193,14 @@ public class CustomerController {
 	
 	//마이 페이지 - 내 정보 수정
 	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
-	public String tourlandMyInfoEdit() { 
+	public String tourlandMyInfoEdit(Model model,HttpSession session) throws Exception { 
 		
+		//model.addAttribute("vo", vo);
 		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
+	
+	
+	
 	//마이 페이지 - 내 예약 현황
 	@RequestMapping(value="tourlandMyReserv", method=RequestMethod.GET)
 	public String tourlandMyReserv() { 
@@ -252,6 +246,7 @@ public class CustomerController {
 		}
 		if(times.equals("expiredEvent")) {
 			List<EventVO> list = eventService.eventListDependsTime(times);
+			model.addAttribute("eventList",list);
 			aaaaa= "donedone";
 			model.addAttribute("mistyrose",aaaaa);
 		}
@@ -259,6 +254,16 @@ public class CustomerController {
 		
 		return "/user/event/eventList"; 
 	}
+	
+	//이벤트 상세 페이지
+	 @RequestMapping(value = "eventDetailPage", method = RequestMethod.GET)
+		public String eventDetailPage(int no, SearchCriteria cri, Model model) throws Exception {
+		 EventVO vo = eventService.readByNoEvent(no);
+			model.addAttribute("eventVO", vo);
+			model.addAttribute("cri", cri);
+
+			return "/user/event/eventDetailPage";
+		}
 	
 	
 	//게시판 ---------------------------------------------------------------------------------------
