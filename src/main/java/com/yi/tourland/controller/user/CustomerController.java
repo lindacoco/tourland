@@ -1,7 +1,5 @@
 package com.yi.tourland.controller.user;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,11 +8,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -108,7 +103,6 @@ public class CustomerController {
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
 		//팝업 불러오기
-
 	    PopupVO popup1 = popupService.setPopup("L");
 		if(popup1 != null) {
 	
@@ -142,7 +136,6 @@ public class CustomerController {
 		if(banner2 != null) {
 			model.addAttribute("banner2",banner2);
 		}
-		
 		return "/user/tourlandMain"; 
 	}
 	//투어랜드 회원가입
@@ -195,21 +188,36 @@ public class CustomerController {
 			} catch (Exception e) {
 				e.printStackTrace();
 				entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
-
 			}
 			return entity;
-
 		}
 	
 	
-	//마이 페이지 - 내 정보 수정
-	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
-	public String tourlandMyInfoEdit(Model model,HttpSession session) throws Exception { 
+	//마이페이지에서 처음 비밀번호 치는 곳
+	@RequestMapping(value="EditPassword", method=RequestMethod.GET) 
+	public String tourlandEditPassword() throws Exception { 
+		return "/user/mypage/tourlandMyInfoEditPassword"; 
+	}
 		
-		//model.addAttribute("vo", vo);
+	//마이 페이지 - 내 정보 수정
+	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET) 
+	public String tourlandMyInfoEdit() throws Exception { 
+		return "/user/mypage/tourlandMyInfoEdit"; 
+	}
+	@RequestMapping(value="editProfile", method=RequestMethod.POST) 
+	public String tourlandEditProfile() throws Exception { 
 		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
 	
+	//마이 페이지 - 탈퇴버튼 눌리는 경우
+	@RequestMapping(value="logoutWithdrawal",method = RequestMethod.GET)
+	public String logoutWithdrawal(String id,UserVO vo,HttpSession session) throws Exception{
+		vo = userService.readByIdUser(id);
+		vo.setUsersecess(1);
+		userService.updateUser(vo);
+		session.invalidate();
+		return "redirect:/";
+	}
 	
 	
 	//마이 페이지 - 내 예약 현황

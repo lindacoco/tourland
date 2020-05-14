@@ -12,7 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
 
-
 <style>
 	/* 본문 */
 	div#mainBox { width: 1200px;

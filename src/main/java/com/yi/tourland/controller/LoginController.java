@@ -28,6 +28,7 @@ public class LoginController {
 	//로그인 view 화면
 	@RequestMapping(value="loginForm",method = RequestMethod.GET)
 	public String loginGet(){
+		System.out.println("로그인컨트롤러");
 		return "/user/tourlandLoginForm";
 	}
 	
@@ -45,7 +46,6 @@ public class LoginController {
 		UserVO dbUserIdPw = userService.readByIdPwUser(userVO.getUserid(),userVO.getUserpass());
 		EmployeeVO dbEmpId = empService.readByIdEmployee(empVO.getEmpid());
 		EmployeeVO dbEmpIdPw = empService.readByIdPwEmployee(empVO.getEmpid(),empVO.getEmppass());
-		
 		//직원아이디가 있는 경우
 		if(dbEmpId!=null) {
 			//퇴사한 직원인 경우
@@ -66,7 +66,7 @@ public class LoginController {
 			map.put("name", dbEmpIdPw.getEmpname());
 			map.put("right", dbEmpIdPw.getEmpauth());
 			session.setAttribute("Manager",map);
-			session.setAttribute("Auth", empVO);
+			session.setAttribute("Auth", dbEmpIdPw);
 			return "redirect:/";
 			
 		//회원아이디가 있는 경우
@@ -87,8 +87,10 @@ public class LoginController {
 			}
 
 			//전부 다 맞는 경우(회원)
+			
 			session.setAttribute("User",dbUserId.getUsername());
-			session.setAttribute("Auth", userVO); //정보 다 가지고 있는거
+			session.setAttribute("Auth", dbUserIdPw); //정보 다 가지고 있는거
+			session.setAttribute("pass", pass);
 			return "redirect:/";
 			
 		//아이디가 없는 경우	(직원,회원)
@@ -99,7 +101,7 @@ public class LoginController {
 			return "/user/tourlandLoginForm";
 		}
 	}
-	
+
 	//로그아웃
 	@RequestMapping(value="logout",method = RequestMethod.GET)
 	public String logoutGet(HttpSession session){
