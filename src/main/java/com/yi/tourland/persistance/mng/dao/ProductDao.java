@@ -29,4 +29,5 @@ public interface ProductDao {
 	public void deletepRentStatus(ProductVO pvo) throws SQLException;
 	public void deleteProduct(ProductVO vo) throws SQLException;
 	public int totalCountBySearchProduct(SearchCriteria cri) throws SQLException;
+	public int totalCountProduct() throws SQLException;
 }

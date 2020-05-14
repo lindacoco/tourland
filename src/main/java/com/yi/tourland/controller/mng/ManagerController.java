@@ -600,7 +600,6 @@ public class ManagerController {
 	// 상품관리
 	@RequestMapping(value = "addProductForm", method = RequestMethod.GET)
 	public String addProductFormGet(SearchCriteria cri,Model model) throws Exception {
-		List<ProductVO> list = productService.listPage(cri);
 		List<AirplaneVO> flightListDepature = flightService.airplaneListByDepature(cri);
 		List<HotelVO> hotelList = hotelService.listSearchHotel(cri);
 		List<TourVO> tourList = tourService.listPage(cri);
@@ -625,7 +624,7 @@ public class ManagerController {
 		model.addAttribute("pageMakerByTour",pageMakerByTour);
 		model.addAttribute("rentcarList",rentcarList);
 		model.addAttribute("pageMakerByRentcar",pageMakerByRentcar);
-		model.addAttribute("size",list.size()+1);
+		model.addAttribute("size",productService.totalCountProduct()+1);
 		return "/manager/product/addProductForm";
 	}
 

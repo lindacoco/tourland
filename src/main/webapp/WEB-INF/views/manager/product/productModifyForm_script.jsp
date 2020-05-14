@@ -63,7 +63,7 @@
 	}
 	var getAirData = function(res) {
 		var no = $("<input type='hidden' name='airNo'>").val(res.vo.no);
-		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td1 = $("<td data-no='"+res.vo.no+"'>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.ano);
 		var td3 = $("<td>").html(res.vo.dlocation);
 		var td4 = $("<td>").html(res.vo.rlocation);
@@ -97,7 +97,7 @@
 		newDate.setDate(oDate.getDate()-iDate.getDate());
 		var dateDiff = newDate.getDate();
 		var no = $("<input type='hidden' name='hotelNo'>").val(res.vo.no);
-		var td1 = $("<td id='dateDiff' data-dateDiff='"+dateDiff+"'>").html(res.vo.no).append(no);
+		var td1 = $("<td id='dateDiff' data-dateDiff='"+dateDiff+"' data-no='"+res.vo.no+"'>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.hname);
 		var td3 = $("<td>").html(res.vo.haddr);
 		var checkinStr = makeDateStr(res.vo.checkin);
@@ -129,7 +129,7 @@
 	}
 	var getTourData = function(res) {
 		var no = $("<input type='hidden' name='tourNo'>").val(res.vo.no);
-		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td1 = $("<td data-no='"+res.vo.no+"'>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.tname);
 		var td3 = $("<td>").html(res.vo.tlocation);
 		var startDateStr = makeDateStr(res.vo.startDate);
@@ -149,7 +149,7 @@
 	}
 	var getRentData = function(res) {
 		var no = $("<input type='hidden' name='rentcarNo'>").val(res.vo.no);
-		var td1 = $("<td>").html(res.vo.no).append(no);
+		var td1 = $("<td data-no='"+res.vo.no+"'>").html(res.vo.no).append(no);
 		var td2 = $("<td>").html(res.vo.cdiv);
 		var td3 = $("<td>").html(res.vo.cno);
 		var rentdDate = makeDateStr(res.vo.rentddate);
@@ -174,16 +174,22 @@
 			type : "get",
 			dataType : "json",
 			success : function(res) {
+				if(res.vo.no==$("#airTable .flightList").find("td").eq(0).attr("data-no")) {
+					alert("같은 항공기가 추가되어 있어 추가할 수 없습니다");
+					return;
+				}
 				if (div == 'Depature') {
 					var expireDate = calExpireDate(res.vo.ddate);
 					$("#pexpire").val(expireDate);
 					getAirData(res);
+					airAdd[0] = true;
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
 					airAjax("Rending", res.vo.no+1, "", "");
 					$("#flightRending").modal("show");
 				} else {
 					getAirData(res);
+					airAdd[1] = true;
 					$("#flightRending").modal("hide");
 					$('#flightRending .modal-backdrop').remove();
 				}
@@ -336,6 +342,10 @@
 			type : "get",
 			dataType : "json",
 			success : function(res) {
+				if(res.vo.no==$("#hotelTable .hotelList").find("td").eq(0).attr("data-no")) {
+					alert("같은 호텔이 추가되어 있어 추가할 수 없습니다");
+					return;
+				}
 				console.log(res);
 				getHotelData(res);
 				$("#hotel").modal("hide");
@@ -405,6 +415,10 @@
 			type : "get",
 			dataType : "json",
 			success : function(res) {
+				if(res.vo.no==$("#tourTable .tourList").find("td").eq(0).attr("data-no")) {
+					alert("같은 투어가 추가되어 있어 추가할 수 없습니다");
+					return;
+				}
 				console.log(res);
 				getTourData(res);
 				$("#tour").modal("hide");
@@ -476,6 +490,10 @@
 			type : "get",
 			dataType : "json",
 			success : function(res) {
+				if(res.vo.no==$("#rentTable .rentcarList").find("td").eq(0).attr("data-no")) {
+					alert("같은 투어가 추가되어 있어 추가할 수 없습니다");
+					return;
+				}
 				console.log(res);
 				getRentData(res);
 				$("#rent").modal("hide");

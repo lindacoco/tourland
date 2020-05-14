@@ -103,8 +103,11 @@
 							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no
 							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no
 	</select>
+	<select id="totalCountProduct" resultType="int">
+		select count(*) from product
+	</select>
 	<select id="totalCountBySearchProduct" resultType="int">
-		select count(*) from product order by pno desc limit #{pageStart},#{perPageNum}
+		select count(*) from product order by pno desc
 	</select>
 	<update id="updateProduct">
 		update product set pname = #{pname}, pcontent = #{pcontent}, pexpire = #{pexpire}, pprice = #{pprice}, ppic = #{pic} where pno = #{pno}
