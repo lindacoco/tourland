@@ -496,6 +496,13 @@ body {
 							<button id="btnSearch">검색</button>
 						</div>
 						<div class="box-body">
+							<p id="datePick">
+								<span><i class="far fa-calendar-alt"></i> 체크인 </span> 
+								<span class="picker"><input type="date" class="datepicker" name="checkin" placeholder="날짜를 선택하려면 클릭." style="height:30px;" value="${cri.keyword2}"></span>
+								<span><i class="far fa-calendar-alt"></i> ~  체크아웃 </span> 
+								<span class="picker"><input type="date" class="datepicker" name="checkout" placeholder="날짜를 선택하려면 클릭." style="height:30px;" value="${cri.keyword3}"></span>
+								<span id="pickSearch"><a href="#"><i class="fas fa-search"></i></a></span>
+							</p>
 							<table class="table table-bordered" id="table">
 								<tr>
 									<th>번호</th>
