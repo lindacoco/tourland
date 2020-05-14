@@ -6,6 +6,11 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath }/resources/css/boardStyle.css" rel="stylesheet" type="text/css" />
+<style>
+  section nav ul li:nth-child(4) {
+	background: mistyrose;
+}
+</style>
 </head>
 <body>   
 	<%@ include file="../../include/userHeader.jsp"%>

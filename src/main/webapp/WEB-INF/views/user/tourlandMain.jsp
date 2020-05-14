@@ -227,6 +227,13 @@
 			 $(this).parent().parent().parent().css("display","none");
 	  })
 	  
+	  $("#previewPopup1").click(function(){
+		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+	  })
+	   $("#previewPopup2").click(function(){
+		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+	  })
+	  
   })
 	  
 </script>
