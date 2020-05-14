@@ -53,7 +53,7 @@
 			</if>
 		</if>
 		<if test='searchType=="checkDate"'>
-	       where checkin =  #{keyword} and checkout = #{keyword2}
+	       where checkin =  #{keyword2} and checkout = #{keyword3}
 	     </if>
 		
 	</sql>

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,10 +204,16 @@ public class CustomerController {
 	
 	//마이 페이지 - 내 정보 수정
 	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
-	public String tourlandMyInfoEdit() { 
-		
+	public String tourlandMyInfoEdit(String Auth,String User,Model model,HttpSession session) throws Exception { 
+		System.out.println(User);
+		System.out.println(Auth);
+		session.getAttribute(Auth);
+		//model.addAttribute("vo", vo);
 		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
+	
+	
+	
 	//마이 페이지 - 내 예약 현황
 	@RequestMapping(value="tourlandMyReserv", method=RequestMethod.GET)
 	public String tourlandMyReserv() { 

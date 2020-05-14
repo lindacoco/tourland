@@ -15,7 +15,7 @@
 		<section>
 		<%@ include file="../../include/userBoardMenu.jsp"%>   
 				<div id="myreserv">
-				<h1>상품문의 사항</h1>
+				<h1>상품 문의 사항</h1>
 				<div id="searchDiv">
 					<select name="searchType" id="searchType">
 						<option value="">전체</option>
