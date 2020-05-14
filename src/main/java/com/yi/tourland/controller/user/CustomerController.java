@@ -364,5 +364,17 @@ public class CustomerController {
 	public String tourlandAgreement() { 
 		return "/user/footer/tourlandAgreement"; 
 	}
+	
+	//회사소개
+	@RequestMapping(value="tourlandIntroduce", method=RequestMethod.GET)
+	public String tourlandIntroduce() { 
+		return "/user/footer/tourlandIntroduce"; 
+	}
+	
+	//제휴페이지
+	@RequestMapping(value="tourlandAdvertising", method=RequestMethod.GET)
+	public String tourlandAdvertising() { 
+		return "/user/footer/tourlandAdvertising"; 
+	}
 
 }

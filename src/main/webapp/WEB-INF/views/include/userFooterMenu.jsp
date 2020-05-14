@@ -17,8 +17,8 @@
 </style>    
 <nav>
 	<ul>
-		<li><a href="">회사 소개</a></li>
-		<li><a href="">제휴 및 광고 문의</a></li>
+		<li><a href="${pageContext.request.contextPath }/tourlandIntroduce">회사 소개</a></li>
+		<li><a href="${pageContext.request.contextPath }/tourlandAdvertising">제휴 및 광고 문의</a></li>
 		<li><a href="${pageContext.request.contextPath }/tourlandAgreement">이용 약관</a></li>
 		<li><a href="${pageContext.request.contextPath }/tourlandMap">찾아오시는 길</a></li>
 	</ul>

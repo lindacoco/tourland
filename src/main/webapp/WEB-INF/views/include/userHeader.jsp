@@ -54,7 +54,7 @@
 	#main div#logo, #main div#search { margin-left: 50px;}						  
 	#main div#logo h1 a { color: #ff7f00; font-size: 60px; 
 					      font-family: 'Black Han Sans', sans-serif;
-					      text-decoration: none; }
+					      text-decoration: none;}
 	#main div#search input { border: none; border-bottom: 1px solid gray; }
 	
 	div#nav2 { clear: both; }
