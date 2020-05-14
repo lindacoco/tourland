@@ -663,6 +663,7 @@ public class ManagerController {
 		productService.insertProduct(vo);
 		return "redirect:productMngList";
 	}
+	
 	@RequestMapping(value = "productMngList", method = RequestMethod.GET)
 	public String productMngList(SearchCriteria cri,Model model) throws SQLException {
 		List<ProductVO> list = productService.listPage(cri);
@@ -671,6 +672,7 @@ public class ManagerController {
 		pageMaker.setTotalCount(productService.totalCountBySearchProduct(cri));
 		model.addAttribute("list",list);
 		model.addAttribute("pageMaker",pageMaker);
+		model.addAttribute("cri",cri);
 		return "manager/product/productMngList";
 	}
 	@RequestMapping(value = "productDetail", method = RequestMethod.GET)

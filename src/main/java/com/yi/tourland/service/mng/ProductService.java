@@ -23,6 +23,9 @@ public class ProductService {
 	public List<ProductVO> listPage(SearchCriteria cri) throws SQLException {
 		return dao.productListPage(cri);
 	}
+	public List<ProductVO> productListPageByDomestic(SearchCriteria cri) throws SQLException {
+		return dao.productListPageByDomestic(cri);
+	}
 	public ProductVO productByNo(ProductVO vo) throws SQLException {
 		return dao.productByNo(vo);
 	}
@@ -72,5 +75,8 @@ public class ProductService {
 	}
 	public int totalCountProduct() throws SQLException {
 		return dao.totalCountProduct();
+	}
+	public int totalCountBySearchProductDomestic(SearchCriteria cri) throws SQLException {
+		return dao.totalCountBySearchProductDomestic(cri);
 	}
 }

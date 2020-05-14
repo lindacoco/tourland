@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Nanum+Gothic&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>    
@@ -124,7 +125,7 @@
 					
 					<div id="nav2">
 						<ul>
-							<li><a href="#">제주 패키지</a></li>
+							<li><a href="${pageContext.request.contextPath }/tourlandProductKRList">제주 패키지</a></li>
 							<li><a href="${pageContext.request.contextPath }/tourlandProductJPList">일본 패키지</a></li>
 							<li><a href="#">중국 패키지</a></li>
 							<li><a href="#">우리끼리</a></li>

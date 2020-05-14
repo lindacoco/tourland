@@ -80,6 +80,30 @@
 			<result property="pdiv" column="pdiv"/>
 		</collection>
 	</resultMap>
+	<sql id="search">
+		<if test='searchType=="name"'>
+			and p.pname like concat('%',#{keyword},'%')
+		</if>
+		<if test='searchType=="expire"'>
+			and p.pexpire like concat('%',#{keyword},'%')
+		</if>
+		<if test='searchType=="location"'>
+			<if test='keyword=="한국"'>
+				and t2.tlocation = '제주'
+			</if>
+			<if test='keyword=="일본"'>
+				and t2.tlocation = '도쿄'
+			</if>
+			<if test='keyword=="중국"'>
+				and t2.tlocation = '베이징'
+			</if>
+		</if>
+	</sql>
+	<sql id="searchDate">
+		<if test='searchType=="date"'>
+			and h2.checkin = #{keyword2} and h2.checkout = #{keyword3}
+		</if>
+	</sql>
 	<select id="productByNo" resultMap="product">
 		select p.pno,p.pname,p.pcontent,p.pexpire,p.pprice,p.ppic,p.pdiv,
 	    a2.no as a2no,a2.ano,a2.dlocation,a2.rlocation,a2.ddate,a2.rdate,a2.ldiv,a2.capacity as a2capacity,a2.seat,a2.price as a2price,a2.pdiv, 
@@ -102,12 +126,32 @@
 							 	join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no
 							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no
 							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no
+							 	where p.pdiv = 0
+							 	<include refid="search"/>
+	</select>
+	<select id="productListPageByDomestic" resultMap="product">
+		select p.pno,p.pname,p.pcontent,p.pexpire,p.pprice,p.ppic,p.pdiv,
+	    a2.no as a2no,a2.ano,a2.dlocation,a2.rlocation,a2.ddate,a2.rdate,a2.ldiv,a2.capacity as a2capacity,a2.seat,a2.price as a2price,a2.pdiv, 
+	    h2.no as h2no,h2.hname,h2.haddr,h2.checkin,h2.checkout,h2.capacity as h2capacity,h2.price as h2price,h2.roomcapacity,h2.roomtype,h2.ldiv,h2.bookedup,h2.pdiv,
+	    t2.no as t2no,t2.tname,t2.tlocation,t2.startdate,t2.enddate,t2.taddr,t2.etime,t2.capacity as t2capacity,t2.tprice as t2tprice,t2.ldiv,t2.pdiv,
+	    r2.no as r2no,r2.cdiv,r2.cno,r2.rentddate,r2.returndate,r2.rentaddr,r2.returnaddr,r2.price as r2price,r2.capacity as r2capacity,r2.insurance,r2.ldiv,r2.pdiv 
+		from (select * from product order by pno desc limit #{pageStart}, #{perPageNum}) p join pairstatus a on p.pno = a.pno join airplane a2 on a.ano = a2.no
+							 	join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no
+							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no
+							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no
+							 	where p.pdiv = 0 and a2.ldiv = 1
+							 	<include refid="searchDate"/>
 	</select>
 	<select id="totalCountProduct" resultType="int">
 		select count(*) from product
 	</select>
 	<select id="totalCountBySearchProduct" resultType="int">
 		select count(*) from product order by pno desc
+	</select>
+	<select id="totalCountBySearchProductDomestic" resultType="int">
+		select count(*) from product where pname like '%제주%'
+		<include refid="searchDate"/>
+		order by pno desc limit #{pageStart},#{perPageNum} 
 	</select>
 	<update id="updateProduct">
 		update product set pname = #{pname}, pcontent = #{pcontent}, pexpire = #{pexpire}, pprice = #{pprice}, ppic = #{pic} where pno = #{pno}

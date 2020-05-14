@@ -12,6 +12,7 @@ import com.yi.tourland.domain.mng.TourVO;
 
 public interface ProductDao {
 	public List<ProductVO> productListPage(SearchCriteria cri) throws SQLException;
+	public List<ProductVO> productListPageByDomestic(SearchCriteria cri) throws SQLException;
 	public ProductVO productByNo(ProductVO vo) throws SQLException;
 	public void insertProduct(ProductVO vo) throws SQLException;
 	public void insertpAirStatus(ProductVO pvo, AirplaneVO avo) throws SQLException;
@@ -29,5 +30,6 @@ public interface ProductDao {
 	public void deletepRentStatus(ProductVO pvo) throws SQLException;
 	public void deleteProduct(ProductVO vo) throws SQLException;
 	public int totalCountBySearchProduct(SearchCriteria cri) throws SQLException;
+	public int totalCountBySearchProductDomestic(SearchCriteria cri) throws SQLException;
 	public int totalCountProduct() throws SQLException;
 }

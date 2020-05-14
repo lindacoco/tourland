@@ -28,6 +28,7 @@ import com.yi.tourland.domain.mng.FaqVO;
 import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
+import com.yi.tourland.domain.mng.ProductVO;
 import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
@@ -216,6 +217,19 @@ public class CustomerController {
 	public String tourlandMyCoupon() { 
 		return "/user/mypage/tourlandMyCoupon"; 
 	}
+	//상품 리스트   (제주 패키지)
+	@RequestMapping(value="tourlandProductKRList", method=RequestMethod.GET)
+	public String tourlandProductKRList(SearchCriteria cri,Model model) throws SQLException {
+		List<ProductVO> list = productService.productListPageByDomestic(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic(cri));
+		model.addAttribute("list",list);
+		model.addAttribute("pageMaker",pageMaker);
+		model.addAttribute("cri",cri);
+		model.addAttribute("count",productService.totalCountBySearchProductDomestic(cri));
+		return "/user/product/tourlandProductKRList"; 
+	}	
 	//상품 리스트   (일본 패키지)
 	@RequestMapping(value="tourlandProductJPList", method=RequestMethod.GET)
 	public String tourlandProductJPList() { 
@@ -223,7 +237,10 @@ public class CustomerController {
 	}	
 	//상품 세부 정보    
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
-	public String tourlandProductDetail() { 
+	public String tourlandProductDetail(SearchCriteria cri,ProductVO vo,Model model) throws SQLException {
+		vo = productService.productByNo(vo);
+		model.addAttribute("cri",cri);
+		model.addAttribute("vo",vo);
 		return "/user/product/tourlandProductDetail"; 
 	}
 	

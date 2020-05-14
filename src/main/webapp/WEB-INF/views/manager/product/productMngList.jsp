@@ -30,14 +30,12 @@
 				</div>
 				<div class="box-body">
 					<select name="searchType" id="searchType">
-						<option value="N">----------</option>
-						<option value="name">투어이름</option>
-						<option value="location">투어지역</option>
-						<option value="date">날짜</option>
-						<option value="addr">주소</option>
-						<option value="div">장소구분</option>
+						<option value="N" ${cri.searchType=='N'?'selected':''}>----------</option>
+						<option value="name" ${cri.searchType=='name'?'selected':''}>상품제목</option>
+						<option value="expire" ${cri.searchType=='expire'?'selected':''}>유효기간</option>
+						<option value="location" ${cri.searchType=='location'?'selected':''}>지역</option>
 					</select>
-					<input type="text" name="keyword" id="keywordInput">
+					<input type="text" name="keyword" id="keywordInput" value="${cri.keyword}">
 					<button id="btnSearch">Search</button>
 				</div>
 				<div class="box-body">

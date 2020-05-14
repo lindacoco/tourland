@@ -13,7 +13,7 @@
 	div#proBox h1 { height: 100px; line-height: 100px;}
 	div#imgBox { width: 500px; height: 400px;float: left;  }
 	div#bigImgBox { width: 500px; height: 300px;}
-	div#bigImgBox img { width: 100%; }
+	div#bigImgBox img { height : 300px; width: 100%; }
 	div#smallImgBox { width: 500px; height:90px;}
 	div#smallImgBox img { width:23%; height: 70px; float: left; margin:5px;}
 	
@@ -35,12 +35,19 @@
 </style>
 <body>
 	<%@ include file="../../include/userHeader.jsp"%>
+	<script>
+		$(function(){
+			$("#smallImgBox li").each(function(i,obj){
+				$(this).find("img").attr("src",$("#proDetail img").eq(i).attr("src"));
+			})
+		})
+	</script>
 		<section>
 				<div id="proBox">
-					<h1>[도쿄 3일]시크릿 특가!도쿄시내/디즈니랜드_아시아나항공 바로출발!</h1>
+					<h1>${vo.pname}</h1>
 					<div id="imgBox">
 						<div id="bigImgBox">
-							<img src="${pageContext.request.contextPath}/resources/images/dokyo1.jpg">
+							<img src="displayFile/product?filename=${vo.pic}">
 						</div>
 						<div id="smallImgBox">
 							<ul>
@@ -54,11 +61,19 @@
 					
 					<div id="infoBox">
 						<ul>
-							<li id="infoNo">상품 번호 : <span id="pno">P20200511001</span></li>
-							<li id="infoName"><span id="pname">[도쿄 3일]시크릿 특가!도쿄시내/디즈니랜드_아시아나항공 바로출발!</span></li>
-							<li id="infoDate">출발일 : <span id="ddate">2020-05-11</span></li>
-							<li id="infoDays">여행 기간 : <span id="tourDays">2박 3일</span></li>
-							<li id="infoPrice">가격 : <span id="price">500,000 원</span></li>
+							<li id="infoNo">상품 번호 : <span id="pno">P${vo.pno}</span></li>
+							<li id="infoName"><span id="pname">${vo.pname}</span></li>
+							<c:forEach var="air" items="${vo.air}" begin="0" end="0">
+								<fmt:formatDate var="ddate" value="${air.ddate}" pattern="yyyy-MM-dd"/>
+							</c:forEach>
+							<li id="infoDate">출발일 : <span id="ddate">${ddate}</span></li>
+							<li id="infoDays">여행 기간 : <span id="tourDays">${fn:substring(vo.pname,4,5)-1}박${fn:substring(vo.pname,4,6)}</span></li>
+							<c:forEach var="t" items="${vo.tour}" begin="0" end="0">
+								<c:set var="capacity" value="${t.capacity}"/>
+							</c:forEach>
+							<c:set var="N" value="${vo.pprice/capacity}"/>
+							<fmt:formatNumber var="price" value="${N+(1-(N%1))%1}" type="number"/>
+							<li id="infoPrice">가격 : <span id="price">${price}</span>원</li>
 						</ul>
 						<div id="btnsBox">
 						<button id="doReserv">예약하기</button>
@@ -68,33 +83,8 @@
 					
 				</div>
 				<div id="proDetail">
-					<h2>상품 세부 설명</h2>
-					<p class="detailTitle">아키하바라</p>
-					<p class="detailInfo">‘전자제품의 메카‘, ‘오타쿠들의 성지‘로 불리는 아키하바라. 여성,남성 할 것 없이 눈 돌아가는 쇼핑스팟! 애니메이션, 게임, 건담, J-pop에 관심있다면
-						아키하바라가 바로 천국~!</p>
-					<p class="detailImg"><img src="${pageContext.request.contextPath}/resources/images/akihabara.jpg"></p>
-					
-					
-					<p class="detailTitle">하라주쿠</p>
-					<p class="detailInfo">‘전자제품의 메카‘, ‘오타쿠들의 성지‘로 불리는 아키하바라. 여성,남성 할 것 없이 눈 돌아가는 쇼핑스팟! 애니메이션, 게임, 건담, J-pop에 관심있다면
-						아키하바라가 바로 천국~!</p>
-					<p class="detailImg"><img src="${pageContext.request.contextPath}/resources/images/harajuku.jpg"></p>
-					
-					
-					<p class="detailTitle">시모키타자와</p>
-					<p class="detailInfo">‘전자제품의 메카‘, ‘오타쿠들의 성지‘로 불리는 아키하바라. 여성,남성 할 것 없이 눈 돌아가는 쇼핑스팟! 애니메이션, 게임, 건담, J-pop에 관심있다면
-						아키하바라가 바로 천국~!</p>
-					<p class="detailImg"><img src="${pageContext.request.contextPath}/resources/images/shimoki.jpg"></p>
-					
-						
-					<p class="detailTitle">롯폰기</p>
-					<p class="detailInfo">‘전자제품의 메카‘, ‘오타쿠들의 성지‘로 불리는 아키하바라. 여성,남성 할 것 없이 눈 돌아가는 쇼핑스팟! 애니메이션, 게임, 건담, J-pop에 관심있다면
-						아키하바라가 바로 천국~!</p>	
-					<p class="detailImg"><img src="${pageContext.request.contextPath}/resources/images/Roppongi.jpg"></p>
-					
-					
-
-		</div>
+					${vo.pcontent}
+				</div>
 			</section>
 	<%@ include file="../../include/userFooter.jsp"%>
 </body>
