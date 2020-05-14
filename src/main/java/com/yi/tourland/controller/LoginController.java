@@ -39,7 +39,7 @@ public class LoginController {
 		userVO.setUserpass(pass);
 		empVO.setEmpid(id);
 		empVO.setEmppass(pass);
-		
+
 		//맞는게 있는지 비교하기 위함
 		UserVO dbUserId = userService.readByIdUser(userVO.getUserid());
 		UserVO dbUserIdPw = userService.readByIdPwUser(userVO.getUserid(),userVO.getUserpass());

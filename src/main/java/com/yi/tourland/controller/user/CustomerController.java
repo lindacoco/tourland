@@ -204,10 +204,8 @@ public class CustomerController {
 	
 	//마이 페이지 - 내 정보 수정
 	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET)
-	public String tourlandMyInfoEdit(String Auth,String User,Model model,HttpSession session) throws Exception { 
-		System.out.println(User);
-		System.out.println(Auth);
-		session.getAttribute(Auth);
+	public String tourlandMyInfoEdit(Model model,HttpSession session) throws Exception { 
+		
 		//model.addAttribute("vo", vo);
 		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
