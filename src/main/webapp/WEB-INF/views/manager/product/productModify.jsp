@@ -112,7 +112,7 @@ body {
 								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
 								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
 								<td>${f.ldiv==1?'국내':'해외'}</td>
-								<td>${f.capacity }</td>
+								<td id="acapacity" data-capacity="${f.capacity}">${f.capacity }</td>
 								<c:if test="${f.seat =='F'}">
 									<td id="first">First-Class</td>
 								</c:if>
@@ -122,7 +122,7 @@ body {
 								<c:if test="${f.seat =='E'}">
 									<td id="eco">Economy-Class</td>
 								</c:if>
-								<td>${f.price }</td>
+								<td id="aprice" data-price="${f.price}">${f.price }</td>
 							</tr>
 							</c:forEach> 
 							</table>
@@ -155,14 +155,14 @@ body {
 								</tr>
 								<c:forEach var="hotel" items="${vo.hotel}">
 									<tr class="hotelList">
-										<td>${hotel.no}<input type="hidden" name="hotelNo" value="${hotel.no}"></td>
+										<td id="dateDiff">${hotel.no}<input type="hidden" name="hotelNo" value="${hotel.no}"></td>
 										<td>${hotel.hname }</td>
 										<td>${hotel.haddr }</td>
-										<td><fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/></td>
-										<td><fmt:formatDate value="${hotel.checkout}" pattern="yyyy-MM-dd"/></td>
-										<td>${hotel.capacity }<span>인</span></td>
-										<td>${hotel.price }</td>
-										<td>${hotel.roomcapacity }<span>실</span></td>
+										<td id="checkin" data-checkin="<fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/>"><fmt:formatDate value="${hotel.checkin}" pattern="yyyy-MM-dd"/></td>
+										<td id="checkout" data-checkout="<fmt:formatDate value="${hotel.checkout}" pattern="yyyy-MM-dd"/>"><fmt:formatDate value="${hotel.checkout}" pattern="yyyy-MM-dd"/></td>
+										<td id="hcapacity" data-capacity="${hotel.capacity}">${hotel.capacity }<span>인</span></td>
+										<td id="hprice" data-price="${hotel.price}">${hotel.price }</td>
+										<td id="hrcapacity" data-roomcapacity="${hotel.roomcapacity}">${hotel.roomcapacity }<span>실</span></td>
 	
 										<c:choose>
 											<c:when test="${hotel.roomtype=='N'}">
@@ -226,8 +226,8 @@ body {
 									<td><fmt:formatDate value="${tour.endDate}" pattern="yyyy-MM-dd"/></td>
 									<td>${tour.taddr}</td>
 									<td><fmt:formatDate value="${tour.etime}" pattern="HH:mm:ss"/></td>
-									<td>${tour.capacity}</td>
-									<td><fmt:formatNumber value="${tour.tprice}" pattern="###,###"/></td>
+									<td id="tcapacity" data-capacity="${tour.capacity}">${tour.capacity}</td>
+									<td id="tprice" data-price="${tour.tprice}"><fmt:formatNumber value="${tour.tprice}" pattern="###,###"/></td>
 									<td>${tour.ldiv?'국내':'해외'}</td>
 								</tr>
 								</c:forEach>
@@ -265,7 +265,7 @@ body {
 									<td><fmt:formatDate value="${rentcarList.returndate}" pattern="yyyy-MM-dd "/></td>
 									<td>${rentcarList.rentaddr}</td>
 									<td>${rentcarList.returnaddr}</td>
-									<td>${rentcarList.price}</td>
+									<td id="rprice" data-price="${rentcarList.price}">${rentcarList.price}</td>
 									<td>${rentcarList.capacity}</td>
 									<td>${rentcarList.insurance}</td>
 									<td>${rentcarList.ldiv == 0?'해외':'국내'}</td>
@@ -294,7 +294,7 @@ body {
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>상품 가격</label> <input
-									type="text" class="form-control" value="${vo.pprice}" id="price" readonly="readonly" name="pprice">
+									type="text" class="form-control" value="0" id="price" readonly="readonly" name="pprice">
 							</div>
 							<div class="form-group">
 								<label><span class="red">*</span>상품 유효기간</label> <input
