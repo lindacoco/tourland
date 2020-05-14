@@ -29,8 +29,6 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 
-	<context:component-scan base-package="com.yi.tourland.controller" />
-
    <beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 	   <beans:property name="maxUploadSize" value="10485760"></beans:property>
 	</beans:bean>
@@ -50,9 +48,11 @@
 	<beans:bean id="sampleInterceptor" class="com.yi.tourland.interceptor.SampleInterceptor"/>
 	<interceptors>
 		<interceptor>
-			<mapping path=""/>
+			<mapping path="/user/mypage/tourlandMyInfoEditPassword"/>
 			<beans:ref bean="sampleInterceptor"/>
 		</interceptor>
 	</interceptors>
+	
+	<context:component-scan base-package="com.yi.tourland.controller" />
 
 </beans:beans>

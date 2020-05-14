@@ -12,7 +12,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
 <script src="https://kit.fontawesome.com/6f2f0f2d95.js"></script>
 
-
 <style>
 	/* 본문 */
 	div#mainBox { width: 1200px;
@@ -185,6 +184,10 @@
      margin-left:20px;
      width:30px;
    }
+   button.popupBtnClose2{
+     margin-left:20px;
+     width:30px;
+   }
    
 									      
 </style>
@@ -227,6 +230,17 @@
 			 $(this).parent().parent().parent().css("display","none");
 	  })
 	  
+	  $("#popup1img").click(function(){
+		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+	  })
+	   $("#popup2img").click(function(){
+		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+	  })
+	  
+	  $(".label3").click(function(){
+		  $(this).prev().attr("checked",true);
+	  })
+	  
   })
 	  
 </script>
@@ -237,17 +251,17 @@
 	                              <img src="${pageContext.request.contextPath}/resources/images/event1.jpg" style="width:400px; height:400px;" id="popup1img">
 	                              <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK">
-							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <label for="expireCK" style="color:white" class="label3">3일동안 이 창 열지 않기</label> <!-- for -->
 							          <button class="popupBtnClose"> 닫기 </button>
 						          </p>
 	                            </div>
 	                        </c:if>
 	                        <c:if test="${popup1 != null }">
 	                        <div id="previewPopup1">
-	                             <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1Img">
+	                             <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1img">
 	                             <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK">
-							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <label for="expireCK" style="color:white" class="label3">3일동안 이 창 열지 않기</label> <!-- for -->
 							          <button class="popupBtnClose"> 닫기 </button>
 						         </p>
 	                        </div>
@@ -256,20 +270,20 @@
 	           <div id="popup2" style=" margin-left:10%;"> <!-- 2번팝업  -->
 	                        <c:if test="${popup2 == null }">
 	                            <div id="previewPopup2">
-	                              <img src="${pageContext.request.contextPath}/resources/images/event2.jpg" style="width:400px; height:400px;" id="popup1img">
+	                              <img src="${pageContext.request.contextPath}/resources/images/event2.jpg" style="width:400px; height:400px;" id="popup2img">
 	                              <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK2">
-							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <label for="expireCK" style="color:white" class="label3">3일동안 이 창 열지 않기</label> <!-- for -->
 							          <button class="popupBtnClose2"> 닫기 </button>
 						          </p>
 	                            </div>
 	                        </c:if>
 	                        <c:if test="${popup2 != null }">
 	                        <div id="previewPopup2">
-	                             <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup1Img">
+	                             <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup2img">
 	                             <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK2">
-							          <label for="expireCK" style="color:white">3일동안 이 창 열지 않기</label> <!-- for -->
+							          <label for="expireCK" style="color:white" class="label3">3일동안 이 창 열지 않기</label> <!-- for -->
 							          <button class="popupBtnClose2"> 닫기 </button>
 						         </p>
 	                        </div>

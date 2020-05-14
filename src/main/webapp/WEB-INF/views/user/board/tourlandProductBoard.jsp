@@ -7,7 +7,11 @@
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath }/resources/css/paging.css" rel="stylesheet" type="text/css" />
 <link href="${pageContext.request.contextPath }/resources/css/boardStyle.css" rel="stylesheet" type="text/css" />
-
+<style>
+  section nav ul li:nth-child(4) {
+	background: mistyrose;
+}
+</style>
 </head>
 
 <body>   

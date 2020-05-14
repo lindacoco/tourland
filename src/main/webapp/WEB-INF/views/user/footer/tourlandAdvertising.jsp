@@ -5,10 +5,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<%@ include file="../../include/userHeader.jsp"%>
 </head>
 <style>    
 	/* 본문 */
-	section { width: 1200px; height: 800px; margin: 0 auto;}
+	section#introSection { width: 1200px; height: 1000px; margin: 0 auto;}
 	section nav { width: 200px; 
 				  background: #f4f4f4;
 				  height: 100%;
@@ -20,7 +21,7 @@
 						  line-height: 30px; }
 	section nav ul li:hover { background: #ff7f00; }						  				  	
 	
-	section div#myreserv { width:1000px; height: 100%; 
+	section div#myreserv { width:1000px; height: 1000px; 
 							  margin-left: 200px;
 							 }
 	div#mapHeaderWrap {   margin-bottom: 50px; }							 							 	
@@ -49,32 +50,77 @@
 	.yel { color: goldenrod; }	
 	
 	
-	section nav ul li:last-child {
+	section nav ul li:nth-child(1) {
 	 background: mistyrose;
-}	    
+   }	    
+    #introBox{
+      margin-left:40px;
+      width:100%;
+      height: 100%; text-align: center;
+      position: relative;fd
+    }
+    #introBox ul{
+      margin-bottom: 20px;
+    } 
+   #introBox ul li{
+      margin-left:35px;
+      display: list-item;
+   }
+   
+   #introBox img{
+     opacity: 0.8;
+   }
+   span.needBlank{
+      margin-left:15px;
+   }
+   
+   #adH2{
+     position: absolute;
+     top:40px;
+     left:140px;
+     letter-spacing: 0.1em;
+   }
+   #adP{
+     position: absolute;
+     top:360px;
+     right:140px;
+     color: white;
+     font-weight: bold;
+     letter-spacing: 0.1em;
+   }
+   #aMail{
+     text-decoration: none;
+     padding:15px;
+     background: mistyrose;
+   }
+   
 </style>
 <body>   
-	<%@ include file="../../include/userHeader.jsp"%>
-		<section>
+	
+		<section id="introSection">
 		<%@ include file="../../include/userFooterMenu.jsp"%>   
 				<div id="myreserv">
 					<div id="mapHeaderWrap">
-						<h1>찾아오시는 길</h1>
-						<span id="info">투어랜드로 오시는 길</span>
+						<h1>제휴문의</h1>
+						<span id="info">to world with TOURLAND</span>
 					</div>
-					<div id="mapImgBox">
-						<img src="${pageContext.request.contextPath}/resources/images/tourlandBuilding.jpg">
+					<div id="introBox">
+					   <img src="${pageContext.request.contextPath }/resources/images/advertising.jpg" style="width:800px; height: 400px;">
+					   <h2 id="adH2">패키지 전문 여행사 TOURLAND</h2>
+					   <p id="adP">투어랜드의 마케팅제휴 파트너가 되어주세요.</p>
+					   <hr style="margin-top:20px; font-weight: bolder;">
+					   
+					   <p style="margin-top:90px;">문의 메일을 남겨주시면 담당 직원이 확인 후 연락 드리겠습니다 </p>
+					   <br>
+					   <br>
+					   <p>E-mail : lindacoco0204@gmail.com</p>
+					   <br><br>
+					<a href="mailto:lindacoco0204@gmail.com" id="aMail"> <i class="fas fa-envelope" style="margin-right:10px;"></i>바로 메일 보내기</a>
 					</div>
-					<div id="mapInfoBox">
-						<p id="mapTitle"><i class="fas fa-map-marker-alt"></i>대구 본점</p>
-						<p id="mapAddr">대구시 달서구 서구 222</p>
-						
-					<div id="mapBtnBox">
-						<a href="https://www.google.com/maps/place/(%EC%A3%BC)%EC%98%81%EB%82%A8%EC%9D%B8%EC%9E%AC%EA%B5%90%EC%9C%A1%EC%9B%90/@35.8605453,128.5549223,17z/data=!3m1!4b1!4m5!3m4!1s0x3565e462e0b47b7d:0x2479044e92eb2993!8m2!3d35.860541!4d128.557111"><span class="blue">G</span><span class="red">o</span><span class="yel">o</span><span class="blue">g</span><span class="green">l</span><span class="red">e</span> 지도 보기</a>
-					</div>
-					</div>
+					
+					
 				</div>
-		
+		     
 		</section>
 		
 		<%@ include file="../../include/userFooter.jsp"%>

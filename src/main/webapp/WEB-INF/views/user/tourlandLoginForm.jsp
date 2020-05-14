@@ -163,7 +163,7 @@ section {
 				</button>
 			</div>
 		</div>
-	</section>
+	</section><%System.out.print("로그인폼jsp"); %>
 	<%@ include file="../include/userFooter.jsp"%>
 </body>
 </html>

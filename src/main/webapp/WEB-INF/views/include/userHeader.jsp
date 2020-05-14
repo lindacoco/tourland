@@ -55,7 +55,7 @@
 	#main div#logo, #main div#search { margin-left: 50px;}						  
 	#main div#logo h1 a { color: #ff7f00; font-size: 60px; 
 					      font-family: 'Black Han Sans', sans-serif;
-					      text-decoration: none; }
+					      text-decoration: none;}
 	#main div#search input { border: none; border-bottom: 1px solid gray; }
 	
 	div#nav2 { clear: both; }
@@ -90,21 +90,21 @@
 				<ul>
 				<c:if test="${User == null && Manager==null}">
 					<li><a href="${pageContext.request.contextPath }/tourlandBoardNotice">고객센터</a></li>
-					<li><a href="${pageContext.request.contextPath }/tourlandMyInfoEdit">마이페이지</a></li>
+					<li><a href="${pageContext.request.contextPath }/EditPassword">마이페이지</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandRegister">회원가입</a></li>
 					<li><a href="${pageContext.request.contextPath }/loginForm" class="balance">로그인</a></li>
 				</c:if>
 				<c:if test="${Manager!=null }">
 						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
 						<li><a href="#">고객센터</a></li>
-						<li><a href="${pageContext.request.contextPath }/tourlandMyInfoEdit">마이페이지</a></li>
+						<li><a href="${pageContext.request.contextPath }/EditPassword">마이페이지</a></li>
 						<li id="manager"><a href="${pageContext.request.contextPath }/empMngList/0">관리자</a></li>
 						<p id="managerAuth">[ ${Manager.name} ]님! 반갑습니다.</p>
 				</c:if>
 				<c:if test="${User!=null }">
 						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
 						<li><a href="#">고객센터</a></li>
-						<li><a href="${pageContext.request.contextPath }/tourlandMyInfoEdit">마이페이지</a></li>
+						<li><a href="${pageContext.request.contextPath }/EditPassword">마이페이지</a></li>
 						<p id="userAuth">[ ${User} ]님! 반갑습니다.</p>
 				</c:if>
 				</ul>

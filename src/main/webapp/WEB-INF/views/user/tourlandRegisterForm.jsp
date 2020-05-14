@@ -177,7 +177,7 @@
 			var empid = $("input[name='userid']").val();
 			 //아이디 중복 ajax로 처리하기
 			 $.ajax({
-				url:"idCheck/"+empid,  //이 커맨드에서 유저아이디와 사원 아이디를 모두 호가인하기에 
+				url:"idCheck/"+empid,  //이 커맨드에서 유저아이디와 사원 아이디를 모두 확인하기에 
 				type:"get",
 				dataType:"text",
 				success:function(res){
