@@ -169,7 +169,9 @@ section {
 	  $("#join").click(function(){
 		location.href="${pageContext.request.contextPath}/tourlandRegister"  ;
 	  })
-	
+	  $("#findIDPW").click(function(){
+		location.href="${pageContext.request.contextPath}/tourlandFindIdPw"  ;
+	  })
 	</script>
 	<%@ include file="../include/userFooter.jsp"%>
 </body>

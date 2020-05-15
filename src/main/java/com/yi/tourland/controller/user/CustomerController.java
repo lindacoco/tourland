@@ -189,7 +189,17 @@ public class CustomerController {
 			}
 			return entity;
 		}
-	
+	//ID, 비밀번호 찾기
+	@RequestMapping(value="tourlandFindIdPw", method=RequestMethod.GET) 
+	public String tourlandFindIdPw() throws Exception { 
+		return "/user/tourlandFindIdPw"; 
+	}
+	@RequestMapping(value="tourlandFindIdPw", method=RequestMethod.POST) 
+	public String tourlandFindIdPwPost() throws Exception {
+		
+		
+		return "/user/tourlandFindIdPw"; 
+	}
 	
 	//마이페이지의 비밀번호 확인
 	@RequestMapping(value="EditPassword", method=RequestMethod.GET) 
