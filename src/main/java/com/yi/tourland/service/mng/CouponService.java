@@ -20,6 +20,10 @@ public class CouponService {
 	public List<CouponVO> couponList(SearchCriteria cri) throws Exception{
 		return dao.couponList(cri);
 	}
+	//쿠폰 유저 리스트
+	public List<CouponVO> couponUserList(SearchCriteria cri) throws Exception{
+		return dao.couponUserList(cri);
+	}
 	//쿠폰 총 갯수
 	public int totalCountNotice (SearchCriteria cri) throws Exception {
 		return dao.totalCountCoupon(cri);
