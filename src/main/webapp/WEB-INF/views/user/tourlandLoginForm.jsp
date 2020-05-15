@@ -163,7 +163,14 @@ section {
 				</button>
 			</div>
 		</div>
-	</section><%System.out.print("로그인폼jsp"); %>
+
+	</section>
+	<script>
+	  $("#join").click(function(){
+		location.href="${pageContext.request.contextPath}/tourlandRegister"  ;
+	  })
+	
+	</script>
 	<%@ include file="../include/userFooter.jsp"%>
 </body>
 </html>

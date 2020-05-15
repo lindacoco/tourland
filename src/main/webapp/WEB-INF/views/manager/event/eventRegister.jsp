@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <style>
   #previewDiv{
     height: 350px;
@@ -24,20 +25,10 @@
 </style>
 <script>
 	$(function(){
-		CKEDITOR.replace('content');
+		CKEDITOR.replace('content',{filebrowserUploadUrl:'${pageContext.request.contextPath}/imageUpload'});
 		CKEDITOR.config.width = '90em';
 		CKEDITOR.config.height = '50em';
-		$.fn.modal.Constructor.prototype.enforceFocus = function () {
-		    modal_this = this
-		    $(document).on('focusin.modal', function (e) {
-		        if (modal_this.$element[0] !== e.target && !modal_this.$element.has(e.target).length
-		        // add whatever conditions you need here:
-		        &&
-		        !$(e.target.parentNode).hasClass('cke_dialog_ui_input_select') && !$(e.target.parentNode).hasClass('cke_dialog_ui_input_text')) {
-		            modal_this.$element.focus()
-		        }
-		    })
-		};
+
 	})
 </script>
 <div class="content">

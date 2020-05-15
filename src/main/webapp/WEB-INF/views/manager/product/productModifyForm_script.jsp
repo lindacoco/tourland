@@ -39,9 +39,9 @@
 		
 	}
 	var calExpireDate = function(date) {
-		var objDate = new Date(date);
-		var dateDiff = new Date(objDate.getFullYear(),objDate.getMonth(),(objDate.getDate() -3));
-		var month = (dateDiff.getMonth() + 1) < 10 ? "0" + (dateDiff.getMonth() + 1) : (dateDiff.getMonth() + 1);
+		var objDate = new Date(date[0],date[1],(date[2]-3));
+		var dateDiff = new Date(objDate.getFullYear(),objDate.getMonth(),objDate.getDate());
+		var month = dateDiff.getMonth() < 10 ? "0" + dateDiff.getMonth()  : dateDiff.getMonth();
 		var day = dateDiff.getDate() < 10 ? "0" + dateDiff.getDate() : dateDiff.getDate();
 		var dateStr = dateDiff.getFullYear() + "-" + month + "-" + day;
 		return dateStr;
@@ -182,14 +182,12 @@
 					var expireDate = calExpireDate(res.vo.ddate);
 					$("#pexpire").val(expireDate);
 					getAirData(res);
-					airAdd[0] = true;
 					$("#flightDepature").modal("hide");
 					$('#flightDepature .modal-backdrop').remove();
 					airAjax("Rending", res.vo.no+1, "", "");
 					$("#flightRending").modal("show");
 				} else {
 					getAirData(res);
-					airAdd[1] = true;
 					$("#flightRending").modal("hide");
 					$('#flightRending .modal-backdrop').remove();
 				}
@@ -762,8 +760,8 @@
 			rentAjax(page, "rentDepartDate", keyword, keyword2);
  		})
 		//다이얼로그 호출
-		$("#addFlight").click(function() {
-			$("#flight").modal("show");
+		$("#modFlight").click(function() {
+			$("#flightDepature").modal("show");
 		})
 		$("#modHotel").click(function() {
 			$("#hotel").modal("show");
@@ -785,12 +783,14 @@
 					var tr2 = tr.next();
 					tr.remove();
 					tr2.remove();
+					calTotalPrice();
 				}
 				else {
 					var tr = $(this);
 					var tr2 = tr.prev();
 					tr.remove();
 					tr2.remove();
+					calTotalPrice();
 				}
 				
 				
@@ -798,30 +798,20 @@
 		})
 		$(document).on("click","#hotelTable .hotelList",function(){
 			if(confirm("삭제하시겠습니까?")) {
-				var hcapacity = Number($(this).find("#hcapacity").attr("data-capacity"));
-				var hprice = Number($(this).find("#hprice").attr("data-price"));
-				var hrcapacity = Number($(this).find("#hrcapacity").attr("data-roomcapacity"));
-				var dateDiff = Number($(this).find("#dateDiff").attr("data-dateDiff"));
-				price -= (hcapacity * hprice * hrcapacity * dateDiff);
-				$("#price").val(price);
 				$(this).remove();
+				calTotalPrice();
 			}
 		})
 		$(document).on("click","#tourTable .tourList",function(){
 			if(confirm("삭제하시겠습니까?")) {
-				var tcapacity = Number($(this).find("#tcapacity").attr("data-capacity"));
-				var tprice = Number($(this).find("#tprice").attr("data-price"));
-				price -= (tcapacity * tprice);
-				$("#price").val(price);
 				$(this).remove();
+				calTotalPrice();
 			}
 		})
 		$(document).on("click","#rentTable .rentcarList",function(){
 			if(confirm("삭제하시겠습니까?")) {
-				var rprice = Number($(this).find("#rprice").attr("data-price"));
-				price -= rprice;
-				$("#price").val(price);
 				$(this).remove();
+				calTotalPrice();
 			}
 		})
 		//ckeditor
@@ -839,5 +829,7 @@
 		    })
 		};
 		calTotalPrice();
+		var dateArr = $(".flightList").find("#ddate").attr("data-ddate").split("-");
+		$("#pexpire").val(calExpireDate(dateArr));
 	})
 </script>

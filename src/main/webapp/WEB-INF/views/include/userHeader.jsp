@@ -90,20 +90,19 @@
 				<ul>
 				<c:if test="${User == null && Manager==null}">
 					<li><a href="${pageContext.request.contextPath }/tourlandBoardNotice">고객센터</a></li>
-					<li><a href="${pageContext.request.contextPath }/EditPassword">마이페이지</a></li>
 					<li><a href="${pageContext.request.contextPath }/tourlandRegister">회원가입</a></li>
 					<li><a href="${pageContext.request.contextPath }/loginForm" class="balance">로그인</a></li>
 				</c:if>
 				<c:if test="${Manager!=null }">
 						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
-						<li><a href="#">고객센터</a></li>
+						<li><a href="${pageContext.request.contextPath}/tourlandBoardNotice">고객센터</a></li>
 						<li><a href="${pageContext.request.contextPath }/EditPassword">마이페이지</a></li>
 						<li id="manager"><a href="${pageContext.request.contextPath }/empMngList/0">관리자</a></li>
 						<p id="managerAuth">[ ${Manager.name} ]님! 반갑습니다.</p>
 				</c:if>
 				<c:if test="${User!=null }">
 						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
-						<li><a href="#">고객센터</a></li>
+						<li><a href="${pageContext.request.contextPath}/tourlandBoardNotice">고객센터</a></li>
 						<li><a href="${pageContext.request.contextPath }/EditPassword">마이페이지</a></li>
 						<p id="userAuth">[ ${User} ]님! 반갑습니다.</p>
 				</c:if>
@@ -127,7 +126,7 @@
 						<ul>
 							<li><a href="${pageContext.request.contextPath }/tourlandProductKRList">제주 패키지</a></li>
 							<li><a href="${pageContext.request.contextPath }/tourlandProductJPList">일본 패키지</a></li>
-							<li><a href="#">중국 패키지</a></li>
+							<li><a href="${pageContext.request.contextPath }/tourlandProductChinaList">중국 패키지</a></li>
 							<li><a href="#">우리끼리</a></li>
 							<li class="short"><a href="${pageContext.request.contextPath }/tourlandEventList/ingEvent">이벤트</a></li>
 						</ul>

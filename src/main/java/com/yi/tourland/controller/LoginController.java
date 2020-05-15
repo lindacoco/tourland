@@ -16,7 +16,8 @@ import com.yi.tourland.domain.mng.UserVO;
 import com.yi.tourland.service.mng.EmployeeService;
 import com.yi.tourland.service.mng.UserService;
 
-@Controller("/user/*")
+@Controller
+/* @RequestMapping("/user/*") */
 public class LoginController {
 	
 	@Autowired
@@ -28,7 +29,6 @@ public class LoginController {
 	//로그인 view 화면
 	@RequestMapping(value="loginForm",method = RequestMethod.GET)
 	public String loginGet(){
-		System.out.println("로그인컨트롤러");
 		return "/user/tourlandLoginForm";
 	}
 	
@@ -58,7 +58,7 @@ public class LoginController {
 			/* if(dbEmp.getEmppass().equals(empVO.getEmppass())==false) { */ //원래라면 이렇게 비교하지만 password로 쌓여져있으니까
 			if(dbEmpIdPw==null) {
 				model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
-				model.addAttribute("EmpStay", empVO); //정보 다 가지고 있는거
+				model.addAttribute("EmpStay", empVO); 
 				return "/user/tourlandLoginForm";
 			}
 			//전부 다 맞는 경우(직원)
@@ -66,7 +66,7 @@ public class LoginController {
 			map.put("name", dbEmpIdPw.getEmpname());
 			map.put("right", dbEmpIdPw.getEmpauth());
 			session.setAttribute("Manager",map);
-			session.setAttribute("Auth", dbEmpIdPw);
+			session.setAttribute("Auth", dbEmpIdPw);//정보 다 가지고 있는거
 			return "redirect:/";
 			
 		//회원아이디가 있는 경우

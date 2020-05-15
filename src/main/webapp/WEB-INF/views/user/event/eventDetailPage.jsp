@@ -96,9 +96,9 @@
 <script>
   
 	$(function(){
-		
+		$('html, body').animate({ scrollTop : 800 }, 0);
 		$('.toTop').click( function() {
-			$('html, body').animate({ scrollTop : 700 }, 600); //이벤트 사진 전까지 이동 스르륵
+			$('html, body').animate({ scrollTop : 800 }, 600); //이벤트 사진 전까지 이동 스르륵
 			return false;
 		} );
 		//이전페이지

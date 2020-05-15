@@ -74,6 +74,7 @@ IGNORE 1 lines;
 #상품 테이블 CSV 테스트용(연결 테이블 까지 포함)
 LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/product.csv'  
 INTO TABLE product
+character set 'utf8'
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'

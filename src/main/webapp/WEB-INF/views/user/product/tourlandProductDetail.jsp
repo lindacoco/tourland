@@ -67,7 +67,7 @@
 								<fmt:formatDate var="ddate" value="${air.ddate}" pattern="yyyy-MM-dd"/>
 							</c:forEach>
 							<li id="infoDate">출발일 : <span id="ddate">${ddate}</span></li>
-							<li id="infoDays">여행 기간 : <span id="tourDays">${fn:substring(vo.pname,4,5)-1}박${fn:substring(vo.pname,4,6)}</span></li>
+							<li id="infoDays">여행 기간 : <span id="tourDays">${fn:substring(vo.pname,5,6)-1}박${fn:substring(vo.pname,5,7)}</span></li>
 							<c:forEach var="t" items="${vo.tour}" begin="0" end="0">
 								<c:set var="capacity" value="${t.capacity}"/>
 							</c:forEach>

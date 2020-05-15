@@ -29,6 +29,11 @@ public class ProductDaoImpl implements ProductDao {
 	public List<ProductVO> productListPageByDomestic(SearchCriteria cri) throws SQLException {
 		return sqlSession.selectList(namespace + "productListPageByDomestic",cri);
 	}
+	@Override
+	public List<ProductVO> productListPageByChina(SearchCriteria cri) throws SQLException {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList(namespace + "productListPageByChina",cri);
+	}
 
 	@Override
 	public int totalCountBySearchProduct(SearchCriteria cri) throws SQLException {
@@ -154,5 +159,9 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public int totalCountBySearchProductDomestic(SearchCriteria cri) throws SQLException {
 		return sqlSession.selectOne(namespace + "totalCountBySearchProductDomestic",cri);
+	}
+	@Override
+	public int totalCountBySearchProductChina(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCountBySearchProductChina",cri);
 	}
 }
