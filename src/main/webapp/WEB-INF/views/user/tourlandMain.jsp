@@ -106,20 +106,20 @@
 	
 	
 	/* 메인5 (상담 시간, 업무시간, Q&A 버튼들 있는 부분) */
-	section#section5 { margin-top: 30px; width: 100%;  height: 300px; }
+	section#section5 { margin-top: 30px; width: 100%;  height: 300px; margin-left:10px;}
 	section#section5 .infoBox {  height: 200px; float: left; border: 1px solid #c8c8c8; }
 	section#section5 div#counsel { width: 360px; }
 	section#section5 .infoBox h3 { font-size: 20px; margin: 10px; }
 	section#section5 .infoBox p { text-align: center; height: 60px; line-height: 60px;}
 	section#section5 .big { font-size: 50px; font-weight: bold;}
-	section#section5 div#workTime {  width: 200px;}
+	section#section5 div#workTime {  width: 198px; border-left:none;}
 	section#section5 div#workTime .bold { font-weight: bold; } 
 	section#section5 div#shortcutBtns {  width: 560px; margin-left: 70px; border: none;  }
 	section#section5 div#shortcutBtns a { display: block; 
 									      text-decoration: none; 
 									      width: 250px; 
 									      height: 60px;
-									      background: #20b2aa;
+									      background: tan;
 									      line-height: 60px;
 									      color: #fff;
 									      text-align: center;
@@ -485,7 +485,7 @@
 					<div id="counsel" class="infoBox">
 						<h3>여행 상담</h3>
 						<p>고객 센터</p>
-						<p class="big">1588-0000</p>
+						<p class="big" style="letter-spacing: 0.15em;">1588-0000</p>
 					</div>
 					
 					<div id="workTime" class="infoBox">

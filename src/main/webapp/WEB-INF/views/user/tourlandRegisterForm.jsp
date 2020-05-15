@@ -8,14 +8,14 @@
 	/* 본문 */
 	
 	section div#editProfile { width:1000px; height: 100%; 
-							  margin-left: 300px;
+							  margin-left: 22%;
 							 }
 	section div#editProfile h1 { width: 200px;
 								 height: 30px;  
 							     padding: 20px;
 							     border-bottom: 1px solid #929292; }							  
 	section div#editProfile form { width: 500px; 
-								   margin: 0 auto;
+								   margin: 20px auto;
 								   padding-top: 50px; }   
 	section div#editProfile label { width: 120px;
 								    float: left;
