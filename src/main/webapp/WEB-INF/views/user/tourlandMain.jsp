@@ -99,10 +99,10 @@
 	section#section4 .bannerBox h3 { position: absolute; 
 								     top: 20px; left: 20px; 
 								     font-size: 25px; 
-								     color: #ff7f00; 
-								   	 text-shadow: 1px 1px 1px #000; }
-	section#section4 .bannerBox p { position: absolute; top: 60px; left: 20px; color: #fff; }	
-	section#section4 #banner1 { margin-right: 70px; }  
+								     color: gold; 
+								   	 text-shadow: 3px 4px 4px black; }
+	section#section4 .bannerBox p { position: absolute; top: 60px; left: 20px; color: #fff; font-weight: bolder; text-shadow: 3px 4px 4px black;}	
+	section#section4 #banner1 { margin-right: 60px; margin-left:10px;}  
 	
 	
 	/* 메인5 (상담 시간, 업무시간, Q&A 버튼들 있는 부분) */
@@ -177,6 +177,11 @@
      box-shadow: 0 0 8px black;
    }
    input.expireCK{
+     margin-right:10px;
+     margin-top:13px;
+   }
+   
+   input.expireCK2{
      margin-right:10px;
      margin-top:13px;
    }
