@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
+import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.EventVO;
@@ -292,9 +293,11 @@ public class CustomerController {
 	}
 	//마이 페이지 - 내 쿠폰
 	@RequestMapping(value="tourlandMyCoupon", method=RequestMethod.GET)
-	public String tourlandMyCoupon() { 
+	public String tourlandMyCoupon(SearchCriteria cri, Model model) throws Exception { 
+		List<CouponVO> list = couponService.couponUserList(cri);
+		model.addAttribute("list", list);
 		return "/user/mypage/tourlandMyCoupon"; 
-	}
+	}    
 	//상품 리스트   (제주 패키지)
 	@RequestMapping(value="tourlandProductKRList", method=RequestMethod.GET)
 	public String tourlandProductKRList(SearchCriteria cri,Model model) throws SQLException {

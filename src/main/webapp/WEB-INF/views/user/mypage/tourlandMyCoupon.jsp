@@ -21,13 +21,14 @@
 			
 	table#reserv { width: 950px;  
 				   border-collapse: collapse; 
-				   margin: 40px; 
+				   margin: 0 40px 40px 40px; 
 				   font-size: 14px; }
 	table#reserv th, tr, td { border-top: 1px solid gray;
 							  border-bottom: 1px solid gray;
 						     text-align: center;     
 						     height: 30px; }
-	table#reserv th { background: #F2F2F2; height: 30px; }					        
+	table#reserv th { background: #F2F2F2; height: 30px; }
+	#warning { margin: 40px 0 10px 40px; font-size: 14px; color: maroon; font-weight: bold; }					        
 </style>
 <body>   
 	<%@ include file="../../include/userHeader.jsp"%>
@@ -37,7 +38,9 @@
 				<h1>쿠폰</h1>
 					<span id="info">쿠폰을 활용해서 멀리 떠나보세요! </span>
 					
+					<p id="warning">* 쿠폰은 만료일자가 가까운 순서로 정렬 됩니다.</p>
 					<table id="reserv">
+					
 						<tr>
 							<th>쿠폰 번호</th>
 							<th>쿠폰 명</th>
@@ -45,22 +48,17 @@
 							<th>만료 일자</th>
 							<th>할인율</th>
 						</tr>
+						<c:forEach items="${list }" var="c">
 						<tr>
-							<td>1</td>
-							<td>모든 해외여행 총집합 할인</td>
-							<td>모든 해외여행 30% 할인</td>
-							<td>2020/05/20</td>
-							<td>30%</td>
+							<td>${c.cno }</td>
+							<td>${c.cname }</td>
+							<td>${c.ccontent }</td>
+							<td><fmt:formatDate value="${c.edate }" pattern="yyyy-MM-dd"/></td>
+							<td>${c.mrate }%</td>  
 						</tr>
-						<tr>
-							<td>2</td>
-							<td>여름 휴가 시작 할인</td>
-							<td>여름 휴가 떠나자 할인 쿠폰</td>
-							<td>2020/08/01</td>
-							<td>20%</td> 
-						</tr>
-					</table>
-				</div>
+						</c:forEach>
+					</table>    
+				</div>      
 		
 		</section>
 		

@@ -15,6 +15,9 @@
 	<select id="couponList" resultType="CouponVO">
 		select * from coupon <include refid="search"></include> order by cno desc limit #{pageStart}, #{perPageNum}
 	</select>
+	<select id="couponUserList" resultType="CouponVO">
+		select * from coupon <include refid="search"></include> order by edate asc limit #{pageStart}, #{perPageNum}
+	</select>	
 	<select id="totalCountCoupon" resultType="int">
 		select count(*) from coupon <include refid="search"></include>
 	</select>

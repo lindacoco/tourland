@@ -8,6 +8,8 @@ import com.yi.tourland.domain.mng.CouponVO;
 public interface CouponDAO {
 	//쿠폰 리스트
 	public List<CouponVO> couponList(SearchCriteria cri) throws Exception;
+	//쿠폰 유저 리스트
+	public List<CouponVO> couponUserList(SearchCriteria cri) throws Exception;	
 	//쿠폰 전체 갯수
 	public int totalCountCoupon(SearchCriteria cri) throws Exception;
 	//쿠폰 추가
