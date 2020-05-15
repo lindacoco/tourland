@@ -279,7 +279,13 @@ public class CustomerController {
 	public String tourlandMyReserv() { 
 		return "/user/mypage/tourlandMyReserv"; 
 	}
-	//마이 페이지 - 내 예약 현황
+	//상품 리뷰    
+	@RequestMapping(value="tourlandMyReview", method=RequestMethod.GET)
+	public String tourlandMyReview() throws SQLException {
+		
+		return "/user/mypage/tourlandMyReview"; 
+	}
+	//마이 페이지 - 장바구니
 	@RequestMapping(value="tourlandMyWishes", method=RequestMethod.GET)
 	public String tourlandMyWishes() { 
 		return "/user/mypage/tourlandMyWishes"; 
@@ -328,6 +334,16 @@ public class CustomerController {
 		model.addAttribute("vo",vo);
 		return "/user/product/tourlandProductDetail"; 
 	}
+	//상품 리뷰    
+	@RequestMapping(value="tourlandProductReview", method=RequestMethod.GET)
+	public String tourlandProductReview(SearchCriteria cri,ProductVO vo,Model model) throws SQLException {
+		
+		  vo = productService.productByNo(vo); model.addAttribute("cri",cri);
+		  model.addAttribute("vo",vo);
+		 
+		return "/user/product/tourlandProductReview"; 
+	}
+	
 	
 	//이벤트 --------------------------------------------------------------------------------------
 	@RequestMapping(value="tourlandEventList/{times}", method=RequestMethod.GET)

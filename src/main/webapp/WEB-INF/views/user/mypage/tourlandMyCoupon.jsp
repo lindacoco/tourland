@@ -23,10 +23,11 @@
 				   border-collapse: collapse; 
 				   margin: 40px; 
 				   font-size: 14px; }
-	table#reserv th, tr, td { border: 1px solid gray;
-						     text-align: center; 
+	table#reserv th, tr, td { border-top: 1px solid gray;
+							  border-bottom: 1px solid gray;
+						     text-align: center;     
 						     height: 30px; }
-	table#reserv th { background: #ece6cc; height: 30px; }					    
+	table#reserv th { background: #F2F2F2; height: 30px; }					        
 </style>
 <body>   
 	<%@ include file="../../include/userHeader.jsp"%>

@@ -19,19 +19,28 @@
 	#info { font-size: 13px; color: #929292; 
 			margin-left: 10px;  }	
 			
-	table#reserv { width: 950px;  
+	table#reserv { width: 1000px;  
 				   border-collapse: collapse; 
 				   margin: 40px; 
 				   font-size: 14px; }
-	table#reserv th, tr, td { border: 1px solid gray;
+	table#reserv th, tr, td { border-top: 1px solid gray;
+							  border-bottom: 1px solid gray;
 						     text-align: center; }
-	table#reserv th { background: #b5ae87; height: 40px; }						     		
+	table#reserv th { background: #F2F2F2; height: 40px; }			      			     		
 	table#reserv img { width: 100px; height: 70px; padding: 5px; }
 	.red { font-weight: bold;  color: maroon; }
 	.blue button { width: 80px; height: 25px; border: none; background: steelblue; color: #fff;   }		
+	.grey button { width: 80px; height: 25px; border: none; background: #828282; color: #fff; }
 </style>
 <body>   
 	<%@ include file="../../include/userHeader.jsp"%>
+<script>
+	$(function(){
+		$(".goReview").click(function(){
+			location.href= "tourlandMyReview";
+		})
+	})
+</script>	
 		<section>
 		<%@ include file="../../include/userMyPageMenu.jsp"%>   
 				<div id="myreserv">
@@ -47,16 +56,7 @@
 							<th>도착일</th>
 							<th>예약 상태</th>
 							<th>결제 관리</th>
-						</tr>
-						<tr>
-							<td>RE15487200</td>
-							<td>2020/04/27</td>
-							<td><img src="images/osaka.jpg"></td>
-							<td>진짜 오사카를 만나다, 오사카 3박 4일</td>
-							<td>2020/05/03</td>
-							<td>2020/05/20</td>
-							<td class="red">예약 미확정</td>
-							<td class="blue"><button>결제하기</button></td>    
+							<th>리뷰 관리</th>
 						</tr>
 						<tr>
 							<td>RE15487200</td>
@@ -67,6 +67,18 @@
 							<td>2020/05/20</td>
 							<td class="red">예약 미확정</td>
 							<td class="blue"><button>결제하기</button></td>  
+							<td class="grey"><button class="goReview">리뷰 쓰기</button></td>  
+						</tr>
+						<tr>
+							<td>RE15487200</td>
+							<td>2020/04/27</td>     
+							<td><img src="images/osaka.jpg"></td>
+							<td>진짜 오사카를 만나다, 오사카 3박 4일</td>    
+							<td>2020/05/03</td>
+							<td>2020/05/20</td>      
+							<td class="red">예약 미확정</td>
+							<td class="blue"><button>결제하기</button></td>
+							<td class="grey"><button class="goReview">리뷰 쓰기</button></td>  
 						</tr>
 					</table>
 				</div>
