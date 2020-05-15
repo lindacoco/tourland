@@ -63,11 +63,7 @@
 	rel="stylesheet" type="text/css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
-<link
-	href="${pageContext.request.contextPath}/resources/plugins/ckeditor/contents.css"
-	rel="stylesheet" type="text/css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/plugins/ckeditor/ckeditor.js"></script>
+<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
