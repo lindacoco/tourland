@@ -45,14 +45,16 @@
 	     <beans:constructor-arg value="C:/tourland/product/"></beans:constructor-arg>
 	</beans:bean>
 
-	<beans:bean id="sampleInterceptor" class="com.yi.tourland.interceptor.SampleInterceptor"/>
+	<!-- 이 밑의 맵핑부분에 로그인 처리 안되어있을 때 들어가면 안되는 페이지의 컨트롤러 벨류값을 달면 된다. -->
+	
+ 	<beans:bean id="sampleInterceptor" class="com.yi.tourland.interceptor.SampleInterceptor"/>
 	<interceptors>
 		<interceptor>
-			<mapping path="/user/mypage/tourlandMyInfoEditPassword"/>
+			<mapping path=""/>
 			<beans:ref bean="sampleInterceptor"/>
 		</interceptor>
 	</interceptors>
-	
+	 
 	<context:component-scan base-package="com.yi.tourland.controller" />
 
 </beans:beans>

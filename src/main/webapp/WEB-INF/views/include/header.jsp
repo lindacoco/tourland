@@ -88,7 +88,7 @@
 		$(".dropdown-menu").mouseover(function() {
 			$(this).css("display", "block");
 		})
-		$(".dropdown-menu").mouseout(function() {
+ 		$(".dropdown-menu").mouseout(function() {
 			$(this).css("display", "none");
 		})
 
@@ -117,7 +117,7 @@
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="${pageContext.request.contextPath }/resources/index2.html"
+			<a href="${pageContext.request.contextPath }/empMngList/0"
 				class="logo"> <!-- mini logo for sidebar mini 50x50 pixels --> <span
 				class="logo-mini"><b>A</b>LT</span> <!-- logo for regular state and mobile devices -->
 				<span class="logo-lg" id="logoTourLand"><b>TourLand</b></span>
@@ -335,21 +335,10 @@
 										<p>${Manager.name }- administrator</p>
 									</c:if></li>
 								<!-- Menu Body -->
-								<li class="user-body">
-									<div class="col-xs-4 text-center">
-										<a href="#">Followers</a>
-									</div>
-									<div class="col-xs-4 text-center">
-										<a href="#">Sales</a>
-									</div>
-									<div class="col-xs-4 text-center">
-										<a href="#">Friends</a>
-									</div>
-								</li>
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-left">
-										<a href="#" class="btn btn-default btn-flat">프로필</a>
+										<a href="${pageContext.request.contextPath }/EditPassword" class="btn btn-default btn-flat">프로필</a>
 									</div>
 									<div class="pull-right">
 										<a href="${pageContext.request.contextPath}/logout"
@@ -359,8 +348,7 @@
 							</ul>
 						</li>
 						<!-- Control Sidebar Toggle Button -->
-						<li><a href="#" data-toggle="control-sidebar"><i
-								class="fa fa-gears"></i></a></li>
+						<li><a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>
 					</ul>
 				</div>
 			</nav>

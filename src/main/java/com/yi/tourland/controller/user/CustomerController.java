@@ -97,7 +97,8 @@ public class CustomerController {
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
-		//팝업 불러오기
+		
+	//팝업 불러오기
 	    PopupVO popup1 = popupService.setPopup("L");
 		if(popup1 != null) {
 	
@@ -122,7 +123,7 @@ public class CustomerController {
 			model.addAttribute("popup2",popup2.getPic());
 		}
 		
-		//배너 불러오기
+	//배너 불러오기
 		BannerVO banner1 = bannerService.setBanner("L");
 		if(banner1 != null) {
 			model.addAttribute("banner1",banner1);
@@ -133,6 +134,7 @@ public class CustomerController {
 		}
 		return "/user/tourlandMain"; 
 	}
+	
 	//투어랜드 회원가입
 	@RequestMapping(value="tourlandRegister", method=RequestMethod.GET)
 	public String tourlandRegister(SearchCriteria cri, UserVO vo, Model model) { 
@@ -167,6 +169,7 @@ public class CustomerController {
 		}
 		return "redirect:loginForm"; 
 	}
+	
 	// 아이디 존재유무 체크
 		@ResponseBody
 		@RequestMapping(value = "idCheck/{empid}", method = RequestMethod.GET)
@@ -188,19 +191,75 @@ public class CustomerController {
 		}
 	
 	
-	//마이페이지에서 처음 비밀번호 치는 곳
+	//마이페이지의 비밀번호 확인
 	@RequestMapping(value="EditPassword", method=RequestMethod.GET) 
 	public String tourlandEditPassword() throws Exception { 
 		return "/user/mypage/tourlandMyInfoEditPassword"; 
 	}
+	
+//	@RequestMapping(value="EditPassword", method=RequestMethod.POST) 
+//	public String EditPasswordCheck(String checkPass, UserVO userVO, EmployeeVO empVO, Model model) throws Exception { 
+//		
+//		UserVO dbUserId = userService.readByIdUser(userVO.getUserid());
+//
+//		EmployeeVO dbEmpId = employeeService.readByIdEmployee(empVO.getEmpid());
+//		
+//		System.out.println(dbUserId);
+//		System.out.println(dbUserId.getUserpass());
+//		System.out.println(checkPass);
+//		if(dbEmpId !=null) {
+//			if(dbEmpId.getEmppass().equals(checkPass)==false) {
+//				model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+//			}
+//		}
+//		if(dbUserId!=null) {
+//			if(dbUserId.getUserpass().equals(checkPass)==false){
+//				model.addAttribute("error", "비밀번호가 일치하지 않습니다.");
+//			}
+//		}
+//		return "redirect:/tourlandMyInfoEdit";
+//	}
+	
+	//비밀번호 확인 되었을때 나타나는곳 현서때문에 이렇게 함
+	@ResponseBody
+	@RequestMapping(value = "EditPasswordCheck/{totalId}", method = RequestMethod.GET)
+	public ResponseEntity<String> EditPasswordCheck(@PathVariable("totalId") String totalId,String checkPass,Model model) {
+		ResponseEntity<String> entity = null;
+
+		try {
+			UserVO dbUserId = userService.readByIdUser(totalId);
+			EmployeeVO dbEmpId = employeeService.readByIdEmployee(totalId);
+			EmployeeVO dbEmp = employeeService.readByIdPwEmployee(totalId,checkPass);
+			UserVO dbUser = userService.readByIdPwUser(totalId,checkPass); // 유저 테이블에서 아이디로 검색
+			if(dbEmpId!=null) {
+				if(dbEmp==null) {
+						entity = new ResponseEntity<String>("NoPass", HttpStatus.OK);
+				}
+			}
+			if(dbUserId!=null) {
+				if(dbUser==null) {
+						entity = new ResponseEntity<String>("NoPass", HttpStatus.OK);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>("fail", HttpStatus.BAD_REQUEST); // 400에러
+		}
 		
-	//마이 페이지 - 내 정보 수정
+		return entity;
+	}
+	
+		
+	//마이 페이지-내정보수정에서 보이는 개인정보
 	@RequestMapping(value="tourlandMyInfoEdit", method=RequestMethod.GET) 
 	public String tourlandMyInfoEdit() throws Exception { 
 		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
+	//마이 페이지 - 내정보수정에서 수정 후 수정버튼을 눌릴때 받을곳
 	@RequestMapping(value="editProfile", method=RequestMethod.POST) 
 	public String tourlandEditProfile() throws Exception { 
+		
+		
 		return "/user/mypage/tourlandMyInfoEdit"; 
 	}
 	
