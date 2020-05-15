@@ -24,7 +24,7 @@ select * from rentcar where rentddate =  '2020-04-01' and returndate  = '2020-04
 select * from banner b2 ;
 select * from banner order by no desc limit 1, 3;
 delete from banner where no in(1,3,4,5,6,7,8,9,10,11);
-delete from banner;
+
 select  count(no) from banner ;
 
 -- 팝업
@@ -62,16 +62,18 @@ select * from faq where lcate = 'D' and mcate = 'J' and title like concat ('%','
 desc tour;
 select * from tour where no = 3001 order by no desc;
 delete from tour;
+select * from product;
 desc airplane;
 select p.pno,p.pname,p.pcontent,p.pexpire,p.pprice,p.ppic,p.pdiv,
 	   a2.no,a2.ano,a2.dlocation,a2.rlocation,a2.ddate,a2.rdate,a2.ldiv,a2.capacity,a2.seat,a2.price,a2.pdiv, 
 	   h2.no,h2.hname,h2.haddr,h2.checkin,h2.checkout,h2.capacity,h2.price,h2.roomcapacity,h2.roomtype,h2.ldiv,h2.bookedup,h2.pdiv,
 	   t2.no,t2.tname,t2.tlocation,t2.startdate,t2.enddate,t2.taddr,t2.etime,t2.capacity,t2.tprice,t2.ldiv,t2.pdiv,
 	   r2.no,r2.cdiv,r2.cno,r2.rentddate,r2.returndate,r2.rentaddr,r2.returnaddr,r2.price,r2.capacity,r2.insurance,r2.ldiv,r2.pdiv 
-	from (select * from product order by pno desc limit 0,10) p join pairstatus a on p.pno = a.pno join airplane a2 on a.ano = a2.no
+	from (select * from product order by pno desc limit 0
+	,10) p join pairstatus a on p.pno = a.pno join airplane a2 on a.ano = a2.no
 							 	join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no
 							 	join ptourstatus t on p.pno = t.pno join tour t2 on t.tno = t2.no
-							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no
+							 	join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no;					 	
 							 
 select p.pno,p.pname,p.pcontent,p.pexpire,p.pprice,p.ppic,p.pdiv,
 	    a2.no as a2no,a2.ano,a2.dlocation,a2.rlocation,a2.ddate,a2.rdate,a2.ldiv,a2.capacity,a2.seat,a2.price,a2.pdiv, 
@@ -253,7 +255,6 @@ VALUES(3, '[제주 7일]시크릿 특가!제주시내/우도 대한항공 바로
 
 <p><img alt="" src="http://localhost:8080/tourland/resources/images/jeju/tour2.jpg" style="height:966px; width:1000px" /></p>
 ', '2020-03-29', 72540000, '/2020/05/14/bff374d8-dc56-4cd0-9e79-fba692e8b4b8_tour2.jpg', 0);
-
 
 select * from product p join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no where p.pno = 2;
 desc pairstatus;

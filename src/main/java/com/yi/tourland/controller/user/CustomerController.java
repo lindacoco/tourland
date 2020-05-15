@@ -247,7 +247,20 @@ public class CustomerController {
 	@RequestMapping(value="tourlandProductJPList", method=RequestMethod.GET)
 	public String tourlandProductJPList() { 
 		return "/user/product/tourlandProductJPList"; 
-	}	
+	}
+	//상품 리스트   (중국 패키지)
+		@RequestMapping(value="tourlandProductChinaList", method=RequestMethod.GET)
+		public String tourlandProductChinaList(SearchCriteria cri,Model model) throws SQLException {
+			List<ProductVO> list = productService.productListPageByChina(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductChina(cri));
+			model.addAttribute("list",list);
+			model.addAttribute("pageMaker",pageMaker);
+			model.addAttribute("cri",cri);
+			model.addAttribute("count",productService.totalCountBySearchProductChina(cri));
+			return "/user/product/tourlandProductChinaList"; 
+		}
 	//상품 세부 정보    
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
 	public String tourlandProductDetail(SearchCriteria cri,ProductVO vo,Model model) throws SQLException {
