@@ -109,7 +109,7 @@ body {
 								<td>${f.ano}</td>
 								<td>${f.dlocation }</td>
 								<td>${f.rlocation }</td>
-								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
+								<td id="ddate" data-ddate="<fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/>"><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>
 								<td><fmt:formatDate value="${f.rdate }" pattern ="yyyy-MM-dd"/></td>
 								<td>${f.ldiv==1?'국내':'해외'}</td>
 								<td id="acapacity" data-capacity="${f.capacity}">${f.capacity }</td>

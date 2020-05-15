@@ -75,7 +75,7 @@
 	div#nav2 ul li.short { width: 50px;} 
 	#userAuth{
 		position: absolute;
-   	 	top: 12px;
+   	 	top: 12px;자금성
     	left: 1068px;
 	}	
 	#managerAuth{
@@ -111,7 +111,7 @@
 			
 					<div id="main">
 						<div id="reward">
-							<a href="#"><img src="${pageContext.request.contextPath }/resources/images/reward.png"></a>
+							<a href="${pageContext.request.contextPath }/tourlandEventList/ingEvent"><img src="${pageContext.request.contextPath }/resources/images/reward.png"></a>
 						</div>
 						<div id="logo">
 							<h1><a href="${pageContext.request.contextPath }/tourlandMain">투어 랜드</a></h1>    
@@ -126,7 +126,7 @@
 						<ul>
 							<li><a href="${pageContext.request.contextPath }/tourlandProductKRList">제주 패키지</a></li>
 							<li><a href="${pageContext.request.contextPath }/tourlandProductJPList">일본 패키지</a></li>
-							<li><a href="#">중국 패키지</a></li>
+							<li><a href="${pageContext.request.contextPath }/tourlandProductChinaList">중국 패키지</a></li>
 							<li><a href="#">우리끼리</a></li>
 							<li class="short"><a href="${pageContext.request.contextPath }/tourlandEventList/ingEvent">이벤트</a></li>
 						</ul>

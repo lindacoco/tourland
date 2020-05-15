@@ -25,8 +25,18 @@ insert into custboard values
 (2,'상품이 다양하면 좋겠어요','좀더 많았으면..','장도롱',now(),password(111)),
 (3,'차은우 가이드님 칭찬합니다','존잘!!','박열무',now(),password(111));
 
+
+-- 배너
+desc banner;
+insert into banner values
+(1,'중국 자금성','세계 최대 규모 궁궐','/2020/05/15/e5d4138a-3910-44cf-a9aa-368e3b9d484f_banner.jpg',0,'L'),
+(2,'일본 센소지','도쿄에서 가장 오래된 절','/2020/05/15/59b0e99c-ffd0-421a-8e09-8574b5eda653_banner2.jpg',0,'R');
+
 -- 팝업
 desc popup ;
+insert into popup values
+(1,'패키지여행 스벅이벤트','스벅증정','/2020/05/15/4e96f9ce-8cb8-4530-9a29-137903ac8a50_event1.jpg','2020-01-01','2021-01-01','R'),
+(2,'구급키트 증정','구급키트 증정','/2020/05/15/3cfbd968-8c92-4473-8065-e009e07c0614_event2.jpg','2020-03-01','2020-12-01','L');
 
 desc event ;
 load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/event.csv'
@@ -39,7 +49,7 @@ IGNORE 1 lines;
 
 
 -- 현서 렌트카 ----------------------------------------------------------------------------------------------
-DESC rentcar;
+DESC rentcar; 
 load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/rentcar.csv'
 INTO TABLE tour.rentcar
 character set 'utf8'
@@ -64,6 +74,7 @@ IGNORE 1 lines;
 #상품 테이블 CSV 테스트용(연결 테이블 까지 포함)
 LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/product.csv'  
 INTO TABLE product
+character set 'utf8'
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
