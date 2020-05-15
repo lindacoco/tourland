@@ -268,6 +268,10 @@ delete from ptourstatus;
 delete from photelstatus;
 delete from pairstatus;
 delete from product;
+delete from airplane;
+delete from hotel;
+delete from tour;
+delete from rentcar;
 -- 태원 --------------------------------------------------------------------------------------------
 SELECT *
 FROM hotel; 
