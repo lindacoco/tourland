@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,11 +15,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.PayloadApplicationEvent;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.gson.JsonObject;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.AirplaneVO;
@@ -1990,6 +1994,30 @@ public class ManagerController {
 		@RequestMapping(value = "paymentList", method = RequestMethod.GET)
 		public String paymentList(SearchCriteria cri, Model model) throws Exception {
 			return "/manager/payment/paymentList";
+		}
+		
+		
+	//ckEditor 이미지 업로드용
+		@ResponseBody
+		@RequestMapping(value = "imageUpload", method = RequestMethod.POST)
+		public void imageUpload(HttpServletRequest req, HttpServletResponse resp, 
+                MultipartHttpServletRequest multiFile) throws Exception {
+			System.out.println("Aa");
+			JsonObject json = new JsonObject();
+			PrintWriter printWriter = null;
+			OutputStream out = null;
+			MultipartFile file = multiFile.getFile("upload");
+			System.out.println("file"+file);
+
+			String serverPath ="http://localhost:8080/tourland/resources/images/";
+			
+			json.addProperty("uploaded", 1);
+            json.addProperty("fileName", file.getOriginalFilename());
+            json.addProperty("url", serverPath+file.getOriginalFilename());
+            
+            printWriter.println(json);
+
+
 		}
 
 	
