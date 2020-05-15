@@ -22,7 +22,7 @@
 	section nav ul li:hover { background: #ff7f00; }						  				  	
 	
 	section div#myreserv { width:1000px; height: 1000px; 
-							  margin-left: 200px;
+							  margin-left: 200px; position: relative;
 							 }
 	div#mapHeaderWrap {   margin-bottom: 50px; }							 							 	
 	section div#myreserv h1 { width: 200px;
@@ -50,7 +50,7 @@
 	.yel { color: goldenrod; }	
 	
 	
-	section nav ul li:nth-child(1) {
+	section nav ul li:nth-child(2) {
 	 background: mistyrose;
    }	    
     #introBox{
@@ -93,13 +93,31 @@
      padding:15px;
      background: mistyrose;
    }
+   #pasteMsg{
+     line-height:50px;
+     text-align:center;
+     width: 300px;
+     height: 200px;
+     background: mistyrose;
+     position: absolute; top: 700px; left: 400px;
+     z-index: 1;
+     border-radius: 20px;
+     display: none;
+     
+   }
    
 </style>
+
 <body>   
 	
 		<section id="introSection">
 		<%@ include file="../../include/userFooterMenu.jsp"%>   
 				<div id="myreserv">
+				    <div id="pasteMsg">
+				       <p>이메일 주소가 클립보드에 복사되었습니다. <br>
+				       ctl+V로 붙여넣기하세요</p>
+				       <button style="padding:10px; margin-top:20px;" id="adBtn">확인</button>
+				    </div>
 					<div id="mapHeaderWrap">
 						<h1>제휴문의</h1>
 						<span id="info">to world with TOURLAND</span>
@@ -115,7 +133,8 @@
 					   <br>
 					   <p>E-mail : lindacoco0204@gmail.com</p>
 					   <br><br>
-					<a href="mailto:lindacoco0204@gmail.com" id="aMail"> <i class="fas fa-envelope" style="margin-right:10px;"></i>바로 메일 보내기</a>
+					<a href="mailto:'lindacoco0204@gmail.com'" id="aMail"> 바로 메일 보내기</a>
+					
 					</div>
 					
 					
