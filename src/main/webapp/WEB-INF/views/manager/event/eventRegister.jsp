@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../../include/header.jsp"%>
-<script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
+
 <style>
   #previewDiv{
     height: 350px;
@@ -25,8 +25,11 @@
 </style>
 <script>
 	$(function(){
+
+
+		var url = "${url2}";
 		CKEDITOR.replace('content',{filebrowserUploadUrl:'${pageContext.request.contextPath}/imageUpload'});
-		CKEDITOR.config.width = '90em';
+		CKEDITOR.config.width = '77em';
 		CKEDITOR.config.height = '50em';
 
 	})

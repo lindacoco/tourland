@@ -23,9 +23,10 @@
 				   border-collapse: collapse; 
 				   margin: 40px; 
 				   font-size: 14px; }
-	table#reserv th, tr, td { border: 1px solid gray;
+	table#reserv th, tr, td { border-top: 1px solid gray;
+							  border-bottom: 1px solid gray;
 						     text-align: center; }
-	table#reserv th { background: #ece6cc; height: 40px; }						     		
+	table#reserv th { background: #F2F2F2; height: 40px; }						     		
 	table#reserv img { width: 100px; height: 70px; padding: 5px; }
 	.red { font-weight: bold;  color: maroon; }
 	.blue button { width: 80px; height: 25px; border: none; margin-top: 10px; color: #fff; }

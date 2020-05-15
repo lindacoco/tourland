@@ -7,20 +7,20 @@
 <style>
 	/* 본문 */
 	
-	section div#editProfile { width:1000px; height: 100%; 
+	section div#editProfile { width:1073px; height: 100%; 
 							  margin-left: 22%;
 							 }
 	section div#editProfile h1 { width: 200px;
 								 height: 30px;  
 							     padding: 20px;
 							     border-bottom: 1px solid #929292; }							  
-	section div#editProfile form { width: 500px; 
-								   margin: 20px auto;
-								   padding-top: 50px; }   
+	section div#editProfile form { width: 462px;
+   									 margin: -30px auto;
+   									 padding-top: 44px; }   
 	section div#editProfile label { width: 120px;
 								    float: left;
 								    font-weight: bold;}
-	section div#editProfile p { height: 80px; }
+	section div#editProfile p { height: 70px; }
 	section div#editProfile input { width: 250px; height: 30px; 
 									border: none; border-bottom: 1px solid #929292;}
 	.red { color: red;}
@@ -49,8 +49,13 @@
   /* 주소  */
   #pAddr input{
     margin-left:140px;
-    background: ghostwhite;
   }		
+  .inputAddr{
+  	margin-bottom: 8px;
+    position: relative;
+    top: -55px;
+    padding-left: 4px;
+  }
  	  				  		
 </style>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -264,7 +269,7 @@
 	    }
 		
 	</script>
-			<section>
+			<section style="height:1000px;">
 				<div id="editProfile">
 				<h1>투어랜드 회원가입</h1>
 				<span id="info">투어랜드는 고객님의 개인정보가 외부로 노출되지 않도록 항상 노력하고 있습니다.</span>
@@ -301,14 +306,14 @@
 							<input type="text" name="userbirth" required="required"  placeholder=" 2000-02-02" required="required"  ><br>
 							<span class="errorMsg">생년월일 형식에 맞게 넣어주세요. 예시: 2000-02-02</span>
 						</p>
-						<p style="margin-bottom:10px; height: 250px;" id="pAddr">
+						<p style="margin-bottom:10px; height: 170px;" id="pAddr">
 							<label>주소</label><br>
-							<input type="hidden" name="useraddr" ><br>
-							<input type="text" id="sample6_postcode" placeholder="우편번호">
-							<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="background:steelblue; border:inherit; color:white;">
-							<input type="text" id="sample6_address" placeholder="주소"><br>
-							<input type="text" id="sample6_detailAddress" placeholder="상세주소">
-							<input type="text" id="sample6_extraAddress" placeholder="참고항목">
+							<input type="hidden" name="useraddr" class="inputAddr"><br>
+							<input type="text" id="sample6_postcode" placeholder="우편번호" class="inputAddr">
+							<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" style="background:steelblue; border:inherit; color:white;" class="inputAddr">
+							<input type="text" id="sample6_address" placeholder="주소" class="inputAddr"><br>
+							<input type="text" id="sample6_detailAddress" placeholder="상세주소" class="inputAddr">
+							<!-- <input type="text" id="sample6_extraAddress" placeholder="참고항목" class="inputAddr"> -->
 						</p>
 						<p>
 							<label>전화번호</label>

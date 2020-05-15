@@ -54,7 +54,7 @@ desc custboard ;
 delete from custboard where no = 3;
 select * from custboard order by no desc limit 1, 3;
 
-
+select * from product p ;
 
 -- 인선 --------------------------------------------------------------------------------------------
 select count(no) from faq where title like concat('%','쿠폰','%');

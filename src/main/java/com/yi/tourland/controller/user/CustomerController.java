@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
+import com.yi.tourland.domain.mng.CouponVO;
 import com.yi.tourland.domain.mng.CustBoardVO;
 import com.yi.tourland.domain.mng.EmployeeVO;
 import com.yi.tourland.domain.mng.EventVO;
@@ -189,7 +190,17 @@ public class CustomerController {
 			}
 			return entity;
 		}
-	
+	//ID, 비밀번호 찾기
+	@RequestMapping(value="tourlandFindIdPw", method=RequestMethod.GET) 
+	public String tourlandFindIdPw() throws Exception { 
+		return "/user/tourlandFindIdPw"; 
+	}
+	@RequestMapping(value="tourlandFindIdPw", method=RequestMethod.POST) 
+	public String tourlandFindIdPwPost() throws Exception {
+		
+		
+		return "/user/tourlandFindIdPw"; 
+	}
 	
 	//마이페이지의 비밀번호 확인
 	@RequestMapping(value="EditPassword", method=RequestMethod.GET) 
@@ -279,16 +290,24 @@ public class CustomerController {
 	public String tourlandMyReserv() { 
 		return "/user/mypage/tourlandMyReserv"; 
 	}
-	//마이 페이지 - 내 예약 현황
+	//상품 리뷰    
+	@RequestMapping(value="tourlandMyReview", method=RequestMethod.GET)
+	public String tourlandMyReview() throws SQLException {
+		
+		return "/user/mypage/tourlandMyReview"; 
+	}
+	//마이 페이지 - 장바구니
 	@RequestMapping(value="tourlandMyWishes", method=RequestMethod.GET)
 	public String tourlandMyWishes() { 
 		return "/user/mypage/tourlandMyWishes"; 
 	}
 	//마이 페이지 - 내 쿠폰
 	@RequestMapping(value="tourlandMyCoupon", method=RequestMethod.GET)
-	public String tourlandMyCoupon() { 
+	public String tourlandMyCoupon(SearchCriteria cri, Model model) throws Exception { 
+		List<CouponVO> list = couponService.couponUserList(cri);
+		model.addAttribute("list", list);
 		return "/user/mypage/tourlandMyCoupon"; 
-	}
+	}    
 	//상품 리스트   (제주 패키지)
 	@RequestMapping(value="tourlandProductKRList", method=RequestMethod.GET)
 	public String tourlandProductKRList(SearchCriteria cri,Model model) throws SQLException {
@@ -328,6 +347,16 @@ public class CustomerController {
 		model.addAttribute("vo",vo);
 		return "/user/product/tourlandProductDetail"; 
 	}
+	//상품 리뷰    
+	@RequestMapping(value="tourlandProductReview", method=RequestMethod.GET)
+	public String tourlandProductReview(SearchCriteria cri,ProductVO vo,Model model) throws SQLException {
+		
+		  vo = productService.productByNo(vo); model.addAttribute("cri",cri);
+		  model.addAttribute("vo",vo);
+		 
+		return "/user/product/tourlandProductReview"; 
+	}
+	
 	
 	//이벤트 --------------------------------------------------------------------------------------
 	@RequestMapping(value="tourlandEventList/{times}", method=RequestMethod.GET)

@@ -75,7 +75,7 @@
 	div#nav2 ul li.short { width: 50px;} 
 	#userAuth{
 		position: absolute;
-   	 	top: 12px;자금성
+   	 	top: 12px;
     	left: 1068px;
 	}	
 	#managerAuth{

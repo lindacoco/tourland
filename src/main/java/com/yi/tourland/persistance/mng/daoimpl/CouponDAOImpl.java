@@ -45,4 +45,8 @@ public class CouponDAOImpl implements CouponDAO {
 	public void editCoupon(CouponVO coupon) throws Exception {
 		sqlSession.update(namespace + "editCoupon" , coupon);
 	}
+	@Override
+	public List<CouponVO> couponUserList(SearchCriteria cri) throws Exception {
+		return sqlSession.selectList(namespace+"couponUserList", cri);
+	}
 }
