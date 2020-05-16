@@ -85,37 +85,39 @@ span.errorMsg {
 	$(function(){
 		$("form").submit(function(e){
 			$(".errorMsg").css("display", "none");
-			var username = $("input[name='username']").val();
-			var userbirth = $("input[name='userbirth']").val(); 
-			var usertel = $("input[name='usertel']").val();
-			var useremail = $("input[name='useremail']").val();
+			var name = $("input[name='name']").val();
+			var birth = $("input[name='birth']").val(); 
+			var tel = $("input[name='tel']").val();
+			var email = $("input[name='email']").val();
 			
 			//이름 정규표현식
 			var nameReg = /^[가-힣]{2,5}$/;
-			if (nameReg.test(username) == false) {
-				$("input[name='username']").next().css("display", "inline");
+			if (nameReg.test(name) == false) {
+				$("input[name='name']").next().css("display", "inline");
 				  return false;
 			  }
 			
 			//생년월일 정규표현식
 			var birthReg = /^(1|2)[0-9]{3}-(01|02|03|04|05|06|07|08|09|10|11|12)-(01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20|21|22|23|24|25|26|27|28|29|30|31)$/; 
-			if (birthReg.test(userbirth) == false) {
-				$("input[name='userbirth']").next().css("display", "inline");
+			if (birthReg.test(birth) == false) {
+				$("input[name='birth']").next().css("display", "inline");
 				  return false;
 			  }
 			
 			//전화번호 정규표현식
 			var phoneReg = /^(010|011|019|018|017)-[0-9]{3,4}-[0-9]{4}$/; 
-			if (phoneReg.test(usertel) == false) {
-				$("input[name='usertel']").next().css("display", "inline");
+			if (phoneReg.test(tel) == false) {
+				$("input[name='tel']").next().css("display", "inline");
 				  return false;
 			  }
 			
 			//이메일 정규표현식
-			var emailReg = /^$/;
+			var emailReg = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			if(emailReg.test(email)==false){
+				$("input[name='email']").next().css("display", "inline");
+				  return false;
+			}
 			
-			
-	
 		})
 	})
 </script>
@@ -129,22 +131,22 @@ span.errorMsg {
 			<form action="tourlandfindIdPw" method="post">
 				<p>
 					<label>이름</label> 
-					<input type="text" name="username" required="required" placeholder="한글 2-5자리"><br> 
+					<input type="text" name="name" required="required" placeholder="한글 2-5자리"><br> 
 					<span class="errorMsg">이름을 한글 2자리에서 5자리로 입력해주세요.</span>
 				</p>
 				<p>
 					<label>생년월일</label>
-					<input type="text" name="userbirth" required="required" placeholder="예) 2000-02-02"><br>
+					<input type="text" name="birth" required="required" placeholder="예) 2000-02-02"><br>
 				 	<span class="errorMsg">생년월일 형식에 맞게 넣어주세요. 예시:2000-02-02</span>
 				</p>
 				<p>
 					<label>전화번호</label> 
-					<input type="text" name="usertel" required="required" placeholder=" 예) 010-4334-4321"><br>
+					<input type="text" name="tel" required="required" placeholder=" 예) 010-4334-4321"><br>
 					<span class="errorMsg">형식에 맞게 넣어주세요 예시: 010-4334-4321</span>
 				</p>
 				<p>
 					<label>이메일</label> 
-					<input type="text" name="useremail" required="required" placeholder="메일형식을 써주세요"><br> 
+					<input type="text" name="email" required="required" placeholder="메일형식을 써주세요"><br> 
 					<span class="errorMsg">유효하지 않은 이메일 형식입니다.</span>
 				</p>
 				<p id="inputs">

@@ -67,6 +67,7 @@ public class LoginController {
 			map.put("right", dbEmpIdPw.getEmpauth());
 			session.setAttribute("Manager",map);
 			session.setAttribute("Auth", dbEmpIdPw);//정보 다 가지고 있는거
+			session.setAttribute("pass", pass);
 			return "redirect:/";
 			
 		//회원아이디가 있는 경우

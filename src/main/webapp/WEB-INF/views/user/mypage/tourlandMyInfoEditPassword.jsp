@@ -77,10 +77,14 @@ input[name='userid']{
 <script>
 $(function(){
 	$("form").submit(function(e){
-		var userid = ${Auth.userid};
-		alert(userid);
+		if("${Auth.empid==null}"){
 			var totalId = $("input[name='userid']").val();
 			var checkPass= $("input[name='checkPass']").val();
+		}else{
+			var totalId = $("input[name='empid']").val();
+			var checkPass= $("input[name='checkPass']").val();
+		}
+			
 			 //아이디 중복 ajax로 처리하기
 			 $.ajax({
 				url:"EditPasswordCheck/"+totalId+"?checkPass="+checkPass,
@@ -111,27 +115,26 @@ $(function(){
 			<span id="info">투어랜드는 고객님의 개인정보가 외부로 노출되지 않도록 항상 노력하고 있습니다.</span>
 		
 		<form action="tourlandMyInfoEdit" method="get">
-			<c:if test="${Auth.userid !=null }">
-				<p>
-					<label>아이디</label><input type="text" name="userid" value="${Auth.userid}" readonly="readonly">
-				</p>
-				<p>
-					<label>비밀번호</label><input type="password" name="checkPass" placeholder="비밀번호를 재입력해주세요.">
-				</p>
-					<span class="error">비밀번호가 일치하지 않습니다</span>
-			</c:if>
-			
-			
-			<c:if test="${Auth.empid !=null }">
-				<p>
-					<label>아이디</label><input type="text" name="empid" value="${Auth.empid}" readonly="readonly">
-				</p>
-				<p>
-					<label>비밀번호</label><input type="password" name="checkPass" placeholder="비밀번호를 재입력해주세요.">
-				</p>
-					<span class="error">비밀번호가 일치하지 않습니다</span>
-			</c:if>
-
+			<c:choose>
+				<c:when test="${Auth.empid!=null }">
+					<p>
+						<label>아이디</label><input type="text" name="empid" value="${Auth.empid}" readonly="readonly">
+					</p>
+					<p>
+						<label>비밀번호</label><input type="password" name="checkPass" placeholder="비밀번호를 재입력해주세요.">
+					</p>
+						<span class="error">비밀번호가 일치하지 않습니다</span>
+				</c:when>
+				<c:otherwise>
+					<p>
+						<label>아이디</label><input type="text" name="userid" value="${Auth.userid}" readonly="readonly">
+					</p>
+					<p>
+						<label>비밀번호</label><input type="password" name="checkPass" placeholder="비밀번호를 재입력해주세요.">
+					</p>
+						<span class="error">비밀번호가 일치하지 않습니다</span>
+				</c:otherwise>
+			</c:choose>
 				<p id="btns">
 					<button type="submit" id="withdraw" style="cursor: pointer">확인</button>
 				</p>
