@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 pno,tno
 1,2
 2,5
@@ -896,8 +895,8 @@ pno,tno
 186,649
 189,659
 189,757
-=======
-"pno","tno"
+=======,
+pno,tno
 1,41
 2,43
 3,65
@@ -936,4 +935,4 @@ pno,tno
 6,649
 9,659
 9,757
->>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
+>>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git,
