@@ -34,4 +34,6 @@ public interface ProductDao {
 	public int totalCountBySearchProductDomestic(SearchCriteria cri) throws SQLException;
 	public int totalCountBySearchProductChina(SearchCriteria cri) throws SQLException;
 	public int totalCountProduct() throws SQLException;
+	// 상품 리스트 검색 (중국) 
+	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException; 
 }

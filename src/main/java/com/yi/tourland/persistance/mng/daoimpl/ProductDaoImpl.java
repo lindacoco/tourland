@@ -164,4 +164,12 @@ public class ProductDaoImpl implements ProductDao {
 	public int totalCountBySearchProductChina(SearchCriteria cri) throws SQLException {
 		return sqlSession.selectOne(namespace + "totalCountBySearchProductChina",cri);
 	}
+	@Override
+	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("ddate", ddate);
+		map.put("rdate", rdate);
+		map.put("cnt", cnt);
+		return sqlSession.selectList(namespace + "tourlandProductChinaSearchList", map);
+	}
 }
