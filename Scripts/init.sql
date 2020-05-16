@@ -202,7 +202,8 @@ CREATE TABLE tour.popup (
 	pic       varchar(255) NULL     COMMENT '사진', -- 사진
 	startdate DATE         NULL     COMMENT '시작날짜', -- 시작날짜
 	enddate   DATE         NULL     COMMENT '종료날짜', -- 종료날짜
-	position  CHAR(1)      NULL     COMMENT '팝업위치' -- 팝업위치
+	position  CHAR(1)      NULL     COMMENT '팝업위치', -- 팝업위치
+	link      varchar(255) NULL     COMMENT '링크'
 )
 COMMENT '팝업';
 

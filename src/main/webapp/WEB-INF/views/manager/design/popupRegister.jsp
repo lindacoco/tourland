@@ -64,6 +64,10 @@
 						<div class="form-group" id="previewDiv">
 							
 						</div>
+						<div class="form-group">
+							<label>이벤트 링크 주소</label>
+							<input type="text" name="link" class="form-control" style="width:1080px;">
+						</div>
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary">등록</button>
 						    <button type="button" class="btn btn-primary" id="btnReturnToList">목록으로</button>
