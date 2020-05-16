@@ -74,20 +74,18 @@ input[name='userid']{
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<body>
+<%@ include file="../../include/userHeader.jsp"%>
+<c:if test="${mypage=='mypageuser'}">
 <script>
 $(function(){
 	$("form").submit(function(e){
-		if("${Auth.empid==null}"){
-			var totalId = $("input[name='userid']").val();
-			var checkPass= $("input[name='checkPass']").val();
-		}else{
-			var totalId = $("input[name='empid']").val();
-			var checkPass= $("input[name='checkPass']").val();
-		}
-			
+		var checkPass= $("input[name='checkPass']").val();
+		var totalId = $("input[name='userid']").val();
+		
 			 //아이디 중복 ajax로 처리하기
 			 $.ajax({
-				url:"EditPasswordCheck/"+totalId+"?checkPass="+checkPass,
+				url:"EditPasswordCheck/"+totalId+"/"+checkPass,
 				type:"get",
 				dataType:"text",
 				success:function(res){
@@ -100,14 +98,38 @@ $(function(){
 					}
 				}
 		    })
-			return false; //submit버튼을 클릭하는거랑 아작스가 가는건 별개다 ajax는 지만 따로 갓다옴
+		return false; //submit버튼을 클릭하는거랑 아작스가 가는건 별개다 ajax는 지만 따로 갓다옴
 	})
 })
-
-
 </script>
-<body>
-	<%@ include file="../../include/userHeader.jsp"%>
+</c:if>
+<c:if test="${mypage=='mypageemp'}">
+<script>
+$(function(){
+	$("form").submit(function(e){
+		var checkPass= $("input[name='checkPass']").val();
+		var totalId = $("input[name='empid']").val();
+
+			 //아이디 중복 ajax로 처리하기
+			 $.ajax({
+				url:"EditPasswordCheck/"+totalId+"/"+checkPass,
+				type:"get",
+				dataType:"text",
+				success:function(res){
+					console.log(res);
+					if(res=="NoPass"){
+						$(".error").css("display", "inline");
+						return false;
+					}else{
+						location.href="${pageContext.request.contextPath}/tourlandMyInfoEdit";
+					}
+				}
+		    })
+		return false; //submit버튼을 클릭하는거랑 아작스가 가는건 별개다 ajax는 지만 따로 갓다옴
+	})
+})
+</script>
+</c:if>
 	<section>
 		<%@ include file="../../include/userMyPageMenu.jsp"%>
 		<div id="editProfile">
@@ -116,7 +138,7 @@ $(function(){
 		
 		<form action="tourlandMyInfoEdit" method="get">
 			<c:choose>
-				<c:when test="${Auth.empid!=null }">
+				<c:when test="${mypage=='mypageemp' }">
 					<p>
 						<label>아이디</label><input type="text" name="empid" value="${Auth.empid}" readonly="readonly">
 					</p>
@@ -125,7 +147,7 @@ $(function(){
 					</p>
 						<span class="error">비밀번호가 일치하지 않습니다</span>
 				</c:when>
-				<c:otherwise>
+				<c:when test="${mypage=='mypageuser'}">
 					<p>
 						<label>아이디</label><input type="text" name="userid" value="${Auth.userid}" readonly="readonly">
 					</p>
@@ -133,7 +155,7 @@ $(function(){
 						<label>비밀번호</label><input type="password" name="checkPass" placeholder="비밀번호를 재입력해주세요.">
 					</p>
 						<span class="error">비밀번호가 일치하지 않습니다</span>
-				</c:otherwise>
+				</c:when>
 			</c:choose>
 				<p id="btns">
 					<button type="submit" id="withdraw" style="cursor: pointer">확인</button>

@@ -234,8 +234,8 @@ public class CustomerController {
 	
 	//비밀번호 확인 되었을때 나타나는곳 현서때문에 이렇게 함
 	@ResponseBody
-	@RequestMapping(value = "EditPasswordCheck/{totalId}", method = RequestMethod.GET)
-	public ResponseEntity<String> EditPasswordCheck(@PathVariable("totalId") String totalId,String checkPass,Model model) {
+	@RequestMapping(value = "EditPasswordCheck/{totalId}/{checkPass}", method = RequestMethod.GET)
+	public ResponseEntity<String> EditPasswordCheck(@PathVariable("totalId") String totalId,@PathVariable("checkPass") String checkPass,Model model) {
 		ResponseEntity<String> entity = null;
 
 		try {
