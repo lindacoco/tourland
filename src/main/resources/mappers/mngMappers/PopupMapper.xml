@@ -4,8 +4,8 @@
 
 <!-- 새로운 팝업 추가  -->
   <insert id="insertPopup" parameterType="PopupVO"> 
-     insert into popup(no, title, content, pic, startdate, enddate) values
-     (#{no}, #{title}, #{content}, #{pic}, #{startdate}, #{enddate})
+     insert into popup(no, title, content, pic, startdate, enddate, link) values
+     (#{no}, #{title}, #{content}, #{pic}, #{startdate}, #{enddate}, #{link})
   </insert>
 
 
@@ -19,7 +19,7 @@
 <!-- 팝업 정보 업데이트 -->
     <update id="updatePopup" parameterType="PopupVO">
        update popup  set 
-       title =#{title}, content=#{content}, pic=#{pic},  startdate=#{startdate}, enddate=#{enddate}, position=#{position}
+       title =#{title}, content=#{content}, pic=#{pic},  startdate=#{startdate}, enddate=#{enddate}, position=#{position}, link=#{link}
        where no=#{no}
     </update> 
     

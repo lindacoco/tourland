@@ -110,7 +110,8 @@ public class CustomerController {
 			cookie.setMaxAge((int)(settingDays2*24*60*60));
 			response.addCookie(cookie);
 			
-			model.addAttribute("popup1",popup1.getPic());
+			model.addAttribute("popup1",popup1);
+			
 		}
 		PopupVO popup2 = popupService.setPopup("R");
 		if(popup2 != null) {
@@ -121,7 +122,7 @@ public class CustomerController {
 			cookie.setMaxAge((int)(settingDays2*24*60*60));
 			response.addCookie(cookie);
 			
-			model.addAttribute("popup2",popup2.getPic());
+			model.addAttribute("popup2",popup2);
 		}
 		
 	//배너 불러오기
