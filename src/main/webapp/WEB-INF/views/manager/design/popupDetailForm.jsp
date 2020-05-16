@@ -72,12 +72,16 @@
 						</div>
 						<div class="form-group">
 							<label>사진</label>
-							<input type="file" name="popupPic" id="file" required="required">
+							<input type="file" name="popupPic" id="file" >
 						</div>
 						<p>수정될 사진</p>
 						<div class="form-group" id="previewDiv">
 						    
                             
+						</div>
+						<div class="form-group">
+							<label>이벤트 링크 주소</label>
+							<input type="text" name="link" class="form-control" style="width:1080px;" value="${popupVO.link }">
 						</div>
 						<div class="box-footer">
 							<button type="submit" class="btn btn-primary">수정</button>

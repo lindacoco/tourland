@@ -2011,13 +2011,11 @@ public class ManagerController {
 			PrintWriter printWriter = null;
 			OutputStream out = null;
 			MultipartFile file = multiFile.getFile("upload");
-			System.out.println("aa");
 			
 			if(file !=null && file.getSize() > 0) {
          try {
 			printWriter = resp.getWriter();
 			resp.setContentType("text/html");
-			System.out.println("bb");
 			String serverPath ="http://localhost:8080/tourland/displayFile/practice?filename=";
 			String serverPath2 = "D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/practice";
 			String savedName = UploadFileUtils.uploadFile(serverPath2, file.getOriginalFilename().replaceAll(" ", "_"),
@@ -2027,11 +2025,8 @@ public class ManagerController {
 			json.addProperty("uploaded", 1);
             json.addProperty("fileName", file.getOriginalFilename());
             json.addProperty("url", serverPath+bigSizePic);
-            
-            System.out.println(bigSizePic);
-            model.addAttribute("url2",serverPath+bigSizePic);
-            model.addAttribute("ckEditorFuncNum", json);
             printWriter.println(json);
+            
 			}catch (Exception e) {
 				// TODO: handle exception
 			}finally {

@@ -194,14 +194,41 @@
      width:30px;
    }
    
+   /* 슬라이드 박스 */
+   #slideBoxMain{
+     background:linen;
+     position: absolute;
+     width:110px;
+     height: 350px;
+     top:500px;
+     right:0;
+     padding: 5px 5px;
+     border:0.5px solid gainsboro;
+   }
+   #slSpan{
+    width:120px; text-align:center;  position: absolute; bottom: 0; margin-bottom:10px; margin-right:10px; color:silver;
+   }
+   #slideBoxMain ul{
+   
+   }
+   #slideBoxMain ul li{
+     height: 30px;
+     line-height:30px;
+     font-size: smaller;
+     padding:5px;
+   }
+   #slideBoxMain ul li:first-child:hover {
+	background: tan;
+	font-weight: bold;
+} 
+   
 									      
 </style>
 <body>
 	<div id="container">
 	<%@ include file="../include/userHeader.jsp"%>
 <!-- 쿠키 -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
 <script>
 
@@ -236,14 +263,37 @@
 	  })
 	  
 	  $("#popup1img").click(function(){
+		  if("${popup1.link}" == ""){
 		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+		  }else{
+			  location.href="${popup1.link}";	  
+		  }
+		  
 	  })
 	   $("#popup2img").click(function(){
+		  if("${popup2.link}" == ""){
 		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+		  }else{
+			  location.href="${popup2.link}";	  
+		  }
 	  })
 	  
 	  $(".label3").click(function(){
 		  $(this).prev().attr("checked",true);
+	  })
+	  
+	  var currentP = parseInt($("#slideBoxMain").css('top'));
+	  $(window).scroll(function(){
+		  var positions = $(window).scrollTop();
+		  $("#slideBoxMain").stop().animate({"top":positions+currentP+"px"},500);
+	  })
+	  
+	  $('#slSpan').click( function() {
+			$('html, body').animate({ scrollTop : 0 }, 600); // 이동 스르륵
+			return false;
+		} );
+	  $("#slExit").click(function(){
+		  $("#slideBoxMain").css("margin-right","-120px");
 	  })
 	  
   })
@@ -263,7 +313,7 @@
 	                        </c:if>
 	                        <c:if test="${popup1 != null }">
 	                        <div id="previewPopup1">
-	                             <img src="displayFile/popup?filename=${popup1}" style="width:400px; height:400px;" id="popup1img">
+	                             <img src="displayFile/popup?filename=${popup1.pic}" style="width:400px; height:400px;" id="popup1img">
 	                             <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK">
 							          <label for="expireCK" style="color:white" class="label3">3일동안 이 창 열지 않기</label> <!-- for -->
@@ -285,7 +335,7 @@
 	                        </c:if>
 	                        <c:if test="${popup2 != null }">
 	                        <div id="previewPopup2">
-	                             <img src="displayFile/popup?filename=${popup2}" style="width:400px; height:400px;" id="popup2img">
+	                             <img src="displayFile/popup?filename=${popup2.pic}" style="width:400px; height:400px;" id="popup2img">
 	                             <p class="popupClose" style="background:black;">
 							          <input type="checkbox" class="expireCK2">
 							          <label for="expireCK" style="color:white" class="label3">3일동안 이 창 열지 않기</label> <!-- for -->
@@ -499,6 +549,15 @@
 						<a href="${pageContext.request.contextPath }/tourlandBoardFAQ">FAQ</a>
 						<a href="${pageContext.request.contextPath }/tourlandCustBoard">고객의 소리</a>
 						<a href="${pageContext.request.contextPath }/tourlandProductBoard">상품 문의사항</a>
+					</div>
+					
+					<div id="slideBoxMain">
+					 <div id="slExit" style="position: absolute; left:-19px; top:170px; background:mistyrose; width:18px;" ><i class="fas fa-caret-right" style="margin-left:8px;" id="arrows"></i></div>
+					   <ul>
+					     <li style="background: mistyrose;">예약확인/결제</li>
+					     <li>최근 본 상품</li>
+					   </ul>
+					   <span id="slSpan"><i class="fas fa-angle-up" style="color:silver;"></i> Top</span>
 					</div>
 				</section>
 				

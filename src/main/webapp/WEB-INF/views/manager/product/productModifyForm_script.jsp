@@ -8,6 +8,7 @@
 	var keyword2="";
 	var price = 0;
 	var calTotalPrice = function() {
+		price = 0;
 		$("#airTable .flightList").each(function(i,obj){
 			var acapacity = Number($(obj).find("#acapacity").attr("data-capacity"));
 			var aprice = Number($(obj).find("#aprice").attr("data-price"));

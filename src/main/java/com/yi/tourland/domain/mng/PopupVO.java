@@ -14,6 +14,15 @@ public class PopupVO {
 	private Date startdate;
 	private Date enddate;
 	private String position;
+	private String link;
+
+	public String getLink() {
+		return link;
+	}
+
+	public void setLink(String link) {
+		this.link = link;
+	}
 
 	public String getPosition() {
 		return position;
@@ -74,7 +83,7 @@ public class PopupVO {
 	@Override
 	public String toString() {
 		return "PopupVO [no=" + no + ", title=" + title + ", content=" + content + ", pic=" + pic + ", startdate="
-				+ startdate + ", enddate=" + enddate + ", position=" + position + "]";
+				+ startdate + ", enddate=" + enddate + ", position=" + position + ", link=" + link + "]";
 	}
 
 }
