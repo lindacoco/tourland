@@ -77,9 +77,9 @@ body {
 						<h2>상품 수정</h2>
 					</div>
 					<p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
-					<form class="form-inline" action="productModify" method="post"
+					<form class="form-inline" action="productModify?page=${cri.page}&searchType=${searchType}&keyword=${keyword}" method="post"
 						enctype="multipart/form-data">
-						<input type="hidden" name="pdiv" value="false"> 
+						<input type="hidden" name="pdiv" value="false">
 						<div class="group">
 							<div class="form-group">
 								<label><span class="red">*</span>항공</label>
