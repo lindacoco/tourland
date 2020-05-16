@@ -85,4 +85,7 @@ public class ProductService {
 	public int totalCountBySearchProductChina(SearchCriteria cri) throws SQLException {
 		return dao.totalCountBySearchProductChina(cri);
 	}
+	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException{
+		return dao.tourlandProductChinaSearchList(ddate, rdate, cnt);
+	};
 }

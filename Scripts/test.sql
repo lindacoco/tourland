@@ -259,6 +259,8 @@ VALUES(3, '[제주 7일]시크릿 특가!제주시내/우도 대한항공 바로
 select * from product p join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no where p.pno = 2;
 desc pairstatus;
 desc prentstatus;
+select * from hotel;
+select * from tour;
 select * from product;
 select * from pairstatus;
 select * from photelstatus;
