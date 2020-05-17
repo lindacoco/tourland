@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<%@ include file="../../include/userHeader.jsp"%>
 <style>
 /* 본문 */
 section {
@@ -145,8 +146,68 @@ div.pkgInfoBox .pkgTitle {
 	height: 30px;
 }
 </style>
+<script>
+function getFormatDate(date){
+	var date = new Date(date);
+    var year = date.getFullYear()+"-";              //yyyy
+    var month = (date.getMonth()+1)+"-";          //M
+    month = month >= 10 ? month : '0' + month;  //month 두자리로 저장
+    var day = date.getDate();                   //d
+    day = day >= 10 ? day : '0' + day;          //day 두자리로 저장
+    return  year + '' + month + '' + day;
+}
+function getSearchResult(){
+	var ddate = $(".datepicker").val();//출발일 선택
+	var tourDays = $("#rdate").val();//여행일 선택
+	var cnt = $("#cnt").val(); //인원
+	$.ajax({
+		url : "tourlandProductChinaSearchList",
+		type : "get",
+		dataType : "json",
+		data : {ddate : ddate, tourDays : tourDays, cnt : cnt},
+		success : function(rs){
+			 $(".pkgListBox").remove();
+			 $(rs.list).each(function(i, obj) {
+				 
+				 var $input1 = $("<input>").attr("type", "hidden").attr("value", obj.pno).attr("id", "pno");
+				 
+				 var $div1 = $("<div>").addClass("pkgImg");
+				
+				 var $img1 = $("<img>").attr("src", "displayFile/product?filename="+obj.pic);
+				 
+				 var $div2 = $("<div>").addClass("pkgInfoBox");
+				 var $p1 = $("<p>").addClass("pkgTitle").html(obj.pname);
+				 var price = Math.ceil(obj.pprice/obj.tour[0].capacity).toLocaleString();
+				 var $p2 = $("<p>").addClass("pkgPrice").html(price+"원").css("text-align","right");
+				 var $p3 = $("<p>").addClass("pkgDate").html("~ "+getFormatDate(obj.pexpire));
+				 
+				 var $p4 = $("<p>").addClass("pkgReserv");
+				 var $btn = $("<button>").addClass("pkgReservBtn").html("지금 바로 예약");
+				 
+				 $div1.append($img1);
+				 $div2.append($p1);
+				 $div2.append($p2);
+				 $div2.append($p3);
+				 
+				 $p4.append($btn);
+				 var $pkgListBox = $("<div class='pkgListBox'>").append($div1).append($div2).append($p4);
+				 /* $(".pkgListBox").append($div1);
+				 $(".pkgListBox").append($div2);
+				 $(".pkgListBox").append($p4); */
+				 $("#pkgOrderBy").after($pkgListBox);
+				 return false;
+			 })
+		}
+	})
+}
+	$(function(){
+		$("#pkgSearchBtn").click(function(){
+			getSearchResult();
+		})
+	})
+</script>
 <body>
-	<%@ include file="../../include/userHeader.jsp"%>
+
 	<section>
 		<div id="pkgTitleBox">
 			<h1>중국</h1>
@@ -159,31 +220,35 @@ div.pkgInfoBox .pkgTitle {
 		<div id="pkgContentBox">
 			<div id="pkgSearch">
 				<h3>검색</h3>
-				<p>체크인 날짜</p>
-				<input type="text" value="${cri.keyword2}" id="keyword2">
-				<p>체크인 날짜</p>
-				<input type="text" value="${cri.keyword3}" id="keyword3">
+				<p>출발일 선택</p>
+				<input type="date" class="datepicker" name="ddate">
+				<p>여행일 선택</p>
+				<select id="rdate">
+					<option>3일</option>
+					<option>5일</option>
+					<option>7일</option>
+				</select>
 				<p>인원</p>
-				<select>
-					<option>성인 2명</option>
-					<option>성인 3명</option>
-					<option>성인 4명</option>
-					<option>성인 5명</option>
-					<option>성인 6명</option>
-					<option>성인 7명</option>
-					<option>성인 8명</option>
-					<option>성인 9명</option>
-					<option>성인 10명</option>
-					<option>성인 11명</option>
-					<option>성인 12명</option>
-					<option>성인 13명</option>
-					<option>성인 14명</option>
-					<option>성인 15명</option>
-					<option>성인 16명</option>
-					<option>성인 17명</option>
-					<option>성인 18명</option>
-					<option>성인 19명</option>
-					<option>성인 20명</option>
+				<select id="cnt">
+					<option>2명</option>
+					<option>3명</option>
+					<option>4명</option>
+					<option>5명</option>
+					<option>6명</option>
+					<option>7명</option>
+					<option>8명</option>
+					<option>9명</option>
+					<option>10명</option>
+					<option>11명</option>
+					<option>12명</option>
+					<option>13명</option>
+					<option>14명</option>
+					<option>15명</option>
+					<option>16명</option>
+					<option>17명</option>
+					<option>18명</option>
+					<option>19명</option>
+					<option>20명</option>
 				</select>
 				<p id="pkgBtnBox">
 					<button id="pkgSearchBtn">검색</button>

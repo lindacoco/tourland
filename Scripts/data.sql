@@ -77,7 +77,7 @@ INTO TABLE product
 character set 'utf8'
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
+LINES TERMINATED BY '\n' 
 IGNORE 1 lines;
 
 LOAD DATA LOCAL INFILE 'D:/workspace/workspace_spring/tourland/file/CSV/pairstatus.csv'  

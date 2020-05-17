@@ -74,57 +74,98 @@ section div#editProfile #btns input {
 	margin-left: 10px;
 }
 </style>
-<script>
-	$(function(){
-		$("#withdraw").click(function(){
-			var id = "${Auth.userid}";
-			var res = confirm("정말로 탈퇴하시겠습니까?");
-			if(res){
-				location.href="${pageContext.request.contextPath}/logoutWithdrawal?id="+id;
-				alert("탈퇴되었습니다.");
-			}
-		})
-		
-		$("#submit").click(function(){
-			$("form").submit(function(e){
-				
-			})
-		})
-	})
-</script>
+</head>
 <body>
 	<%@ include file="../../include/userHeader.jsp"%>
+		<c:if test="${mypage=='mypageuser'}">
+		<script>
+			$(function(){
+				$("#withdraw").click(function(){
+					var userid = $("input[name='userid']").val();
+					var res = confirm("정말로 탈퇴하시겠습니까?");
+					if(res){
+						location.href="${pageContext.request.contextPath}/logoutWithdrawal?id="+id;
+						alert("탈퇴되었습니다.");
+					}
+				})
+				
+				$("#submit").click(function(){
+					$("form").submit(function(e){
+						
+					})
+				})
+			})
+		</script>
+	</c:if>
+	<c:if test="${mypage=='mypageemp'}">
+		<script>
+			$(function(){	
+				$("#submit").click(function(){
+					$("form").submit(function(e){
+						
+					})
+				})
+			})
+		</script>
+	</c:if>
 	<section>
 		<%@ include file="../../include/userMyPageMenu.jsp"%>
 		<div id="editProfile">
 			<h1>내 정보 수정</h1>
 			<span id="info">투어랜드는 고객님의 개인정보가 외부로 노출되지 않도록 항상 노력하고 있습니다.</span>
 			<form action="editProfile" method="post">
-				<p>
-					<label>아이디</label><input type="text" value="${Auth.userid }" name="userid" readonly="readonly">
-				</p>
-				<p>
-					<label>비밀번호</label> <input type="password" name="userpass" value="${pass}">
-				</p>
-				<p>
-					<label>이름</label> <input type="text" name="username" value="${Auth.username}" readonly="readonly">
-				</p>
-				<p>
-					<label>생년월일</label> <input type="text" name="userbirth" value=<fmt:formatDate value="${Auth.userbirth}" pattern="yyyy-MM-dd"/> >
-				</p>
-				<p>
-					<label>주소</label> <input type="text" name="useraddr" value="${Auth.useraddr }">
-				</p>
-				<p>
-					<label>전화번호</label> <input type="text" name="usertel" value="${Auth.usertel }">
-				</p>
-				<p>
-					<label><span class="red">* </span>여권번호</label> <input type="text" name="userpassport" value="${Auth.userpassport }">
-				</p>
-				<p id="btns">
-					<input type="submit" id="submit" value="수정" style="cursor: pointer">
-					<button type="button" id="withdraw" style="cursor: pointer">투어랜드 탈퇴</button>
-				</p>
+				<c:choose>
+					<c:when test="${mypage=='mypageuser'}">
+						<p>
+							<label>아이디</label><input type="text" value="${Auth.userid }" name="userid" readonly="readonly">
+						</p>
+						<p>
+							<label>비밀번호</label> <input type="password" name="userpass" value="${pass}">
+						</p>
+						<p>
+							<label>이름</label> <input type="text" name="username" value="${Auth.username}" readonly="readonly">
+						</p>
+						<p>
+							<label>생년월일</label> <input type="text" name="userbirth" value=<fmt:formatDate value="${Auth.userbirth}" pattern="yyyy-MM-dd"/> >
+						</p>
+						<p>
+							<label>주소</label> <input type="text" name="useraddr" value="${Auth.useraddr }">
+						</p>
+						<p>
+							<label>전화번호</label> <input type="text" name="usertel" value="${Auth.usertel }">
+						</p>
+						<p>
+							<label><span class="red">* </span>여권번호</label> <input type="text" name="userpassport" value="${Auth.userpassport }">
+						</p>
+						<p id="btns">
+							<input type="submit" id="submit" value="수정" style="cursor: pointer">
+							<button type="button" id="withdraw" style="cursor: pointer">투어랜드 탈퇴</button>
+						</p>
+					</c:when>
+					<c:when test="${mypage=='mypageemp'}">
+						<p>
+							<label>아이디</label><input type="text" value="${Auth.empid }" name="empid" readonly="readonly">
+						</p>
+						<p>
+							<label>비밀번호</label> <input type="password" name="emppass" value="${pass}">
+						</p>
+						<p>
+							<label>이름</label> <input type="text" name="empname" value="${Auth.empname}" readonly="readonly">
+						</p>
+						<p>
+							<label>생년월일</label> <input type="text" name="empbirth" value=<fmt:formatDate value="${Auth.empbirth}" pattern="yyyy-MM-dd"/> >
+						</p>
+						<p>
+							<label>주소</label> <input type="text" name="empaddr" value="${Auth.empaddr }">
+						</p>
+						<p>
+							<label>전화번호</label> <input type="text" name="emptel" value="${Auth.emptel }">
+						</p>
+						<p id="btns">	
+							<input type="submit" id="submit" value="수정" style="cursor: pointer;margin-left:84px;">
+						</p>
+					</c:when>
+				</c:choose>
 			</form>
 		</div>
 	</section>
