@@ -26,6 +26,11 @@ select * from banner order by no desc limit 1, 3;
 delete from banner where no in(1,3,4,5,6,7,8,9,10,11);
 
 select  count(no) from banner ;
+select * from product;
+select * from photelstatus;
+select * from prentstatus;
+select * from pairstatus;
+select * from ptourstatus;
 
 -- 팝업
 select  * from popup;
