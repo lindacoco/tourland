@@ -2,7 +2,6 @@ package com.yi.tourland.controller.user;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
@@ -36,8 +34,8 @@ import com.yi.tourland.domain.mng.NoticeVO;
 import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.ProductVO;
-import com.yi.tourland.domain.mng.TourVO;
 import com.yi.tourland.domain.mng.UserVO;
+import com.yi.tourland.persistance.mng.daoimpl.EmailServiceImpl;
 import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.CustBoardService;
@@ -100,16 +98,16 @@ public class CustomerController {
 
 	@Autowired
 	PlanBoardService planBoardService;
-		
+	
+	@Autowired
+	EmailServiceImpl sendEmail;
 	
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
-		
 	//팝업 불러오기
 	    PopupVO popup1 = popupService.setPopup("L");
 		if(popup1 != null) {
-	
 			long settingDays = (popup1.getEnddate().getTime()- popup1.getStartdate().getTime());
 			long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
 			Cookie cookie = new Cookie("popup1", popup1.getPic());
@@ -207,7 +205,7 @@ public class CustomerController {
 	public String tourlandFindIdPwPost() throws Exception {
 		
 		
-		return "/user/tourlandFindIdPw"; 
+		return "/user/tourlandLoginForm"; 
 	}
 	
 	//마이페이지의 비밀번호 확인
@@ -276,19 +274,12 @@ public class CustomerController {
 	}
 	//마이 페이지 - 내정보수정에서 수정 후 수정버튼을 눌릴때 받을곳
 	@RequestMapping(value="editProfile", method=RequestMethod.POST) 
-	public String tourlandEditProfile(String userid,String empid,UserVO userVo, EmployeeVO empVo) throws Exception { 
-		userVo = userService.readByIdUser(userid);
-		empVo = employeeService.readByIdEmployee(empid);
-		System.out.println(userVo);
-		System.out.println(empVo);
-		if(userVo!=null) {
+	public String tourlandEditProfile(UserVO userVo, EmployeeVO empVo) throws Exception { 						
+		if(userVo.getUserno()!=0) {
 			userService.updateUser(userVo);
-			System.out.println(userVo);
-		}else{
+		}else if(empVo.getEmpno()!=0){
 			employeeService.updateEmployee(empVo);
-			System.out.println(empVo);
 		}
-		
 		return "redirect:/"; 
 	}
 	

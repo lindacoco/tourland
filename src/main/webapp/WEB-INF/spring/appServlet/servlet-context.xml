@@ -51,10 +51,13 @@
 	<interceptors>
 		<interceptor>
 			<mapping path=""/>
+			
 			<beans:ref bean="sampleInterceptor"/>
 		</interceptor>
 	</interceptors>
 	 
+	 
 	<context:component-scan base-package="com.yi.tourland.controller" />
+	
 
 </beans:beans>

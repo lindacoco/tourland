@@ -29,7 +29,7 @@
 <!-- 사원 업데이트 -->
     <update id="updateEmployee" parameterType="EmployeeVO">
        update employee set 
-       empname =#{empname}, empbirth=#{empbirth}, emptel=#{emptel}, empaddr=#{empaddr}, emppass=#{emppass}
+       empname =#{empname}, empbirth=#{empbirth}, emptel=#{emptel}, empaddr=#{empaddr}, emppass=password(#{emppass})
        where empno=#{empno}
     </update> 
 
