@@ -2,6 +2,7 @@ package com.yi.tourland.controller.user;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.CookieHandler;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -187,7 +189,23 @@ public class CustomerController {
 
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
-	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
+	public String tourlandMain(Model model, HttpServletResponse response, HttpServletRequest request) throws Exception {
+	 //쿠키불러오기
+		Cookie[] currentC = request.getCookies();
+		for(Cookie c : currentC) {
+			 if(c.getName().contentEquals("currentProduct")) {
+				 ProductVO currentP = new ProductVO();
+				 currentP.setPno(Integer.parseInt(c.getValue()));
+				 ProductVO dbcurrentP = productService.productByNo(currentP);
+				 model.addAttribute("currentProduct",dbcurrentP);
+			 }if(c.getName().contentEquals("currentProduct2")) {
+				 ProductVO currentP = new ProductVO();
+				 currentP.setPno(Integer.parseInt(c.getValue()));
+				 ProductVO dbcurrentP = productService.productByNo(currentP);
+				 model.addAttribute("currentProduct2",dbcurrentP);
+			 }
+		}
+		
 	//팝업 불러오기
 	    PopupVO popup1 = popupService.setPopup("L");
 		if(popup1 != null) {

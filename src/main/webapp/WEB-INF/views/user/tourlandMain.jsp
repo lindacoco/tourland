@@ -200,7 +200,7 @@
      position: absolute;
      width:110px;
      height: 350px;
-     top:500px;
+     top:300px;
      right:0;
      padding: 5px 5px;
      border:0.5px solid gainsboro;
@@ -299,10 +299,10 @@
 	  
 	  //최근 본 상품의 이미지를 누르면 링크로 이동 
 	  $("#currentP1").click(function(){
-		  location.href= $.cookie("currentProduct");
+		  location.href= "tourlandProductDetail?pno="+${currentProduct.pno};
 	  })
 	  $("#currentP2").click(function(){
-		  location.href= $.cookie("currentProduct2");
+		  location.href= "tourlandProductDetail?pno="+${currentProduct2.pno};
 	  })
 	  
   })
@@ -565,8 +565,20 @@
 					   <ul>
 					     <li style="background: mistyrose;"><a href="${pageContext.request.contextPath }/customer/tourlandMyReserv" style="display:block;">예약확인/결제</a></li>
 					     <li>최근 본 상품</li>
-					     <li style="margin-bottom:80px;"><img src="${pageContext.request.contextPath}/images/osaka.jpg" style="width:100px; height: 100px;" id="currentP1"></li>
-					     <li><img src="${pageContext.request.contextPath}/images/osaka.jpg" style="width:100px; height: 100px; " id="currentP2"></li>
+					     <li style="margin-bottom:80px;">
+					     <c:if test="${currentProduct.pic == null }"><span>최근 본 상품이 없습니다.</span>
+					     </c:if>
+					     <c:if test="${currentProduct.pic != null }">
+					       <img src="displayFile/product?filename=${currentProduct.pic}" style="width:100px; height: 100px;" id="currentP1">
+					     </c:if>
+					     </li>
+					     <li>
+					      <c:if test="${currentProduct2.pic == null }">
+					     </c:if>
+					     <c:if test="${currentProduct2.pic != null }">
+					     <img src="displayFile/product?filename=${currentProduct2.pic}" style="width:100px; height: 100px; " id="currentP2">
+					     </c:if>
+					     </li>
 					   </ul>
 					   <span id="slSpan"><i class="fas fa-angle-up" style="color:silver;"></i> Top</span>
 					</div>
