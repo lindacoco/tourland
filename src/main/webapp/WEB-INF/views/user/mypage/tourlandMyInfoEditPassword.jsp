@@ -109,7 +109,7 @@ $(function(){
 	$("form").submit(function(e){
 		var checkPass= $("input[name='checkPass']").val();
 		var totalId = $("input[name='empid']").val();
-
+		
 			 //아이디 중복 ajax로 처리하기
 			 $.ajax({
 				url:"EditPasswordCheck/"+totalId+"/"+checkPass,
@@ -138,7 +138,8 @@ $(function(){
 		
 		<form action="tourlandMyInfoEdit" method="get">
 			<c:choose>
-				<c:when test="${mypage=='mypageemp' }">
+				<c:when test="${mypage=='mypageemp'}">
+					
 					<p>
 						<label>아이디</label><input type="text" name="empid" value="${Auth.empid}" readonly="readonly" style="background-color: lightgray;">
 					</p>
@@ -148,6 +149,7 @@ $(function(){
 						<span class="error">비밀번호가 일치하지 않습니다</span>
 				</c:when>
 				<c:when test="${mypage=='mypageuser'}">
+					
 					<p>
 						<label>아이디</label><input type="text" name="userid" value="${Auth.userid}" readonly="readonly">
 					</p>

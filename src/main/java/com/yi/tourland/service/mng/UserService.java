@@ -29,7 +29,6 @@ public class UserService {
 
 
 	public void updateUser(UserVO vo) throws Exception {
-		System.out.println("여기가 서비스");
 		dao.updateUser(vo);
 	}
 

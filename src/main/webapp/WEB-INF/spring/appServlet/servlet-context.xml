@@ -62,9 +62,12 @@
 			<mapping path="/customer/tourlandCustBoardDetail"/>
 			<mapping path="/customer/tourlandProductBoardDetail"/>
 			<beans:ref bean="LoginInterceptor"/>
+
 		</interceptor>
 	</interceptors>
 	 
+	 
 	<context:component-scan base-package="com.yi.tourland.controller" />
+	
 
 </beans:beans>

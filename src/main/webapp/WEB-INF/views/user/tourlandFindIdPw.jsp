@@ -118,6 +118,10 @@ span.errorMsg {
 				  return false;
 			}
 			
+			
+			location.href="${pageContext.request.contextPath}/customer/tourlandFindIdPw";
+				
+			
 		})
 	})
 </script>

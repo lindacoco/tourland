@@ -41,6 +41,7 @@ import com.yi.tourland.domain.mng.PlanBoardVO;
 import com.yi.tourland.domain.mng.PopupVO;
 import com.yi.tourland.domain.mng.ProductVO;
 import com.yi.tourland.domain.mng.UserVO;
+import com.yi.tourland.persistance.mng.daoimpl.EmailServiceImpl;
 import com.yi.tourland.service.mng.BannerService;
 import com.yi.tourland.service.mng.CouponService;
 import com.yi.tourland.service.mng.CustBoardService;
@@ -116,6 +117,11 @@ public class CustomerController {
 
 	@Autowired
 	PlanBoardService planBoardService;
+	
+	@Autowired
+	EmailServiceImpl sendEmail;
+	
+
 		
 	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨
 		@ResponseBody
@@ -179,11 +185,9 @@ public class CustomerController {
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
-		
 	//팝업 불러오기
 	    PopupVO popup1 = popupService.setPopup("L");
 		if(popup1 != null) {
-	
 			long settingDays = (popup1.getEnddate().getTime()- popup1.getStartdate().getTime());
 			long settingDays2 = Math.abs(settingDays/(24*60*60*1000));
 			Cookie cookie = new Cookie("popup1", popup1.getPic());
@@ -281,7 +285,7 @@ public class CustomerController {
 	public String tourlandFindIdPwPost() throws Exception {
 		
 		
-		return "/user/tourlandFindIdPw"; 
+		return "/user/tourlandLoginForm"; 
 	}
 	
 	//마이페이지의 비밀번호 확인
@@ -350,19 +354,12 @@ public class CustomerController {
 	}
 	//마이 페이지 - 내정보수정에서 수정 후 수정버튼을 눌릴때 받을곳
 	@RequestMapping(value="editProfile", method=RequestMethod.POST) 
-	public String tourlandEditProfile(String userid,String empid,UserVO userVo, EmployeeVO empVo) throws Exception { 
-		userVo = userService.readByIdUser(userid);
-		empVo = employeeService.readByIdEmployee(empid);
-		System.out.println(userVo);
-		System.out.println(empVo);
-		if(userVo!=null) {
+	public String tourlandEditProfile(UserVO userVo, EmployeeVO empVo) throws Exception { 						
+		if(userVo.getUserno()!=0) {
 			userService.updateUser(userVo);
-			System.out.println(userVo);
-		}else{
+		}else if(empVo.getEmpno()!=0){
 			employeeService.updateEmployee(empVo);
-			System.out.println(empVo);
 		}
-		
 		return "redirect:/"; 
 	}
 	
@@ -447,11 +444,11 @@ public class CustomerController {
 }
 	
 	//상품 전체 리스트 검색  ajax (제주 패키지) 
-	@RequestMapping(value="tourlandProductKRListAll", method=RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> tourlandProductKRListAll(SearchCriteria cri) throws SQLException {
+	@RequestMapping(value="tourlandProductKRListAll/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductKRListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
 		ResponseEntity<Map<String,Object>> entity = null;	
 		try {
-			
+			cri.setPage(page);
 			//해당 조건에 맞는 리스트 검색
 			List<ProductVO> list = productService.productListPageByDomestic(cri);
 			PageMaker pageMaker = new PageMaker();
@@ -544,11 +541,11 @@ public class CustomerController {
 	
 	
 	//상품 전체 리스트 검색  ajax (일본 패키지) 
-	@RequestMapping(value="tourlandProductJapanListAll", method=RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> tourlandProductJapanListAll(SearchCriteria cri) throws SQLException {
+	@RequestMapping(value="tourlandProductJapanListAll/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductJapanListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
 		ResponseEntity<Map<String,Object>> entity = null;	
 		try {
-			
+			cri.setPage(page);
 			//해당 조건에 맞는 리스트 검색
 			List<ProductVO> list = productService.productListPageByJapan(cri);
 			PageMaker pageMaker = new PageMaker();
@@ -642,11 +639,11 @@ public class CustomerController {
 	}
 
 	//상품 전체 리스트 검색  ajax (중국 패키지) 
-		@RequestMapping(value="tourlandProductChinaListAll", method=RequestMethod.GET)
-		public ResponseEntity<Map<String,Object>> tourlandProductChinaListAll(SearchCriteria cri) throws SQLException {
+		@RequestMapping(value="tourlandProductChinaListAll/{page}", method=RequestMethod.GET)
+		public ResponseEntity<Map<String,Object>> tourlandProductChinaListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
 			ResponseEntity<Map<String,Object>> entity = null;	
 			try {
-				
+				cri.setPage(page);
 				//해당 조건에 맞는 리스트 검색
 				List<ProductVO> list = productService.productListPageByChina(cri);
 				PageMaker pageMaker = new PageMaker();

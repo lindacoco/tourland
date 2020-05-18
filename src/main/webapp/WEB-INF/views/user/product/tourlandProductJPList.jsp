@@ -152,7 +152,9 @@ div.pkgInfoBox .pkgTitle {
 	margin-top : 10px;
 }
 .pagination li {
-	padding : 10px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
 	float : left;
 	border : 1px solid lightgrey;
 }
@@ -161,6 +163,8 @@ div.pkgInfoBox .pkgTitle {
 }
    
 #listAll { margin-left: 420px; background: steelblue; color: #fff;}   
+
+.pagination li .pageNumA { display: block; height: 100%;}
 </style>
 <script>
 
@@ -224,9 +228,9 @@ function getSearchResult(){
 }
 
 /* 리스트 우측 전체 리스트 보기 버튼을 클릭했을 때 모든 데이터를 불러오는 Ajax  */
-function getList(){
+function getList(page){
 	$.ajax({
-		url : "tourlandProductJapanListAll",
+		url : "tourlandProductJapanListAll/"+page,
 		type : "get",
 		dataType : "json",
 		success : function(rs){
@@ -276,12 +280,12 @@ function getList(){
 				}
 				
 				for(var j = rs.pageMaker.startPage; j<= rs.pageMaker.endPage; j++){
-					$li2 = $("<li>").addClass("${cri.page==idx?'active':''}");
-					$a2 = $("<a>").attr("href", "${pageContext.request.contextPath}/customer/tourlandProductJPList?page="+j).html(j);
+					$li2 = $("<li>").addClass("${cri.page==idx?'active':''}").addClass("listAll").html(j).css("cursor", "pointer");
+				
 					if(j==rs.pageMaker.cri.page) {
 						$li2.addClass("active");
 					}
-					$li2.append($a2);
+				
 					
 					$(".pagination").append($li1);
 					$(".pagination").append($li2);
@@ -343,12 +347,11 @@ function getLowPriceList(page){
 				}
 				
 				for(var j = rs.pageMaker.startPage; j<= rs.pageMaker.endPage; j++){
-					$li2 = $("<li>").addClass("${cri.page==idx?'active':''}");
-					$a2 = $("<a>").addClass("lowPriceListPage").html(j);
+					$li2 = $("<li>").addClass("${cri.page==idx?'active':''}").addClass("lowPriceListPage").html(j).css("cursor", "pointer");
+					
 					if(j==rs.pageMaker.cri.page) {
 						$li2.addClass("active");
 					}
-					$li2.append($a2);
 					
 					$(".pagination").append($li1);
 					$(".pagination").append($li2);
@@ -364,18 +367,35 @@ function getLowPriceList(page){
 		})
 		/* 리스트 우측 전체 리스트 보기 버튼 클릭 */
 		$("#listAll").click(function(){
-			getList();
+			getList(1);
 		})
 		/* 낮은 가격 순 정렬 */
 		$("#byPrice").click(function(){
 			getLowPriceList(1);
 		})
-		/* 페이징 */
+		/* AJAX 페이징 */
+		/* 낮은 가격순 리스트 페이지 번호 클릭 시 페이지 번호가 넘어가고 해당 번호의 리스트 출력 */
 		$(document).on("click", ".lowPriceListPage", function(){
 		    $('html, body').animate({scrollTop: 0}, 200);
 			var page = $(this).html();
 			getLowPriceList(page);
+		})   
+		/* 전체 리스트 페이지 번호 클릭 시 페이지 번호가 넘어가고 해당 페이지 번호의 리스트 출력 */
+		$(document).on("click", ".listAll", function(){
+		    $('html, body').animate({scrollTop: 0}, 200);
+			var page = $(this).html();
+			getList(page);
 		})
+		/* 지금 바로 예약하기 버튼 */
+		$(".pkgReservBtn").click(function() {
+			var pno = $(this).parent().parent().find("#pno").val();
+			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
+		})
+		/* AJAX 리스트에 동적으로 생성된 '지금 바로 예약하기' 버튼  */
+		/* $(document).on("click", ".pkgReservBtn", function(){
+			var pno = $(this).parent().parent().find("#pno").val();
+			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
+		}) */
 	})
 </script>
 <body>
@@ -465,7 +485,7 @@ function getLowPriceList(page){
 						<li><a href="${pageContext.request.contextPath}/customer/tourlandProductJPList?page=${pageMaker.startPage-1}">&laquo;</a></li>
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/customer/tourlandProductJPList?page=${idx}">${idx}</a></li>
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/customer/tourlandProductJPList?page=${idx}" class="pageNumA">${idx}</a></li>
 					</c:forEach>
 					<c:if test="${pageMaker.next == true}">
 						<li><a href="${pageContext.request.contextPath}/customer/tourlandProductJPList?page=${pageMaker.endPage+1}">&raquo;</a></li>
@@ -477,12 +497,4 @@ function getLowPriceList(page){
 	<%@ include file="../../include/userFooter.jsp"%>
 </body>
 
-<script>
-	$(function() {
-		$(".pkgReservBtn").click(function() {
-			var pno = $(this).parent().parent().find("#pno").val();
-			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
-		})
-	})
-</script>
 </html>

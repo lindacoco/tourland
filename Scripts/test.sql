@@ -313,8 +313,6 @@ select * from planboard;
 
 select * from hotel;
 
-select * from user;
-
 select * from rentcar;
 
 select * from product;
@@ -335,6 +333,14 @@ update planboard  set
 title ='test11', content='test11', respond='답변'
 where no=6;
 
+update user set 
+username ='테스트', userbirth='1991-12-18', usertel='010-4245-3825', 
+useraddr='북구 태전동 254-30번지', userpassport='이래저래', userpass='test'
+where userno=6;
+
+update user set username ='테스트', userbirth='1991-12-18 00:00:00', usertel='010-4333-3825', 
+useraddr='대구시 북구 태전동 254-30', userpassport=NULL, userpass='*94BDCEBE19083CE2A1F959FD02F964C7AF4CFC29' 
+where userno=6 
 
 -- 하나 --------------------------------------------------------------------------------------------
 

@@ -32,7 +32,7 @@
 	nav#nav1 ul { width: 1200px;
 				  height: 50px;
 				  margin: 0 auto; }
-	nav#nav1 li { width: 8%;
+	nav#nav1 li { margin-right: 23px;
    				  line-height: 50px;
     			  float: right;
     			  font-size: 14px; }
@@ -73,15 +73,8 @@
 					   color: #fff;}
 	div#nav2 ul li#orange { width: 50px; background: #ff7f00;}
 	div#nav2 ul li.short { width: 50px;} 
-	#userAuth{
-		position: absolute;
-   	 	top: 12px;
-    	left: 1068px;
-	}	
-	#managerAuth{
-		position: absolute;
-   	 	top: 12px;
-    	left: 995px;
+ 	#userAuth, #managerAuth{
+   	 width: 165px;
 	}
 </style>
 
@@ -97,7 +90,7 @@
 						<li><a href="${pageContext.request.contextPath}/logout" class="balance">로그아웃</a></li>
 						<li><a href="${pageContext.request.contextPath}/customer/tourlandBoardNotice">고객센터</a></li>
 						<li><a href="${pageContext.request.contextPath }/customer/EditPassword">마이페이지</a></li>
-						<li id="manager"><a href="${pageContext.request.contextPath }/manager/empMngList/0">관리자</a></li>
+						<li id="manager" style="margin-left: -15px;"><a href="${pageContext.request.contextPath }/manager/empMngList/0">관리자</a></li>
 						<p id="managerAuth">[ ${Manager.name} ]님! 반갑습니다.</p>
 				</c:if>
 				<c:if test="${User!=null }">

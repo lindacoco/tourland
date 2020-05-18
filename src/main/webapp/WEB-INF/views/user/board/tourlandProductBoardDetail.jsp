@@ -59,13 +59,8 @@
 				     	 	<button id="reply">답변관리</button>
 				   		</div>
 				   </c:if>
-			
-			
 				</div>
-				
-				
 		     </div>
-		     
 		</section>
 <script>
 	$("#btnSearch").click(function(){
@@ -79,10 +74,7 @@
 		var no = "${plan.no }";
 		if(answer==0){
 			location.href = "planBoardDetail?no="+no;
-		}else if(answer==1){
-			location.href = "planBoardModifyApi?no="+no;
 		}
-		
 	})
 </script>
 		<%@ include file="../../include/userFooter.jsp"%>

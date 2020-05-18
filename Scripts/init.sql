@@ -45,7 +45,6 @@ ALTER TABLE tour.user
 		PRIMARY KEY (
 			userno -- 유저번호
 		);
-
 -- 공지사항
 CREATE TABLE tour.notice (
 	no      INT          NOT NULL COMMENT '번호', -- 번호

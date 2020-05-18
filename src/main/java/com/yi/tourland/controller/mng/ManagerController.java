@@ -2027,9 +2027,8 @@ public class ManagerController {
             printWriter.println(json);
             
 			}catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
 			}finally {
-			
 			    if(printWriter != null) {
 				    printWriter.close();
 				 }
