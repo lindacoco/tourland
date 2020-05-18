@@ -104,7 +104,7 @@
 		
 		 //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
 		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/userMngList/${usersecess}/?searchType="+searchType+"&keyword="+keyword;
+			location.href="${pageContext.request.contextPath}/manager/userMngList/${usersecess}/?searchType="+searchType+"&keyword="+keyword;
 		})
 	})
 	

@@ -123,14 +123,14 @@
 	              <div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/popupMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/popupMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/popupMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/manager/popupMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/popupMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/popupMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -194,13 +194,13 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "${pageContext.request.contextPath}/popMngList?searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/manager/popMngList?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	})
 	
 	$("#btnRegister").click(function(){
-		location.href = "${pageContext.request.contextPath}/popupRegister";
+		location.href = "${pageContext.request.contextPath}/manager/popupRegister";
 	})
 
 	
@@ -208,7 +208,7 @@
 		var no = $(this).attr("data-click");
 		var searchType = "${cri.searchType}";
 		var keyword = "${cri.keyword}";
-		location.href = "${pageContext.request.contextPath}/popupDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/manager/popupDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 	})
 	
 	//팝업1 체크박스 체크를 하면 

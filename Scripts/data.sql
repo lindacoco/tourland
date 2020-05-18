@@ -10,12 +10,12 @@ insert into employee values
 -- 고객
 desc user;
 insert into user values
-(1,'황태원','1991-12-18','010-4245-3825','대구시 북구 태전동 254-30',null,null,'customer1',password('customer'), 0),
-(2,'정아름','1988-12-18','010-7777-3825','대구시 북구 태전동 254-30',null,null,'customer2',password('customer'), 0),
-(3,'정윤호','1952-12-18','010-1111-3825','대구시 북구 태전동 254-30',null,null,'customer3',password('customer'), 0),
-(4,'박상아','1970-12-18','010-4245-3825','대구시 북구 태전동 254-30',null,null,'customer4',password('customer'), 0),
-(5,'지민서','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'), 1),
-(6,'테스트','1991-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'user',password('test'), 0);
+(1,'황태원','1991-12-18','010-4245-3825','대구시 북구 태전동 254-30',null,'customer1',password('customer'), 0),
+(2,'정아름','1988-12-18','010-7777-3825','대구시 북구 태전동 254-30',null,'customer2',password('customer'), 0),
+(3,'정윤호','1952-12-18','010-1111-3825','대구시 북구 태전동 254-30',null,'customer3',password('customer'), 0),
+(4,'박상아','1970-12-18','010-4245-3825','대구시 북구 태전동 254-30',null,'customer4',password('customer'), 0),
+(5,'지민서','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,'customer5',password('customer'), 1),
+(6,'테스트','1991-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,'user',password('test'), 0);
 
 
 -- 고객의 소리
@@ -35,8 +35,8 @@ insert into banner values
 -- 팝업
 desc popup ;
 insert into popup values
-(1,'패키지여행 스벅이벤트','스벅증정','/2020/05/15/4e96f9ce-8cb8-4530-9a29-137903ac8a50_event1.jpg','2020-01-01','2021-01-01','L','http://localhost:8080/tourland/eventDetailPage?no=5'),
-(2,'구급키트 증정','구급키트 증정','/2020/05/15/3cfbd968-8c92-4473-8065-e009e07c0614_event2.jpg','2020-03-01','2020-12-01','R','http://localhost:8080/tourland/eventDetailPage?no=1');
+(1,'패키지여행 스벅이벤트','스벅증정','/2020/05/15/4e96f9ce-8cb8-4530-9a29-137903ac8a50_event1.jpg','2020-01-01','2021-01-01','L','http://localhost:8080/tourland/customer/eventDetailPage?no=5'),
+(2,'구급키트 증정','구급키트 증정','/2020/05/15/3cfbd968-8c92-4473-8065-e009e07c0614_event2.jpg','2020-03-01','2020-12-01','R','http://localhost:8080/tourland/customer/eventDetailPage?no=1');
 
 desc event ;
 load DATA LOCAL infile 'D:/workspace/workspace_spring/tourland/file/CSV/event.csv'

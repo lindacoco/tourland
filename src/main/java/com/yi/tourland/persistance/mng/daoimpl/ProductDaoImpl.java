@@ -169,6 +169,7 @@ public class ProductDaoImpl implements ProductDao {
 	public int totalCountBySearchProductChina() throws SQLException {
 		return sqlSession.selectOne(namespace + "totalCountBySearchProductChina");
 	}
+	//상품 리스트 검색 박스 Ajax (중국)
 	@Override
 	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException {
 		Map<String,Object> map = new HashMap<>();
@@ -180,5 +181,40 @@ public class ProductDaoImpl implements ProductDao {
 	@Override
 	public int totalCountBySearchProductJapan() throws SQLException {
 		return sqlSession.selectOne(namespace + "totalCountBySearchProductJapan");
+	}
+	//상품 리스트 검색 박스 Ajax (일본)
+	@Override
+	public List<ProductVO> tourlandProductJapanSearchList(String ddate, String rdate, String cnt) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("ddate", ddate);
+		map.put("rdate", rdate);
+		map.put("cnt", cnt);
+		return sqlSession.selectList(namespace + "tourlandProductJapanSearchList", map);
+	}
+	//상품 리스트 검색 박스 Ajax (제주)
+	@Override
+	public List<ProductVO> tourlandProductKRSearchList(String ddate, String rdate, String cnt) throws SQLException {
+		Map<String,Object> map = new HashMap<>();
+		map.put("ddate", ddate);
+		map.put("rdate", rdate);
+		map.put("cnt", cnt);
+		return sqlSession.selectList(namespace + "tourlandProductKRSearchList", map);
+	}
+	
+	//상품 리스트 검색 박스 Ajax "낮은 가격 순" (중국)
+	@Override
+	public List<ProductVO> tourlandProductChinaSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "tourlandProductChinaSearchLowPriceList", cri);
+	}
+	
+	//상품 리스트 검색 박스 Ajax "낮은 가격 순"  (일본)
+	@Override
+	public List<ProductVO> tourlandProductJapanSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "tourlandProductJapanSearchLowPriceList", cri);
+	}
+	//상품 리스트 검색 박스 Ajax "낮은 가격 순"  (제주)
+	@Override
+	public List<ProductVO> tourlandProductKRSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "tourlandProductKRSearchLowPriceList", cri);
 	}
 }

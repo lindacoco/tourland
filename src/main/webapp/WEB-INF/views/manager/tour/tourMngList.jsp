@@ -76,13 +76,13 @@
 				<div class="box-footer">
 					<ul class="pagination">
 					<c:if test="${pageMaker.prev == true}">
-						<li><a href="${pageContext.request.contextPath}/tourMngList?page=${pageMaker.startPage-1}&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/manager/tourMngList?page=${pageMaker.startPage-1}&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/tourMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}">${idx}</a></li>
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/manager/tourMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}">${idx}</a></li>
 					</c:forEach>
 					<c:if test="${pageMaker.next == true}">
-						<li><a href="${pageContext.request.contextPath}/tourMngList?page=${pageMaker.endPage+1}&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/manager/tourMngList?page=${pageMaker.endPage+1}&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 					</c:if>
 					</ul>
 				</div>

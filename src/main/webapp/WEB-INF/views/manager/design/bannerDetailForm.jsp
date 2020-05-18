@@ -80,7 +80,7 @@
       
        //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
 		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/bannerMngList";
+			location.href="${pageContext.request.contextPath}/manager/bannerMngList";
 		})
 		
 	   //삭제 누르면 삭제 되기
@@ -88,7 +88,7 @@
 		   var bannerno = ${bannerVO.no };
 		   var cc = confirm("삭제하시겠습니까?");
 		   if(cc){
-		   location.href="${pageContext.request.contextPath }/removeBanner?no="+bannerno+"&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
+		   location.href="${pageContext.request.contextPath }/manager/removeBanner?no="+bannerno+"&page=${cri.page}&searchType=${cri.searchType}&keyword=${cri.keyword}";
 		   }
 	   })
 	   
