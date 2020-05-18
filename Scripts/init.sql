@@ -33,7 +33,6 @@ CREATE TABLE tour.user (
 	usertel      char(13)     NULL     COMMENT '전화번호', -- 전화번호
 	useraddr     VARCHAR(255) NULL     COMMENT '주소', -- 주소
 	userpassport char(9)      NULL     COMMENT '여권번호', -- 여권번호
-	cno          INT          NULL     COMMENT '쿠폰번호', -- 쿠폰번호
 	userid       varchar(12)  NULL     COMMENT '유저아이디', -- 유저아이디
 	userpass     varchar(41)  NULL     COMMENT '유저비밀번호', -- 유저비밀번호
 	usersecess   TINYINT(1)   NULL     COMMENT '탈퇴여부' -- 탈퇴여부
@@ -148,7 +147,6 @@ ALTER TABLE tour.custboard
 		);
 
 -- 상품문의사항
-
 CREATE TABLE tour.planboard (
 	no      INT          NOT NULL COMMENT '번호', -- 번호
 	title   varchar(255) NULL     COMMENT '제목', -- 제목
@@ -158,10 +156,9 @@ CREATE TABLE tour.planboard (
 	lcate   CHAR(1)      NULL     COMMENT '대분류', -- 대분류
 	mcate   CHAR(1)      NULL     COMMENT '중분류', -- 중분류
 	answer  tinyint(1)   NULL     COMMENT '답변상태', -- 답변상태
-	respond LONGTEXT     NULL     COMMENT '답변내용' -- 답변
+	respond LONGTEXT     NULL     COMMENT '답변' -- 답변
 )
 COMMENT '상품문의사항';
-
 
 -- 상품문의사항
 ALTER TABLE tour.planboard
@@ -169,11 +166,9 @@ ALTER TABLE tour.planboard
 		PRIMARY KEY (
 			no -- 번호
 		);
-	
+
 ALTER TABLE tour.planboard
-MODIFY COLUMN no INT NOT NULL AUTO_INCREMENT COMMENT '번호';
-
-
+	MODIFY COLUMN no INT NOT NULL AUTO_INCREMENT COMMENT '번호';
 
 -- 상품
 CREATE TABLE tour.product (
@@ -203,7 +198,7 @@ CREATE TABLE tour.popup (
 	startdate DATE         NULL     COMMENT '시작날짜', -- 시작날짜
 	enddate   DATE         NULL     COMMENT '종료날짜', -- 종료날짜
 	position  CHAR(1)      NULL     COMMENT '팝업위치', -- 팝업위치
-	link      varchar(255) NULL     COMMENT '링크'
+	link      varchar(255) NULL     COMMENT '링크' -- 링크
 )
 COMMENT '팝업';
 
@@ -427,14 +422,39 @@ ALTER TABLE tour.photelstatus
 			hno  -- 호텔번호
 		);
 
--- 회원
-ALTER TABLE tour.user
-	ADD CONSTRAINT FK_coupon_TO_user -- 쿠폰 -> 회원
-		FOREIGN KEY (
-			cno -- 쿠폰번호
-		)
-		REFERENCES tour.coupon ( -- 쿠폰
-			cno -- 쿠폰번호
+-- 상품평
+CREATE TABLE tour.review (
+	COL       INT       NOT NULL COMMENT 'no', -- no
+	pno       INT       NOT NULL COMMENT '상품번호', -- 상품번호
+	userno    INT       NOT NULL COMMENT '유저번호', -- 유저번호
+	regdate   TIMESTAMP NULL     DEFAULT now() COMMENT '등록일', -- 등록일
+	starpoint char(1)   NOT NULL COMMENT '별점' -- 별점
+)
+COMMENT '상품평';
+
+-- 상품평
+ALTER TABLE tour.review
+	ADD CONSTRAINT PK_review -- 상품평 기본키
+		PRIMARY KEY (
+			COL -- no
+		);
+
+ALTER TABLE tour.review
+	MODIFY COLUMN COL INT NOT NULL AUTO_INCREMENT COMMENT 'no';
+
+-- 회원쿠폰현황
+CREATE TABLE tour.usercoupon (
+	userno INT NOT NULL COMMENT '유저번호', -- 유저번호
+	cno    INT NOT NULL COMMENT '쿠폰번호' -- 쿠폰번호
+)
+COMMENT '회원쿠폰현황';
+
+-- 회원쿠폰현황
+ALTER TABLE tour.usercoupon
+	ADD CONSTRAINT PK_usercoupon -- 회원쿠폰현황 기본키
+		PRIMARY KEY (
+			userno, -- 유저번호
+			cno     -- 쿠폰번호
 		);
 
 -- 예약
@@ -565,6 +585,46 @@ ALTER TABLE tour.photelstatus
 		)
 		REFERENCES tour.hotel ( -- 호텔
 			no -- 번호
+		);
+
+-- 상품평
+ALTER TABLE tour.review
+	ADD CONSTRAINT FK_product_TO_review -- 상품 -> 상품평
+		FOREIGN KEY (
+			pno -- 상품번호
+		)
+		REFERENCES tour.product ( -- 상품
+			pno -- 상품번호
+		);
+
+-- 상품평
+ALTER TABLE tour.review
+	ADD CONSTRAINT FK_user_TO_review -- 회원 -> 상품평
+		FOREIGN KEY (
+			userno -- 유저번호
+		)
+		REFERENCES tour.user ( -- 회원
+			userno -- 유저번호
+		);
+
+-- 회원쿠폰현황
+ALTER TABLE tour.usercoupon
+	ADD CONSTRAINT FK_user_TO_usercoupon -- 회원 -> 회원쿠폰현황
+		FOREIGN KEY (
+			userno -- 유저번호
+		)
+		REFERENCES tour.user ( -- 회원
+			userno -- 유저번호
+		);
+
+-- 회원쿠폰현황
+ALTER TABLE tour.usercoupon
+	ADD CONSTRAINT FK_coupon_TO_usercoupon -- 쿠폰 -> 회원쿠폰현황
+		FOREIGN KEY (
+			cno -- 쿠폰번호
+		)
+		REFERENCES tour.coupon ( -- 쿠폰
+			cno -- 쿠폰번호
 		);
 create user if not exists 'tour'@'localhost';
 grant all privileges on tour.* to 'tour'@'localhost' identified by 'tour';
