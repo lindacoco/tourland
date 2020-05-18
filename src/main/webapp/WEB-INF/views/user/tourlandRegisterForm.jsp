@@ -214,7 +214,6 @@
 		$("#btnRegisterCancel").click(function(){
 			location.href="${pageContext.request.contextPath}/tourlandMain";
 		})
-		
 })
 		
 		//주소

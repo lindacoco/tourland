@@ -1318,7 +1318,6 @@ public class ManagerController {
 				+ cri.getKeyword();
 	}
 
-	// 상품문의 사항
 
 // 디자인관리 ---------------------------------------------------------------------------------------------------------------
 
@@ -1950,7 +1949,7 @@ public class ManagerController {
 			model.addAttribute("respond", respond);
 			return "/manager/board/planBoardDetail";
 		}
-
+		//답변내용 달기
 		@RequestMapping(value = "planBoardModify", produces = "application/text; charset=utf8", method = RequestMethod.GET)
 		public String planBoardModify(PlanBoardVO vo, SearchCriteria cri, Model model,int no, String respond) throws Exception {
 			vo = planBoardService.readByNoPlanBoard(no);
@@ -1961,7 +1960,7 @@ public class ManagerController {
 			model.addAttribute("cri", cri);
 			return "/manager/board/planBoardModify";
 		}
-		
+		//답변내용 수정
 		@ResponseBody
 		@RequestMapping(value = "planBoardModifyApi", produces = "application/text; charset=utf8", method = RequestMethod.GET)
 		public ResponseEntity<String> planBoardModifyAjax(PlanBoardVO vo, SearchCriteria cri, Model model,int no, String respondText) throws Exception {

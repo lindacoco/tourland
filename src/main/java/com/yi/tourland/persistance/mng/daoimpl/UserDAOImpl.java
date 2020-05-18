@@ -35,6 +35,7 @@ public class UserDAOImpl implements UserDAO{
 
 	@Override
 	public void updateUser(UserVO vo) throws Exception {
+		System.out.println("DAOIMPL");
 		sqlSession.update(namespace+"updateUser",vo);
 		
 	}

@@ -276,10 +276,20 @@ public class CustomerController {
 	}
 	//마이 페이지 - 내정보수정에서 수정 후 수정버튼을 눌릴때 받을곳
 	@RequestMapping(value="editProfile", method=RequestMethod.POST) 
-	public String tourlandEditProfile() throws Exception { 
+	public String tourlandEditProfile(String userid,String empid,UserVO userVo, EmployeeVO empVo) throws Exception { 
+		userVo = userService.readByIdUser(userid);
+		empVo = employeeService.readByIdEmployee(empid);
+		System.out.println(userVo);
+		System.out.println(empVo);
+		if(userVo!=null) {
+			userService.updateUser(userVo);
+			System.out.println(userVo);
+		}else{
+			employeeService.updateEmployee(empVo);
+			System.out.println(empVo);
+		}
 		
-		
-		return "/user/mypage/tourlandMyInfoEdit"; 
+		return "redirect:/"; 
 	}
 	
 	//마이 페이지 - 탈퇴버튼 눌리는 경우

@@ -140,7 +140,7 @@ $(function(){
 			<c:choose>
 				<c:when test="${mypage=='mypageemp' }">
 					<p>
-						<label>아이디</label><input type="text" name="empid" value="${Auth.empid}" readonly="readonly">
+						<label>아이디</label><input type="text" name="empid" value="${Auth.empid}" readonly="readonly" style="background-color: lightgray;">
 					</p>
 					<p>
 						<label>비밀번호</label><input type="password" name="checkPass" placeholder="비밀번호를 재입력해주세요.">

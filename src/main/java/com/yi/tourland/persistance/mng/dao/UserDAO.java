@@ -24,8 +24,6 @@ public interface UserDAO {
 	//public UserVO readByPassUser(String userpass)throws Exception;
 	// 리플 기능 필요한 곳에서
 	// public void updateReplyCnt(int amount, int bno)throws Exception;
-	
-	
 	public List<UserVO> listSearchCriteriaPaymentUser(SearchCriteria cri)throws Exception;
 	public int totalSearchCountPaymentUser(SearchCriteria cri) throws Exception;
 }

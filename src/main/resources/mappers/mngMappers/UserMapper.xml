@@ -27,11 +27,9 @@
 
 <!-- 유저 정보 업데이트 -->
     <update id="updateUser" parameterType="UserVO">
-       update user  set 
+       update user set 
        username =#{username}, userbirth=#{userbirth}, usertel=#{usertel}, 
-       useraddr=#{useraddr}, userpassport=#{userpassport}, 
-       userid=#{userid}, userpass=#{userpass},
-       usersecess = #{usersecess}
+       useraddr=#{useraddr}, userpassport=#{userpassport}, userpass=#{userpass}
        where userno=#{userno}
     </update> 
 
