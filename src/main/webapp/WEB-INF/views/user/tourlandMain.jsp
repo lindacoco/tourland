@@ -264,7 +264,7 @@
 	  
 	  $("#popup1img").click(function(){
 		  if("${popup1.link}" == ""){
-		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+		  location.href="${pageContext.request.contextPath}/customer/tourlandEventList/ingEvent";
 		  }else{
 			  location.href="${popup1.link}";	  
 		  }
@@ -272,7 +272,7 @@
 	  })
 	   $("#popup2img").click(function(){
 		  if("${popup2.link}" == ""){
-		  location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+		  location.href="${pageContext.request.contextPath}/customer/tourlandEventList/ingEvent";
 		  }else{
 			  location.href="${popup2.link}";	  
 		  }
@@ -349,13 +349,13 @@
 				<section id="section1">
 					<div id="imgBox">
 						<div class="box1">
-							<img src="images/cancun.jpg">
+							<img src="${pageContext.request.contextPath}/images/cancun.jpg">
 						</div>
 						<div class="box2 marg">
-							<img src="images/hotel.jpg">
+							<img src="${pageContext.request.contextPath}/images/hotel.jpg">
 						</div>
 						<div class="box2">
-							<img src="images/jeju.jpg">
+							<img src="${pageContext.request.contextPath}/images/jeju.jpg">
 						</div>
 					</div>
 				</section>
@@ -432,7 +432,7 @@
 						<a href="#">
 							<h3>특가 상품</h3>
 							<p>친구와 같이 떠나는 상품</p>
-							<img alt="" src="images/camping.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/camping.jpg">
 							<div id="popInfo">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -442,7 +442,7 @@
 						<a href="#">
 							<h3>여름 휴가 랭킹 1위</h3>
 							<p>서울 출발</p>
-							<img alt="" src="images/polynesia.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/polynesia.jpg">
 							<div class="popInfo2">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -452,7 +452,7 @@
 						<a href="#">
 							<h3>특가 상품</h3>
 							<p>친구와 같이 떠나는 상품</p>
-							<img alt="" src="images/flowers.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/flowers.jpg">
 							<div class="popInfo2">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -462,7 +462,7 @@
 						<a href="#">
 							<h3>특가 상품</h3>
 							<p>친구와 같이 떠나는 상품</p>
-							<img alt="" src="images/flowers.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/flowers.jpg">
 							<div class="popInfo2">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -472,7 +472,7 @@
 						<a href="#">
 							<h3>특가 상품</h3>
 							<p>친구와 같이 떠나는 상품</p>
-							<img alt="" src="images/flowers.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/flowers.jpg">
 							<div class="popInfo2">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -482,7 +482,7 @@
 						<a href="#">
 							<h3>특가 상품</h3>
 							<p>친구와 같이 떠나는 상품</p>
-							<img alt="" src="images/flowers.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/flowers.jpg">
 							<div class="popInfo2">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -492,7 +492,7 @@
 						<a href="#">
 							<h3>특가 상품</h3>
 							<p>친구와 같이 떠나는 상품</p>
-							<img alt="" src="images/flowers.jpg">
+							<img alt="" src="${pageContext.request.contextPath}/images/flowers.jpg">
 							<div class="popInfo2">
 								~ 4/30일 까지 단독 할인
 							</div>
@@ -505,7 +505,7 @@
 					<div class="bannerBox" id="banner1">
 						<h3>그리스 + 산토리니 5박 6일</h3>
 						<p>마지막 찬스, 서울 출발</p>
-						<img alt="" src="images/santo.jpg">
+						<img alt="" src="${pageContext.request.contextPath}/images/santo.jpg">
 					</div>
 				</c:if>
 				<c:if test="${banner1 !=null }">
@@ -519,7 +519,7 @@
 					<div class="bannerBox">
 						<h3>진짜 오사카를 만나다</h3>
 						<p>간사이 미니 패스, 대구 출발</p>
-						<img alt="" src="images/osaka.jpg">
+						<img alt="" src="${pageContext.request.contextPath}/images/osaka.jpg">
 					</div>
 				</c:if>
 				<c:if test="${banner2 !=null }">
@@ -545,10 +545,10 @@
 					</div>
 					
 					<div id="shortcutBtns" class="infoBox">
-						<a href="${pageContext.request.contextPath }/tourlandBoardNotice">공지사항</a>
-						<a href="${pageContext.request.contextPath }/tourlandBoardFAQ">FAQ</a>
-						<a href="${pageContext.request.contextPath }/tourlandCustBoard">고객의 소리</a>
-						<a href="${pageContext.request.contextPath }/tourlandProductBoard">상품 문의사항</a>
+						<a href="${pageContext.request.contextPath }/customer/tourlandBoardNotice">공지사항</a>
+						<a href="${pageContext.request.contextPath }/customer/tourlandBoardFAQ">FAQ</a>
+						<a href="${pageContext.request.contextPath }/customer/tourlandCustBoard">고객의 소리</a>
+						<a href="${pageContext.request.contextPath }/customer/tourlandProductBoard">상품 문의사항</a>
 					</div>
 					
 					<div id="slideBoxMain">

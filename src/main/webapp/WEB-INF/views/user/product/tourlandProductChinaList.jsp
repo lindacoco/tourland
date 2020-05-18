@@ -300,13 +300,13 @@ function getSearchResult(){
 				</c:forEach>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev == true}">
-						<li><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.startPage-1}">&laquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${pageMaker.startPage-1}">&laquo;</a></li>
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${idx}">${idx}</a></li>
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${idx}">${idx}</a></li>
 					</c:forEach>
 					<c:if test="${pageMaker.next == true}">
-						<li><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.endPage+1}">&raquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${pageMaker.endPage+1}">&raquo;</a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -319,7 +319,7 @@ function getSearchResult(){
 	$(function() {
 		$(".pkgReservBtn").click(function() {
 			var pno = $(this).parent().parent().find("#pno").val();
-			location.href = "${pageContext.request.contextPath}/tourlandProductDetail?pno="+pno;
+			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
 		})
 	})
 </script>

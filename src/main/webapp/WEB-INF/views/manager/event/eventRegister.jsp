@@ -28,7 +28,7 @@
 
 
 		var url = "${url2}";
-		CKEDITOR.replace('content',{filebrowserUploadUrl:'${pageContext.request.contextPath}/imageUpload'});
+		CKEDITOR.replace('content',{filebrowserUploadUrl:'${pageContext.request.contextPath}/manager/imageUpload'});
 		CKEDITOR.config.width = '77em';
 		CKEDITOR.config.height = '50em';
 
@@ -102,7 +102,7 @@
       
         //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
 		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/eventMngList";
+			location.href="${pageContext.request.contextPath}/manager/eventMngList";
 		})
    
   </script>

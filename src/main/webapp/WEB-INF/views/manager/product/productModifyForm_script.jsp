@@ -816,7 +816,7 @@
 			}
 		})
 		//ckeditor
-		CKEDITOR.replace('pcontent',{filebrowserUploadUrl:'${pageContext.request.contextPath}/imageUpload'});
+		CKEDITOR.replace('pcontent',{filebrowserUploadUrl:'${pageContext.request.contextPath}/manager/imageUpload'});
 		CKEDITOR.config.height = '50em';
 		$.fn.modal.Constructor.prototype.enforceFocus = function () {
 		    modal_this = this

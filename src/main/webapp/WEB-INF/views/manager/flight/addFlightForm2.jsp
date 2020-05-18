@@ -400,7 +400,7 @@ function getFormatDate(date){
 		 			 <h2>항공 스케줄 추가</h2>
 		 		 </div>
 		  <p id="guide">아래의 폼을 작성하고 등록 버튼을 클릭하세요.</p>
-		  <form class="form-inline" action="${pageContext.request.contextPath }/addFlightForm" method="post">
+		  <form class="form-inline" action="${pageContext.request.contextPath }/manager/addFlightForm" method="post">
 		  	<h3>출발 스케줄</h3>
 		  <div class="group">
 		    <div class="form-group">   

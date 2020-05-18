@@ -47,11 +47,22 @@
 
 
 	<!-- 이 밑의 맵핑부분에 로그인 처리 안되어있을 때 들어가면 안되는 페이지의 컨트롤러 벨류값을 달면 된다. -->
- 	<beans:bean id="sampleInterceptor" class="com.yi.tourland.interceptor.SampleInterceptor"/>
+ 	<beans:bean id="LoginInterceptor" class="com.yi.tourland.interceptor.LoginInterceptor"/>
 	<interceptors>
 		<interceptor>
-			<mapping path=""/>
-			<beans:ref bean="sampleInterceptor"/>
+			<mapping path="/manager/**"/>
+
+			<mapping path="/customer/EditPassword"/>
+			<mapping path="/customer/tourlandMyInfoEdit"/>
+			<mapping path="/customer/editProfile"/>
+			<mapping path="/customer/logoutWithdrawal"/>
+			<mapping path="/customer/tourlandMyReserv"/>
+			<mapping path="/customer/tourlandMyReview"/>
+			<mapping path="/customer/tourlandMyWishes"/>
+			<mapping path="/customer/tourlandMyCoupon"/>
+			<mapping path="/customer/tourlandCustBoardDetail"/>
+			<mapping path="/customer/tourlandProductBoardDetail"/>
+			<beans:ref bean="LoginInterceptor"/>
 		</interceptor>
 	</interceptors>
 	 

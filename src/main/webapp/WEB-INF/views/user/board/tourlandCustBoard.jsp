@@ -50,14 +50,14 @@
 					   <div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/tourlandCustBoard?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/customer/tourlandCustBoard?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/tourlandCustBoard?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/customer/tourlandCustBoard?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/tourlandCustBoard?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/customer/tourlandCustBoard?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -68,7 +68,7 @@
 	$("#btnSearch").click(function(){
 		var searchType = $("#searchType").val();
 		var keyword = $("#keywordInput").val();
-		location.href = "${pageContext.request.contextPath}/tourlandCustBoard?searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/customer/tourlandCustBoard?searchType="+searchType+"&keyword="+keyword;
 		//searchBoardController의 listPage GET 으로 받음 
 		
 	  })
@@ -78,7 +78,7 @@
 		var no = $(this).attr("data-click");
 		var searchType = "${cri.searchType}";
 		var keyword = "${cri.keyword}";
-		location.href = "${pageContext.request.contextPath}/tourlandCustBoardDetail?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/customer/tourlandCustBoardDetail?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
 	})
 </script>

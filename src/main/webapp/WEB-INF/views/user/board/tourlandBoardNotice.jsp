@@ -39,7 +39,7 @@
 						<c:forEach items="${noticeList}" var="n">   
 							<tr>
 								<td class="nono">${n.no }</td>
-								<td class="thTitle"><a href="${pageContext.request.contextPath }/tourlandBoardNoticeDetail?no=${n.no}&page=${cri.page}" style="text-decoration: none;">${n.title }</a></td>
+								<td class="thTitle"><a href="${pageContext.request.contextPath }/customer/tourlandBoardNoticeDetail?no=${n.no}&page=${cri.page}" style="text-decoration: none;">${n.title }</a></td>
 								<td>${n.writer }</td>
 								<td><fmt:formatDate value="${n.regdate }" pattern ="yyyy-MM-dd"/></td>
 							</tr>
@@ -48,14 +48,14 @@
 					<div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/tourlandBoardNotice?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/customer/tourlandBoardNotice?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/tourlandBoardNotice?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/customer/tourlandBoardNotice?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/tourlandBoardNotice?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/customer/tourlandBoardNotice?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>

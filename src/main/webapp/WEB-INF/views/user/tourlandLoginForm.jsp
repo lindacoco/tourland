@@ -167,10 +167,10 @@ section {
 	</section>
 	<script>
 	  $("#join").click(function(){
-		location.href="${pageContext.request.contextPath}/tourlandRegister"  ;
+		location.href="${pageContext.request.contextPath}/customer/tourlandRegister"  ;
 	  })
 	  $("#findIDPW").click(function(){
-		location.href="${pageContext.request.contextPath}/tourlandFindIdPw"  ;
+		location.href="${pageContext.request.contextPath}/customer/tourlandFindIdPw"  ;
 	  })
 	</script>
 	<%@ include file="../include/userFooter.jsp"%>
