@@ -13,7 +13,7 @@ insert into employee values (6,'장우주','1987-01-01','010-4444-4321','대구 
 desc user;
 select * from `user` u ;
 delete from `user` where userno = 7;
-insert into user values (6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),1);
+insert into user values (6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,'customer5',password('customer'),1);
 select * from rentcar r order by no desc ;
 select * from rentcar r where ldiv =0  order by no desc ;
 -- 렌트카
@@ -264,7 +264,7 @@ VALUES(3, '[제주 7일]시크릿 특가!제주시내/우도 대한항공 바로
 select * from product p join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no where p.pno = 2;
 desc pairstatus;
 desc prentstatus;
-select * from hotel;
+select * from hotel where haddr like "%베이징%";
 select * from tour;
 select * from product;
 select * from pairstatus;
@@ -337,8 +337,6 @@ update user set
 username ='테스트', userbirth='1991-12-18', usertel='010-4245-3825', 
 useraddr='북구 태전동 254-30번지', userpassport='이래저래', userpass='test'
 where userno=6;
-
-select * from user;
 
 update user set username ='테스트', userbirth='1991-12-18 00:00:00', usertel='010-4333-3825', 
 useraddr='대구시 북구 태전동 254-30', userpassport=NULL, userpass='*94BDCEBE19083CE2A1F959FD02F964C7AF4CFC29' 

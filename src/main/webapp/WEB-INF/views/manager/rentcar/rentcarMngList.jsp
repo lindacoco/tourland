@@ -82,14 +82,14 @@
 					<div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/rentcarMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/rentcarMngList?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/rentcarMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/manager/rentcarMngList?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/rentcarMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/rentcarMngList?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}&keyword2=${cri.keyword2}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -103,7 +103,7 @@
  $("i.fas.fa-search").click(function(){
 	var rentddate = $("input[name='rentddate']").val();
 	var returndate = $("input[name='returndate']").val();
-	location.href = "${pageContext.request.contextPath}/rentcarMngList?searchType=rentDepartDate"+"&keyword="+rentddate+"&keyword2="+returndate;
+	location.href = "${pageContext.request.contextPath}/manager/rentcarMngList?searchType=rentDepartDate"+"&keyword="+rentddate+"&keyword2="+returndate;
 
 	//<option value="rentDepartDate" ${cri.searchType =='rentDepartDate'?'selected':''}>출발날짜</option>
  })
@@ -112,20 +112,20 @@
 $("#btnSearch").click(function(){
 	var searchType = $("#searchType").val();
 	var keyword = $("#keywordInput").val();
-	location.href = "${pageContext.request.contextPath}/rentcarMngList?searchType="+searchType+"&keyword="+keyword;
+	location.href = "${pageContext.request.contextPath}/manager/rentcarMngList?searchType="+searchType+"&keyword="+keyword;
 	//searchBoardController의 listPage GET 으로 받음 
 	
 })
 
 $("#btnRegister").click(function(){
-	location.href = "${pageContext.request.contextPath}/rentcarRegister";
+	location.href = "${pageContext.request.contextPath}/manager/rentcarRegister";
 })
 
 $(".toRentcarDetail").click(function(){
 	var no = $(this).attr("data-click");
 	var searchType = "${cri.searchType}";
 	var keyword = "${cri.keyword}";
-	location.href = "${pageContext.request.contextPath}/rentcarDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+	location.href = "${pageContext.request.contextPath}/manager/rentcarDetailForm?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 })
 $(".delRentcar").click(function(){
 	var cc = confirm("렌트카 상품을 삭제하시겠습니까?");
@@ -133,7 +133,7 @@ $(".delRentcar").click(function(){
 	var no = $(this).attr("data-click");
 	var searchType = "${cri.searchType}";
 	var keyword = "${cri.keyword}";
-	location.href = "${pageContext.request.contextPath}/delRentcar?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+	location.href = "${pageContext.request.contextPath}/manager/delRentcar?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 	}
 })
 

@@ -68,8 +68,8 @@ import com.yi.tourland.service.mng.RentcarService;
 import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
 import com.yi.tourland.util.UploadFileUtils;
-
 @Controller
+@RequestMapping("/manager/*")
 public class ManagerController {
 	@Resource(name = "uploadPathBanner") // 서블릿컨텍스트의 id값과 일치해야함 private String
 	private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner

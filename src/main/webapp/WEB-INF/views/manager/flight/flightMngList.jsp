@@ -80,7 +80,7 @@ function getDomList(page){
 				 }
 				 $td10 = $("<td>").html(obj.price);
 				 
-				 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no="+obj.no).html(obj.ano);
+				 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/manager/flightDetail?no="+obj.no).html(obj.ano);
 				 
 				 $td2.append($a);
 				 $tr.append($td1);
@@ -159,7 +159,7 @@ function getDomList(page){
 //전체 리스트 보기
 		$("#listAll").click(function(){
 			alert("전체 리스트가 검색되었습니다.");
-			location.href = "${pageContext.request.contextPath}/flightMngList";
+			location.href = "${pageContext.request.contextPath}/manager/flightMngList";
 		})
 //검색 버튼
 		$("#btnSearch").click(function(){
@@ -224,7 +224,7 @@ function getDomList(page){
 					 }
 					 $td10 = $("<td>").html(obj.price);
 					 
-					 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/flightDetail?no="+obj.no).html(obj.ano);
+					 $a = $("<a>").attr("href", "${pageContext.request.contextPath }/manager/flightDetail?no="+obj.no).html(obj.ano);
 					 
 					 $td2.append($a);
 					 $tr.append($td1);
@@ -331,7 +331,7 @@ function getDomList(page){
 						<c:forEach items="${flightList }" var="f">   
 							<tr class="forEachTr">
 								<td>${f.no }</td>
-								<td><a href="${pageContext.request.contextPath }/flightDetail?no=${f.no}&page=${cri.page}">${f.ano }</a></td>
+								<td><a href="${pageContext.request.contextPath }/manager/flightDetail?no=${f.no}&page=${cri.page}">${f.ano }</a></td>
 								<td>${f.dlocation }</td>
 								<td>${f.rlocation }</td>
 								<td><fmt:formatDate value="${f.ddate }" pattern ="yyyy-MM-dd"/></td>

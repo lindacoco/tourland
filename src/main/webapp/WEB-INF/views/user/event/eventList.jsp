@@ -60,7 +60,7 @@
 			<div id="eventMainDiv"> 
 				<c:forEach var="eventList" items="${eventList }">
 				<div class="eventBox" data-click="${eventList.no }">
-					<img src="${pageContext.request.contextPath}/displayFile/event?filename=${eventList.pic}" class="eventImgs">
+					<img src="${pageContext.request.contextPath}/customer/displayFile/event?filename=${eventList.pic}" class="eventImgs">
 					<p>${eventList.title }</p>
 			    </div>
 			    </c:forEach>
@@ -88,27 +88,27 @@
 		}
 
 		$(".pkgReservBtn").click(function(){
-			location.href="${pageContext.request.contextPath}/tourlandProductDetail";
+			location.href="${pageContext.request.contextPath}/customer/tourlandProductDetail";
 		}) 
 		
      //진행중 이벤트 = 새로고침 느낌
 	 $(".event3").eq(0).click(function(){
-		 location.href="${pageContext.request.contextPath}/tourlandEventList/ingEvent";
+		 location.href="${pageContext.request.contextPath}/customer/tourlandEventList/ingEvent";
 	 })	
 	 // 다가올 이벤트
 	 $(".event3").eq(1).click(function(){
-		 location.href="${pageContext.request.contextPath}/tourlandEventList/commingEvent";
+		 location.href="${pageContext.request.contextPath}/customer/tourlandEventList/commingEvent";
 	 })
 	 
 	 //지난 이벤트 
 	 $(".event3").eq(2).click(function(){
-		 location.href="${pageContext.request.contextPath}/tourlandEventList/expiredEvent";
+		 location.href="${pageContext.request.contextPath}/customer/tourlandEventList/expiredEvent";
 	  })
 	  
 	  //각각의 이벤트를 클릭할 때 상세페이지로 이동
 	  $(".eventBox").click(function(){
 		  var no = $(this).attr("data-click");
-		  location.href="${pageContext.request.contextPath}/eventDetailPage?no="+no;
+		  location.href="${pageContext.request.contextPath}/customer/eventDetailPage?no="+no;
 	  })
 	})
 </script>   

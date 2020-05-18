@@ -119,7 +119,7 @@
 		    }
 			if(youSure){
 				
-				location.href="${pageContext.request.contextPath}/employeeDelete/${empretired}/"+empno+"?searchType="+searchType+"&keyword="+keyword;
+				location.href="${pageContext.request.contextPath}/manager/employeeDelete/${empretired}/"+empno+"?searchType="+searchType+"&keyword="+keyword;
 			}
 			
 		})
@@ -129,7 +129,7 @@
      
         //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
 		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/empMngList/${empretired}/?searchType="+searchType+"&keyword="+keyword;
+			location.href="${pageContext.request.contextPath}/manager/empMngList/${empretired}/?searchType="+searchType+"&keyword="+keyword;
 		})
 		
 	})
@@ -142,7 +142,7 @@
 				<div class="box-header">
 					<h3 class="box-title">사원 정보 조회</h3> 
 				</div>
-				<form role="form" action="${pageContext.request.contextPath}/employeeUpdate/${empretired }" method="post" id="detaiLForm">
+				<form role="form" action="${pageContext.request.contextPath}/manager/employeeUpdate/${empretired }" method="post" id="detaiLForm">
 					<div class="box-body">
 					    <!-- <input type="hidden" value="" id="forSubmit"> -->
 					    <input type="hidden" value="${empretired }" name="empretired">

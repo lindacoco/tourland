@@ -94,7 +94,7 @@ $(function(){
 						$(".error").css("display", "inline");
 						return false;
 					}else{
-						location.href="${pageContext.request.contextPath}/tourlandMyInfoEdit";
+						location.href="${pageContext.request.contextPath}/customer/tourlandMyInfoEdit";
 					}
 				}
 		    })
@@ -121,7 +121,7 @@ $(function(){
 						$(".error").css("display", "inline");
 						return false;
 					}else{
-						location.href="${pageContext.request.contextPath}/tourlandMyInfoEdit";
+						location.href="${pageContext.request.contextPath}/customer/tourlandMyInfoEdit";
 					}
 				}
 		    })

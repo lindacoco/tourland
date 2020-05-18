@@ -90,7 +90,7 @@ section div#editProfile #btns input {
 					var id = $("input[name='userid']").val();
 					var res = confirm("정말로 탈퇴하시겠습니까?");
 					if(res){
-						location.href="${pageContext.request.contextPath}/logoutWithdrawal?id="+id;
+						location.href="${pageContext.request.contextPath}/customer/logoutWithdrawal?id="+id;
 						alert("탈퇴되었습니다.");
 					}
 				})
@@ -130,7 +130,11 @@ section div#editProfile #btns input {
 						}
 						var res = confirm("수정하시겠습니까?");
 						if(res){
+<<<<<<< HEAD
 							location.href="${pageContext.request.contextPath}/editProfile";
+=======
+							location.href="${pageContext.request.contextPath}/customer/editProfile?userid="+userid;
+>>>>>>> branch 'master' of https://github.com/dlstjs8246/tourland.git
 							alert("수정이 완료되었습니다.");
 						}
 						return false;

@@ -88,13 +88,13 @@
 				<div class="box-footer">
 					<ul class="pagination">
 					<c:if test="${pageMaker.prev == true}">
-						<li><a href="${pageContext.request.contextPath}/planBoardList?page=${pageMaker.startPage-1}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">&laquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/manager/planBoardList?page=${pageMaker.startPage-1}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">&laquo;</a></li>
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/planBoardList?page=${idx}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">${idx}</a></li>
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/manager/planBoardList?page=${idx}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">${idx}</a></li>
 					</c:forEach>
 					<c:if test="${pageMaker.next == true}">
-						<li><a href="${pageContext.request.contextPath}/planBoardList?page=${pageMaker.endPage+1}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">&raquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/manager/planBoardList?page=${pageMaker.endPage+1}&searchType=${cri.searchType}&searchType2=${cri.searchType2}&keyword=${cri.keyword}">&raquo;</a></li>
 					</c:if>
 					</ul>
 				</div>

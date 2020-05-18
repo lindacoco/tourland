@@ -83,16 +83,40 @@ public class ProductService {
 	public int totalCountProduct() throws SQLException {
 		return dao.totalCountProduct();
 	}
-	public int totalCountBySearchProductDomestic(Criteria cri) throws SQLException {
-		return dao.totalCountBySearchProductDomestic(cri);
+	public int totalCountBySearchProductDomestic() throws SQLException {
+		return dao.totalCountBySearchProductDomestic();
 	}
-	public int totalCountBySearchProductChina(Criteria cri) throws SQLException {
-		return dao.totalCountBySearchProductChina(cri);
+	public int totalCountBySearchProductChina() throws SQLException {
+		return dao.totalCountBySearchProductChina();
 	}
-	public int totalCountBySearchProductJapan(Criteria cri) throws SQLException {
-		return dao.totalCountBySearchProductJapan(cri);
+	public int totalCountBySearchProductJapan() throws SQLException {
+		return dao.totalCountBySearchProductJapan();
 	}
+	//고객 페이지 - 중국 패키지 검색 박스 Ajax 
 	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException{
 		return dao.tourlandProductChinaSearchList(ddate, rdate, cnt);
+	};
+	//고객 페이지 - 일본 패키지 검색 박스 Ajax 
+	public List<ProductVO> tourlandProductJapanSearchList(String ddate, String rdate, String cnt) throws SQLException{
+		return dao.tourlandProductJapanSearchList(ddate, rdate, cnt);
+	};
+	//고객 페이지 - 제주 패키지 검색 박스 Ajax 
+		public List<ProductVO> tourlandProductKRSearchList(String ddate, String rdate, String cnt) throws SQLException{
+			return dao.tourlandProductKRSearchList(ddate, rdate, cnt);
+		};
+		
+	// 고객 페이지 - 중국 패키지 검색 박스 "낮은 가격 순 " Ajax
+	public List<ProductVO> tourlandProductChinaSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return dao.tourlandProductChinaSearchLowPriceList(cri);
+	};
+
+	// 고객 페이지 - 일본 패키지 검색 박스 "낮은 가격 순 "  Ajax
+	public List<ProductVO> tourlandProductJapanSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return dao.tourlandProductJapanSearchLowPriceList(cri);
+	};
+
+	// 고객 페이지 - 제주 패키지 검색 박스 "낮은 가격 순 "  Ajax
+	public List<ProductVO> tourlandProductKRSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return dao.tourlandProductKRSearchLowPriceList(cri);
 	};
 }

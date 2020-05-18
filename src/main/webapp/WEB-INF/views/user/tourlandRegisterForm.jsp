@@ -200,10 +200,6 @@
 			
 		})
 		
-		 //리스트로 버튼 눌렀을 때 리스트로 돌아가기 
-		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/userMngList/0";
-		})
 		
 		//아이디 입력값이 달라질 때 마다 아이디 체크 여부를 초기화 
 		$("#userId").change(function(){
@@ -212,7 +208,7 @@
 		})
 		
 		$("#btnRegisterCancel").click(function(){
-			location.href="${pageContext.request.contextPath}/tourlandMain";
+			location.href="${pageContext.request.contextPath}/customer/tourlandMain";
 		})
 })
 		

@@ -17,9 +17,9 @@
 </style>    
 <nav>
 	<ul>
-		<li><a href="${pageContext.request.contextPath }/tourlandBoardNotice">공지사항</a></li>
-		<li><a href="${pageContext.request.contextPath }/tourlandBoardFAQ">FAQ</a></li>
-		<li><a href="${pageContext.request.contextPath }/tourlandCustBoard">고객의 소리</a></li>
-		<li><a href="${pageContext.request.contextPath }/tourlandProductBoard">상품 문의 사항</a></li>
+		<li><a href="${pageContext.request.contextPath }/customer/tourlandBoardNotice">공지사항</a></li>
+		<li><a href="${pageContext.request.contextPath }/customer/tourlandBoardFAQ">FAQ</a></li>
+		<li><a href="${pageContext.request.contextPath }/customer/tourlandCustBoard">고객의 소리</a></li>
+		<li><a href="${pageContext.request.contextPath }/customer/tourlandProductBoard">상품 문의 사항</a></li>
 	</ul>
 </nav>

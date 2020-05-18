@@ -1,5 +1,7 @@
 package com.yi.tourland.controller.user;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,12 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,8 +59,21 @@ import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
 
 @Controller
+@RequestMapping("/customer/*")
 public class CustomerController {
 	
+	@Resource(name = "uploadPathBanner") // 서블릿컨텍스트의 id값과 일치해야함 private String
+	private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
+	 
+	@Resource(name = "uploadPathPopup") 
+	private String uploadPathPopup;
+	 
+	@Resource(name ="uploadPathEvent") 
+	private String uploadPathEvent;
+	 
+	@Resource(name = "uploadPathProduct")
+	private String uploadPathProduct; // c:/tourland/upload/product
+	 
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -102,6 +121,67 @@ public class CustomerController {
 	@Autowired
 	EmailServiceImpl sendEmail;
 	
+
+		
+	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨
+		@ResponseBody
+		@RequestMapping(value = "displayFile/{whichOne}", method = RequestMethod.GET)
+		public ResponseEntity<byte[]> displayFile(String filename,@PathVariable("whichOne") String choice) {
+			ResponseEntity<byte[]> entity = null;
+	        String path = null;
+	        
+	        if(choice.equals("banner")) {
+	        	path = uploadPathBanner;
+	        }
+	        
+	        if(choice.equals("popup")) {
+	        	path = uploadPathPopup; 
+	        }
+	        
+	        if(choice.contentEquals("event")) {
+	        	path = uploadPathEvent; 
+	        }
+	        if(choice.contentEquals("product") || choice.contentEquals("productSmall")) {
+	        	path = uploadPathProduct;
+	        }
+	        
+	        if(choice.equals("practice")) {
+	        	path= "D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/practice";
+	        }
+			// System.out.println("displayFile-----------"+ filename);
+			InputStream in = null;
+			try {
+				
+		//		System.out.println("path=="+path);
+				if(choice.contentEquals("productSmall")) {
+					if(filename!="") filename = filename.substring(0, 12) + "s_" + filename.substring(12);
+				}
+				in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
+				String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
+				MediaType mType = null;
+
+				if (format.equalsIgnoreCase("png")) {
+					mType = MediaType.IMAGE_PNG;
+				} else if (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("jpeg")) {
+					mType = MediaType.IMAGE_JPEG;
+				} else if (format.equalsIgnoreCase("GIF")) {
+					mType = MediaType.IMAGE_GIF;
+				}
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(mType);
+
+				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+
+				in.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+			}
+
+			return entity;
+		}
+
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {
@@ -323,37 +403,205 @@ public class CustomerController {
 		List<ProductVO> list = productService.productListPageByDomestic(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic(cri));
+		pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic());
 		model.addAttribute("list",list);
 		model.addAttribute("pageMaker",pageMaker);
 		model.addAttribute("cri",cri);
-		model.addAttribute("count",productService.totalCountBySearchProductDomestic(cri));
+		model.addAttribute("count",productService.totalCountBySearchProductDomestic());
 		return "/user/product/tourlandProductKRList"; 
-	}	
+	}
+
+	//상품 리스트 검색  ajax (제주 패키지) 
+	@RequestMapping(value="tourlandProductKRSearchList", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductKRSearchList(String ddate, String tourDays, String cnt) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			//출발일자에 여행일 더해줌
+			Calendar cal = Calendar.getInstance();
+			String year = ddate.substring(0, ddate.indexOf("-"));
+			String month = ddate.substring(ddate.indexOf("-")+1, ddate.lastIndexOf("-"));
+			String date = ddate.substring(ddate.lastIndexOf("-")+1);
+			//캘린더에 날짜 세팅
+			cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,Integer.parseInt(date)-1);
+			//형식 변경
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			//출발일자에 여행일 더해줌 
+			cal.add(Calendar.DATE, Integer.parseInt(tourDays.substring(0,tourDays.length()-1)));
+			//더해준 날짜 string으로 변환 (실제로 돌아오는 날짜) 
+			String rdate = sdf.format(cal.getTime());
+			
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.tourlandProductKRSearchList(ddate, rdate,cnt);
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}
+	
+	//상품 전체 리스트 검색  ajax (제주 패키지) 
+	@RequestMapping(value="tourlandProductKRListAll/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductKRListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			cri.setPage(page);
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.productListPageByDomestic(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic());
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker",pageMaker);
+			map.put("cri",cri);
+			map.put("count",productService.totalCountBySearchProductDomestic());
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}	
+	
+	//상품 전체 리스트 검색  ajax "낮은 가격 순" (제주 패키지) 
+	@RequestMapping(value="tourlandProductKRSearchLowPirceList/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductKRSearchLowPirceList(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			cri.setPage(page);
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.tourlandProductKRSearchLowPriceList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic());
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker",pageMaker);
+			map.put("cri",cri);
+			map.put("count",productService.totalCountBySearchProductDomestic());
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}	
+
 	//상품 리스트   (일본 패키지)
 	@RequestMapping(value="tourlandProductJPList", method=RequestMethod.GET)
 	public String tourlandProductJPList(SearchCriteria cri,Model model) throws SQLException { 
 		List<ProductVO> list = productService.productListPageByJapan(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(productService.totalCountBySearchProductJapan(cri));
+		pageMaker.setTotalCount(productService.totalCountBySearchProductJapan());
 		model.addAttribute("list",list);
 		model.addAttribute("pageMaker",pageMaker);
 		model.addAttribute("cri",cri);
-		model.addAttribute("count",productService.totalCountBySearchProductJapan(cri));
+		model.addAttribute("count",productService.totalCountBySearchProductJapan());
 		return "/user/product/tourlandProductJPList"; 
 	}
+	
+	//상품 리스트 검색  ajax (일본 패키지) 
+	@RequestMapping(value="tourlandProductJapanSearchList", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductJapanSearchList(String ddate, String tourDays, String cnt) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			//출발일자에 여행일 더해줌
+			Calendar cal = Calendar.getInstance();
+			String year = ddate.substring(0, ddate.indexOf("-"));
+			String month = ddate.substring(ddate.indexOf("-")+1, ddate.lastIndexOf("-"));
+			String date = ddate.substring(ddate.lastIndexOf("-")+1);
+			//캘린더에 날짜 세팅
+			cal.set(Integer.parseInt(year), Integer.parseInt(month)-1,Integer.parseInt(date)-1);
+			//형식 변경
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			//출발일자에 여행일 더해줌 
+			cal.add(Calendar.DATE, Integer.parseInt(tourDays.substring(0,tourDays.length()-1)));
+			//더해준 날짜 string으로 변환 (실제로 돌아오는 날짜) 
+			String rdate = sdf.format(cal.getTime());
+			
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.tourlandProductJapanSearchList(ddate, rdate,cnt);
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}
+	
+	
+	//상품 전체 리스트 검색  ajax (일본 패키지) 
+	@RequestMapping(value="tourlandProductJapanListAll/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductJapanListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			cri.setPage(page);
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.productListPageByJapan(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductJapan());
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker",pageMaker);
+			map.put("cri",cri);
+			map.put("count",productService.totalCountBySearchProductJapan());
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}	
+	
+	//상품 전체 리스트 검색  ajax "낮은 가격 순" (일본 패키지) 
+	@RequestMapping(value="tourlandProductJPSearchLowPirceList/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductJPSearchLowPirceList(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			cri.setPage(page);
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.tourlandProductJapanSearchLowPriceList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductJapan());
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker",pageMaker);
+			map.put("cri",cri);
+			map.put("count",productService.totalCountBySearchProductDomestic());
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}	
+	
 	//상품 리스트   (중국 패키지)
 		@RequestMapping(value="tourlandProductChinaList", method=RequestMethod.GET)
 		public String tourlandProductChinaList(SearchCriteria cri,Model model) throws SQLException {
+			System.out.println(cri.getPage());
 			List<ProductVO> list = productService.productListPageByChina(cri);
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(productService.totalCountBySearchProductChina(cri));
+			pageMaker.setTotalCount(productService.totalCountBySearchProductChina());
 			model.addAttribute("list",list);
 			model.addAttribute("pageMaker",pageMaker);
 			model.addAttribute("cri",cri);
-			model.addAttribute("count",productService.totalCountBySearchProductChina(cri));
+			model.addAttribute("count",productService.totalCountBySearchProductChina());
 			return "/user/product/tourlandProductChinaList"; 
 	}
 	//상품 리스트 검색  ajax (중국 패키지) 
@@ -389,7 +637,56 @@ public class CustomerController {
 		}   
 			return entity; 
 	}
+
+	//상품 전체 리스트 검색  ajax (중국 패키지) 
+		@RequestMapping(value="tourlandProductChinaListAll/{page}", method=RequestMethod.GET)
+		public ResponseEntity<Map<String,Object>> tourlandProductChinaListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+			ResponseEntity<Map<String,Object>> entity = null;	
+			try {
+				cri.setPage(page);
+				//해당 조건에 맞는 리스트 검색
+				List<ProductVO> list = productService.productListPageByChina(cri);
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
+				pageMaker.setTotalCount(productService.totalCountBySearchProductChina());
+				//맵에 넣음 
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("list", list);
+				map.put("pageMaker",pageMaker);
+				map.put("cri",cri);
+				map.put("count",productService.totalCountBySearchProductChina());
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}   
+			return entity; 
+	}		
 		
+		//상품 전체 리스트 검색  ajax "낮은 가격 순" (중국 패키지) 
+		@RequestMapping(value="tourlandProductChinaSearchLowPirceList/{page}", method=RequestMethod.GET)
+		public ResponseEntity<Map<String,Object>> tourlandProductChinaSearchLowPirceList(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+			ResponseEntity<Map<String,Object>> entity = null;	
+			try {
+				cri.setPage(page);
+				//해당 조건에 맞는 리스트 검색
+				List<ProductVO> list = productService.tourlandProductChinaSearchLowPriceList(cri);
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
+				pageMaker.setTotalCount(productService.totalCountBySearchProductChina());
+				//맵에 넣음 
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("list", list);
+				map.put("pageMaker",pageMaker);
+				map.put("cri",cri);
+				map.put("count",productService.totalCountBySearchProductChina());
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}   
+			return entity; 
+	}			
 	//상품 세부 정보    
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
 	public String tourlandProductDetail(SearchCriteria cri,ProductVO vo,Model model) throws SQLException {
