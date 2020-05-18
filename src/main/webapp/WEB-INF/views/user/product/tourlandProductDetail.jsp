@@ -12,12 +12,12 @@
 	div#proBox { border-bottom : 1px solid #929292; }
 	div#proBox h1 { height: 100px; line-height: 100px;}
 	div#imgBox { width: 500px; height: 400px;float: left;  }
-	div#bigImgBox { width: 500px; height: 500px;}
-	div#bigImgBox img { height : 500px; width: 100%; } 
-	div#smallImgBox { width: 500px; height:90px;}
-	div#smallImgBox img { width:23%; height: 70px; float: left; margin:5px;}
+	div#bigImgBox { width: 500px; height: 600px;}  
+	div#bigImgBox img { height : 600px; width: 100%; } 
+	div#smallImgBox { width: 500px; height:220px;}
+	div#smallImgBox img { width:23%; height: 220px; float: left; margin:5px;}   
 	
-	div#infoBox { width: 460px; height: 600px; overflow: hidden; padding-left:20px;} 
+	div#infoBox { width: 460px; height: 900px; overflow: hidden; padding-left:20px;}  
 	
 	#proDetailBtns { height: 50px; text-align: center;}
 	#proDetailBtns a {display: block; width: 200px; height: 30px; border: none;line-height:30px; text-decoration: none;font-size: 14px; float: left; margin:10px;}
@@ -51,6 +51,9 @@
 			var price = 0;
 			var selCapacity = 0;
 			var airCapacity = 0;
+			var hotelCapacity = 0;
+			var tourCapacity = 0;
+			var rentcarCapacity = 0;
 			$("#smallImgBox li").each(function(i,obj){
 				$(this).find("img").attr("src",$("#proDetail img").eq(i).attr("src"));
 			})
@@ -69,12 +72,22 @@
 				price = Math.ceil(price);
 				$("#price").html("<span>"+price.toLocaleString()+"</span>"); 
 			})
-			$("#selAir").change(function(){
-				var selOption = $(this).find("option:selected").val();
+			$(".selAir").change(function(){
 				selCapacity = $("#capacity option:selected").val().substring(0,$("#capacity option:selected").val().length-1);
-				var airSelect = $("<select id='airSelect'>").html(" ");
+				$(this).parent().next().remove();
+				if($(".selAir").eq(0).find("option:selected").val()=="" && ($(".selAir").index($(this))==1 || $(".selAir").index($(this))==2)) {
+					alert("항공옵션1을 먼저 채워주세요"); 
+					$(this).find("option").eq(0).prop("selected",true);
+					return false;
+				}
+				if($(".selAir").eq(0).find("option:selected").val()!="" && selCapacity <= 5 && $(".selAir").index($(this))==1 || $(".selAir").index($(this))==2) {
+					alert("인원이 5명 이하라 항공 옵션을 더 추가할 필요가 없습니다.");  
+					$(this).find("option").eq(0).prop("selected",true);
+					return false;
+				}
+				var selOption = $(this).find("option:selected").val();
+				var airSelect = $("<select class='airSelect'>").html(" ");
 				var p = $("<p>").html("탑승인원 ");
-				$(".selOption").eq(1).find("p").eq(1).remove();
 				switch(selOption) {
 				case "F":
 					for(var i=1;i<=${vo.air[0].capacity};i++) {
@@ -82,7 +95,7 @@
 						airSelect.append(option);	
 					}
 					p.append(airSelect);
-					$(".selOption").eq(1).find("p").after(p);
+					$(this).parent().after(p);
 					break;
 				case "B":
 					for(var i=1;i<=${vo.air[3].capacity};i++) { 
@@ -90,7 +103,7 @@
 						airSelect.append(option);	
 					}
 					p.append(airSelect);
-					$(".selOption").eq(1).find("p").after(p);
+					$(this).parent().after(p);
 					break;
 				case "E":
 					for(var i=1;i<=${vo.air[5].capacity};i++) {
@@ -98,15 +111,71 @@
 						airSelect.append(option);	
 					}
 					p.append(airSelect);
-					$(".selOption").eq(1).find("p").after(p);
+					$(this).parent().after(p); 
 					break;
 				}
 			})
-			$(document).on("change","#airSelect",function(e){
-				airCapacity = Number($(this).find("option:selected").val().substring(0,$(this).find("option:selected").val().length-1)); 
+			$(document).on("change",".airSelect",function(){
+				airCapacity = 0;
+				$(".airSelect").each(function(i,obj){
+					airCapacity += Number($(obj).find("option:selected").val().substring(0,$(this).find("option:selected").val().length-1));
+				}) 
 				if(selCapacity<airCapacity) {
 					alert("현재 예약인원보다 항공기 탑승인원이 더 많을 수 없습니다");
-					$(this).find("option").eq(0).prop("selected",true); 
+					$(this).find("option").eq(0).prop("selected",true);  
+				}
+			})
+			$(".selHotel").change(function(){
+				selCapacity = $("#capacity option:selected").val().substring(0,$("#capacity option:selected").val().length-1);
+				$(this).parent().next().remove();
+				if($(".selHotel").eq(0).find("option:selected").val()=="" && ($(".selHotel").index($(this))==1 || $(".selHotel").index($(this))==2)) {
+					alert("호텔옵션1을 먼저 채워주세요"); 
+					$(this).find("option").eq(0).prop("selected",true);
+					return false;
+				}
+				if($(".selHotel").eq(0).find("option:selected").val()!="" && selCapacity <= 5 && $(".selHotel").index($(this))==1 || $(".selHotel").index($(this))==2) {
+					alert("인원이 5명 이하라 호텔 옵션을 더 추가할 필요가 없습니다.");  
+					$(this).find("option").eq(0).prop("selected",true);
+					return false; 
+				}
+				var selOption = $(this).find("option:selected").val();
+				var hotelSelect = $("<select class='hotelSelect'>").html(" ");
+				var p = $("<p>").html("투숙인원 ");
+				switch(selOption) {
+				case "S":
+					for(var i=1;i<=${vo.hotel[0].capacity}*${vo.hotel[0].roomcapacity};i++) {
+						var option = $("<option>").html(i+"명");
+						hotelSelect.append(option);	
+					}
+					p.append(hotelSelect);
+					$(this).parent().after(p);
+					break;
+				case "D":
+					for(var i=1;i<=${vo.hotel[1].capacity}*${vo.hotel[1].roomcapacity};i++) { 
+						var option = $("<option>").html(i+"명");
+						hotelSelect.append(option);	
+					}
+					p.append(hotelSelect);
+					$(this).parent().after(p);
+					break;
+				case "N":
+					for(var i=1;i<=${vo.hotel[2].capacity}*${vo.hotel[2].roomcapacity};i++) {
+						var option = $("<option>").html(i+"명"); 
+						hotelSelect.append(option);	
+					}
+					p.append(hotelSelect);  
+					$(this).parent().after(p); 
+					break;
+				}
+			})
+			$(document).on("change",".hotelSelect",function(){
+				hotelCapacity = 0;
+				$(".hotelSelect").each(function(i,obj){
+					hotelCapacity += Number($(obj).find("option:selected").val().substring(0,$(this).find("option:selected").val().length-1));
+				})
+				if(selCapacity<hotelCapacity) {
+					alert("현재 예약인원보다 호텔 투숙 인원이 더 많을 수 없습니다");
+					$(this).find("option").eq(0).prop("selected",true);  
 				}
 			})
 		})
@@ -150,9 +219,9 @@
 								</p>
 							</li>
 							<li class="selOption">
-								<p>
-									항공기옵션
-									<select id="selAir">
+								<p class="airOption">
+									항공기옵션1
+									<select class="selAir">
 										<option value="">선택</option>
 										<option value="F">First-Class</option>
 										<option value="B">Business</option>
@@ -161,36 +230,82 @@
 								</p>
 							</li>
 							<li class="selOption">
-								<p>
-									호텔옵션
-									<select id="selHotel">
+								<p class="airOption">
+									항공기옵션2
+									<select class="selAir">
 										<option value="">선택</option>
-										<option value="">스위트룸</option>
-										<option value="">디럭스룸</option>
-										<option value="">일반룸</option>
-										<option value="">선택하지않음</option>
+										<option value="F">First-Class</option>
+										<option value="B">Business</option>
+										<option value="E">Economy</option>   
 									</select>
 								</p>
 							</li>
 							<li class="selOption">
-								<p>
-									투어옵션
-									<select id="selTour">
-										<option>선택</option>
-										<option>선택하지않음</option>
+								<p class="airOption">
+									항공기옵션3 
+									<select class="selAir">
+										<option value="">선택</option>
+										<option value="F">First-Class</option>
+										<option value="B">Business</option>
+										<option value="E">Economy</option>   
 									</select>
+								</p>
+							</li>
+							<li class="selOption">
+								<p class="hotelOption">
+									호텔옵션1 
+									<select class="selHotel">
+										<option value="">선택</option>
+										<option value="S">스위트룸</option>
+										<option value="D">디럭스룸</option>
+										<option value="N">일반룸</option>
+										<option value="DS">선택안함</option>
+									</select>
+								</p>
+							</li>
+							<li class="selOption">
+								<p class="hotelOption">
+									호텔옵션2 
+									<select class="selHotel">
+										<option value="">선택</option>
+										<option value="S">스위트룸</option>
+										<option value="D">디럭스룸</option>
+										<option value="N">일반룸</option>
+										<option value="DS">선택안함</option>
+									</select>
+								</p>
+							</li>
+							<li class="selOption">
+								<p class="hotelOption">
+									호텔옵션3
+									<select class="selHotel">
+										<option value="">선택</option>
+										<option value="S">스위트룸</option>
+										<option value="D">디럭스룸</option>
+										<option value="N">일반룸</option>
+										<option value="DS">선택안함</option>
+									</select>
+								</p>
+							</li>
+							<li class="selOption">
+								<p id="selTour">
+								투어옵션<br>
+									<c:forEach var="tour" items="${vo.tour}">
+										<input type="checkbox" name="tourChk" value="${tour.no}"> <span>${tour.tname}</span><br>
+									</c:forEach>
 								</p>
 							</li>
 							<li class="selOption">
 								<p>
 									렌터카옵션
 									<select id="selRentcar">
-										<option>선택</option>
-										<option>선택하지않음</option>
+										<option value="">선택</option>
+										<option value="S">선택함</option>
+										<option value="DS">선택안함</option>
 									</select>
 								</p>
 							</li>
-							<li id="infoPrice">가격 : <span id="price">${price}</span>원</li>
+							<li id="infoPrice" style="clear : both;">가격 : <span id="price">${price}</span>원</li>
 						</ul>
 						<div id="btnsBox">
 						<button id="doReserv">예약하기</button>
