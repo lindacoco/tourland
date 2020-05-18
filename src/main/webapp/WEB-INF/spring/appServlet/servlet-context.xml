@@ -50,7 +50,7 @@
  	<beans:bean id="sampleInterceptor" class="com.yi.tourland.interceptor.SampleInterceptor"/>
 	<interceptors>
 		<interceptor>
-			<mapping path=""/>
+			<mapping path="*"/>
 			<beans:ref bean="sampleInterceptor"/>
 		</interceptor>
 	</interceptors>
