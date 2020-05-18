@@ -68,14 +68,14 @@
 	              <div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/userMngList/${usersecess }?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/userMngList/${usersecess }?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/userMngList/${usersecess }?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/manager/userMngList/${usersecess }?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/userMngList/${usersecess }?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/userMngList/${usersecess }?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	               </div>
@@ -92,9 +92,9 @@
 		
 
 		if("${btnName}"=="탈퇴회원 조회"){ //일반 고객 리스트에서 검색한 경우
-		  location.href = "${pageContext.request.contextPath}/userMngList/0?searchType="+searchType+"&keyword="+keyword;
+		  location.href = "${pageContext.request.contextPath}/manager/userMngList/0?searchType="+searchType+"&keyword="+keyword;
 		}else{
-		  location.href = "${pageContext.request.contextPath}/userMngList/1?searchType="+searchType+"&keyword="+keyword;	
+		  location.href = "${pageContext.request.contextPath}/manager/userMngList/1?searchType="+searchType+"&keyword="+keyword;	
 		}
 		
 	})
@@ -105,18 +105,12 @@
 	   var btnName = "${btnName}";
 	    if(btnName == "탈퇴회원 조회"){
 	    	
-	       location.href ="${pageContext.request.contextPath}/userMngList/1";
+	       location.href ="${pageContext.request.contextPath}/manager/userMngList/1";
 	       
 	    }else{
 	    	
-	       location.href ="${pageContext.request.contextPath}/userMngList/0";
+	       location.href ="${pageContext.request.contextPath}/manager/userMngList/0";
 	    }
-	})
-	
-	
-	//추가 버튼 누르면 
-	$("#btnRegister").click(function(){
-		location.href = "${pageContext.request.contextPath}/register";
 	})
 	
 	//각 리스트를 클릭했을 때 디테일로 넘어가는 부분
@@ -124,16 +118,16 @@
 		var no = $(this).attr("data-click");
 		var searchType = "${cri.searchType}";
 		var keyword = "${cri.keyword}";
-		location.href = "${pageContext.request.contextPath}/userDetailForm/${usersecess}?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/manager/userDetailForm/${usersecess}?no="+no+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
 	})
 	
 	$("#btnReset").click(function(){
-		location.href = "${pageContext.request.contextPath}/userMngList/${usersecess}";
+		location.href = "${pageContext.request.contextPath}/manager/userMngList/${usersecess}";
 	})
-	
+//추가 버튼 누르면 
 	$("#btnRegister").click(function(){
-		location.href = "${pageContext.request.contextPath}/userRegister";
+		location.href = "${pageContext.request.contextPath}/manager/userRegister";
 	})
 </script>
 

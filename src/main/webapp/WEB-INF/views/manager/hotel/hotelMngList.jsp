@@ -124,7 +124,7 @@
 $("i.fas.fa-search").click(function(){
 	var checkin = $("input[name='checkin']").val();
 	var checkout = $("input[name='checkout']").val();
-	location.href = "${pageContext.request.contextPath}/hotelMngList?searchType=checkDate"+"&keyword2="+checkin+"&keyword3="+checkout;
+	location.href = "${pageContext.request.contextPath}/manager/hotelMngList?searchType=checkDate"+"&keyword2="+checkin+"&keyword3="+checkout;
 	
  })
  

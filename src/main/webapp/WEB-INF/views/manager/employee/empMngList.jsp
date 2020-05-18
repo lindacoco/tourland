@@ -70,14 +70,14 @@
 	              <div class='text-center'>
 	                   <ul class="pagination">
 	                      <c:if test="${pageMaker.prev == true }">
-	                          <li><a href="${pageContext.request.contextPath}/empMngList/${empretired }?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/empMngList/${empretired }?page=${pageMaker.startPage -1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&laquo;</a></li>
 	                       </c:if>
 	                      <c:forEach begin="${pageMaker.startPage }" end="${pageMaker.endPage }" var="idx">
-	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/empMngList/${empretired }?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
+	                         <li class="${pageMaker.cri.page == idx?'active':''}"><a href="${pageContext.request.contextPath}/manager/empMngList/${empretired }?page=${idx}&searchType=${cri.searchType}&keyword=${cri.keyword}"> ${idx }</a></li>
 	                       </c:forEach>
 	                       <!--  언제나 나오는 게 아니니까  -->
 	                       <c:if test="${pageMaker.next == true }">
-	                          <li><a href="${pageContext.request.contextPath}/empMngList/${empretired }?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
+	                          <li><a href="${pageContext.request.contextPath}/manager/empMngList/${empretired }?page=${pageMaker.endPage +1 }&searchType=${cri.searchType}&keyword=${cri.keyword}">&raquo;</a></li>
 	                       </c:if>
 	                   </ul>
 	                   <!-- 테스트용 
@@ -95,16 +95,16 @@
 		var keyword = $("#keywordInput").val();
 		
 		if("${btnName}"=="퇴사사원 조회"){ //근무사원 리스트에서 검색한 경우
-		  location.href = "${pageContext.request.contextPath}/empMngList/0?searchType="+searchType+"&keyword="+keyword;
+		  location.href = "${pageContext.request.contextPath}/manager/empMngList/0?searchType="+searchType+"&keyword="+keyword;
 		}else{
-		  location.href = "${pageContext.request.contextPath}/empMngList/1?searchType="+searchType+"&keyword="+keyword;	
+		  location.href = "${pageContext.request.contextPath}/manager/empMngList/1?searchType="+searchType+"&keyword="+keyword;	
 		}
 		
 	})
 	
 	$("#btnRegister").click(function(){
 		
-		location.href = "${pageContext.request.contextPath}/employeeRegister";
+		location.href = "${pageContext.request.contextPath}/manager/employeeRegister";
 	})
 	
 	//퇴사 사원 혹은 근무사원 리스트 클릭
@@ -114,11 +114,11 @@
 	   
 	   if(btnName == "퇴사사원 조회"){
 	    	
-	       location.href ="${pageContext.request.contextPath}/empMngList/1";
+	       location.href ="${pageContext.request.contextPath}/manager/empMngList/1";
 	       
 	    }else{
 	
-	       location.href ="${pageContext.request.contextPath}/empMngList/0";
+	       location.href ="${pageContext.request.contextPath}/manager/empMngList/0";
 	    }
 	})
 	
@@ -127,12 +127,12 @@
 		var empno = $(this).attr("data-click");
 		var searchType = "${cri.searchType}";
 		var keyword = "${cri.keyword}";
-		location.href = "${pageContext.request.contextPath}/employeeDetail/${empretired}?empno="+empno+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
+		location.href = "${pageContext.request.contextPath}/manager/employeeDetail/${empretired}?empno="+empno+"&page=${pageMaker.cri.page}&searchType="+searchType+"&keyword="+keyword;
 		
 	})
 	
 	$("#btnReset").click(function(){
-		location.href = "${pageContext.request.contextPath}/empMngList/${empretired}";
+		location.href = "${pageContext.request.contextPath}/manager/empMngList/${empretired}";
 	})
 </script>
 

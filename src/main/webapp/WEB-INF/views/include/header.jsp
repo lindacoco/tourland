@@ -113,7 +113,7 @@
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="${pageContext.request.contextPath }/empMngList/0"
+			<a href="${pageContext.request.contextPath }/manager/empMngList/0"
 				class="logo"> <!-- mini logo for sidebar mini 50x50 pixels --> <span
 				class="logo-mini"><b>A</b>LT</span> <!-- logo for regular state and mobile devices -->
 				<span class="logo-lg" id="logoTourLand"><b>TourLand</b></span>
@@ -130,7 +130,7 @@
 					<ul class="nav navbar-nav">
 						<!-- Messages: style can be found in dropdown.less-->
 						<li id="goToCustomer"><a
-							href="${pageContext.request.contextPath }/tourlandMain">고객
+							href="${pageContext.request.contextPath }/customer/tourlandMain">고객
 								페이지</a></li>
 						<li class="dropdown messages-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
@@ -382,7 +382,7 @@
 				<ul class="sidebar-menu">
 					<li class="header">MAIN NAVIGATION</li>
 					<li class="treeview"><c:if test="${Manager.right == 1 }">
-							<a href="${pageContext.request.contextPath }/empMngList/0"> <i
+							<a href="${pageContext.request.contextPath }/manager/empMngList/0"> <i
 								class="fa fa-dashboard"></i> <span>직원 관리</span>
 							<!--  <i class="fa fa-angle-left pull-right"></i> -->
 							</a>
@@ -391,7 +391,7 @@
                 <li><a href="${pageContext.request.contextPath }/resources/index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
               </ul> --%></li>
 					<li class="treeview"><a
-						href="${pageContext.request.contextPath }/userMngList/0"> <i
+						href="${pageContext.request.contextPath }/manager/userMngList/0"> <i
 							class="fa fa-files-o"></i> <span>고객 관리</span> <!--  <span class="label label-primary pull-right">4</span>    -->
 							<!-- new인 갯수 뜨는거 -->
 					</a> <!-- <ul class="treeview-menu">
@@ -402,7 +402,7 @@
               </ul> --></li>
 					
             <li>
-              <a href="${pageContext.request.contextPath }/reservationMgnList">
+              <a href="${pageContext.request.contextPath }/manager/reservationMgnList">
                 <i class="fa fa-th"></i> <span>예약 관리</span> <!-- <small class="label pull-right bg-green">new</small> --> <!-- new 글자뜨는거 -->
               </a>
             </li>
@@ -414,16 +414,16 @@
               </a>
               <ul class="treeview-menu">
               
-                <li><a href="${pageContext.request.contextPath }/flightMngList"><i class="fa fa-circle-o"></i>항공 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/manager/flightMngList"><i class="fa fa-circle-o"></i>항공 관리</a></li>
                 <%-- <li><a href="${pageContext.request.contextPath }/addFlightForm"><i class="fa fa-circle-o"></i>항공 관리</a></li> --%>
-                <li><a href="${pageContext.request.contextPath }/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
-                <li><a href="${pageContext.request.contextPath }/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
-                <li><a href="${pageContext.request.contextPath }/rentcarMngList"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
-                 <li><a href="${pageContext.request.contextPath }/productMngList"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
+                <li><a href="${pageContext.request.contextPath }/manager/hotelMngList"><i class="fa fa-circle-o"></i>호텔 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/manager/tourMngList"><i class="fa fa-circle-o"></i>현지 투어 관리</a></li>
+                <li><a href="${pageContext.request.contextPath }/manager/rentcarMngList"><i class="fa fa-circle-o"></i> 렌트카 관리</a></li>
+                 <li><a href="${pageContext.request.contextPath }/manager/productMngList"><i class="fa fa-circle-o text-red"></i>상품 목록</a></li>
               </ul>
             </li>  
             <li class="treeview">   
-              <a href="${pageContext.request.contextPath }/eventMngList">
+              <a href="${pageContext.request.contextPath }/manager/eventMngList">
                 <i class="fa fa-laptop"></i>    
                 <span>이벤트 관리</span>
                <!--  <i class="fa fa-angle-left pull-right"></i> -->
@@ -442,12 +442,12 @@
 							class="fa fa-angle-left pull-right"></i>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="${pageContext.request.contextPath}/FAQMngList"><i
+							<li><a href="${pageContext.request.contextPath}/manager/FAQMngList"><i
 									class="fa fa-circle-o"></i>FAQ 관리</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/custBoardMngList"><i
+								href="${pageContext.request.contextPath}/manager/custBoardMngList"><i
 									class="fa fa-circle-o"></i>고객의 소리 관리</a></li>
-							<li><a href="${pageContext.request.contextPath}/planBoardList"><i
+							<li><a href="${pageContext.request.contextPath}/manager/planBoardList"><i
 									class="fa fa-circle-o"></i>상품 문의사항 관리</a></li>
 						</ul></li>
 					<!-- <li class="treeview active">
@@ -483,10 +483,10 @@
 					</a>
 						<ul class="treeview-menu">
 							<li><a
-								href="${pageContext.request.contextPath}/popupMngList"><i
+								href="${pageContext.request.contextPath}/manager/popupMngList"><i
 									class="fa fa-circle-o"></i>팝업 관리</a></li>
 							<li><a
-								href="${pageContext.request.contextPath}/bannerMngList"><i
+								href="${pageContext.request.contextPath}/manager/bannerMngList"><i
 									class="fa fa-circle-o"></i>배너 관리</a></li>
 						</ul></li>
 					<!-- <li>
@@ -496,7 +496,7 @@
               </a>
             </li> -->
 					<li class="treeview"><a
-						href="${pageContext.request.contextPath }/noticeMngList"> <i
+						href="${pageContext.request.contextPath }/manager/noticeMngList"> <i
 							class="fa fa-folder"></i> <span>공지사항 관리</span> <!--   <i class="fa fa-angle-left pull-right"></i> -->
 					</a> <!-- <ul class="treeview-menu">
                 <li><a href="../examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
@@ -508,7 +508,7 @@
                 <li><a href="../examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>                
               </ul> --></li>
 					<li class="treeview"><a
-						href="${pageContext.request.contextPath }/couponMngList"> <i
+						href="${pageContext.request.contextPath }/manager/couponMngList"> <i
 							class="fa fa-share"></i> <span>쿠폰 관리</span> <!--  <i class="fa fa-angle-left pull-right"></i> -->
 					</a> <!--  <ul class="treeview-menu">    
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
@@ -528,7 +528,7 @@
                 <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
               </ul> --></li>
 					<li><a
-						href="${pageContext.request.contextPath }/paymentList"><i
+						href="${pageContext.request.contextPath }/manager/paymentList"><i
 							class="fa fa-book"></i> <span>결제 관리</span></a></li>
 					<li><a
 						href="${pageContext.request.contextPath }/resources/documentation/index.html"><i

@@ -1,5 +1,7 @@
 package com.yi.tourland.controller.user;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -7,12 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,8 +58,21 @@ import com.yi.tourland.service.mng.TourService;
 import com.yi.tourland.service.mng.UserService;
 
 @Controller
+@RequestMapping("/customer/*")
 public class CustomerController {
 	
+	@Resource(name = "uploadPathBanner") // 서블릿컨텍스트의 id값과 일치해야함 private String
+	private String uploadPathBanner; // D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/banner
+	 
+	@Resource(name = "uploadPathPopup") 
+	private String uploadPathPopup;
+	 
+	@Resource(name ="uploadPathEvent") 
+	private String uploadPathEvent;
+	 
+	@Resource(name = "uploadPathProduct")
+	private String uploadPathProduct; // c:/tourland/upload/product
+	 
 	@Autowired
 	private TourService tourService;
 	@Autowired
@@ -98,7 +117,65 @@ public class CustomerController {
 	@Autowired
 	PlanBoardService planBoardService;
 		
-	
+	// c드라이브에 있는 이미지에 대한 데이터를 직접 가져와야한다. ajax용으로 처리됨
+		@ResponseBody
+		@RequestMapping(value = "displayFile/{whichOne}", method = RequestMethod.GET)
+		public ResponseEntity<byte[]> displayFile(String filename,@PathVariable("whichOne") String choice) {
+			ResponseEntity<byte[]> entity = null;
+	        String path = null;
+	        
+	        if(choice.equals("banner")) {
+	        	path = uploadPathBanner;
+	        }
+	        
+	        if(choice.equals("popup")) {
+	        	path = uploadPathPopup; 
+	        }
+	        
+	        if(choice.contentEquals("event")) {
+	        	path = uploadPathEvent; 
+	        }
+	        if(choice.contentEquals("product") || choice.contentEquals("productSmall")) {
+	        	path = uploadPathProduct;
+	        }
+	        
+	        if(choice.equals("practice")) {
+	        	path= "D:/workspace/workspace_spring/tourland/src/main/webapp/resources/images/practice";
+	        }
+			// System.out.println("displayFile-----------"+ filename);
+			InputStream in = null;
+			try {
+				
+		//		System.out.println("path=="+path);
+				if(choice.contentEquals("productSmall")) {
+					if(filename!="") filename = filename.substring(0, 12) + "s_" + filename.substring(12);
+				}
+				in = new FileInputStream(path + filename); // 파일개체는 오류처리하라고..
+				String format = filename.substring(filename.lastIndexOf(".") + 1); // 파일 확장자 뽑아내기 점 빼고
+				MediaType mType = null;
+
+				if (format.equalsIgnoreCase("png")) {
+					mType = MediaType.IMAGE_PNG;
+				} else if (format.equalsIgnoreCase("jpg") || format.equalsIgnoreCase("jpeg")) {
+					mType = MediaType.IMAGE_JPEG;
+				} else if (format.equalsIgnoreCase("GIF")) {
+					mType = MediaType.IMAGE_GIF;
+				}
+				HttpHeaders headers = new HttpHeaders();
+				headers.setContentType(mType);
+
+				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.OK);
+
+				in.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<byte[]>(HttpStatus.BAD_REQUEST);
+			}
+
+			return entity;
+		}
+
 	//메인
 	@RequestMapping(value="tourlandMain", method=RequestMethod.GET)
 	public String tourlandMain(Model model, HttpServletResponse response) throws Exception {

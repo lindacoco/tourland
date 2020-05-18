@@ -77,7 +77,7 @@ $(function(){
 	
 	//리스트로 버튼 눌렀을 때 리스트로 돌아가기 
 		$("#btnReturnToList").click(function(){
-			location.href="${pageContext.request.contextPath}/rentcarMngList";
+			location.href="${pageContext.request.contextPath}/manager/rentcarMngList";
 		})
 
   // alert("${rentcarVO.rentddate }");

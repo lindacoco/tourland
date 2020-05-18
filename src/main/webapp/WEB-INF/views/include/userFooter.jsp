@@ -14,10 +14,10 @@
 		<footer>
 			<div id="footerList">
 				<ul>
-					<li><a href="${pageContext.request.contextPath }/tourlandIntroduce">회사소개</a></li>
-					<li><a href="${pageContext.request.contextPath }/tourlandAdvertising">제휴 및 광고 문의</a></li>
-					<li><a href="${pageContext.request.contextPath }/tourlandAgreement">이용 약관</a></li>
-					<li><a href="${pageContext.request.contextPath }/tourlandMap">찾아오시는 길</a></li>
+					<li><a href="${pageContext.request.contextPath }/customer/tourlandIntroduce">회사소개</a></li>
+					<li><a href="${pageContext.request.contextPath }/customer/tourlandAdvertising">제휴 및 광고 문의</a></li>
+					<li><a href="${pageContext.request.contextPath }/customer/tourlandAgreement">이용 약관</a></li>
+					<li><a href="${pageContext.request.contextPath }/customer/tourlandMap">찾아오시는 길</a></li>
 				</ul>
 			</div>
 			<div id="comInfo">

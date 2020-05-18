@@ -36,7 +36,7 @@
 			var json = {"respondText":text};
 			var no = $("#dataNo").val();
 			$.ajax({
-				url:"${pageContext.request.contextPath}/planBoardModifyApi?no="+no,
+				url:"${pageContext.request.contextPath}/manager/planBoardModifyApi?no="+no,
 				type:"get",
 				data:json,
 				dataType:"text",

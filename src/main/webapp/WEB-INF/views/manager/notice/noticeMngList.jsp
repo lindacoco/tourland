@@ -8,7 +8,7 @@
 $(function(){
     
 	$("#addNotice").click(function(){
-		location.href ="${pageContext.request.contextPath}/addNoticeForm";
+		location.href ="${pageContext.request.contextPath}/manager/addNoticeForm";
 	})
 })
 </script>
@@ -48,7 +48,7 @@ $(function(){
 						<c:forEach items="${noticeList}" var="n">   
 							<tr>
 								<td>${n.no }</td>
-								<td><a href="${pageContext.request.contextPath }/noticeDetail?no=${n.no}&page=${cri.page}">${n.title }</a></td>
+								<td><a href="${pageContext.request.contextPath }/manager/noticeDetail?no=${n.no}&page=${cri.page}">${n.title }</a></td>
 								<td>${n.writer }</td>
 								<td><fmt:formatDate value="${n.regdate }" pattern ="yyyy-MM-dd"/></td>
 							</tr>

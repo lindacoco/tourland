@@ -264,21 +264,21 @@ function getList(){
 			 $(".pagination").empty();
 			 if(rs.pageMaker.prev==true){
 					var $li1 = $("<li>");
-					var $a1 = $("<a>").attr("href", "${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.startPage-1}" ).html("&laquo");
+					var $a1 = $("<a>").attr("href", "${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${pageMaker.startPage-1}" ).html("&laquo");
 					$li1.append($a1);
 				}
 				
 				
 				if(rs.pageMaker.next==true){
 					var $li3 = $("<li>");
-					var $a3 = $("<a>").attr("href", "${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.startPage+1}" ).html("&laquo");
+					var $a3 = $("<a>").attr("href", "${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${pageMaker.startPage+1}" ).html("&laquo");
 
 					$li3.append($a3);
 				}
 				
 				for(var j = rs.pageMaker.startPage; j<= rs.pageMaker.endPage; j++){
 					$li2 = $("<li>").addClass("${cri.page==idx?'active':''}");
-					$a2 = $("<a>").attr("href", "${pageContext.request.contextPath}/tourlandProductChinaList?page="+j).html(j);
+					$a2 = $("<a>").attr("href", "${pageContext.request.contextPath}/customer/tourlandProductChinaList?page="+j).html(j);
 					if(j==rs.pageMaker.cri.page) {
 						$li2.addClass("active");
 					}
@@ -331,14 +331,14 @@ function getLowPriceList(page){
 			 $(".pagination").empty();
 			 if(rs.pageMaker.prev==true){
 					var $li1 = $("<li>");
-					var $a1 = $("<a>").attr("href", "${pageContext.request.contextPath}/tourlandProductChinaSearchLowPriceList?page=${pageMaker.startPage-1}" ).html("&laquo");
+					var $a1 = $("<a>").attr("href", "${pageContext.request.contextPath}/customer/tourlandProductChinaSearchLowPriceList?page=${pageMaker.startPage-1}" ).html("&laquo");
 					$li1.append($a1);
 				}
 				
 				
 				if(rs.pageMaker.next==true){
 					var $li3 = $("<li>");
-					var $a3 = $("<a>").attr("href", "${pageContext.request.contextPath}/tourlandProductKRSearchLowPriceList?page=${pageMaker.startPage+1}" ).html("&laquo");
+					var $a3 = $("<a>").attr("href", "${pageContext.request.contextPath}/customer/tourlandProductKRSearchLowPriceList?page=${pageMaker.startPage+1}" ).html("&laquo");
 
 					$li3.append($a3);
 				}
@@ -379,11 +379,11 @@ function getLowPriceList(page){
 		})
 		$(".pkgReservBtn").click(function() {
 			var pno = $(this).parent().parent().find("#pno").val();
-			location.href = "${pageContext.request.contextPath}/tourlandProductDetail?pno="+pno;
+			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
 		})
 		$(document).on("click", ".pkgReservBtn", function(){
 			var pno = $(this).parent().parent().find("#pno").val();
-			location.href = "${pageContext.request.contextPath}/tourlandProductDetail?pno="+pno;
+			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
 		})
 	})
 </script>
@@ -472,13 +472,13 @@ function getLowPriceList(page){
 				</c:forEach>
 				<ul class="pagination">
 					<c:if test="${pageMaker.prev == true}">
-						<li><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.startPage-1}">&laquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${pageMaker.startPage-1}">&laquo;</a></li>
 					</c:if>
 					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${idx}">${idx}</a></li>
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${idx}">${idx}</a></li>
 					</c:forEach>
 					<c:if test="${pageMaker.next == true}">
-						<li><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.endPage+1}">&raquo;</a></li>
+						<li><a href="${pageContext.request.contextPath}/customer/tourlandProductChinaList?page=${pageMaker.endPage+1}">&raquo;</a></li>
 					</c:if>
 				</ul>
 			</div>
@@ -487,4 +487,15 @@ function getLowPriceList(page){
 	<%@ include file="../../include/userFooter.jsp"%>
 </body>
 
+<<<<<<< HEAD
+=======
+<script>
+	$(function() {
+		$(".pkgReservBtn").click(function() {
+			var pno = $(this).parent().parent().find("#pno").val();
+			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
+		})
+	})
+</script>
+>>>>>>> refs/heads/HS0518
 </html>
