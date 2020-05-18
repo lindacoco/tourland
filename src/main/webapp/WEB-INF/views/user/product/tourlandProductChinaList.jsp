@@ -319,6 +319,16 @@ function getSearchResult(){
 	$(function() {
 		$(".pkgReservBtn").click(function() {
 			var pno = $(this).parent().parent().find("#pno").val();
+			var productLink = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
+			alert(productLink);
+			 if($.cookie('currentProduct') != null){			 
+				 $.cookie("currentProduct2",$.cookie('currentProduct'),{expires:1, path:"/"});
+				 $.removeCookie('currentProduct');
+				 $.cookie("currentProduct",productLink,{expires:1, path:"/"});
+			 }else{
+				 $.cookie("currentProduct",productLink,{expires:1, path:"/"});
+			 }
+			
 			location.href = "${pageContext.request.contextPath}/customer/tourlandProductDetail?pno="+pno;
 		})
 	})

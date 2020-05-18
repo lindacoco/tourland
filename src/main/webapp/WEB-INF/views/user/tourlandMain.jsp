@@ -296,6 +296,15 @@
 		  $("#slideBoxMain").css("margin-right","-120px");
 	  })
 	  
+	  
+	  //최근 본 상품의 이미지를 누르면 링크로 이동 
+	  $("#currentP1").click(function(){
+		  location.href= $.cookie("currentProduct");
+	  })
+	  $("#currentP2").click(function(){
+		  location.href= $.cookie("currentProduct2");
+	  })
+	  
   })
 	  
 </script>
@@ -554,8 +563,10 @@
 					<div id="slideBoxMain">
 					 <div id="slExit" style="position: absolute; left:-19px; top:170px; background:mistyrose; width:18px;" ><i class="fas fa-caret-right" style="margin-left:8px;" id="arrows"></i></div>
 					   <ul>
-					     <li style="background: mistyrose;">예약확인/결제</li>
+					     <li style="background: mistyrose;"><a href="${pageContext.request.contextPath }/customer/tourlandMyReserv" style="display:block;">예약확인/결제</a></li>
 					     <li>최근 본 상품</li>
+					     <li style="margin-bottom:80px;"><img src="${pageContext.request.contextPath}/images/osaka.jpg" style="width:100px; height: 100px;" id="currentP1"></li>
+					     <li><img src="${pageContext.request.contextPath}/images/osaka.jpg" style="width:100px; height: 100px; " id="currentP2"></li>
 					   </ul>
 					   <span id="slSpan"><i class="fas fa-angle-up" style="color:silver;"></i> Top</span>
 					</div>
