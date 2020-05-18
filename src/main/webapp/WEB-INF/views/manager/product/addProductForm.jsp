@@ -217,7 +217,7 @@ body {
 							<div class="form-group">
 								<label><span class="red">*</span>상품 이름</label> <input
 									type="text" class="form-control" name="pname"
-									required="required">
+									required="required" style="width:800px;">
 							</div>
 						</div>
 						<div class="group">
