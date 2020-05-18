@@ -97,7 +97,7 @@ section div#editProfile #btns input {
 				
 				$("#submit").click(function(){
 					$("form").submit(function(e){
-						var userid=$("input[name='userid']").val();
+						var userid = $("input[name='userid']").val();
 						$(".error").css("display","none");
 						var username=$("input[name='username']").val();
 						var userbirth = $("input[name='userbirth']").val();
@@ -128,12 +128,12 @@ section div#editProfile #btns input {
 							$("input[name='userpassport']").next().css("display", "inline");
 							  return false;
 						}
-						
 						var res = confirm("수정하시겠습니까?");
 						if(res){
-							location.href="${pageContext.request.contextPath}/editProfile?userid="+userid;
+							location.href="${pageContext.request.contextPath}/editProfile";
 							alert("수정이 완료되었습니다.");
 						}
+						return false;
 					})
 				})
 			})
@@ -145,7 +145,7 @@ section div#editProfile #btns input {
 			$(function(){	
 				$("#submit").click(function(){
 					$("form").submit(function(e){
-						var empid=$("input[name='empid']").val();
+						var empid = $("input[name='empid']").val();
 						$(".error").css("display","none");
 						var empname=$("input[name='empname']").val();
 						var empbirth = $("input[name='empbirth']").val();
@@ -172,7 +172,7 @@ section div#editProfile #btns input {
 						
 						var res = confirm("수정하시겠습니까?");
 						if(res){
-							location.href="${pageContext.request.contextPath}/editProfile?empid="+empid;
+							location.href="${pageContext.request.contextPath}/editProfile";
 							alert("수정이 완료되었습니다.");
 						}
 					})
@@ -185,33 +185,33 @@ section div#editProfile #btns input {
 		<div id="editProfile">
 			<h1>내 정보 수정</h1>
 			<span id="info">투어랜드는 고객님의 개인정보가 외부로 노출되지 않도록 항상 노력하고 있습니다.</span>
-			<form action="editProfile" method="post">
+			<form action="editProfile" method="post" autocomplete="off">
 				<c:choose>
 					<c:when test="${mypage=='mypageuser'}">
+					<input type="hidden" value="${Auth.userno }" name="userno">
 						<p>
 							<label>아이디</label><input type="text" value="${Auth.userid }" name="userid" readonly="readonly" style="background-color: lightgray;">
 						</p>
 						<p>
-							<label>비밀번호</label> <input type="password" name="userpass" value="${pass}">
-							
+							<label>비밀번호</label> <input type="password" name="userpass" value="${pass}" required="required">
 						</p>
 						<p>
-							<label>이름</label> <input type="text" name="username" value="${Auth.username}">
+							<label>이름</label> <input type="text" name="username" value="${Auth.username}" required="required">
 							<span class="error">이름은 2~5글자의 한글입니다.</span>
 						</p>
 						<p>
-							<label>생년월일</label> <input type="text" name="userbirth" value=<fmt:formatDate value="${Auth.userbirth}" pattern="yyyy-MM-dd"/>>
+							<label>생년월일</label> <input type="text" name="userbirth" value=<fmt:formatDate value="${Auth.userbirth}" pattern="yyyy-MM-dd"/> required="required">
 							<span class="error">생년월일 양식 예) 1991-12-18</span>
 						</p>
 						<p>
-							<label>주소</label> <input type="text" name="useraddr" value="${Auth.useraddr }">
+							<label>주소</label> <input type="text" name="useraddr" value="${Auth.useraddr }" required="required">
 						</p>
 						<p>
-							<label>전화번호</label> <input type="text" name="usertel" value="${Auth.usertel }">
+							<label>전화번호</label> <input type="text" name="usertel" value="${Auth.usertel }" required="required">
 							<span class="error">전화번호 양식 예)010-4245-3825</span>
 						</p>
 						<p>
-							<label><span class="red">* </span>여권번호</label> <input type="text" name="userpassport" value="${Auth.userpassport }">
+							<label><span class="red">* </span>여권번호</label> <input type="text" name="userpassport" value="${Auth.userpassport }" required="required">
 							<span class="error">여권번호 양식 예)M12345678</span>
 						</p>
 						<p id="btns">
@@ -220,25 +220,26 @@ section div#editProfile #btns input {
 						</p>
 					</c:when>
 					<c:when test="${mypage=='mypageemp'}">
+					<input type="hidden" value="${Auth.empno }" name="empno">
 						<p>
 							<label>아이디</label><input type="text" value="${Auth.empid }" name="empid" readonly="readonly" style="background-color: lightgray;">
 						</p>
 						<p>
-							<label>비밀번호</label> <input type="password" name="emppass" value="${pass}">
+							<label>비밀번호</label> <input type="password" name="emppass" value="${pass}" required="required">
 						</p>
 						<p>
-							<label>이름</label> <input type="text" name="empname" value="${Auth.empname}">
+							<label>이름</label> <input type="text" name="empname" value="${Auth.empname}" required="required">
 							<span class="error">이름은 2~5글자의 한글입니다.</span>
 						</p>
 						<p>
-							<label>생년월일</label> <input type="text" name="empbirth" value=<fmt:formatDate value="${Auth.empbirth}" pattern="yyyy-MM-dd"/> >
+							<label>생년월일</label> <input type="text" name="empbirth" value=<fmt:formatDate value="${Auth.empbirth}" pattern="yyyy-MM-dd"/> required="required">
 							<span class="error">생년월일 양식 예) 1991-12-18</span>
 						</p>
 						<p>
-							<label>주소</label> <input type="text" name="empaddr" value="${Auth.empaddr }">
+							<label>주소</label> <input type="text" name="empaddr" value="${Auth.empaddr }" required="required">
 						</p>
 						<p>
-							<label>전화번호</label> <input type="text" name="emptel" value="${Auth.emptel }">
+							<label>전화번호</label> <input type="text" name="emptel" value="${Auth.emptel }" required="required">
 							<span class="error">전화번호 양식 예)010-4245-3825</span>
 						</p>
 						<p id="btns">	

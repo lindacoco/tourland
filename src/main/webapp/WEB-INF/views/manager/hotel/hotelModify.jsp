@@ -42,6 +42,7 @@
     padding-top: 81px;
     width: 485px;
 	}
+	
 	.box-footer button{
     	width: 200px;
     	height: 65px;
