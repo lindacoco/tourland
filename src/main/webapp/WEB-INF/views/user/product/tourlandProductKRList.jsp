@@ -144,6 +144,20 @@ div.pkgInfoBox .pkgTitle {
 	width: 100px;
 	height: 30px;
 }
+.pagination {
+	list-style : none;
+	margin-left : 150px; 
+	margin-top : 10px;
+}
+.pagination li {
+	padding : 10px;
+	float : left;
+	border : 1px solid lightgrey;
+}
+.pagination .active {
+	background-color : grey;
+}
+
 </style>
 <body>
 	<%@ include file="../../include/userHeader.jsp"%>
@@ -224,7 +238,17 @@ div.pkgInfoBox .pkgTitle {
 					</p>
 				</div>
 				</c:forEach>
-				
+				<ul class="pagination">
+					<c:if test="${pageMaker.prev == true}">
+						<li><a href="${pageContext.request.contextPath}/tourlandProductKRList?page=${pageMaker.startPage-1}">&laquo;</a></li>
+					</c:if>
+					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/tourlandProductKRList?page=${idx}">${idx}</a></li>
+					</c:forEach>
+					<c:if test="${pageMaker.next == true}">
+						<li><a href="${pageContext.request.contextPath}/tourlandProductKRList?page=${pageMaker.endPage+1}">&raquo;</a></li>
+					</c:if>
+				</ul>
 			</div>
 		</div>
 	</section>

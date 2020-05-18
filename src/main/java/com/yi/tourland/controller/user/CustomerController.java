@@ -332,11 +332,11 @@ public class CustomerController {
 		List<ProductVO> list = productService.productListPageByDomestic(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic(cri));
+		pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic());
 		model.addAttribute("list",list);
 		model.addAttribute("pageMaker",pageMaker);
 		model.addAttribute("cri",cri);
-		model.addAttribute("count",productService.totalCountBySearchProductDomestic(cri));
+		model.addAttribute("count",productService.totalCountBySearchProductDomestic());
 		return "/user/product/tourlandProductKRList"; 
 	}	
 	//상품 리스트   (일본 패키지)
@@ -345,24 +345,25 @@ public class CustomerController {
 		List<ProductVO> list = productService.productListPageByJapan(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
-		pageMaker.setTotalCount(productService.totalCountBySearchProductJapan(cri));
+		pageMaker.setTotalCount(productService.totalCountBySearchProductJapan());
 		model.addAttribute("list",list);
 		model.addAttribute("pageMaker",pageMaker);
 		model.addAttribute("cri",cri);
-		model.addAttribute("count",productService.totalCountBySearchProductJapan(cri));
+		model.addAttribute("count",productService.totalCountBySearchProductJapan());
 		return "/user/product/tourlandProductJPList"; 
 	}
 	//상품 리스트   (중국 패키지)
 		@RequestMapping(value="tourlandProductChinaList", method=RequestMethod.GET)
 		public String tourlandProductChinaList(SearchCriteria cri,Model model) throws SQLException {
+			System.out.println(cri.getPage());
 			List<ProductVO> list = productService.productListPageByChina(cri);
 			PageMaker pageMaker = new PageMaker();
 			pageMaker.setCri(cri);
-			pageMaker.setTotalCount(productService.totalCountBySearchProductChina(cri));
+			pageMaker.setTotalCount(productService.totalCountBySearchProductChina());
 			model.addAttribute("list",list);
 			model.addAttribute("pageMaker",pageMaker);
 			model.addAttribute("cri",cri);
-			model.addAttribute("count",productService.totalCountBySearchProductChina(cri));
+			model.addAttribute("count",productService.totalCountBySearchProductChina());
 			return "/user/product/tourlandProductChinaList"; 
 	}
 	//상품 리스트 검색  ajax (중국 패키지) 

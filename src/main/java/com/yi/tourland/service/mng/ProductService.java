@@ -83,14 +83,14 @@ public class ProductService {
 	public int totalCountProduct() throws SQLException {
 		return dao.totalCountProduct();
 	}
-	public int totalCountBySearchProductDomestic(Criteria cri) throws SQLException {
-		return dao.totalCountBySearchProductDomestic(cri);
+	public int totalCountBySearchProductDomestic() throws SQLException {
+		return dao.totalCountBySearchProductDomestic();
 	}
-	public int totalCountBySearchProductChina(Criteria cri) throws SQLException {
-		return dao.totalCountBySearchProductChina(cri);
+	public int totalCountBySearchProductChina() throws SQLException {
+		return dao.totalCountBySearchProductChina();
 	}
-	public int totalCountBySearchProductJapan(Criteria cri) throws SQLException {
-		return dao.totalCountBySearchProductJapan(cri);
+	public int totalCountBySearchProductJapan() throws SQLException {
+		return dao.totalCountBySearchProductJapan();
 	}
 	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException{
 		return dao.tourlandProductChinaSearchList(ddate, rdate, cnt);

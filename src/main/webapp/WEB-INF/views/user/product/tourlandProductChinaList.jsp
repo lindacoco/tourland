@@ -145,6 +145,19 @@ div.pkgInfoBox .pkgTitle {
 	width: 100px;
 	height: 30px;
 }
+.pagination {
+	list-style : none;
+	margin-left : 150px; 
+	margin-top : 10px;
+}
+.pagination li {
+	padding : 10px;
+	float : left;
+	border : 1px solid lightgrey;
+}
+.pagination .active {
+	background-color : grey;
+}
 </style>
 <script>
 function getFormatDate(date){
@@ -257,7 +270,7 @@ function getSearchResult(){
 
 			<div id="pkgListWrap">
 				<p id="totalCnt">
-					제주 : 검색된 상품 <span id="totalCount">${count}</span>건
+					베이징 : 검색된 상품 <span id="totalCount">${count}</span>건
 				</p>
 				<div id="pkgOrderBy">
 					<button id="byPrice">낮은 가격 순</button>
@@ -285,7 +298,17 @@ function getSearchResult(){
 					</p>
 				</div>
 				</c:forEach>
-				
+				<ul class="pagination">
+					<c:if test="${pageMaker.prev == true}">
+						<li><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.startPage-1}">&laquo;</a></li>
+					</c:if>
+					<c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+						<li class="${cri.page==idx?'active':''}"><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${idx}">${idx}</a></li>
+					</c:forEach>
+					<c:if test="${pageMaker.next == true}">
+						<li><a href="${pageContext.request.contextPath}/tourlandProductChinaList?page=${pageMaker.endPage+1}">&raquo;</a></li>
+					</c:if>
+				</ul>
 			</div>
 		</div>
 	</section>

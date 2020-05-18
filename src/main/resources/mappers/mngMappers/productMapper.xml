@@ -168,15 +168,15 @@
 	</select>
 	<select id="totalCountBySearchProductDomestic" resultType="int">
 		select count(*) from product where pname like '%제주%'
-		order by pno desc limit #{pageStart},#{perPageNum} 
+		order by pno desc
 	</select>
 	<select id="totalCountBySearchProductChina" resultType="int">
 		select count(*) from product where pname like '%베이징%'
-		order by pno desc limit #{pageStart},#{perPageNum} 
+		order by pno desc
 	</select>
 	<select id="totalCountBySearchProductJapan" resultType="int">
 		select count(*) from product where pname like '%도쿄%'
-		order by pno desc limit #{pageStart},#{perPageNum} 
+		order by pno desc
 	</select>
 	<update id="updateProduct">
 		update product set pname = #{pname}, pcontent = #{pcontent}, pexpire = #{pexpire}, pprice = #{pprice}, ppic = #{pic} where pno = #{pno}

@@ -162,12 +162,12 @@ public class ProductDaoImpl implements ProductDao {
 		return sqlSession.selectOne(namespace + "totalCountProduct");
 	}
 	@Override
-	public int totalCountBySearchProductDomestic(Criteria cri) throws SQLException {
-		return sqlSession.selectOne(namespace + "totalCountBySearchProductDomestic",cri);
+	public int totalCountBySearchProductDomestic() throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCountBySearchProductDomestic");
 	}
 	@Override
-	public int totalCountBySearchProductChina(Criteria cri) throws SQLException {
-		return sqlSession.selectOne(namespace + "totalCountBySearchProductChina",cri);
+	public int totalCountBySearchProductChina() throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCountBySearchProductChina");
 	}
 	@Override
 	public List<ProductVO> tourlandProductChinaSearchList(String ddate, String rdate, String cnt) throws SQLException {
@@ -178,7 +178,7 @@ public class ProductDaoImpl implements ProductDao {
 		return sqlSession.selectList(namespace + "tourlandProductChinaSearchList", map);
 	}
 	@Override
-	public int totalCountBySearchProductJapan(Criteria cri) throws SQLException {
-		return sqlSession.selectOne(namespace + "totalCountBySearchProductJapan",cri);
+	public int totalCountBySearchProductJapan() throws SQLException {
+		return sqlSession.selectOne(namespace + "totalCountBySearchProductJapan");
 	}
 }
