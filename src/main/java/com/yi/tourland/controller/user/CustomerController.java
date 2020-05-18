@@ -447,11 +447,11 @@ public class CustomerController {
 }
 	
 	//상품 전체 리스트 검색  ajax (제주 패키지) 
-	@RequestMapping(value="tourlandProductKRListAll", method=RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> tourlandProductKRListAll(SearchCriteria cri) throws SQLException {
+	@RequestMapping(value="tourlandProductKRListAll/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductKRListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
 		ResponseEntity<Map<String,Object>> entity = null;	
 		try {
-			
+			cri.setPage(page);
 			//해당 조건에 맞는 리스트 검색
 			List<ProductVO> list = productService.productListPageByDomestic(cri);
 			PageMaker pageMaker = new PageMaker();
@@ -544,11 +544,11 @@ public class CustomerController {
 	
 	
 	//상품 전체 리스트 검색  ajax (일본 패키지) 
-	@RequestMapping(value="tourlandProductJapanListAll", method=RequestMethod.GET)
-	public ResponseEntity<Map<String,Object>> tourlandProductJapanListAll(SearchCriteria cri) throws SQLException {
+	@RequestMapping(value="tourlandProductJapanListAll/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductJapanListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
 		ResponseEntity<Map<String,Object>> entity = null;	
 		try {
-			
+			cri.setPage(page);
 			//해당 조건에 맞는 리스트 검색
 			List<ProductVO> list = productService.productListPageByJapan(cri);
 			PageMaker pageMaker = new PageMaker();
@@ -642,11 +642,11 @@ public class CustomerController {
 	}
 
 	//상품 전체 리스트 검색  ajax (중국 패키지) 
-		@RequestMapping(value="tourlandProductChinaListAll", method=RequestMethod.GET)
-		public ResponseEntity<Map<String,Object>> tourlandProductChinaListAll(SearchCriteria cri) throws SQLException {
+		@RequestMapping(value="tourlandProductChinaListAll/{page}", method=RequestMethod.GET)
+		public ResponseEntity<Map<String,Object>> tourlandProductChinaListAll(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
 			ResponseEntity<Map<String,Object>> entity = null;	
 			try {
-				
+				cri.setPage(page);
 				//해당 조건에 맞는 리스트 검색
 				List<ProductVO> list = productService.productListPageByChina(cri);
 				PageMaker pageMaker = new PageMaker();
