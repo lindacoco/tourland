@@ -264,7 +264,7 @@ VALUES(3, '[제주 7일]시크릿 특가!제주시내/우도 대한항공 바로
 select * from product p join photelstatus h on p.pno = h.pno join hotel h2 on h.hno = h2.no join prentstatus r on p.pno = r.pno join rentcar r2 on r.rno = r2.no where p.pno = 2;
 desc pairstatus;
 desc prentstatus;
-select * from hotel;
+select * from hotel where haddr like "%베이징%";
 select * from tour;
 select * from product;
 select * from pairstatus;
@@ -313,7 +313,7 @@ select * from planboard;
 
 select * from hotel;
 
-
+select * from user;
 
 select * from rentcar;
 
@@ -335,12 +335,6 @@ update planboard  set
 title ='test11', content='test11', respond='답변'
 where no=6;
 
-update user set 
-username ='테스트', userbirth='1991-12-18', usertel='010-4245-3825', 
-useraddr='북구 태전동 254-30번지', userpassport='이래저래', userpass=password('test')
-where userno=6;
-
-select * from user;
 
 -- 하나 --------------------------------------------------------------------------------------------
 
