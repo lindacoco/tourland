@@ -43,4 +43,10 @@ public interface ProductDao {
 	public List<ProductVO> tourlandProductJapanSearchList(String ddate, String rdate, String cnt) throws SQLException; 
 	// 상품 리스트 검색 박스 Ajax (제주) 
 	public List<ProductVO> tourlandProductKRSearchList(String ddate, String rdate, String cnt) throws SQLException;
+	// 상품 리스트 검색 박스 Ajax "낮은 가격 순" (중국) 
+	public List<ProductVO> tourlandProductChinaSearchLowPriceList(SearchCriteria cri) throws SQLException; 
+	// 상품 리스트 검색 박스 Ajax "낮은 가격 순"  (일본) 
+	public List<ProductVO> tourlandProductJapanSearchLowPriceList(SearchCriteria cri) throws SQLException; 
+	// 상품 리스트 검색 박스 Ajax "낮은 가격 순" (제주) 
+	public List<ProductVO> tourlandProductKRSearchLowPriceList(SearchCriteria cri) throws SQLException;
 }

@@ -396,6 +396,31 @@ public class CustomerController {
 	}   
 		return entity; 
 }	
+	
+	//상품 전체 리스트 검색  ajax "낮은 가격 순" (제주 패키지) 
+	@RequestMapping(value="tourlandProductKRSearchLowPirceList/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductKRSearchLowPirceList(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			cri.setPage(page);
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.tourlandProductKRSearchLowPriceList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductDomestic());
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker",pageMaker);
+			map.put("cri",cri);
+			map.put("count",productService.totalCountBySearchProductDomestic());
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}	
 
 	//상품 리스트   (일본 패키지)
 	@RequestMapping(value="tourlandProductJPList", method=RequestMethod.GET)
@@ -461,6 +486,31 @@ public class CustomerController {
 			map.put("pageMaker",pageMaker);
 			map.put("cri",cri);
 			map.put("count",productService.totalCountBySearchProductJapan());
+			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+	}catch(Exception e) {
+		e.printStackTrace();
+		entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+	}   
+		return entity; 
+}	
+	
+	//상품 전체 리스트 검색  ajax "낮은 가격 순" (일본 패키지) 
+	@RequestMapping(value="tourlandProductJPSearchLowPirceList/{page}", method=RequestMethod.GET)
+	public ResponseEntity<Map<String,Object>> tourlandProductJPSearchLowPirceList(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+		ResponseEntity<Map<String,Object>> entity = null;	
+		try {
+			cri.setPage(page);
+			//해당 조건에 맞는 리스트 검색
+			List<ProductVO> list = productService.tourlandProductJapanSearchLowPriceList(cri);
+			PageMaker pageMaker = new PageMaker();
+			pageMaker.setCri(cri);
+			pageMaker.setTotalCount(productService.totalCountBySearchProductJapan());
+			//맵에 넣음 
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("list", list);
+			map.put("pageMaker",pageMaker);
+			map.put("cri",cri);
+			map.put("count",productService.totalCountBySearchProductDomestic());
 			entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 	}catch(Exception e) {
 		e.printStackTrace();
@@ -542,7 +592,30 @@ public class CustomerController {
 			return entity; 
 	}		
 		
-		
+		//상품 전체 리스트 검색  ajax "낮은 가격 순" (중국 패키지) 
+		@RequestMapping(value="tourlandProductChinaSearchLowPirceList/{page}", method=RequestMethod.GET)
+		public ResponseEntity<Map<String,Object>> tourlandProductChinaSearchLowPirceList(SearchCriteria cri, @PathVariable("page") int page) throws SQLException {
+			ResponseEntity<Map<String,Object>> entity = null;	
+			try {
+				cri.setPage(page);
+				//해당 조건에 맞는 리스트 검색
+				List<ProductVO> list = productService.tourlandProductChinaSearchLowPriceList(cri);
+				PageMaker pageMaker = new PageMaker();
+				pageMaker.setCri(cri);
+				pageMaker.setTotalCount(productService.totalCountBySearchProductChina());
+				//맵에 넣음 
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("list", list);
+				map.put("pageMaker",pageMaker);
+				map.put("cri",cri);
+				map.put("count",productService.totalCountBySearchProductChina());
+				entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
+		}catch(Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}   
+			return entity; 
+	}			
 	//상품 세부 정보    
 	@RequestMapping(value="tourlandProductDetail", method=RequestMethod.GET)
 	public String tourlandProductDetail(SearchCriteria cri,ProductVO vo,Model model) throws SQLException {

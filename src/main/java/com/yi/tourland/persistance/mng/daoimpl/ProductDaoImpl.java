@@ -200,4 +200,21 @@ public class ProductDaoImpl implements ProductDao {
 		map.put("cnt", cnt);
 		return sqlSession.selectList(namespace + "tourlandProductKRSearchList", map);
 	}
+	
+	//상품 리스트 검색 박스 Ajax "낮은 가격 순" (중국)
+	@Override
+	public List<ProductVO> tourlandProductChinaSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "tourlandProductChinaSearchLowPriceList", cri);
+	}
+	
+	//상품 리스트 검색 박스 Ajax "낮은 가격 순"  (일본)
+	@Override
+	public List<ProductVO> tourlandProductJapanSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "tourlandProductJapanSearchLowPriceList", cri);
+	}
+	//상품 리스트 검색 박스 Ajax "낮은 가격 순"  (제주)
+	@Override
+	public List<ProductVO> tourlandProductKRSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return sqlSession.selectList(namespace + "tourlandProductKRSearchLowPriceList", cri);
+	}
 }

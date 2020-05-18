@@ -104,4 +104,19 @@ public class ProductService {
 		public List<ProductVO> tourlandProductKRSearchList(String ddate, String rdate, String cnt) throws SQLException{
 			return dao.tourlandProductKRSearchList(ddate, rdate, cnt);
 		};
+		
+	// 고객 페이지 - 중국 패키지 검색 박스 "낮은 가격 순 " Ajax
+	public List<ProductVO> tourlandProductChinaSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return dao.tourlandProductChinaSearchLowPriceList(cri);
+	};
+
+	// 고객 페이지 - 일본 패키지 검색 박스 "낮은 가격 순 "  Ajax
+	public List<ProductVO> tourlandProductJapanSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return dao.tourlandProductJapanSearchLowPriceList(cri);
+	};
+
+	// 고객 페이지 - 제주 패키지 검색 박스 "낮은 가격 순 "  Ajax
+	public List<ProductVO> tourlandProductKRSearchLowPriceList(SearchCriteria cri) throws SQLException {
+		return dao.tourlandProductKRSearchLowPriceList(cri);
+	};
 }
