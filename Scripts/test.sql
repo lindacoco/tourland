@@ -13,7 +13,7 @@ insert into employee values (6,'장우주','1987-01-01','010-4444-4321','대구 
 desc user;
 select * from `user` u ;
 delete from `user` where userno = 7;
-insert into user values (6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,null,'customer5',password('customer'),1);
+insert into user values (6,'도라지','1989-12-18','010-4333-3825','대구시 북구 태전동 254-30',null,'customer5',password('customer'),1);
 select * from rentcar r order by no desc ;
 select * from rentcar r where ldiv =0  order by no desc ;
 -- 렌트카
