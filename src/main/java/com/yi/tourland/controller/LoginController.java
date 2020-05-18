@@ -68,6 +68,7 @@ public class LoginController {
 			session.setAttribute("Manager",map);
 			session.setAttribute("Auth", dbEmpIdPw);//정보 다 가지고 있는거
 			session.setAttribute("pass", pass);
+			session.setAttribute("mypage","mypageemp");
 			return "redirect:/";
 			
 		//회원아이디가 있는 경우
@@ -92,6 +93,7 @@ public class LoginController {
 			session.setAttribute("User",dbUserId.getUsername());
 			session.setAttribute("Auth", dbUserIdPw); //정보 다 가지고 있는거
 			session.setAttribute("pass", pass);
+			session.setAttribute("mypage","mypageuser");
 			return "redirect:/";
 			
 		//아이디가 없는 경우	(직원,회원)

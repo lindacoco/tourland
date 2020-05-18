@@ -166,17 +166,13 @@ function getSearchResult(){
 		dataType : "json",
 		data : {ddate : ddate, tourDays : tourDays, cnt : cnt},
 		success : function(rs){
-			console.log(rs.list);
-			$(rs.list).each(function(i, obj){
-				console.log(obj);
-			})
 			 $(".pkgListBox").remove();
 			 $(rs.list).each(function(i, obj) {
 				 
 				 var $input1 = $("<input>").attr("type", "hidden").attr("value", obj.pno).attr("id", "pno");
 				 
 				 var $div1 = $("<div>").addClass("pkgImg");
-				 alert(obj.pic);
+				
 				 var $img1 = $("<img>").attr("src", "displayFile/product?filename="+obj.pic);
 				 
 				 var $div2 = $("<div>").addClass("pkgInfoBox");

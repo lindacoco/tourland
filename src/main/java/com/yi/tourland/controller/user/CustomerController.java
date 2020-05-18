@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.yi.tourland.domain.Criteria;
 import com.yi.tourland.domain.PageMaker;
 import com.yi.tourland.domain.SearchCriteria;
 import com.yi.tourland.domain.mng.BannerVO;
@@ -240,8 +241,8 @@ public class CustomerController {
 	
 	//비밀번호 확인 되었을때 나타나는곳 현서때문에 이렇게 함
 	@ResponseBody
-	@RequestMapping(value = "EditPasswordCheck/{totalId}", method = RequestMethod.GET)
-	public ResponseEntity<String> EditPasswordCheck(@PathVariable("totalId") String totalId,String checkPass,Model model) {
+	@RequestMapping(value = "EditPasswordCheck/{totalId}/{checkPass}", method = RequestMethod.GET)
+	public ResponseEntity<String> EditPasswordCheck(@PathVariable("totalId") String totalId,@PathVariable("checkPass") String checkPass,Model model) {
 		ResponseEntity<String> entity = null;
 
 		try {
@@ -317,7 +318,7 @@ public class CustomerController {
 	}    
 	//상품 리스트   (제주 패키지)
 	@RequestMapping(value="tourlandProductKRList", method=RequestMethod.GET)
-	public String tourlandProductKRList(SearchCriteria cri,Model model) throws SQLException {
+	public String tourlandProductKRList(Model model,SearchCriteria cri) throws SQLException {
 		List<ProductVO> list = productService.productListPageByDomestic(cri);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
@@ -330,7 +331,15 @@ public class CustomerController {
 	}	
 	//상품 리스트   (일본 패키지)
 	@RequestMapping(value="tourlandProductJPList", method=RequestMethod.GET)
-	public String tourlandProductJPList() { 
+	public String tourlandProductJPList(SearchCriteria cri,Model model) throws SQLException { 
+		List<ProductVO> list = productService.productListPageByJapan(cri);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(productService.totalCountBySearchProductJapan(cri));
+		model.addAttribute("list",list);
+		model.addAttribute("pageMaker",pageMaker);
+		model.addAttribute("cri",cri);
+		model.addAttribute("count",productService.totalCountBySearchProductJapan(cri));
 		return "/user/product/tourlandProductJPList"; 
 	}
 	//상품 리스트   (중국 패키지)
